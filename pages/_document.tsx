@@ -20,6 +20,8 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@500;500;700&display=swap"
             as="stylesheet"
           />
+          <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />
+          <link rel="preload" href="/fonts/CriteriaCFDemiBold.otf" as="font" crossOrigin="" />
           <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png" />
           <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png" />
           <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png" />

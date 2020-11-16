@@ -25,6 +25,22 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="apple-mobile-web-app-title" content="DevFeedback" />
       </Head>
       <Component {...pageProps} />
+      <style jsx global>{`
+        @font-face {
+          font-family: 'Criteria';
+          src: url('/fonts/CriteriaCFBold.otf');
+          font-weight: bold;
+          font-style: normal;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Criteria Demi';
+          src: url('/fonts/CriteriaCFDemiBold.otf');
+          font-weight: normal;
+          font-style: normal;
+          font-display: swap;
+        }
+      `}</style>
     </>
   );
 }
