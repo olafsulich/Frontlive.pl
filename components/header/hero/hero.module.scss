@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  max-width: 1183px;
+  margin: 0 auto;
+  margin-top: 3.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.heading {
+  font-family: 'Criteria CF';
+  margin-top: 7rem;
+  font-size: 96px;
+  color: #3a3a3a;
+}
+
+.heroImage {
+  transform: translateX(4rem);
+}
+
+.textWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.text {
+  margin-top: 12rem;
+  font-size: 19px;
+  line-height: 36px;
+  color: #425466;
+  width: 60%;
+}
