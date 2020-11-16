@@ -2,7 +2,7 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../styles/globals.css';
+import '../styles/globals.scss';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isBrowser = typeof window !== 'undefined';
