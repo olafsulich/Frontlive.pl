@@ -16,6 +16,35 @@
 .link {
   font-weight: 600;
   font-size: 18px;
-  color: black;
+  color: #000000;
   text-decoration: none;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: -7px;
+    background-color: #000000;
+    border-radius: 3px;
+    opacity: 0;
+  }
+
+  &:hover,
+  &:focus {
+    &::before {
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+  }
+}
+
+.activeLink {
+  color: #0ea5e9;
+  position: relative;
+
+  &::before {
+    background-color: #7ad0f8;
+  }
 }

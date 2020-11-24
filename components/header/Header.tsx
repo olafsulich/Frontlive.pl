@@ -8,7 +8,7 @@ import Hero from './hero/Hero';
 const Header = () => {
   return (
     <>
-      <div className={styles.backgroundGradient}></div>
+      {/* <div className={styles.backgroundGradient}></div> */}
       <header className={styles.wrapper}>
         <Navigation />
         <Hero />
