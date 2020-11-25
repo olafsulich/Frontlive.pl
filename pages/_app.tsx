@@ -2,7 +2,7 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../styles/globals.scss';
+import '../styles/main.scss';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isBrowser = typeof window !== 'undefined';
@@ -22,7 +22,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover"
         />
         <meta property="og:type" content="website" />
-        <meta name="apple-mobile-web-app-title" content="DevFeedback" />
+        <meta name="apple-mobile-web-app-title" content="Frontlive.pl" />
       </Head>
       <Component {...pageProps} />
       <style jsx global>{`

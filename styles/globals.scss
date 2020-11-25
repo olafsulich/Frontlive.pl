@@ -1,20 +1,30 @@
-@import 'node_modules/normalize-scss/sass/normalize.scss';
-@include normalize();
-
 * {
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 html,
 body {
-  padding: 0 !important;
-  margin: 0 !important;
+  padding: 0;
+  margin: 0;
   height: 100%;
   width: 100%;
 }
-
 body {
-  font-family: 'Inter', sans-serif;
+  background-color: #fff;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+}
+
+button {
+  border: none;
+  background: none;
 }
