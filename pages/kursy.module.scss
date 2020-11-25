@@ -19,9 +19,14 @@
 .heading {
   font-size: 4rem;
   margin-bottom: 4rem;
+  text-align: center;
 
   @include mediaquery('xs') {
     font-size: 5rem;
+  }
+
+  @include mediaquery('sm') {
+    text-align: left;
   }
 
   @include mediaquery('lg') {
