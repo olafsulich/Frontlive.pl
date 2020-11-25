@@ -1,12 +1,16 @@
 .wrapper {
   width: 100%;
-  max-width: 34rem;
+  max-width: 32rem;
+  height: 40rem;
   overflow: hidden;
+  border-radius: 1.6rem;
 }
 
 .link {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   position: relative;
@@ -17,12 +21,13 @@
 .heading {
   font-size: 3.6rem;
   font-weight: 700;
+  margin-top: 7rem;
 }
 
 .icon {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: -1.5rem;
+  right: -4rem;
 }
 
 .blue {
@@ -43,4 +48,8 @@
 
 .purple {
   background: var(--purple-gradient);
+}
+
+.black {
+  background: var(--black-gradient);
 }

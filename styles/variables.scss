@@ -1,10 +1,5 @@
 :root {
-  --purple-gradient: linear-gradient(
-    152.92deg,
-    rgba(217, 70, 239, 0.8) 13.51%,
-    #4a67f7 99.57%,
-    #9333ea 99.58%
-  );
+  --purple-gradient: linear-gradient(152.92deg, rgba(217, 70, 239, 0.8) 13.51%, #9333ea 99.58%);
   --yellow-gradient: linear-gradient(152.92deg, rgba(250, 204, 21, 0.8) 13.51%, #f97316 99.58%);
   --blue-gradient: linear-gradient(
     152.92deg,
@@ -14,4 +9,5 @@
   );
   --orange-gradient: linear-gradient(152.92deg, rgba(251, 146, 60, 0.8) 13.89%, #db2777 98.03%);
   --green-gradient: linear-gradient(152.92deg, rgba(74, 222, 128, 0.8) 13.51%, #06b6d4 99.58%);
+  --black-gradient: linear-gradient(152.92deg, rgba(14, 56, 165, 0.8) 13.89%, #000000 98.03%);
 }
