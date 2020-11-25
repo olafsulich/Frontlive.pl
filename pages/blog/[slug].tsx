@@ -14,12 +14,13 @@ const components = {
   a: () => <a>SIEMA</a>,
 };
 
-const BlogPost = ({ source, frontmatter }: any) => {
+const BlogPost = ({ source, frontMatter }: any) => {
   const content = hydrate(source, { components });
-  console.log(frontmatter);
+  const timeToRead = readingTime(source.renderedOutput);
+  console.log(timeToRead);
   return (
     <div>
-      <h1>frontmatter.title</h1>
+      <h1>{frontMatter.title}</h1>
       {content}
     </div>
   );
@@ -38,12 +39,6 @@ export const getStaticProps = async ({ params }: any) => {
     mdxOptions: {
       remarkPlugins: [remarkAutoLinkHeadings, remarkSlug, remarkCodeTitles],
       rehypePlugins: [mdxPrism],
-      extendFrontMatter: {
-        process: (mdxContent: string) => ({
-          wordCount: mdxContent.split(/\s+/gu).length,
-          readingTime: readingTime(mdxContent),
-        }),
-      },
     },
     scope: data,
   });
