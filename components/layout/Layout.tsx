@@ -2,16 +2,18 @@ import { memo, ReactNode } from 'react';
 import Header from '../header/Header';
 import Footer from 'components/footer/Footer';
 import styles from './layout.module.scss';
+import { HeaderProvider } from 'components/shared/context/HeaderContext';
 
 type LayoutProps = { children: ReactNode };
 
 const Layout = memo<LayoutProps>(({ children }) => {
   return (
-    <div className={styles.wrapper}>
-      <Header />
-      <main>{children}</main>
-      <Footer />
-    </div>
+    <HeaderProvider>
+      <div className={styles.wrapper}>
+        {children}
+        <Footer />
+      </div>
+    </HeaderProvider>
   );
 });
 

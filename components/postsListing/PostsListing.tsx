@@ -1,15 +1,15 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import styles from './postsListing.module.scss';
 import PostThumbnail from './postThumbnail/PostThumbnail';
 
 type PostsListingProps = {
-  heading: string;
+  children: ReactNode;
 };
 
-const PostsListing = memo(({ heading }: PostsListingProps) => {
+const PostsListing = memo(({ children }: PostsListingProps) => {
   return (
     <section className={styles.wrapper}>
-      <h2 className={styles.heading}>{heading}</h2>
+      {children}
       <div className={styles.postsWrapper}>
         <PostThumbnail
           path="/"

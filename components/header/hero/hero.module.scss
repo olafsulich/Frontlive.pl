@@ -56,19 +56,16 @@
   @include mediaquery('xl') {
     font-size: 9rem;
     margin-bottom: 6rem;
-    margin-top: -3rem;
   }
 
   @include mediaquery('xxl') {
     font-size: 9.6rem;
     margin-bottom: 7rem;
-    margin-top: -4rem;
   }
 }
 
 .heroImage {
   display: none;
-  transform: translateY(3rem);
   @include mediaquery('lg') {
     display: block;
   }

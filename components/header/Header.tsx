@@ -1,16 +1,17 @@
 import styles from './header.module.scss';
-import Navigation from './navigation/Navigation';
+import Navigation from '../navigation/Navigation';
 import Hero from './hero/Hero';
-import { HeaderProvider } from './shared/context/HeaderContext';
+import { HeaderProvider } from '../shared/context/HeaderContext';
+import type { ReactNode } from 'react';
 
-const Header = () => {
+type HeaderProps = { children: ReactNode };
+
+const Header = ({ children }: HeaderProps) => {
   return (
-    <HeaderProvider>
-      <header className={styles.wrapper}>
-        <Navigation />
-        <Hero />
-      </header>
-    </HeaderProvider>
+    <header className={styles.wrapper}>
+      {children}
+      <Hero />
+    </header>
   );
 };
 

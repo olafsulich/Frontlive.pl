@@ -1,5 +1,5 @@
-import SocialLinks from '../shared/components/socialLinks/SocialLinks';
-import NewsletterForm from '../shared/components/newsletterForm/NewsletterForm';
+import SocialLinks from '../../shared/components/socialLinks/SocialLinks';
+import NewsletterForm from '../../shared/components/newsletterForm/NewsletterForm';
 import styles from './hero.module.scss';
 
 const Hero = () => {

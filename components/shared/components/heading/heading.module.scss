@@ -1,0 +1,65 @@
+@import 'common';
+
+.primary {
+  font-family: 'Criteria CF';
+  font-size: 5rem;
+  max-width: 100%;
+  color: #3a3a3a;
+  opacity: 1;
+  margin: 0;
+
+  @include mediaquery('xs') {
+    font-size: 6rem;
+    margin-bottom: 2rem;
+  }
+
+  @include mediaquery('sm') {
+    font-size: 8rem;
+    margin-bottom: 4rem;
+    margin-top: -2rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 9rem;
+    margin-bottom: 6rem;
+  }
+
+  @include mediaquery('xxl') {
+    font-size: 9.6rem;
+    margin-bottom: 7rem;
+  }
+}
+
+.secondary {
+  font-size: 2.6rem;
+  font-family: 'Criteria Demi';
+  color: #ff0a78;
+  margin-bottom: 5rem;
+
+  @include mediaquery('lg') {
+    font-size: 2.8rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 3rem;
+  }
+}
+
+.tertiary {
+  font-size: 1.8rem;
+  line-height: 2.6rem;
+  font-weight: 600;
+  color: #21232c;
+  margin: 0;
+  margin-bottom: 1.5rem;
+
+  @include mediaquery('lg') {
+    font-size: 2rem;
+    line-height: 2.8rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2.2rem;
+    line-height: 3rem;
+  }
+}

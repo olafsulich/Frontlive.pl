@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styles from './footer.module.scss';
-import NewsletterForm from '../header/shared/components/newsletterForm/NewsletterForm';
-import SocialLinks from '../header/shared/components/socialLinks/SocialLinks';
+import NewsletterForm from '../shared/components/newsletterForm/NewsletterForm';
+import SocialLinks from '../shared/components/socialLinks/SocialLinks';
 
 const Footer = () => {
   return (
