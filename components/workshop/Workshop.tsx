@@ -13,7 +13,8 @@ const Workshop = memo(() => {
         </div>
         <p className={styles.text}>
           Earlier this year, I developed Cubital Tunnel Syndrome, a repetitive-strain injury, in
-          both of my elbows. As a result.
+          both of my elbows. As a result, I pretty much can't use a mouse or keyboard; after a few
+          minutes, I get a burning pain shooting down my arms.
         </p>
         <div className={styles.linkWrapper}>
           <a

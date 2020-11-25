@@ -8,6 +8,15 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+
+  @include mediaquery('lg') {
+    flex-direction: row;
+    padding: 2rem 4rem;
+    border-radius: 1.6rem;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .info {
@@ -22,18 +31,33 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin: 0;
+
+  @include mediaquery('lg') {
+    align-items: flex-start;
+  }
 }
 
 .headingText {
   margin-top: 2rem;
   font-size: 2.8rem;
   color: #fff;
+
+  @include mediaquery('xl') {
+    font-size: 3rem;
+    margin-top: 2rem;
+  }
 }
 
 .textWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include mediaquery('lg') {
+    align-items: flex-start;
+    padding-right: 1rem;
+  }
 }
 
 .text {
@@ -42,47 +66,52 @@
   line-height: 2.8rem;
   text-align: center;
   max-width: 47rem;
+
+  @include mediaquery('lg') {
+    text-align: left;
+  }
+
+  @include mediaquery('xl') {
+    max-width: 60%;
+  }
 }
 
 .image {
   height: 4rem;
+
+  @include mediaquery('lg') {
+    height: 5rem;
+  }
+
+  @include mediaquery('xl') {
+    height: 6rem;
+  }
 }
 
 .linkWrapper {
-  position: relative;
   width: 100%;
   max-width: 44rem;
   height: 4.5rem;
   border-radius: 4px;
   margin: 4rem 0;
 
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    top: 2px;
-    left: 6px;
-    right: 6px;
-    height: 20%;
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-    border-radius: 20px 20px 100px 100px / 14px 14px 30px 30px;
-    pointer-events: none;
+  @include mediaquery('lg') {
+    width: 15rem;
+    margin: 0;
+    margin-top: 2rem;
   }
 }
 
 .link {
   border-radius: 4px;
-  background: var(--purple-gradient);
+  background: #663399;
   border: none;
   width: 100%;
   height: 100%;
   color: #fff;
   font-weight: 600;
   font-size: 1.6rem;
-  cursor: pointer;
-  text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 1px;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
+
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -91,4 +120,6 @@
 
 .logo {
   margin: 0 auto;
+  width: 100%;
+  max-width: 28rem;
 }
