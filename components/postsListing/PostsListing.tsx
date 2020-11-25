@@ -18,13 +18,13 @@ const PostsListing = memo(({ heading }: PostsListingProps) => {
         />
         <PostThumbnail
           path="/"
-          heading="Nowoczesny CSS - min(), max() i clamp()"
+          heading="Dostępność - czytniki ekranowe i testowanie"
           excerpt="I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs"
         />
         <PostThumbnail
           path="/"
-          heading="Nowoczesny CSS - min(), max() i clamp()"
-          excerpt="I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs"
+          heading="TypeScript - React, Redux i Styled Components"
+          excerpt="Earlier this year, I developed Cubital Tunnel Syndrome, a repetitive-strain injury, in both of my elbows. As a result, I pretty much can't use a mouse or keyboard; after a few minutes, I get a burning pain shooting down my arms."
         />
       </div>
     </section>

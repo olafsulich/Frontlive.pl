@@ -1,19 +1,12 @@
 @import 'common';
 
 .wrapper {
-  margin: 0 auto;
   margin-top: 6rem;
   width: 100%;
-  max-width: 120rem;
-  padding: 2rem 2rem 0 2rem;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-
-  @include mediaquery('sm') {
-    padding: 4rem 4rem 0 4rem;
-  }
 }
 
 .heading {
