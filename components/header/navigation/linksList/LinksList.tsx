@@ -1,10 +1,14 @@
-import Link from 'next/link';
+import { memo } from 'react';
 import ActiveLink from '../activeLink/ActiveLink';
 import styles from './linksList.module.scss';
+import cn from 'classnames';
+import { useHeaderState } from '../../../shared/context/HeaderContext';
 
-const LinksList = () => {
+const LinksList = memo(() => {
+  const { isMenuVisible } = useHeaderState();
+
   return (
-    <ul className={styles.list}>
+    <ul className={cn(styles.list, { [styles.active]: !isMenuVisible })}>
       <li className={styles.item}>
         <ActiveLink href="/" activeClassName={styles.activeLink}>
           <a className={styles.link}>Strona główna</a>
@@ -32,6 +36,6 @@ const LinksList = () => {
       </li>
     </ul>
   );
-};
+});
 
 export default LinksList;

@@ -1,8 +1,7 @@
 .container {
   width: 100%;
-  max-width: 1183px;
   margin: 0 auto;
-  margin-top: 3.5rem;
+  margin-top: 3rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -11,15 +10,16 @@
 .heading {
   font-family: 'Criteria CF';
   margin-top: 7rem;
-  font-size: 96px;
+  font-size: 5rem;
+  max-width: 100%;
   color: #3a3a3a;
   opacity: 1;
-  z-index: 1000;
+  margin: 0;
 }
 
 .heroImage {
   margin-top: 4rem;
-  z-index: -10000;
+  display: none;
 }
 
 .textWrapper {
@@ -30,9 +30,9 @@
 }
 
 .text {
-  margin-top: 1rem;
-  font-size: 19px;
-  line-height: 36px;
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  line-height: 2.8rem;
   color: #425466;
-  width: 50%;
+  width: 100%;
 }

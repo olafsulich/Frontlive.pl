@@ -1,11 +1,15 @@
 .wrapper {
-  margin-top: 3rem;
-  width: 50%;
+  margin-top: 2rem;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .icon {
   margin-right: 2rem;
+
+  &:last-of-type {
+    margin-right: 1rem;
+  }
 }
