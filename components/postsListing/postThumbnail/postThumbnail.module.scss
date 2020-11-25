@@ -1,8 +1,8 @@
 @import 'common';
 
 .wrapper {
-  width: 100%;
   margin-bottom: 5rem;
+  max-width: 60rem;
 
   @include mediaquery('lg') {
     margin-bottom: 7rem;
@@ -10,7 +10,6 @@
 }
 
 .link {
-  width: 100%;
   color: #000;
   display: flex;
   align-items: flex-start;
@@ -61,6 +60,6 @@
   @include mediaquery('xl') {
     font-size: 1.6rem;
     line-height: 3rem;
-    max-width: 55%;
+    max-width: 100%;
   }
 }

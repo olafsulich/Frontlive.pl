@@ -1,0 +1,46 @@
+.wrapper {
+  width: 100%;
+  max-width: 34rem;
+  overflow: hidden;
+}
+
+.link {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+}
+
+.heading {
+  font-size: 3.6rem;
+  font-weight: 700;
+}
+
+.icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.blue {
+  background: var(--blue-gradient);
+}
+
+.green {
+  background: var(--green-gradient);
+}
+
+.yellow {
+  background: var(--yellow-gradient);
+}
+
+.orange {
+  background: var(--orange-gradient);
+}
+
+.purple {
+  background: var(--purple-gradient);
+}
