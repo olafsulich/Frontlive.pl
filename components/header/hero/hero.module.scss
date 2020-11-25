@@ -1,25 +1,77 @@
+@import 'common';
+
 .container {
   width: 100%;
   margin: 0 auto;
-  margin-top: 3rem;
+  margin-top: 6rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  align-items: center;
+
+  @include mediaquery('xs') {
+    margin-top: 7rem;
+  }
+
+  @include mediaquery('sm') {
+    margin-top: 10rem;
+  }
+
+  @include mediaquery('xl') {
+    margin-top: 12rem;
+  }
+
+  @include mediaquery('xxl') {
+    margin-top: 14rem;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .heading {
   font-family: 'Criteria CF';
-  margin-top: 7rem;
   font-size: 5rem;
   max-width: 100%;
   color: #3a3a3a;
   opacity: 1;
   margin: 0;
+
+  @include mediaquery('xs') {
+    font-size: 6rem;
+    margin-bottom: 2rem;
+  }
+
+  @include mediaquery('sm') {
+    font-size: 8rem;
+    margin-bottom: 4rem;
+    margin-top: -2rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 9rem;
+    margin-bottom: 6rem;
+    margin-top: -3rem;
+  }
+
+  @include mediaquery('xxl') {
+    font-size: 9.6rem;
+    margin-bottom: 7rem;
+    margin-top: -4rem;
+  }
 }
 
 .heroImage {
-  margin-top: 4rem;
   display: none;
+  transform: translateY(3rem);
+  @include mediaquery('lg') {
+    display: block;
+  }
 }
 
 .textWrapper {
@@ -27,6 +79,7 @@
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
+  width: 100%;
 }
 
 .text {
@@ -35,4 +88,22 @@
   line-height: 2.8rem;
   color: #425466;
   width: 100%;
+  max-width: 40rem;
+
+  @include mediaquery('sm') {
+    font-size: 1.8rem;
+    line-height: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  @include mediaquery('xl') {
+    max-width: 50%;
+    margin-bottom: 6rem;
+    font-size: 2rem;
+    line-height: 3.6rem;
+  }
+
+  @include mediaquery('lg') {
+    margin-bottom: 4rem;
+  }
 }

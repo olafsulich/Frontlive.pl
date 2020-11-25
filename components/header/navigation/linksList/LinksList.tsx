@@ -2,7 +2,7 @@ import { memo } from 'react';
 import ActiveLink from '../activeLink/ActiveLink';
 import styles from './linksList.module.scss';
 import cn from 'classnames';
-import { useHeaderState } from '../../../shared/context/HeaderContext';
+import { useHeaderState } from '../../shared/context/HeaderContext';
 
 const LinksList = memo(() => {
   const { isMenuVisible } = useHeaderState();

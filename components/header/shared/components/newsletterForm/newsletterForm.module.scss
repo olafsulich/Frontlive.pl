@@ -1,10 +1,22 @@
+@import 'common';
+
 .wrapper {
   margin-top: 4rem;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
   width: 100%;
+
+  @include mediaquery('xs') {
+    max-width: 45rem;
+  }
+
+  @include mediaquery('sm') {
+    flex-direction: row;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
 }
 
 .input {
@@ -13,15 +25,20 @@
   border: none;
   border-bottom: 3px solid #ff0a78;
   padding: 1rem 0;
+  font-size: 1.8rem;
 
   &::placeholder {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.8rem;
     color: #425466;
   }
 
   &:focus {
     outline: none;
+  }
+
+  @include mediaquery('sm') {
+    max-width: 32rem;
   }
 }
 
@@ -31,6 +48,15 @@
   height: 5.5rem;
   border-radius: 4px;
   margin-top: 2rem;
+
+  @include mediaquery('sm') {
+    margin-top: 0;
+    margin-left: 3rem;
+  }
+
+  @include mediaquery('xl') {
+    margin-left: 4rem;
+  }
 
   &::before {
     content: '';

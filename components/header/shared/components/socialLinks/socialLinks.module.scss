@@ -1,9 +1,16 @@
+@import 'common';
+
 .wrapper {
   margin-top: 2rem;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  transform: translateY(-5.5rem);
+
+  @include mediaquery('sm') {
+    transform: none;
+  }
 }
 
 .icon {

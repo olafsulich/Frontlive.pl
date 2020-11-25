@@ -1,7 +1,13 @@
+@import 'common';
+
 .wrapper {
   padding-top: 2rem;
   margin: 0 auto;
   width: 100%;
-  max-width: 118.3rem;
+  max-width: 120rem;
   padding: 2rem 2rem 0 2rem;
+
+  @include mediaquery('sm') {
+    padding: 3rem 4rem 0 4rem;
+  }
 }

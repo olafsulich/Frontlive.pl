@@ -17,7 +17,7 @@ class MyDocument extends Document {
         <Head>
           <link
             rel="preload"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@500;500;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap"
             as="stylesheet"
           />
           <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />

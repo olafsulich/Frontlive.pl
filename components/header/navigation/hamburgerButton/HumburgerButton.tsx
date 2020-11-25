@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import styles from './hamburgerButton.module.scss';
 import cn from 'classnames';
-import { useHeaderState } from '../../../shared/context/HeaderContext';
+import { useHeaderState } from '../../shared/context/HeaderContext';
 
 const HamburgerButton = memo(() => {
   const { isMenuVisible, toogleMenu } = useHeaderState();
