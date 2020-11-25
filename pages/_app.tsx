@@ -2,6 +2,7 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { MDXProvider } from '@mdx-js/react';
 import '../styles/main.scss';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -13,9 +14,21 @@ if (!isProduction && isBrowser) {
   axe(React, ReactDOM, AXE_DELAY);
 }
 
+const MDXComponents = {
+  h1: (props:any) => <h1 {...props} />,
+  h2: (props:any)  => <h2 {...props} />,
+  h3: (props:any)  => <h3 {...props} />,
+  inlineCode: (props:any)  => <code {...props} />,
+  a: (props:any)  => <a {...props} />,
+  p: (props:any)  => <p {...props} />,
+  ul: (props:any)  => <ul {...props} />,
+  ol: (props:any)  => <ol {...props} />,
+  li: (props:any)  => <li {...props} />,
+};
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <MDXProvider components={MDXComponents}>
       <Head>
         <meta
           name="viewport"
@@ -41,6 +54,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           font-display: swap;
         }
       `}</style>
-    </>
+    </MDXProvider>
   );
 }

@@ -1,10 +1,10 @@
 @import 'common';
 
 .wrapper {
-  margin-top: 3rem;
+  margin: 3rem 0;
 
   @include mediaquery('sm') {
-    margin-top: 8rem;
+    margin: 8rem 0;
   }
 
   @include mediaquery('lg') {

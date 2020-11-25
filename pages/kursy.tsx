@@ -1,4 +1,4 @@
-import Layout from '../components/layout/Layout';
+import Layout from '../components/layout';
 import React from 'react';
 import Navigation from '../components/navigation/Navigation';
 import Heading from 'components/shared/components/heading/Heading';
