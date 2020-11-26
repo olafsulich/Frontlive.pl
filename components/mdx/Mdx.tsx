@@ -7,7 +7,7 @@ type MdxProps = {
   content: string;
 };
 
-const Mdx = ({ title, content }: MdxProps) => {
+const Mdx = memo<MdxProps>(({ title, content }) => {
   return (
     <article className={styles.wrapper}>
       <Heading tag="h1" variant="primary" className={styles.heading}>
@@ -16,6 +16,6 @@ const Mdx = ({ title, content }: MdxProps) => {
       <div className={styles.content}>{content}</div>
     </article>
   );
-};
+});
 
 export default Mdx;

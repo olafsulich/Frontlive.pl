@@ -1,74 +1,47 @@
-import matter from 'gray-matter';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import hydrate from 'next-mdx-remote/hydrate';
-import renderToString from 'next-mdx-remote/render-to-string';
-import remarkAutoLinkHeadings from 'remark-autolink-headings';
-import remarkSlug from 'remark-slug';
-import remarkCodeTitles from 'remark-code-titles';
-import mdxPrism from 'mdx-prism';
 import readingTime from 'reading-time';
-import path from 'path';
-import fs from 'fs';
-import { postFilePaths, POSTS_PATH } from 'lib/mdx';
+import { getPostBySlug, getPostsPaths } from 'lib/mdx';
 import Layout from 'components/layout/Layout';
 import Navigation from 'components/navigation/Navigation';
-import Heading from 'components/shared/components/heading/Heading';
-import Footer from 'components/footer/Footer';
+import Mdx from '../../components/mdx/Mdx';
 
-const components = {
-  a: () => <a>SIEMA</a>,
-};
-
-const BlogPost = ({ source, frontMatter }: any) => {
-  const content = hydrate(source, { components });
-  const timeToRead = readingTime(source.renderedOutput);
-
-  return (
-    <Layout>
-      <Navigation />
-
-      <main>
-        {/* <Heading>{frontMatter.title}</Heading> */}
-        {content}
-      </main>
-      <Footer />
-    </Layout>
-  );
-};
-
-export default BlogPost;
-
-export const getStaticProps = async ({ params }: any) => {
-  const postFilePath = path.join(POSTS_PATH, `${params.slug}.mdx`);
-  const source = fs.readFileSync(postFilePath);
-
-  const { content, data } = matter(source);
-
-  const mdxSource = await renderToString(content, {
-    components,
-    mdxOptions: {
-      remarkPlugins: [remarkAutoLinkHeadings, remarkSlug, remarkCodeTitles],
-      rehypePlugins: [mdxPrism],
-    },
-    scope: data,
-  });
+export const getStaticProps: GetStaticProps = async ({ params }: any) => {
+  const { transformedMdx, frontmatter } = await getPostBySlug(params.slug);
 
   return {
     props: {
-      source: mdxSource,
-      frontMatter: data,
+      transformedMdx,
+      frontmatter,
     },
+    revalidate: 1,
   };
 };
 
 export const getStaticPaths = async () => {
-  const paths = postFilePaths
-    // Remove file extensions for page paths
-    .map((path: string) => path.replace(/\.mdx?$/, ''))
-    // Map the path into the static paths object required by Next.js
-    .map((slug: string) => ({ params: { slug } }));
+  const paths = getPostsPaths();
 
   return {
     paths,
     fallback: false,
   };
 };
+
+const BlogPost = ({
+  transformedMdx,
+  frontmatter,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const content = hydrate(transformedMdx);
+  const timeToRead = readingTime(transformedMdx.renderedOutput);
+
+  return (
+    <Layout>
+      <Navigation />
+      <main>
+        <Mdx title={frontmatter.title} content={content} />
+      </main>
+    </Layout>
+  );
+};
+
+export default BlogPost;
