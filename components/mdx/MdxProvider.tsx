@@ -7,6 +7,7 @@ import Blockquote from './blockquote/Blockquote';
 import Ul from './ul/Ul';
 import Ol from './ol/Ol';
 import Pre from './pre/Pre';
+import Code from './code/Code';
 
 const components = {
   h2: (props: any) => <Heading tag="h2" {...props} />,
@@ -20,6 +21,7 @@ const components = {
   ul: (props: any) => <Ul {...props} />,
   ol: (props: any) => <Ol {...props} />,
   pre: (props: any) => <Pre {...props} />,
+  code: (props: any) => <Code {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };
