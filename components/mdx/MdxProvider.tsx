@@ -3,6 +3,7 @@ import { MDXProvider } from '@mdx-js/react';
 import Heading from './heading/Heading';
 import Paragraph from './paragraph/Paragraph';
 import Link from './link/Link';
+import Blockquote from './blockquote/Blockquote';
 
 const components = {
   h2: (props: any) => <Heading tag="h2" {...props} />,
@@ -12,6 +13,7 @@ const components = {
   h6: (props: any) => <Heading tag="h6" {...props} />,
   p: (props: any) => <Paragraph {...props} />,
   a: (props: any) => <Link href={props.href} {...props} />,
+  blockquote: (props: any) => <Blockquote {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };
