@@ -5,7 +5,6 @@
   padding-top: 4rem;
   display: grid;
   grid-column-gap: 2.4rem;
-
   grid-template-columns:
     1fr
     min(130ch, calc(100% - 4.8rem))
@@ -27,12 +26,45 @@
     }
   }
 
+  a {
+    text-decoration: none;
+    border-bottom: 2px solid #e2eafd;
+    color: #5183f5;
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 3.6rem;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background: lighten(#5183f5, 33%);
+      color: darken(#5183f5, 10%);
+      border-bottom: 2px solid darken(#5183f5, 10%);
+    }
+
+    @include mediaquery('lg') {
+      font-size: 1.9rem;
+      line-height: 3.7rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2rem;
+      line-height: 3.8rem;
+    }
+  }
+
+  em {
+    font-family: 'Criteria Demi';
+    color: #ff39a8;
+  }
+
   h2,
   h3,
   h4,
   h5,
   h6 {
-    color: #3a3a3a;
+    color: #5263f2;
+    font-family: 'Criteria Demi';
     margin: 1rem 0;
   }
 
@@ -116,6 +148,7 @@
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+    margin: 4rem 0;
 
     &::-webkit-scrollbar {
       height: 8px;

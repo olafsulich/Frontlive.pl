@@ -4,117 +4,6 @@ publishedAt: '12/05/2020'
 summary: 'Visualize my journey through the scenic lands of Norway with rich, stunning pictures and daily travel logs.'
 ---
 
-## Heading 2
-
-It doesn't seem like it would be so tricky, right? But this was an era before flexbox existed; our tools for the job were tables and floats, and neither were really up to this task. It was technically possible, but some shenanigans were required.
-
-### Heading 3
-
-Earlier this year, I developed Cubital Tunnel Syndrome, a repetitive-strain injury, in both of my elbows. As a result, I pretty much can't use a mouse or keyboard; after a few minutes, I get a burning pain shooting down my arms. Even if I try to limit my computer usage to 60-second bursts, I wind up inadvertently making the situation worse.
-
-#### Heading 3
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-##### Heading 3
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-###### Heading 3
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-[some link]('http://google.com')
-
-_italic_
-
-**bold**
-
-`inline code`
-
-```js{1-3}
-const user = {
-  name: 'Maciej',
-  email: 'maciej@gmail.com',
-  id: 123,
-};
-```
-
-```bash
-$ npm install react-native --save
-```
-
-```jsx
-{
-  /* It should be able to wrap images */
-}
-<Sparkles>
-  <img src="gold-cat.png" alt="A golden cat statue" />
-</Sparkles>;
-{
-  /* It should also be able to wrap inline text */
-}
-<p>
-  Next race: <Sparkles>Rainbow Road</Sparkles>.
-</p>;
-
-function Add(a, b) {
-  return a + b;
-}
-
-const var = `Variable`;
-
-Add(2,2);
-Add("lol", `${var}`)
-```
-
-```scss
-.app {
-  color: red;
-  width: 100%;
-  height: 100vh;
-
-  h1 {
-    font-size: 12px;
-    padding: 2rem 0;
-  }
-}
-```
-
-```html
-<html>
-  <h2>Tekst</h2>
-</html>
-```
-
-```tsx{10-17}
-import { animated, useSpring } from 'react-spring';
-
-const Boop = ({ rotation = 0, timing = 150, children }) => {
-  const a = Math.cos(2);
-    const a = Math.PI(2);
-
-  const [isBooped, setIsBooped] = React.useState(false);
-  const style = useSpring({
-    display: 'inline-block',
-    transform: isBooped
-      ? `rotate(${rotation}deg)`
-      : `rotate(0deg)`,
-  });
-  React.useEffect(() => {
-    // Unchanged
-  }, [isBooped, timing]);
-  const trigger = () => {
-    // Unchanged
-  };
-  return (
-    <animated.span onMouseEnter={trigger} style={style}>
-      {children}
-    </animated.span>
-  );
-};
-```
-
 - lol
 - lol
 
@@ -122,3 +11,292 @@ const Boop = ({ rotation = 0, timing = 150, children }) => {
 2. asdada
 
 > BlockQuote
+
+## Wprowadzenie
+
+W poprzednim wpisie poznałeś podstawy TypeScriptu, mam nadzieję, że przećwiczyłeś je w praktyce!
+Dziś coś dla fanów OOP, ale nie tylko! Poznamy również **Generics** i zaawansowane typy.
+
+## Klasy
+
+Jeśli nie poznałeś jeszcze klas w JavaScripcie, zachęcem Cię do sprawdzenia [tego materiału](http://kursjs.pl/kurs/es6/class.php). Nie będziemy bowiem tutaj się zagłębiać w to czym są klasy, jak działają, tylko po to, żeby nie tracić Twojego czasu.
+
+### Public
+
+`public` w TypeScripcie działają tak jak \*normalne właściwości, nie musisz ich oznaczać.
+
+```ts
+class Person {
+  public name: string;
+
+  public constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+```
+
+> \*Public znajduje swoje zastosowanie w parametrach konstruktora, o których za chwilkę.
+
+### Private
+
+Każdą właściwość możemy zmienić na prywatną, poprzedzając ją słowem `private`.
+Taka właściwość nie będzie dostępna poza klasą, w której się znajduje.
+
+```ts
+class Person {
+  private name: string;
+
+  constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+
+const employer = new Person('Jakub');
+employer.name; // error
+```
+
+> Ciekawostka: Prywatne właściwości nie są chronione podczas runtime'u
+
+### Protected
+
+Podobne do `private`, różnią się tym, że `protected` możemy użyć podczas **dziedziczenia**.
+
+```ts
+class Person {
+  protected name: string;
+
+  constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+
+class Employee extends Person {
+  private company: string;
+
+  constructor(name: string, company: string) {
+    super(name);
+    this.company = company;
+  }
+
+  public printEmployeeInfo() {
+    return `Hi, I'm ${name} and I work for ${this.company}`;
+  }
+}
+
+const jakub = new Employee('Jakub', 'Firma_Krzak');
+jakub.printEmployeeInfo(); // Hi, I'm Jakub and I work for Firma_Krzak
+jakub.name; // error
+```
+
+Zauważ, że nie możemy użyć `name` poza klasą, a jedynie w klasie dziedziczącej, lub w niej samej.
+
+#### Protected Constructor
+
+Wykorzystajmy nabytą wiedzę i użyjmy `protected` przy konstruktorze. Co daje nam taki zabieg? Dzięki temu będziemy mogli **tylko** dziedziczyć daną klasę, a nie ją instancjonować.
+
+```ts
+class Person {
+  protected constructor(protected personName: string) {}
+}
+
+class Employee extends Person {
+  private company: string;
+  constructor(name: string, company: string) {
+    super(name);
+    this.company = company;
+  }
+
+  public printEmployeeInfo() {
+    return `Hi, I'm ${name} and I work for ${this.company}`;
+  }
+}
+
+const jakub = new Employee('Jakub', 'Firma_Krzak'); // Wszystko ok
+const bartek = new Person('Bartek'); // error
+```
+
+### Readonly
+
+Znane Ci już `readonly` możemy użyć również w klasach:
+
+```ts
+class Person {
+  protected readonly name: string;
+  constructor(personName: string) {
+    this.name = personName;
+  }
+  changeName() {
+    this.name = 'Marek'; // error
+  }
+}
+```
+
+### Parametry konstruktora
+
+Mamy możliwość, by użyć powyższych parametrów w naszym konstruktorze! Tutaj `public` może nam się przydać. Co daje nam, w tym przypadku, TypeScript?
+
+- Deklaruje **instancje** właściwości **o tej samej nazwie**
+- Przypisuje dany **parametr** do tej **instancji**
+
+Poniższe klasy działają na takiej samej zasadzie.
+
+```ts
+// Wersja pierwsza
+class Person {
+  name: string;
+  protected age: number;
+  private readonly isMarried: boolean;
+  constructor(name: string, age: number, isMarried: boolean) {
+    this.name = name;
+    this.age = age;
+    this.isMarried = isMarried;
+  }
+}
+
+// Parametry konsturktora
+
+class Person {
+  constructor(public name: string, protected age: number, private readonly isMarried: boolean) {}
+}
+```
+
+### Interfejsy w klasach
+
+Mam nadzieję, że kojarzysz podstawowe założenia idące za **Interfejsami**. Jeśli nie, zachęcam Cię do sprawdzenia [poprzedniego wpisu](https://www.frontlive.pl/typescript-podstawy/).
+
+Interfejsy wykorzystujemy w klasach, używając słowa `implements`.
+Możemy ich podać kilka, mogą również być one rozszerzane.
+
+```ts
+interface PersonAge {
+  getPersonAge(personAge: number): void;
+}
+
+class Person implements PersonAge {
+  protected name: string;
+  constructor(personName: string) {
+    this.name = personName;
+  }
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+```
+
+### Klasy abstrakcyjne
+
+Klas abstrakcyjnych **nie możemy** instancjonować. **Tylko klasy dziedziczne** mogą to robić, no chyba, że są również abstrakcyjne. Abstrakcyjne klasy mogą również posiadać abstrakcyjne **metody**, nie mogą być one implementowane, posiadają tylko tzw. _sygnaturę typów_. Do oznaczania abstrakcyjnych klas i ich metod używamy słowa `abstract`.
+
+```ts
+abstract class Person {
+  constructor(readonly name: string) {}
+  abstract getPersonAge(personAge: number): void;
+}
+
+const jakub = new Person('Jakub'); // error
+```
+
+Przypominają one Intefejsy, ale nimi nie są. Abstrakcyjne klasy mogą zawierać również metody z jakąś implementacją (metody bez `abstract`), interfejsy tego nie robią.
+
+> Ciekawostka: _Abstrakcyjne_ klasy występują tylko w procesie kompilacji, podczas runtime'u zachowują się jak normalne klasy.
+
+## Typy generyczne(Generics)
+
+Pozwalają nam one nadawać **dynamicznie typy**. Wyznaczają, w pewnym sensie, kolejny poziom _abstrakcji_. Mają zastosowanie w funkcjach, interfejsach i klasach.
+
+### Funkcje
+
+Spójrzmy na przykład (to jeszcze nie jest typ generyczny):
+
+```ts
+function identity(arg: number): number {
+  return arg;
+}
+```
+
+Mamy tutaj funkcję, która przyjmuje parametr typu `number` i po prostu go zwraca. Jest parę problemów z tą funkcją. Po pierwsze, ciężko by nam było ją w jakimś stopniu **rozbudować**, a poza tym mamy tutaj na sztywno wklepany typ `number`, dla argumentu i zwracanej wartości. Pierwsza myśl, która mogłaby Ci przyjść do głowy, to użycie `any`. **Nie jest** to jednak dobry sposób, tracimy wtedy całą kontrolę nad typami.
+
+Przekształćmy teraz naszą funkcję na funkcję generyczną.
+
+```ts
+function someFunc<T>(arg: T): T {
+  return arg;
+}
+
+someFunc<string>('Awesome!'); // Awesome
+```
+
+Po nazwie funkcji podajemy `<T>`, to samo jeśli chodzi o typ parametru i zwracany typ, tylko że bez nawiasów. Jeśli mamy jeden argument, często spotykaną praktyką jest użycie właśnie literki **T**, drugi argument za to może być jako **U**.
+Przekształćmy teraz funkcje tak, aby zwracała tuple medali olimpijskich.
+
+```ts
+function getOlympicMedals<T, U>(arg1: T, arg2: U): [T, U] {
+  return [arg1, arg2];
+}
+
+getOlympicMedals<string, string>('1st 🥇', '2nd 🥈'); // ["1st 🥇","2nd 🥈"]
+```
+
+### Klasy
+
+Typów generycznych, jak już wcześniej wspominałem, możemy użyć również z klasami:
+
+```ts
+class Animal<T> {
+  constructor(public name: T) {}
+
+  getAnimalName(name: T) {
+    console.log(name);
+  }
+}
+const giraffe = new Animal<string>('Skittles');
+giraffe.getAnimalName('Skittles');
+```
+
+### Interfejsy
+
+Przyszedł czas na _generyczne interfejsy_, tutaj podobna sytuacja.
+
+```ts
+interface Person<V, W> {
+  userName: V;
+  hobbies: W[];
+}
+
+function getUserInfo<T, U>(userName: T, hobbies: U[]): Person<T, U> {
+  const user: Person<T, U> = {
+    userName,
+    hobbies,
+  };
+  return user;
+}
+getUserInfo<string, string>('Przemek', ['programming', 'boxing', 'windsurfing']);
+```
+
+### Generic Constraints
+
+Jest to pewne nadawanie restrykcji dla generycznych typów. W tym celu używamy słowa `extends`.
+Mamy tutaj interfejs `User`, którego wartość **age** jest typu `number`. W funkcji rozszerzamy typ U typem `User[]`.
+
+```ts
+interface User {
+  age: number;
+}
+
+function combineUserInfo<T extends object, U extends User[]>(a: T, b: U) {
+  return Object.assign(a, b);
+}
+combineUserInfo({ name: 'Bob' }, [{ age: 23 }]);
+```
