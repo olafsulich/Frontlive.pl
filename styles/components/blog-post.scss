@@ -38,18 +38,58 @@
 
   h2 {
     font-size: 2.3rem;
+
+    @include mediaquery('sm') {
+      font-size: 2.8rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 3.2rem;
+    }
   }
   h3 {
     font-size: 2.1rem;
+
+    @include mediaquery('sm') {
+      font-size: 2.6rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 3rem;
+    }
   }
   h4 {
     font-size: 2rem;
+
+    @include mediaquery('sm') {
+      font-size: 2.5rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2.9rem;
+    }
   }
   h5 {
     font-size: 1.9rem;
+
+    @include mediaquery('sm') {
+      font-size: 2.4rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2.8rem;
+    }
   }
   h6 {
     font-size: 1.8rem;
+
+    @include mediaquery('sm') {
+      font-size: 2.3rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2.7rem;
+    }
   }
 
   pre[class*='language-'],
@@ -74,19 +114,8 @@
     word-spacing: normal;
     word-break: keep-all;
     overflow-x: auto;
-
-    @include mediaquery('lg') {
-      border-radius: 8px;
-    }
-  }
-
-  pre {
-    --syntax-plain: #fff;
-    --syntax-string: #61747d;
-    --syntax-punctuation: ##ff39a8;
-    --syntax-class-name: #ff39a8;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 
     &::-webkit-scrollbar {
       height: 8px;
@@ -97,8 +126,12 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(0, 0, 0, 0.1);
       border-radius: 12px;
+    }
+
+    @include mediaquery('lg') {
+      border-radius: 8px;
     }
   }
 
@@ -116,37 +149,8 @@
     font-size: 1.6rem;
   }
 
-  pre[class*='language-bash'] {
-    position: relative;
-    background: #151f28;
-    color: #0a0c10;
-    padding-top: 6.2rem;
-    padding-left: 2rem;
-
-    &::before {
-      content: '\2022 \2022 \2022';
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 5px;
-      background: #0a2540;
-      color: #55718d;
-      width: 100%;
-      font-size: 3.3rem;
-      margin: 0;
-      line-height: 0;
-      padding: 18px 0 12px;
-      text-indent: 1rem;
-      letter-spacing: -5px;
-    }
-  }
-
   .mdx-marker {
-    // background: #151f28;
-    // background: #0a2540;
     background: #e9ebf2;
-
-    // background-color: #202e3c;
     display: block;
     margin-right: -3.2rem;
     margin-left: -3.2rem;
@@ -155,15 +159,6 @@
     border-left: 4px solid #5263f2;
     padding-top: 5px;
     padding-bottom: 5px;
-  }
-
-  pre[class*='language-']::selection,
-  pre[class*='language-']::selection,
-  code[class*='language-'] ::selection,
-  code[class*='language-'] ::selection {
-    text-shadow: none;
-    color: inherit;
-    color: #5263f2;
   }
 
   .token.comment,
