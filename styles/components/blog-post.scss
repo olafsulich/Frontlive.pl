@@ -10,22 +10,6 @@
     min(130ch, calc(100% - 4.8rem))
     1fr;
 
-  p {
-    font-size: 1.8rem;
-    line-height: 3.6rem;
-    color: #0a0c10;
-
-    @include mediaquery('lg') {
-      font-size: 1.9rem;
-      line-height: 3.7rem;
-    }
-
-    @include mediaquery('xl') {
-      font-size: 2rem;
-      line-height: 3.8rem;
-    }
-  }
-
   a {
     text-decoration: none;
     border-bottom: 2px solid #e2eafd;
@@ -69,72 +53,6 @@
       margin: 0;
     }
   }
-
-  //   h2,
-  //   h3,
-  //   h4,
-  //   h5,
-  //   h6 {
-  //     color: #5263f2;
-  //     font-family: 'Criteria Demi';
-  //     margin: 1rem 0;
-  //   }
-
-  //   h2 {
-  //     font-size: 2.3rem;
-
-  //     @include mediaquery('sm') {
-  //       font-size: 2.8rem;
-  //     }
-
-  //     @include mediaquery('xl') {
-  //       font-size: 3.2rem;
-  //     }
-  //   }
-  //   h3 {
-  //     font-size: 2.1rem;
-
-  //     @include mediaquery('sm') {
-  //       font-size: 2.6rem;
-  //     }
-
-  //     @include mediaquery('xl') {
-  //       font-size: 3rem;
-  //     }
-  //   }
-  //   h4 {
-  //     font-size: 2rem;
-
-  //     @include mediaquery('sm') {
-  //       font-size: 2.5rem;
-  //     }
-
-  //     @include mediaquery('xl') {
-  //       font-size: 2.9rem;
-  //     }
-  //   }
-  //   h5 {
-  //     font-size: 1.9rem;
-
-  //     @include mediaquery('sm') {
-  //       font-size: 2.4rem;
-  //     }
-
-  //     @include mediaquery('xl') {
-  //       font-size: 2.8rem;
-  //     }
-  //   }
-  //   h6 {
-  //     font-size: 1.8rem;
-
-  //     @include mediaquery('sm') {
-  //       font-size: 2.3rem;
-  //     }
-
-  //     @include mediaquery('xl') {
-  //       font-size: 2.7rem;
-  //     }
-  //   }
 
   ul {
     list-style: none;

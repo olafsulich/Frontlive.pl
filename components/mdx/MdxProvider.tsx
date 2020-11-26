@@ -1,13 +1,15 @@
 import type { ReactNode } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import MdxHeading from './mdxHeading/MdxHeading';
+import Heading from './heading/Heading';
+import Paragraph from './paragraph/Paragraph';
 
 const components = {
-  h2: (props: any) => <MdxHeading tag="h2" {...props} />,
-  h3: (props: any) => <MdxHeading tag="h3" {...props} />,
-  h4: (props: any) => <MdxHeading tag="h4" {...props} />,
-  h5: (props: any) => <MdxHeading tag="h5" {...props} />,
-  h6: (props: any) => <MdxHeading tag="h6" {...props} />,
+  h2: (props: any) => <Heading tag="h2" {...props} />,
+  h3: (props: any) => <Heading tag="h3" {...props} />,
+  h4: (props: any) => <Heading tag="h4" {...props} />,
+  h5: (props: any) => <Heading tag="h5" {...props} />,
+  h6: (props: any) => <Heading tag="h6" {...props} />,
+  p: (props: any) => <Paragraph {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };
