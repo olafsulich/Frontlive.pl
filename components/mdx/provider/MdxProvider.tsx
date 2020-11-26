@@ -1,14 +1,14 @@
 import { ReactNode, useMemo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import Heading from './heading/Heading';
-import Paragraph from './paragraph/Paragraph';
-import Link from './link/Link';
-import Blockquote from './blockquote/Blockquote';
-import Ul from './ul/Ul';
-import Ol from './ol/Ol';
-import Pre from './pre/Pre';
-import Code from './code/Code';
-import Em from './em/Em';
+import Heading from '../heading/Heading';
+import Paragraph from '../paragraph/Paragraph';
+import Link from '../link/Link';
+import Blockquote from '../blockquote/Blockquote';
+import Ul from '../ul/Ul';
+import Ol from '../ol/Ol';
+import Pre from '../pre/Pre';
+import Code from '../code/Code';
+import Em from '../em/Em';
 
 type ComponentProps = {
   children: ReactNode;
