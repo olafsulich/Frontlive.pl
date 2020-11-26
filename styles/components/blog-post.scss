@@ -39,7 +39,7 @@
     --syntax-punctuation: ##ff39a8;
     --syntax-class-name: #ff39a8;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.5) transparent;
 
     &::-webkit-scrollbar {
       height: 8px;
@@ -50,7 +50,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.5);
       border-radius: 12px;
     }
   }
@@ -63,6 +63,7 @@
     padding: 3.2rem;
     border-radius: 6px;
     background: #151f28;
+
     border: none;
     color: #fff;
     tab-size: 2;
@@ -73,7 +74,6 @@
     overflow-wrap: break-word;
     word-spacing: normal;
     word-break: keep-all;
-    // max-height: 75vh;
     overflow-x: auto;
   }
 
@@ -81,14 +81,31 @@
     font-family: 'Fira Code', monospace;
   }
 
+  :not(pre) > code[class*='language-'] {
+    padding: 3px 5px;
+    color: #111111;
+  }
+
+  :not(pre) > code {
+    padding: 3.5px 6px;
+    border: none;
+    color: #111111;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.06);
+    letter-spacing: -0.5px;
+  }
+
   .mdx-marker {
-    background-color: #202e3c;
+    // background: #151f28;
+    background: #292d3e;
+
+    // background-color: #202e3c;
     display: block;
-    margin-right: -1em;
-    margin-left: -1em;
+    margin-right: -3.2rem;
+    margin-left: -3.2rem;
     padding-right: 1em;
-    padding-left: 0.75em;
-    border-left: 0.25em solid #ff0a78;
+    padding-left: 2.4rem;
+    border-left: 6px solid #ff0a78;
     padding-top: 5px;
     padding-bottom: 5px;
   }
