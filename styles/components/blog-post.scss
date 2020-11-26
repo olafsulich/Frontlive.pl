@@ -15,38 +15,6 @@
     color: #ff39a8;
   }
 
-  ul {
-    list-style: none;
-
-    li {
-      font-size: 1.8rem;
-      line-height: 3.6rem;
-      position: relative;
-
-      @include mediaquery('lg') {
-        font-size: 1.9rem;
-        line-height: 3.7rem;
-      }
-
-      @include mediaquery('xl') {
-        font-size: 2rem;
-        line-height: 3.8rem;
-      }
-
-      &::before {
-        content: '';
-        position: absolute;
-        width: 1.6rem;
-        height: 1.6rem;
-        background: url('/icons/arrow-right.svg');
-        background-repeat: no-repeat;
-        top: 1.6rem;
-        left: -2.2rem;
-        transform: translateY(-50%);
-      }
-    }
-  }
-
   ol {
     list-style: none;
     counter-reset: item;

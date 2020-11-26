@@ -4,6 +4,7 @@ import Heading from './heading/Heading';
 import Paragraph from './paragraph/Paragraph';
 import Link from './link/Link';
 import Blockquote from './blockquote/Blockquote';
+import Ul from './ul/Ul';
 
 const components = {
   h2: (props: any) => <Heading tag="h2" {...props} />,
@@ -14,6 +15,7 @@ const components = {
   p: (props: any) => <Paragraph {...props} />,
   a: (props: any) => <Link href={props.href} {...props} />,
   blockquote: (props: any) => <Blockquote {...props} />,
+  ul: (props: any) => <Ul {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };
