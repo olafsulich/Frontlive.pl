@@ -9,6 +9,10 @@ import readingTime from 'reading-time';
 import path from 'path';
 import fs from 'fs';
 import { postFilePaths, POSTS_PATH } from 'lib/mdx';
+import Layout from 'components/layout/Layout';
+import Navigation from 'components/navigation/Navigation';
+import Heading from 'components/shared/components/heading/Heading';
+import Footer from 'components/footer/Footer';
 
 const components = {
   a: () => <a>SIEMA</a>,
@@ -17,12 +21,17 @@ const components = {
 const BlogPost = ({ source, frontMatter }: any) => {
   const content = hydrate(source, { components });
   const timeToRead = readingTime(source.renderedOutput);
-  console.log(timeToRead);
+
   return (
-    <div>
-      <h1>{frontMatter.title}</h1>
-      {content}
-    </div>
+    <Layout>
+      <Navigation />
+
+      <main>
+        {/* <Heading>{frontMatter.title}</Heading> */}
+        {content}
+      </main>
+      <Footer />
+    </Layout>
   );
 };
 

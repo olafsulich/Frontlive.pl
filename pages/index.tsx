@@ -1,6 +1,6 @@
 import Header from '../components/header/Header';
 import PostsListing from '../components/postsListing/PostsListing';
-import Layout from '../components/layout';
+import Layout from '../components/layout/Layout';
 import Courses from '../components/courses/Courses';
 import Workshop from '../components/workshop/Workshop';
 import Navigation from '../components/navigation/Navigation';
