@@ -58,6 +58,18 @@
     color: #ff39a8;
   }
 
+  blockquote {
+    border-left: 4px solid #4ade80;
+    padding: 2rem;
+    background: rgba(74, 222, 128, 0.2);
+    margin: 3rem 0;
+    border-radius: 4px;
+
+    p {
+      margin: 0;
+    }
+  }
+
   h2,
   h3,
   h4,
