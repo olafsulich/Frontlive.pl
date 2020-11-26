@@ -1,0 +1,36 @@
+@import 'common';
+
+.list {
+  list-style: none;
+  counter-reset: item;
+
+  li {
+    font-size: 1.8rem;
+    line-height: 3.6rem;
+    position: relative;
+    counter-increment: item;
+
+    @include mediaquery('lg') {
+      font-size: 1.9rem;
+      line-height: 3.7rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2rem;
+      line-height: 3.8rem;
+    }
+
+    &::before {
+      content: counter(item) '. ';
+      position: absolute;
+      width: 1.6rem;
+      height: 1.6rem;
+      top: 50%;
+      left: -2.2rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #ff39a8;
+      line-height: 0;
+    }
+  }
+}
