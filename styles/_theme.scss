@@ -1,0 +1,54 @@
+.comment,
+.prolog,
+.cdata {
+  color: #4f7d95;
+}
+
+.namespace {
+  opacity: 0.7;
+}
+
+.string,
+.attr-value {
+  color: #651fff;
+}
+
+.string {
+  font-weight: 600;
+}
+
+.keyword,
+.attr-name,
+.template-string,
+.selector {
+  color: #651fff;
+}
+
+.tag,
+.property,
+.number,
+.class-name,
+.constant {
+  color: #ff39a8;
+}
+
+.tag {
+  font-weight: 600;
+}
+
+.function,
+.function-variable {
+  color: #5263f2;
+}
+
+.parameter {
+  color: #0a0c10;
+}
+
+.selector {
+  font-weight: 600;
+}
+
+.known-class-name {
+  color: #2a2a2a;
+}

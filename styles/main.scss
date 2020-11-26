@@ -1,18 +1,14 @@
-// Normalize
 @import 'node_modules/normalize-scss/sass/normalize.scss';
 @include normalize();
 
-// Global
 @import './global.scss';
 
-// Typography
 @import './_typography.scss';
 
-// Mixins
 @import './_mixins.scss';
 
-// variables
 @import './variables.scss';
 
 @import './common.scss';
-@import './components/blog-post.scss';
+
+@import './theme.scss';

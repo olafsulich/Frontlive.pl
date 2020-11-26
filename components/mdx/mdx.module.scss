@@ -53,4 +53,8 @@
     1fr
     min(130ch, calc(100% - 4.8rem))
     1fr;
+
+  & > * {
+    grid-column: 2;
+  }
 }
