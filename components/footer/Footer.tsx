@@ -2,12 +2,10 @@ import { memo } from 'react';
 import styles from './footer.module.scss';
 import NewsletterForm from '../shared/components/newsletterForm/NewsletterForm';
 import SocialLinks from '../shared/components/socialLinks/SocialLinks';
-import Workshop from '../workshop/Workshop';
 
 const Footer = () => {
   return (
     <>
-      <Workshop />
       <footer className={styles.wrapper}>
         <div className={styles.newsletterWrapper}>
           <h2 className={styles.heading}>Newsletter</h2>

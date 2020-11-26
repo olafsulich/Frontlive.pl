@@ -9,10 +9,7 @@ type LayoutProps = { children: ReactNode };
 const Layout = memo<LayoutProps>(({ children }) => {
   return (
     <HeaderProvider>
-      <div className={styles.wrapper}>
-        {children}
-        <Footer />
-      </div>
+      <div className={styles.wrapper}>{children}</div>
     </HeaderProvider>
   );
 });

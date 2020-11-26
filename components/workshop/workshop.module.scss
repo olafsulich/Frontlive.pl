@@ -3,7 +3,7 @@
 .wrapper {
   background-color: #0f1b35;
   width: 100%;
-  border-radius: 1rem;
+  max-width: 116rem;
   padding: 3rem 2rem;
   display: flex;
   align-items: center;
@@ -12,10 +12,14 @@
 
   @include mediaquery('lg') {
     flex-direction: row;
-    padding: 2rem 4rem;
-    border-radius: 1.6rem;
+    padding: 3rem 4rem;
     justify-content: center;
     align-items: center;
+    margin: 3rem auto;
+  }
+
+  @include mediaquery('xxl') {
+    border-radius: 1.6rem;
   }
 }
 
