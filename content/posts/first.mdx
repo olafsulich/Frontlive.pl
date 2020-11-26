@@ -44,7 +44,7 @@ const user = {
 $ npm install react-native --save
 ```
 
-```jsx:App.js
+```jsx
 {
   /* It should be able to wrap images */
 }
@@ -88,30 +88,31 @@ Add("lol", `${var}`)
 ```
 
 ```tsx{10-17}
-import { memo, ReactNode } from 'react';
-import styles from './postsListing.module.scss';
-import PostThumbnail from './postThumbnail/PostThumbnail';
+import { animated, useSpring } from 'react-spring';
 
-type PostsListingProps = {
-  children: ReactNode;
-};
+const Boop = ({ rotation = 0, timing = 150, children }) => {
+  const a = Math.cos(2);
+    const a = Math.PI(2);
 
-const PostsListing = memo(({ children }: PostsListingProps) => {
+  const [isBooped, setIsBooped] = React.useState(false);
+  const style = useSpring({
+    display: 'inline-block',
+    transform: isBooped
+      ? `rotate(${rotation}deg)`
+      : `rotate(0deg)`,
+  });
+  React.useEffect(() => {
+    // Unchanged
+  }, [isBooped, timing]);
+  const trigger = () => {
+    // Unchanged
+  };
   return (
-    <section className={styles.wrapper}>
+    <animated.span onMouseEnter={trigger} style={style}>
       {children}
-      <div className={styles.postsWrapper}>
-        <PostThumbnail
-          path="/blog/first"
-          heading="Nowoczesny CSS - min(), max() i clamp()"
-          excerpt="I recently got the following message in a DM I recently got the following message in a DM"
-        />
-      </div>
-    </section>
+    </animated.span>
   );
-});
-
-export default PostsListing;
+};
 ```
 
 - lol
