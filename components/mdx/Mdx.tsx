@@ -10,10 +10,13 @@ type MdxProps = {
 const Mdx = memo<MdxProps>(({ title, content }) => {
   return (
     <article className={styles.wrapper}>
-      <Heading tag="h1" variant="primary" className={styles.heading}>
-        {title}
-      </Heading>
-      <div className={styles.content}>{content}</div>
+      <header>
+        <Heading tag="h1" variant="primary" className={styles.heading}>
+          {title}
+        </Heading>
+      </header>
+
+      <div className="content">{content}</div>
     </article>
   );
 });

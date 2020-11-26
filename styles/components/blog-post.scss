@@ -1,0 +1,133 @@
+.content {
+  width: 100%;
+  padding-top: 4rem;
+  max-width: 76rem;
+
+  p {
+    font-size: 1.6rem;
+    line-height: 2.8rem;
+    color: #0a0c10;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #3a3a3a;
+  }
+
+  h2 {
+    font-size: 2.3rem;
+  }
+  h3 {
+    font-size: 2.1rem;
+  }
+  h4 {
+    font-size: 2rem;
+  }
+  h5 {
+    font-size: 1.9rem;
+  }
+  h6 {
+    font-size: 1.8rem;
+  }
+
+  pre {
+    --syntax-plain: #fff;
+    --syntax-string: #61747d;
+    --syntax-punctuation: ##ff39a8;
+    --syntax-class-name: #ff39a8;
+  }
+
+  pre[class*='language-'],
+  pre {
+    font-size: 1.8rem;
+    line-height: 1.7;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 6px;
+    background: #151f28;
+    border: none;
+    color: #fff;
+    tab-size: 2;
+    hyphens: none;
+    direction: ltr;
+    text-align: left;
+    white-space: pre-wrap;
+    word-spacing: normal;
+    word-break: normal;
+  }
+
+  code {
+    font-family: 'Fira Code', monospace;
+  }
+
+  .mdx-marker {
+    background-color: #202e3c;
+    display: block;
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: 0.75em;
+    border-left: 0.25em solid #ff0a78;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  pre[class*='language-']::selection,
+  pre[class*='language-']::selection,
+  code[class*='language-'] ::selection,
+  code[class*='language-'] ::selection {
+    text-shadow: none;
+    color: inherit;
+    color: #5263f2;
+  }
+
+  .token.comment,
+  .token.prolog,
+  .token.cdata {
+    color: #61747d;
+  }
+
+  .token.namespace {
+    opacity: 0.7;
+  }
+
+  .token.property,
+  .token.string,
+  .token.attr-value {
+    color: #61747d;
+  }
+
+  .token.operator,
+  .token.keyword,
+  .token.attr-name {
+    color: #c653ff;
+  }
+
+  .token.constant,
+  .token.tag,
+  .token.class-name,
+  .token.punctuation {
+    color: #ff39a8;
+  }
+
+  .token.function,
+  .token.function-variable {
+    color: #5263f2;
+  }
+
+  .token.parameter {
+    color: #fff;
+  }
+
+  .token.number {
+    color: #4ade80;
+  }
+
+  .token.selector,
+  .token.template-string {
+    color: #facc15;
+  }
+}

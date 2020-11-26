@@ -1,5 +1,5 @@
 ---
-title: '10 Days in Norway'
+title: 'Nowoczesny CSS - min(), max() i clamp()'
 publishedAt: '12/05/2020'
 summary: 'Visualize my journey through the scenic lands of Norway with rich, stunning pictures and daily travel logs.'
 ---
@@ -32,12 +32,49 @@ _italic_
 
 `inline code`
 
-```js
+```js{1-3}
 const user = {
   name: 'Maciej',
   email: 'maciej@gmail.com',
   id: 123,
 };
+```
+
+```jsx
+{
+  /* It should be able to wrap images */
+}
+<Sparkles>
+  <img src="gold-cat.png" alt="A golden cat statue" />
+</Sparkles>;
+{
+  /* It should also be able to wrap inline text */
+}
+<p>
+  Next race: <Sparkles>Rainbow Road</Sparkles>.
+</p>;
+
+function Add(a, b) {
+  return a + b;
+}
+
+const var = `Variable`;
+
+Add(2,2);
+Add("lol", `${var}`)
+```
+
+```scss
+.app {
+  color: red;
+  width: 100%;
+  height: 100vh;
+
+  h1 {
+    font-size: 12px;
+    padding: 2rem 0;
+  }
+}
 ```
 
 - lol

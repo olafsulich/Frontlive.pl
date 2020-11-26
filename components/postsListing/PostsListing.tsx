@@ -12,7 +12,7 @@ const PostsListing = memo(({ children }: PostsListingProps) => {
       {children}
       <div className={styles.postsWrapper}>
         <PostThumbnail
-          path="/"
+          path="/blog/first"
           heading="Nowoczesny CSS - min(), max() i clamp()"
           excerpt="I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs"
         />

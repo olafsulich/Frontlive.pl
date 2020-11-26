@@ -13,17 +13,18 @@ class MyDocument extends Document {
         prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"
         itemScope
         itemType="http://schema.org/WebPage"
-        >
+      >
         <Head>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             rel="preload"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap"
             as="stylesheet"
           />
           <link
+            rel="preload"
             href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap"
-            rel="stylesheet"
+            as="stylesheet"
           />
           <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />
           <link rel="preload" href="/fonts/CriteriaCFDemiBold.otf" as="font" crossOrigin="" />

@@ -23,7 +23,7 @@ type Frontmatter = {
 const transformMdx = async (content: string, frontmatter: Frontmatter) => {
   return await renderToString(content, {
     mdxOptions: {
-      remarkPlugins: [remarkAutoLinkHeadings, remarkSlug, remarkCodeTitles],
+      remarkPlugins: [remarkSlug, remarkAutoLinkHeadings, remarkCodeTitles],
       rehypePlugins: [mdxPrism],
     },
     scope: frontmatter,
