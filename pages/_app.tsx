@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/main.scss';
+import MdxCompProvider from '../components/mdx/MdxProvider';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isBrowser = typeof window !== 'undefined';
@@ -15,7 +16,7 @@ if (!isProduction && isBrowser) {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <MdxCompProvider>
       <Head>
         <meta
           name="viewport"
@@ -41,6 +42,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           font-display: swap;
         }
       `}</style>
-    </>
+    </MdxCompProvider>
   );
 }

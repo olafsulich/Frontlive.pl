@@ -70,71 +70,71 @@
     }
   }
 
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #5263f2;
-    font-family: 'Criteria Demi';
-    margin: 1rem 0;
-  }
+  //   h2,
+  //   h3,
+  //   h4,
+  //   h5,
+  //   h6 {
+  //     color: #5263f2;
+  //     font-family: 'Criteria Demi';
+  //     margin: 1rem 0;
+  //   }
 
-  h2 {
-    font-size: 2.3rem;
+  //   h2 {
+  //     font-size: 2.3rem;
 
-    @include mediaquery('sm') {
-      font-size: 2.8rem;
-    }
+  //     @include mediaquery('sm') {
+  //       font-size: 2.8rem;
+  //     }
 
-    @include mediaquery('xl') {
-      font-size: 3.2rem;
-    }
-  }
-  h3 {
-    font-size: 2.1rem;
+  //     @include mediaquery('xl') {
+  //       font-size: 3.2rem;
+  //     }
+  //   }
+  //   h3 {
+  //     font-size: 2.1rem;
 
-    @include mediaquery('sm') {
-      font-size: 2.6rem;
-    }
+  //     @include mediaquery('sm') {
+  //       font-size: 2.6rem;
+  //     }
 
-    @include mediaquery('xl') {
-      font-size: 3rem;
-    }
-  }
-  h4 {
-    font-size: 2rem;
+  //     @include mediaquery('xl') {
+  //       font-size: 3rem;
+  //     }
+  //   }
+  //   h4 {
+  //     font-size: 2rem;
 
-    @include mediaquery('sm') {
-      font-size: 2.5rem;
-    }
+  //     @include mediaquery('sm') {
+  //       font-size: 2.5rem;
+  //     }
 
-    @include mediaquery('xl') {
-      font-size: 2.9rem;
-    }
-  }
-  h5 {
-    font-size: 1.9rem;
+  //     @include mediaquery('xl') {
+  //       font-size: 2.9rem;
+  //     }
+  //   }
+  //   h5 {
+  //     font-size: 1.9rem;
 
-    @include mediaquery('sm') {
-      font-size: 2.4rem;
-    }
+  //     @include mediaquery('sm') {
+  //       font-size: 2.4rem;
+  //     }
 
-    @include mediaquery('xl') {
-      font-size: 2.8rem;
-    }
-  }
-  h6 {
-    font-size: 1.8rem;
+  //     @include mediaquery('xl') {
+  //       font-size: 2.8rem;
+  //     }
+  //   }
+  //   h6 {
+  //     font-size: 1.8rem;
 
-    @include mediaquery('sm') {
-      font-size: 2.3rem;
-    }
+  //     @include mediaquery('sm') {
+  //       font-size: 2.3rem;
+  //     }
 
-    @include mediaquery('xl') {
-      font-size: 2.7rem;
-    }
-  }
+  //     @include mediaquery('xl') {
+  //       font-size: 2.7rem;
+  //     }
+  //   }
 
   ul {
     list-style: none;
