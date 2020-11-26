@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import Heading from './heading/Heading';
 import Paragraph from './paragraph/Paragraph';
+import Link from './link/Link';
 
 const components = {
   h2: (props: any) => <Heading tag="h2" {...props} />,
@@ -10,6 +11,7 @@ const components = {
   h5: (props: any) => <Heading tag="h5" {...props} />,
   h6: (props: any) => <Heading tag="h6" {...props} />,
   p: (props: any) => <Paragraph {...props} />,
+  a: (props: any) => <Link href={props.href} {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };

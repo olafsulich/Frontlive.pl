@@ -1,0 +1,28 @@
+@import 'common';
+
+.link {
+  text-decoration: none;
+  border-bottom: 2px solid #e2eafd;
+  color: #5183f5;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 3.6rem;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: lighten(#5183f5, 33%);
+    color: darken(#5183f5, 10%);
+    border-bottom: 2px solid darken(#5183f5, 10%);
+  }
+
+  @include mediaquery('lg') {
+    font-size: 1.9rem;
+    line-height: 3.7rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2rem;
+    line-height: 3.8rem;
+  }
+}
