@@ -38,6 +38,21 @@
     --syntax-string: #61747d;
     --syntax-punctuation: ##ff39a8;
     --syntax-class-name: #ff39a8;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+    }
   }
 
   pre[class*='language-'],
@@ -45,7 +60,7 @@
     font-size: 1.8rem;
     line-height: 1.7;
     width: 100%;
-    padding: 2rem;
+    padding: 3.2rem;
     border-radius: 6px;
     background: #151f28;
     border: none;
@@ -54,9 +69,12 @@
     hyphens: none;
     direction: ltr;
     text-align: left;
-    white-space: pre-wrap;
+    white-space: pre;
+    overflow-wrap: break-word;
     word-spacing: normal;
-    word-break: normal;
+    word-break: keep-all;
+    // max-height: 75vh;
+    overflow-x: auto;
   }
 
   code {
@@ -126,6 +144,7 @@
     color: #4ade80;
   }
 
+  //   .token.maybe-class-name,
   .token.selector,
   .token.template-string {
     color: #facc15;
