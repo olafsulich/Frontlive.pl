@@ -8,6 +8,7 @@ import Ul from './ul/Ul';
 import Ol from './ol/Ol';
 import Pre from './pre/Pre';
 import Code from './code/Code';
+import Em from './em/Em';
 
 const components = {
   h2: (props: any) => <Heading tag="h2" {...props} />,
@@ -22,6 +23,7 @@ const components = {
   ol: (props: any) => <Ol {...props} />,
   pre: (props: any) => <Pre {...props} />,
   code: (props: any) => <Code {...props} />,
+  em: (props: any) => <Em {...props} />,
 };
 
 type MdxCompProviderProps = { children: ReactNode };
