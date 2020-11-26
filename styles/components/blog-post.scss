@@ -1,7 +1,8 @@
+@import 'common';
+
 .content {
   width: 100%;
   padding-top: 4rem;
-  //   max-width: 76rem;
   display: grid;
   grid-column-gap: 2.4rem;
 
@@ -12,8 +13,18 @@
 
   p {
     font-size: 1.8rem;
-    line-height: 3.8rem;
+    line-height: 3.6rem;
     color: #0a0c10;
+
+    @include mediaquery('lg') {
+      font-size: 1.9rem;
+      line-height: 3.7rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2rem;
+      line-height: 3.8rem;
+    }
   }
 
   h2,
@@ -22,6 +33,7 @@
   h5,
   h6 {
     color: #3a3a3a;
+    margin: 1rem 0;
   }
 
   h2 {
@@ -50,8 +62,10 @@
     justify-self: center;
     grid-column: 1 / 4;
     padding: 3.2rem;
-    // border-radius: 6px;
+    margin-top: 0;
     // background: #292d3e;
+    // background: #06182c;
+    // background: #0a2540;
     background: #151f28;
 
     border: none;
@@ -65,6 +79,10 @@
     word-spacing: normal;
     word-break: keep-all;
     overflow-x: auto;
+
+    @include mediaquery('lg') {
+      border-radius: 8px;
+    }
   }
 
   pre {
@@ -90,7 +108,7 @@
   }
 
   code {
-    font-family: 'Fira Code', monospace;
+    font-family: 'Fira Mono', monospace;
   }
 
   :not(pre) > code {
@@ -102,9 +120,34 @@
     font-size: 1.6rem;
   }
 
+  pre[class*='language-bash'] {
+    position: relative;
+    background: #151f28;
+    color: #fff;
+    padding-top: 6.2rem;
+    padding-left: 2rem;
+
+    &::before {
+      content: '\2022 \2022 \2022';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: #0a2540;
+      color: #55718d;
+      width: 100%;
+      font-size: 3.3rem;
+      margin: 0;
+      line-height: 0;
+      padding: 18px 0 12px;
+      text-indent: 1rem;
+      letter-spacing: -5px;
+    }
+  }
+
   .mdx-marker {
     // background: #151f28;
-    background: #292d3e;
+    background: #0a2540;
 
     // background-color: #202e3c;
     display: block;
@@ -182,4 +225,24 @@
 .full-bleed {
   width: 100%;
   grid-column: 1 / 4;
+}
+
+.remark-code-title {
+  font-size: 1.7rem;
+  width: 100%;
+  background: #0a2540;
+  color: #55718d;
+  max-width: 80rem;
+  align-self: center;
+  justify-self: center;
+  grid-column: 1 / 4;
+  padding: 1.3rem 2rem;
+  display: flex;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  transform: translateY(1rem);
+  @include mediaquery('lg') {
+    border-radius: 8px 8px 0 0;
+  }
 }

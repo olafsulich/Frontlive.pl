@@ -23,7 +23,7 @@ class MyDocument extends Document {
           />
           <link
             rel="preload"
-            href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@500&display=swap"
             as="stylesheet"
           />
           <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />
