@@ -1,11 +1,18 @@
 .content {
   width: 100%;
   padding-top: 4rem;
-  max-width: 76rem;
+  //   max-width: 76rem;
+  display: grid;
+  grid-column-gap: 2.4rem;
+
+  grid-template-columns:
+    1fr
+    min(130ch, calc(100% - 4.8rem))
+    1fr;
 
   p {
-    font-size: 1.6rem;
-    line-height: 2.8rem;
+    font-size: 1.8rem;
+    line-height: 3.8rem;
     color: #0a0c10;
   }
 
@@ -33,6 +40,32 @@
     font-size: 1.8rem;
   }
 
+  pre[class*='language-'],
+  pre {
+    font-size: 1.7rem;
+    line-height: 1.7;
+    width: 100%;
+    max-width: 80rem;
+    align-self: center;
+    justify-self: center;
+    grid-column: 1 / 4;
+    padding: 3.2rem;
+    // border-radius: 6px;
+    background: #292d3e;
+
+    border: none;
+    color: #fff;
+    tab-size: 2;
+    hyphens: none;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    overflow-wrap: break-word;
+    word-spacing: normal;
+    word-break: keep-all;
+    overflow-x: auto;
+  }
+
   pre {
     --syntax-plain: #fff;
     --syntax-string: #61747d;
@@ -55,49 +88,22 @@
     }
   }
 
-  pre[class*='language-'],
-  pre {
-    font-size: 1.8rem;
-    line-height: 1.7;
-    width: 100%;
-    padding: 3.2rem;
-    border-radius: 6px;
-    background: #151f28;
-
-    border: none;
-    color: #fff;
-    tab-size: 2;
-    hyphens: none;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    overflow-wrap: break-word;
-    word-spacing: normal;
-    word-break: keep-all;
-    overflow-x: auto;
-  }
-
   code {
     font-family: 'Fira Code', monospace;
-  }
-
-  :not(pre) > code[class*='language-'] {
-    padding: 3px 5px;
-    color: #111111;
   }
 
   :not(pre) > code {
     padding: 3.5px 6px;
     border: none;
-    color: #111111;
     border-radius: 4px;
     background: rgba(0, 0, 0, 0.06);
     letter-spacing: -0.5px;
+    font-size: 1.6rem;
   }
 
   .mdx-marker {
-    // background: #151f28;
-    background: #292d3e;
+    background: #151f28;
+    // background: #292d3e;
 
     // background-color: #202e3c;
     display: block;
@@ -166,4 +172,13 @@
   .token.template-string {
     color: #facc15;
   }
+}
+
+.content > * {
+  grid-column: 2;
+}
+
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / 4;
 }
