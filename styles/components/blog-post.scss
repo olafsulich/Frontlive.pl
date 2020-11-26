@@ -15,50 +15,6 @@
     color: #ff39a8;
   }
 
-  pre[class*='language-'],
-  pre {
-    font-size: 1.7rem;
-    line-height: 1.7;
-    width: 100%;
-    max-width: 80rem;
-    align-self: center;
-    justify-self: center;
-    grid-column: 1 / 4;
-    padding: 3.2rem;
-    background: #f5f6f9;
-    border: none;
-    color: #2a2a2a;
-    tab-size: 2;
-    hyphens: none;
-    direction: ltr;
-    text-align: left;
-    white-space: pre;
-    overflow-wrap: break-word;
-    word-spacing: normal;
-    word-break: keep-all;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-    margin: 4rem 0;
-
-    &::-webkit-scrollbar {
-      height: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-    }
-
-    @include mediaquery('lg') {
-      border-radius: 8px;
-    }
-  }
-
   code {
     font-family: 'Fira Mono', monospace;
     font-weight: 500;
