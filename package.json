@@ -16,10 +16,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@emotion/react": "^11.1.1",
     "@mapbox/rehype-prism": "^0.5.0",
     "@mdx-js/loader": "^1.6.21",
     "@mdx-js/react": "^1.6.21",
     "@zeit/next-source-maps": "0.0.3",
+    "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "date-fns": "^2.16.1",
     "mdx-prism": "^0.3.1",

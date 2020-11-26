@@ -18,4 +18,8 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  env: {
+    MAILCHIMP_LIST_ID: process.env.MAILCHIMP_LIST_ID,
+    MAILCHIMP_API_KEY: process.env.MAILCHIMP_API_KEY,
+  },
 };
