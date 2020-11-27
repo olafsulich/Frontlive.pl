@@ -20,8 +20,8 @@ const LinksList = memo(() => {
         </ActiveLink>
       </li>
       <li className={styles.item}>
-        <ActiveLink href="/kursy" activeClassName={styles.activeLink}>
-          <a className={styles.link}>Kursy</a>
+        <ActiveLink href="/kategorie" activeClassName={styles.activeLink}>
+          <a className={styles.link}>Kategorie</a>
         </ActiveLink>
       </li>
       <li className={styles.item}>

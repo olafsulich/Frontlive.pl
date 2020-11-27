@@ -6,11 +6,11 @@
   align-items: flex-start;
   flex-direction: column;
 
-  margin: 3rem 0;
+  margin: 1rem 0;
   //   padding: 0 10%;
 
   @include mediaquery('sm') {
-    margin-top: 5rem;
+    margin-top: 4rem;
   }
 }
 
@@ -46,9 +46,17 @@
   display: block;
   text-decoration: none;
   text-align: center;
-  margin-bottom: 5rem;
   font-size: 1.6rem;
   color: #ff0a78;
+  padding: 2rem 0;
+
+  @include mediaquery('sm') {
+    margin-bottom: 1rem;
+  }
+
+  @include mediaquery('lg') {
+    margin-bottom: 3rem;
+  }
 }
 
 .content {

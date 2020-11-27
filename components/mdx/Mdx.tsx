@@ -17,7 +17,7 @@ const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
     <article className={styles.wrapper}>
       <div className={styles.content}>
         <header className={styles.header}>
-          <Link href={`/kursy/${category}`}>
+          <Link href={`/kategorie/${category.toLocaleLowerCase()}`}>
             <a className={styles.category}>
               <span className="visually-hidden">Kategoria:</span>
               <span>{category}</span>
