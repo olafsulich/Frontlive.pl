@@ -8,7 +8,7 @@ const LinksList = memo(() => {
   const { isMenuVisible } = useHeaderState();
 
   return (
-    <ul className={cn(styles.list, { [styles.active]: !isMenuVisible })}>
+    <ul className={cn(styles.list, { [styles.active]: isMenuVisible })}>
       <li className={styles.item}>
         <ActiveLink href="/" activeClassName={styles.activeLink}>
           <a className={styles.link}>Strona główna</a>

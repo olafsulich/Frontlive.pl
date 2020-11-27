@@ -13,7 +13,7 @@ const HamburgerButton = memo(() => {
       aria-expanded={isMenuVisible}
       onClick={toogleMenu}
       className={cn(styles.hamburger, {
-        [styles.hamburgerOpen]: !isMenuVisible,
+        [styles.hamburgerOpen]: isMenuVisible,
       })}
     >
       <span className="visually-hidden">{isMenuVisible ? 'Zamknij' : 'Otwórz'} menu</span>

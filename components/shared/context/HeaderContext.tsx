@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useReducer, useContext } from 'react';
+import { ReactNode, createContext, useEffect, useContext } from 'react';
 import useToggle from '../utils/useToggle';
 
 type State = {
@@ -11,7 +11,11 @@ type HeaderProviderProps = { children: ReactNode };
 const HeaderStateContext = createContext<State | undefined>(undefined);
 
 const HeaderProvider = ({ children }: HeaderProviderProps) => {
-  const [isMenuVisible, toogleMenu] = useToggle();
+  const [isMenuVisible, toogleMenu, off] = useToggle();
+
+  // useEffect(() => {
+  //   off();
+  // }, []);
 
   return (
     <HeaderStateContext.Provider value={{ isMenuVisible, toogleMenu }}>
