@@ -46,7 +46,7 @@ const BlogPost = ({
         <Navigation />
       </Layout>
       <main>
-        <Mdx title={frontmatter.title} content={content} />
+        <Mdx frontmatter={frontmatter} content={content} />
       </main>
       <Workshop />
       <Layout>

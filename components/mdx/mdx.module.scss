@@ -3,18 +3,14 @@
 .wrapper {
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
 
   margin: 3rem 0;
   //   padding: 0 10%;
 
   @include mediaquery('sm') {
-    margin-top: 8rem;
-  }
-
-  @include mediaquery('lg') {
-    margin-top: 10rem;
+    margin-top: 5rem;
   }
 }
 
@@ -22,6 +18,7 @@
   font-size: 2.8rem;
   text-align: center;
   margin-bottom: 3rem;
+  text-align: center;
 
   @include mediaquery('xs') {
     font-size: 3.6rem;
@@ -29,7 +26,8 @@
   }
 
   @include mediaquery('sm') {
-    font-size: 4.2rem;
+    font-size: 4.8rem;
+    line-height: 6.4rem;
     margin-bottom: 4rem;
   }
 
@@ -42,6 +40,15 @@
     font-size: 6rem;
     margin-bottom: 6.2rem;
   }
+}
+
+.category {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  margin-bottom: 5rem;
+  font-size: 1.6rem;
+  color: #ff0a78;
 }
 
 .content {
