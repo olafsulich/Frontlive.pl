@@ -2,6 +2,7 @@ import { memo } from 'react';
 import styles from './footer.module.scss';
 import NewsletterForm from '../shared/components/newsletterForm/NewsletterForm';
 import SocialLinks from '../shared/components/socialLinks/SocialLinks';
+import ArrowRightIcon from '../../public/icons/arrow-right.svg';
 
 const Footer = () => {
   return (
@@ -10,9 +11,12 @@ const Footer = () => {
         <div className={styles.newsletterWrapper}>
           <h2 className={styles.heading}>Newsletter</h2>
           <p className={styles.text}>
-            Pewnie spytasz, czemu miałbym się zapisywać na kolejny newsletter? Przecież jestem
-            zapisany już dox newsletterów!!! Ja tak samo i tak samo jak Ty, nie lubię spamu i zalewu
-            jaki dostaję na maila.
+            Podobają Ci się moje treści? Dołącz do newslettera żeby być na bieżąco ze światem
+            frontendu, zdobądź dostęp do dodatkowych materiałów i bierz udział w konkursach z
+            nagrodami
+            <span className={styles.icon}>
+              <ArrowRightIcon />
+            </span>
           </p>
           <NewsletterForm />
           <SocialLinks />
