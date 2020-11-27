@@ -7,6 +7,7 @@ import remarkSlug from 'remark-slug';
 import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
 import Sparkles from '../components/shared/components/sparkles/Sparkles';
+import slugify from 'slugify';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const MDX_PATTERN = /\.mdx?$/;
@@ -75,7 +76,7 @@ export const getAllPosts = () => {
 export const getPostsByCategory = (postCategory: string) => {
   const posts = getAllPosts();
   const filteredPosts = posts.filter(
-    ({ category }: { category: string }) => category === postCategory,
+    ({ category }: { category: string }) => slugify(category, { lower: true }) === postCategory,
   );
 
   return filteredPosts;

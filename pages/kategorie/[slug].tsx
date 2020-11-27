@@ -8,6 +8,7 @@ import styles from '../blog.module.scss';
 import Footer from 'components/footer/Footer';
 import Workshop from '../../components/workshop/Workshop';
 import { getPostsByCategory, getAllPosts } from 'lib/mdx';
+import slugify from 'slugify';
 
 type Params = {
   slug: string;
@@ -26,7 +27,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths = async () => {
   const posts = getAllPosts();
-  const paths = posts.map(({ category }) => ({ params: { slug: category } }));
+  const paths = posts.map(({ category }) => ({
+    params: { slug: slugify(category, { lower: true }) },
+  }));
 
   return {
     paths,
@@ -43,7 +46,7 @@ export default function Kategoria({ posts }: InferGetStaticPropsType<typeof getS
         <main className={styles.wrapper}>
           <PostsListing>
             <Heading tag="h1" variant="primary" className={styles.heading}>
-              Kategoria
+              {posts[0].category}
             </Heading>
           </PostsListing>
         </main>

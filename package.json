@@ -39,6 +39,7 @@
     "remark-capitalize": "^1.1.0",
     "remark-code-titles": "^0.1.1",
     "remark-slug": "^6.0.0",
+    "slugify": "^1.4.6",
     "typescript-eslint": "0.0.1-alpha.0",
     "what-input": "^5.2.10"
   },
