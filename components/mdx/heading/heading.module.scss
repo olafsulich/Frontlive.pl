@@ -4,6 +4,26 @@
   color: #5263f2;
   font-family: 'Criteria Demi';
   margin: 1rem 0;
+  position: relative;
+
+  &:hover {
+    a span {
+      opacity: 1;
+    }
+  }
+
+  a span {
+    position: absolute;
+    width: 2.4rem;
+    height: 2.4rem;
+    top: 50%;
+    left: -3rem;
+    transform: translateY(-50%);
+    background-image: url('/icons/anchor.svg');
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
 }
 
 .h2 {
