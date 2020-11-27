@@ -51,6 +51,7 @@ const NewsletterForm = () => {
         value={inputValue}
         className={styles.input}
         onChange={handleInputChange}
+        aria-invalid={status === 'error'}
       />
       <div className={styles.buttonWrapper}>
         <button className={cn(styles.button, styles[status])}>
