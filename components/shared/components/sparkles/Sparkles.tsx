@@ -3,7 +3,7 @@ import { generateSparkle } from './utils/generateSparkle';
 import Sparkle from './sparkle/Sparkle';
 import styles from './sparkles.module.scss';
 import { range } from './utils/range';
-import usePrefersReducedMotion from './utils/usePrefersReducedMotion';
+import usePrefersReducedMotion from '../../utils/usePrefersReducedMotion';
 import useRandomInterval from './utils/useRandomInterval';
 
 type SparklesProps = {

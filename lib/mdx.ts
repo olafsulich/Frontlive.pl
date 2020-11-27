@@ -6,6 +6,7 @@ import remarkAutoLinkHeadings from 'remark-autolink-headings';
 import remarkSlug from 'remark-slug';
 import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
+import Sparkles from '../components/shared/components/sparkles/Sparkles';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const MDX_PATTERN = /\.mdx?$/;
@@ -20,8 +21,11 @@ type Frontmatter = {
   excerpt: string;
 };
 
+export const customMdxComponents = { Sparkles: Sparkles };
+
 const transformMdx = async (content: string, frontmatter: Frontmatter) => {
   return await renderToString(content, {
+    components: customMdxComponents,
     mdxOptions: {
       remarkPlugins: [remarkSlug, remarkAutoLinkHeadings, remarkCodeTitles],
       rehypePlugins: [mdxPrism],

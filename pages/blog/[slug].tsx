@@ -8,6 +8,7 @@ import Mdx from '../../components/mdx/Mdx';
 import Footer from 'components/footer/Footer';
 import { HeaderProvider } from 'components/shared/context/HeaderContext';
 import Workshop from '../../components/workshop/Workshop';
+import Sparkles from '../../components/shared/components/sparkles/Sparkles';
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
   const { transformedMdx, frontmatter } = await getPostBySlug(params.slug);
@@ -30,11 +31,13 @@ export const getStaticPaths = async () => {
   };
 };
 
+export const customMdxComponents = { Sparkles };
+
 const BlogPost = ({
   transformedMdx,
   frontmatter,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const content = hydrate(transformedMdx);
+  const content = hydrate(transformedMdx, { components: customMdxComponents });
   const timeToRead = readingTime(transformedMdx.renderedOutput);
 
   return (
