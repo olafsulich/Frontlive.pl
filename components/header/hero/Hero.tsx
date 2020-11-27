@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <h1 className={styles.heading}>Cześć, tu Olaf </h1>
+        <h1 className={styles.heading}>Cześć, tu Olaf</h1>
         <div className={styles.textWrapper}>
           <p className={styles.text}>
             Witaj na blogu! Piszę głównie o tematach związanych z frontendem, mam nadzieję, że
