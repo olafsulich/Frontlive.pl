@@ -1,3 +1,4 @@
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import PostsListing from '../components/postsListing/PostsListing';
 import Layout from '../components/layout/Layout';
 import React from 'react';
@@ -6,14 +7,26 @@ import Heading from 'components/shared/components/heading/Heading';
 import styles from './blog.module.scss';
 import Footer from 'components/footer/Footer';
 import Workshop from '../components/workshop/Workshop';
+import { getAllPosts } from 'lib/mdx';
 
-export default function Blog() {
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = getAllPosts();
+
+  return {
+    props: {
+      posts,
+    },
+    revalidate: 1,
+  };
+};
+
+export default function Blog({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
       <Layout>
         <Navigation />
         <main className={styles.wrapper}>
-          <PostsListing>
+          <PostsListing posts={posts}>
             <Heading tag="h1" variant="primary" className={styles.heading}>
               Artykuły
             </Heading>

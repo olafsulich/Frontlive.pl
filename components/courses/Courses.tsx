@@ -7,7 +7,12 @@ import TypeScriptIcon from '../../public/icons/typescript.svg';
 const Courses = () => {
   return (
     <div className={styles.wrapper}>
-      <CourseCard path="/" title="TypeScript" variant="blue" image="/images/typescript.png" />
+      <CourseCard
+        path="/kategorie/typescript"
+        title="TypeScript"
+        variant="blue"
+        image="/images/typescript.png"
+      />
       <CourseCard path="/" title="GraphQL" variant="purple" image="/images/graphql.png" />
       <CourseCard path="/" title="Firebase" variant="orange" image="/images/firebase.png" />
     </div>

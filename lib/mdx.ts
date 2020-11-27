@@ -8,6 +8,7 @@ import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
 import Sparkles from '../components/shared/components/sparkles/Sparkles';
 import slugify from 'slugify';
+import dayjs from 'dayjs';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const MDX_PATTERN = /\.mdx?$/;
@@ -20,14 +21,17 @@ type Frontmatter = {
   title: string;
   category: string;
   publishedAt: string;
-  summary: string;
+  excerpt: string;
+  popular: boolean;
 };
 
 type Post = {
   title: string;
   category: string;
-  summary: string;
+  excerpt: string;
   slug: string;
+  publishedAt: string;
+  popular: boolean;
 };
 
 export const customMdxComponents = { Sparkles: Sparkles };
@@ -51,6 +55,20 @@ export const getPostBySlug = async (slug: string) => {
   return { transformedMdx, frontmatter };
 };
 
+const sortPostsByNewest = (posts: Post[]) => {
+  return posts.sort((a, b) => {
+    const dateA = dayjs(a.publishedAt, 'YYYY-MM-DD');
+    const dateB = dayjs(b.publishedAt, 'YYYY-MM-DD');
+    if (dateA.isBefore(dateB)) {
+      return 1;
+    }
+    if (dateB.isBefore(dateA)) {
+      return -1;
+    }
+    return 0;
+  });
+};
+
 export const getAllPosts = () => {
   const fileNames = fs.readdirSync(POSTS_PATH);
 
@@ -60,17 +78,32 @@ export const getAllPosts = () => {
       const fullPath = path.join(POSTS_PATH, filename);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data: frontmatter } = matter(fileContents);
-      const { title, category, summary } = frontmatter;
+      const { title, category, excerpt, publishedAt, popular } = frontmatter;
 
       return {
         slug,
         title,
         category,
-        summary,
+        excerpt,
+        publishedAt,
+        popular,
       };
     },
   );
-  return allPosts;
+
+  const sortedPosts = sortPostsByNewest(allPosts);
+
+  return sortedPosts;
+};
+
+export const getNewestPosts = () => {
+  const posts = getAllPosts();
+  return posts.slice(0, 3);
+};
+
+export const getPopularPosts = () => {
+  const posts = getAllPosts();
+  return posts.filter(({ popular }) => popular === true).slice(0, 3);
 };
 
 export const getPostsByCategory = (postCategory: string) => {

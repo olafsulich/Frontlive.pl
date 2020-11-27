@@ -44,7 +44,7 @@ export default function Kategoria({ posts }: InferGetStaticPropsType<typeof getS
       <Layout>
         <Navigation />
         <main className={styles.wrapper}>
-          <PostsListing>
+          <PostsListing posts={posts}>
             <Heading tag="h1" variant="primary" className={styles.heading}>
               {posts[0].category}
             </Heading>
