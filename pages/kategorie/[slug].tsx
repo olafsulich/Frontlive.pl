@@ -38,7 +38,6 @@ export const getStaticPaths = async () => {
 };
 
 export default function Kategoria({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(posts);
   return (
     <>
       <Layout>

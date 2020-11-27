@@ -4,6 +4,8 @@ import matter from 'gray-matter';
 import renderToString from 'next-mdx-remote/render-to-string';
 import remarkAutoLinkHeadings from 'remark-autolink-headings';
 import remarkSlug from 'remark-slug';
+import rehypeAutoLinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'remark-slug';
 import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
 import Sparkles from '../components/shared/components/sparkles/Sparkles';

@@ -18,14 +18,18 @@ type LinkComponentProps = {
   href: string;
 } & ComponentProps;
 
+type HeadingComponentProps = {
+  id: string;
+} & ComponentProps;
+
 const MdxCompProvider = ({ children }: ComponentProps) => {
   const mdxComponents = useMemo(
     () => ({
-      h2: (props: ComponentProps) => <Heading tag="h2" {...props} />,
-      h3: (props: ComponentProps) => <Heading tag="h3" {...props} />,
-      h4: (props: ComponentProps) => <Heading tag="h4" {...props} />,
-      h5: (props: ComponentProps) => <Heading tag="h5" {...props} />,
-      h6: (props: ComponentProps) => <Heading tag="h6" {...props} />,
+      h2: (props: HeadingComponentProps) => <Heading tag="h2" {...props} />,
+      h3: (props: HeadingComponentProps) => <Heading tag="h3" {...props} />,
+      h4: (props: HeadingComponentProps) => <Heading tag="h4" {...props} />,
+      h5: (props: HeadingComponentProps) => <Heading tag="h5" {...props} />,
+      h6: (props: HeadingComponentProps) => <Heading tag="h6" {...props} />,
       p: (props: ComponentProps) => <Paragraph {...props} />,
       a: (props: LinkComponentProps) => <Link {...props} />,
       blockquote: (props: ComponentProps) => <Blockquote {...props} />,
