@@ -33,10 +33,6 @@
     color: #425466;
   }
 
-  &:focus {
-    outline: none;
-  }
-
   @include mediaquery('sm') {
     max-width: 32rem;
   }

@@ -50,7 +50,6 @@
 }
 
 .link {
-  font-weight: 600;
   font-size: 1.6rem;
   color: #000000;
   text-decoration: none;
@@ -60,7 +59,7 @@
     content: '';
     position: absolute;
     width: 100%;
-    height: 3px;
+    height: 2px;
     bottom: -7px;
     background-color: #000000;
     border-radius: 3px;
@@ -81,10 +80,13 @@
 }
 
 .activeLink {
-  color: #0ea5e9;
   position: relative;
+  font-weight: 600;
 
-  &::before {
-    background-color: #7ad0f8;
+  &:hover,
+  &:focus {
+    &::before {
+      opacity: 0;
+    }
   }
 }
