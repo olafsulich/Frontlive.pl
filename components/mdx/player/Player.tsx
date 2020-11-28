@@ -9,10 +9,12 @@ type PlayerProps = {
 
 const Player = memo(({ url, label }: PlayerProps) => {
   return (
-    <div className={styles.player}>
+    <div className={styles.playerWrapper}>
       <ReactPlayer
+        className={styles.player}
         url={url}
         width="100%"
+        height="100%"
         controls
         config={{
           file: {

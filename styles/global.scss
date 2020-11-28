@@ -1,3 +1,5 @@
+@import 'common';
+
 * {
   box-sizing: border-box;
 }
@@ -57,4 +59,11 @@ button {
 * {
   scroll-behavior: smooth;
   scroll-margin-top: 4rem;
+}
+
+video,
+iframe {
+  @include mediaquery('lg') {
+    border-radius: 10px !important;
+  }
 }
