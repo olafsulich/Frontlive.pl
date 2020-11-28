@@ -9,6 +9,7 @@ import Ol from '../ol/Ol';
 import Pre from '../pre/Pre';
 import Code from '../code/Code';
 import Em from '../em/Em';
+import Image from '../image/Image';
 
 type ComponentProps = {
   children: ReactNode;
@@ -30,6 +31,11 @@ type HeadingComponentProps = {
     };
     1: string;
   };
+};
+
+type ImageProps = {
+  src: string;
+  alt: string;
 };
 
 const MdxCompProvider = ({ children }: ComponentProps) => {
@@ -110,6 +116,11 @@ const MdxCompProvider = ({ children }: ComponentProps) => {
       pre: (props: ComponentProps) => <Pre {...props} />,
       code: (props: ComponentProps) => <Code {...props} />,
       em: (props: ComponentProps) => <Em {...props} />,
+      img: (props: ImageProps) => {
+        const { alt, src } = props;
+        const imageAlt = alt ? alt : '';
+        return <Image src={src} alt={imageAlt} />;
+      },
     }),
     [],
   );
