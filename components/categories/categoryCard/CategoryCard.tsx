@@ -1,8 +1,7 @@
-import { memo, ReactElement } from 'react';
+import { memo } from 'react';
 import Link, { LinkProps } from 'next/link';
 import cn from 'classnames';
-import styles from './courseCard.module.scss';
-import GraphqlIcon from '../../../public/icons/graphql.svg';
+import styles from './categoryCard.module.scss';
 
 type CardVariant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 

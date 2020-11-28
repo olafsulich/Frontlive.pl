@@ -12,6 +12,12 @@
     }
   }
 
+  a:focus {
+    span {
+      opacity: 1;
+    }
+  }
+
   a span {
     position: absolute;
     width: 2.4rem;

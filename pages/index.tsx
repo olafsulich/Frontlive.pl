@@ -2,12 +2,13 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Header from '../components/header/Header';
 import PostsListing from '../components/postsListing/PostsListing';
 import Layout from '../components/layout/Layout';
-import Courses from '../components/courses/Courses';
+import Categories from '../components/categories/Categories';
 import Workshop from '../components/workshop/Workshop';
 import Navigation from '../components/navigation/Navigation';
 import Heading from 'components/shared/components/heading/Heading';
 import Footer from 'components/footer/Footer';
 import { getNewestPosts, getPopularPosts } from 'lib/mdx';
+import { categories } from '../content/categories/categories';
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();
@@ -38,7 +39,7 @@ export default function Home({
               Najnowsze
             </Heading>
           </PostsListing>
-          <Courses />
+          <Categories categories={categories.slice(0, 3)} />
           <PostsListing posts={popularPosts}>
             <Heading tag="h2" variant="secondary">
               Najpopularniejsze

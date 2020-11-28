@@ -14,10 +14,7 @@ const Footer = () => {
           <p className={styles.text}>
             Podobają Ci się moje treści? Dołącz do newslettera żeby być na bieżąco ze światem
             frontendu, zdobądź dostęp do <Sparkles>dodatkowych materiałów</Sparkles> i bierz udział
-            w konkursach z nagrodami
-            <span aria-hidden="true" className={styles.icon}>
-              <ArrowRightIcon />
-            </span>
+            w konkursach z nagrodami!
           </p>
           <NewsletterForm />
           <SocialLinks />
