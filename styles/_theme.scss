@@ -13,10 +13,6 @@
   color: #651fff;
 }
 
-.string {
-  font-weight: 600;
-}
-
 .keyword,
 .attr-name,
 .template-string,
@@ -51,4 +47,16 @@
 
 .known-class-name {
   color: #2a2a2a;
+}
+
+.attr-name,
+.builtin,
+.cdata,
+.char,
+.class,
+.inserted,
+.operator,
+.property,
+.punctuation {
+  color: #00b3c0;
 }
