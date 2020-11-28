@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useCallback } from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import Heading from '../heading/Heading';
 import Paragraph from '../paragraph/Paragraph';
@@ -20,16 +20,88 @@ type LinkComponentProps = {
 
 type HeadingComponentProps = {
   id: string;
-} & ComponentProps;
+  children: {
+    0: {
+      props: {
+        href: string;
+        children: ReactNode;
+        id: string;
+      };
+    };
+    1: string;
+  };
+};
 
 const MdxCompProvider = ({ children }: ComponentProps) => {
+  const getHeadingProps = useCallback(({ children, id: headingId }: HeadingComponentProps) => {
+    const { href, children: linkChildren, id: linkId } = children[0].props;
+    const headingProps = children[1];
+    return {
+      linkChildren,
+      linkId,
+      headingProps,
+      headingId,
+      href,
+    };
+  }, []);
+
   const mdxComponents = useMemo(
     () => ({
-      h2: (props: HeadingComponentProps) => <Heading tag="h2" {...props} />,
-      h3: (props: HeadingComponentProps) => <Heading tag="h3" {...props} />,
-      h4: (props: HeadingComponentProps) => <Heading tag="h4" {...props} />,
-      h5: (props: HeadingComponentProps) => <Heading tag="h5" {...props} />,
-      h6: (props: HeadingComponentProps) => <Heading tag="h6" {...props} />,
+      h2: (props: HeadingComponentProps) => {
+        const { linkChildren, linkId, headingProps, headingId, href } = getHeadingProps(props);
+        return (
+          <Heading tag="h2" id={headingId}>
+            <a id={linkId} href={href} aria-hidden="true" tabIndex={-1}>
+              {linkChildren}
+            </a>
+            {headingProps}
+          </Heading>
+        );
+      },
+      h3: (props: HeadingComponentProps) => {
+        const { linkChildren, linkId, headingProps, headingId, href } = getHeadingProps(props);
+        return (
+          <Heading tag="h3" id={headingId}>
+            <a id={linkId} href={href} aria-hidden="true" tabIndex={-1}>
+              {linkChildren}
+            </a>
+            {headingProps}
+          </Heading>
+        );
+      },
+      h4: (props: HeadingComponentProps) => {
+        const { linkChildren, linkId, headingProps, headingId, href } = getHeadingProps(props);
+        return (
+          <Heading tag="h4" id={headingId}>
+            <a id={linkId} href={href} aria-hidden="true" tabIndex={-1}>
+              {linkChildren}
+            </a>
+            {headingProps}
+          </Heading>
+        );
+      },
+      h5: (props: HeadingComponentProps) => {
+        const { linkChildren, linkId, headingProps, headingId, href } = getHeadingProps(props);
+        return (
+          <Heading tag="h5" id={headingId}>
+            <a id={linkId} href={href} aria-hidden="true" tabIndex={-1}>
+              {linkChildren}
+            </a>
+            {headingProps}
+          </Heading>
+        );
+      },
+      h6: (props: HeadingComponentProps) => {
+        const { linkChildren, linkId, headingProps, headingId, href } = getHeadingProps(props);
+        return (
+          <Heading tag="h6" id={headingId}>
+            <a id={linkId} href={href} aria-hidden="true" tabIndex={-1}>
+              {linkChildren}
+            </a>
+            {headingProps}
+          </Heading>
+        );
+      },
       p: (props: ComponentProps) => <Paragraph {...props} />,
       a: (props: LinkComponentProps) => <Link {...props} />,
       blockquote: (props: ComponentProps) => <Blockquote {...props} />,

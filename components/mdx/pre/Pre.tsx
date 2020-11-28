@@ -6,7 +6,7 @@ type PreProps = {
 };
 
 const Pre = memo(({ children }: PreProps) => {
-  return <pre className={styles.pre}>{children}</pre>;
+  return <pre tabIndex={0} className={styles.pre}>{children}</pre>;
 });
 
 export default Pre;
