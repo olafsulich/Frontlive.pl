@@ -1,11 +1,13 @@
 import { MouseEvent, FormEvent, useState, ChangeEvent } from 'react';
 import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
+import Loader from './loader/Loader';
 
 const NewsletterForm = () => {
   const [inputValue, setInputValue] = useState('');
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
+  const [isLoading, setLoadingState] = useState(true);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -15,6 +17,7 @@ const NewsletterForm = () => {
     e: MouseEvent<HTMLButtonElement, MouseEvent> | FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
+    setLoadingState(true);
 
     const res = await fetch('/api/subscribe', {
       body: JSON.stringify({
@@ -31,9 +34,11 @@ const NewsletterForm = () => {
     if (error) {
       setTitle('Wystąpił błąd');
       setStatus('error');
+      setLoadingState(false);
       return;
     }
 
+    setLoadingState(false);
     setTitle('Sukces!');
     setStatus('success');
   };
@@ -54,8 +59,8 @@ const NewsletterForm = () => {
         aria-invalid={status === 'error'}
       />
       <div className={styles.buttonWrapper}>
-        <button className={cn(styles.button, styles[status])}>
-          <span>{title}</span>
+        <button disabled={isLoading} className={cn(styles.button, styles[status])}>
+          {isLoading ? <Loader /> : <span>{title}</span>}
         </button>
       </div>
     </form>

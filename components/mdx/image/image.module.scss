@@ -2,4 +2,8 @@
 
 .image {
   width: 100%;
+
+  @include mediaquery('lg') {
+    border-radius: 10px;
+  }
 }
