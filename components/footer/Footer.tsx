@@ -16,7 +16,7 @@ const Footer = () => {
             frontendu, zdobądź dostęp do <Sparkles>dodatkowych materiałów</Sparkles> i bierz udział
             w konkursach z nagrodami!
           </p>
-          <NewsletterForm />
+          <NewsletterForm id="footerNewsletter" />
           <SocialLinks />
         </div>
       </footer>

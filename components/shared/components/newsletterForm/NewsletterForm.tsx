@@ -3,11 +3,15 @@ import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
 import Loader from './loader/Loader';
 
-const NewsletterForm = () => {
+type NewsletterFormProps = {
+  id: string;
+};
+
+const NewsletterForm = ({ id = 'email' }: NewsletterFormProps) => {
   const [inputValue, setInputValue] = useState('');
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
-  const [isLoading, setLoadingState] = useState(true);
+  const [isLoading, setLoadingState] = useState(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -45,13 +49,13 @@ const NewsletterForm = () => {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit}>
-      <label htmlFor="email" className="visually-hidden">
+      <label htmlFor={id} className="visually-hidden">
         Twój adres email
       </label>
       <input
         type="email"
         required
-        id="email"
+        id={id}
         placeholder="Adres email"
         value={inputValue}
         className={styles.input}
