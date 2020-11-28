@@ -3,7 +3,7 @@ import styles from './workshop.module.scss';
 
 const Workshop = memo(() => {
   return (
-    <article className={styles.wrapper}>
+    <aside className={styles.wrapper}>
       <div className={styles.textWrapper}>
         <div className={styles.info}>
           <h2 className={styles.heading}>
@@ -12,9 +12,8 @@ const Workshop = memo(() => {
           </h2>
         </div>
         <p className={styles.text}>
-          Earlier this year, I developed Cubital Tunnel Syndrome, a repetitive-strain injury, in
-          both of my elbows. As a result, I pretty much can't use a mouse or keyboard; after a few
-          minutes, I get a burning pain shooting down my arms.
+          Darmowy kurs frameworka Gatsby i JamStack przygotowany we współpracy z Przeprogramowanymi.
+          Zaczynamy od pustej strony, a kończymy na pełnoprawnej aplikacji!
         </p>
         <div className={styles.linkWrapper}>
           <a
@@ -29,7 +28,7 @@ const Workshop = memo(() => {
         </div>
       </div>
       <img src="/images/gatsby-cta.png" alt="" className={styles.logo} />
-    </article>
+    </aside>
   );
 });
 

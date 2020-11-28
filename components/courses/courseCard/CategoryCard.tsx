@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, ReactElement } from 'react';
 import Link, { LinkProps } from 'next/link';
 import cn from 'classnames';
 import styles from './categoryCard.module.scss';

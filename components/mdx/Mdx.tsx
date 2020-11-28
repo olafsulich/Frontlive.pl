@@ -31,6 +31,9 @@ const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
           </Heading>
         </header>
         {content}
+        <Heading tag="h2" variant="secondary">
+          Opublikowane
+        </Heading>
       </div>
     </article>
   );

@@ -13,6 +13,10 @@ body {
   width: 100%;
 }
 
+[data-whatintent='mouse'] *:focus {
+  outline: none;
+}
+
 .visually-hidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -45,7 +49,7 @@ button {
   margin-left: -3.2rem;
   padding-right: 1em;
   padding-left: 2.4rem;
-  border-left: 4px solid #5263f2;
+  border-left: 4px solid #ff39a8;
   padding-top: 5px;
   padding-bottom: 5px;
 }

@@ -1,18 +1,18 @@
-import { memo } from 'react';
+import { memo, ReactElement } from 'react';
 import Link, { LinkProps } from 'next/link';
 import cn from 'classnames';
 import styles from './categoryCard.module.scss';
 
 type CardVariant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 
-type CategoryCardProps = {
+type CoursesCardProps = {
   title: string;
   path: LinkProps['href'];
   variant: CardVariant;
   image: string;
 };
 
-const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, image }) => {
+const CoursesCard = memo<CoursesCardProps>(({ title, path, variant, image }) => {
   return (
     <article className={cn(styles.wrapper, styles[variant])}>
       <Link href={path}>
@@ -25,4 +25,4 @@ const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, image }) =
   );
 });
 
-export default CategoryCard;
+export default CoursesCard;

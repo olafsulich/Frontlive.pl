@@ -1,25 +1,31 @@
 const path = require('path');
-const readingTime = require('reading-time');
-const mdxPrism = require('mdx-prism');
-const withMdxEnhanced = require('next-mdx-enhanced');
-const remarkAutoLinkHeadings = require('remark-autolink-headings');
-const remarkSlug = require('remark-slug');
-const remarkCodeTitles = require('remark-code-titles');
+require('what-input');
 
-module.exports = {
-  // remarkPlugins: [remarkAutoLinkHeadings, remarkSlug, remarkCodeTitles],
-  // rehypePlugins: [mdxPrism],
-  // extendFrontMatter: {
-  //   process: (mdxContent) => ({
-  //     wordCount: mdxContent.split(/\s+/gu).length,
-  //     readingTime: readingTime(mdxContent),
-  //   }),
-  // },
+const withPolyfills = (module.exports = (nextConfig = {}) => {
+  return Object.assign({}, nextConfig, {
+    webpack(config, options) {
+      const originalEntry = config.entry;
+      config.entry = function entry() {
+        return Promise.resolve(originalEntry()).then((entries) => {
+          if (entries['main.js'] && !entries['main.js'].includes('./polyfills.ts')) {
+            entries['main.js'].unshift('./polyfills.ts');
+          }
+
+          return entries;
+        });
+      };
+
+      if (typeof nextConfig.webpack === 'function') {
+        return nextConfig.webpack(config, options);
+      }
+
+      return config;
+    },
+  });
+});
+
+module.exports = withPolyfills({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  env: {
-    MAILCHIMP_LIST_ID: process.env.MAILCHIMP_LIST_ID,
-    MAILCHIMP_API_KEY: process.env.MAILCHIMP_API_KEY,
-  },
-};
+});
