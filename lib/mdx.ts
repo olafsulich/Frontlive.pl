@@ -9,6 +9,7 @@ import mdxPrism from 'mdx-prism';
 import Sparkles from '../components/shared/components/sparkles/Sparkles';
 import slugify from 'slugify';
 import dayjs from 'dayjs';
+import Player from '../components/mdx/player/Player';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const MDX_PATTERN = /\.mdx?$/;
@@ -34,7 +35,7 @@ type Post = {
   popular: boolean;
 };
 
-export const customMdxComponents = { Sparkles: Sparkles };
+export const customMdxComponents = { Sparkles: Sparkles, Player: Player };
 
 const transformMdx = async (content: string, frontmatter: Frontmatter) => {
   return await renderToString(content, {
