@@ -14,20 +14,19 @@ html {
 body {
   font-family: 'Inter', sans-serif;
 }
-
 @font-face {
   font-family: 'Criteria';
-  src: url('/fonts/CriteriaCFBold.woff'), url('/fonts/CriteriaCFBold.ttf'),
-    url('/fonts/CriteriaCFBold.otf');
+  src: url('/fonts/CriteriaCFBold.woff') format('woff'),
+    url('/fonts/CriteriaCFBold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  // font-display: swap;
 }
 @font-face {
   font-family: 'Criteria Demi';
-  src: url('/fonts/CriteriaCFDemibold.woff'), url('/fonts/CriteriaCFDemibold.ttf'),
-    url('/fonts/CriteriaCFDemibold.otf');
+  src: url('/fonts/CriteriaCFDemibold.woff') format('woff'),
+    url('/fonts/CriteriaCFDemibold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  // font-display: swap;
 }
