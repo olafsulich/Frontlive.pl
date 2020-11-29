@@ -13,6 +13,7 @@
   position: absolute;
   top: 5rem;
   left: 0;
+  z-index: 1000;
 
   @include mediaquery('lg') {
     display: flex;
