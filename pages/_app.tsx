@@ -26,24 +26,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="apple-mobile-web-app-title" content="Frontlive.pl" />
       </Head>
       <Component {...pageProps} />
-      <style jsx global>{`
-        @font-face {
-          font-family: 'Criteria';
-          src: url('/fonts/CriteriaCFBold.woff') format('woff'),
-            url('/fonts/CriteriaCFBold.ttf') format('truetype');
-          font-weight: bold;
-          font-style: normal;
-          font-display: swap;
-        }
-        @font-face {
-          font-family: 'Criteria Demi';
-          src: url('/fonts/CriteriaCFDemibold.woff') format('woff'),
-            url('/fonts/CriteriaCFDemibold.ttf') format('truetype');
-          font-weight: normal;
-          font-style: normal;
-          font-display: swap;
-        }
-      `}</style>
     </MdxCompProvider>
   );
 }
