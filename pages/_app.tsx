@@ -1,7 +1,10 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
+import Router from 'next/router';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 import '../styles/main.scss';
 import MdxCompProvider from '../components/mdx/provider/MdxProvider';
 
@@ -13,6 +16,10 @@ if (!isProduction && isBrowser) {
   const AXE_DELAY = 1000;
   axe(React, ReactDOM, AXE_DELAY);
 }
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
