@@ -36,7 +36,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         }
         @font-face {
           font-family: 'Criteria Demi';
-          src: url('/fonts/CriteriaCFDemiBold.otf');
+          src: url('/fonts/CriteriaCFDemibold.otf');
           font-weight: normal;
           font-style: normal;
           font-display: swap;
