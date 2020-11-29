@@ -26,7 +26,7 @@ export default function Blog({ posts }: InferGetStaticPropsType<typeof getStatic
       <Layout>
         <Navigation />
         <main className={styles.wrapper}>
-          <PostsListing posts={posts}>
+          <PostsListing headingTag="h2" posts={posts}>
             <Heading tag="h1" variant="primary" className={styles.heading}>
               Artykuły
             </Heading>

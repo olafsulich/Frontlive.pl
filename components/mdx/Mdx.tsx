@@ -3,17 +3,19 @@ import Heading from 'components/shared/components/heading/Heading';
 import styles from './mdx.module.scss';
 import Link from 'next/link';
 import slugify from 'slugify';
+import Footer from './footer/Footer';
 
 type MdxProps = {
   frontmatter: {
     title: string;
     category: string;
+    publishedAt: string;
   };
   content: string;
 };
 
 const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
-  const { title, category } = frontmatter;
+  const { title, category, publishedAt } = frontmatter;
   const pathToCategory = slugify(category, { lower: true });
 
   return (
@@ -31,9 +33,7 @@ const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
           </Heading>
         </header>
         {content}
-        <Heading tag="h2" variant="secondary">
-          Opublikowane
-        </Heading>
+        <Footer publishedAt={publishedAt} />
       </div>
     </article>
   );

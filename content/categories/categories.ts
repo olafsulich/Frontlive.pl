@@ -27,10 +27,10 @@ export const categories: Category[] = [
     variant: 'orange',
   },
   {
-    title: 'Gatsby',
-    path: 'gatsby',
-    image: '/images/gatsby.png',
-    variant: 'purple',
+    title: 'Dostępność',
+    path: 'accessibility',
+    image: '/images/a11y.png',
+    variant: 'black',
   },
   {
     title: 'Webpack',
@@ -38,12 +38,7 @@ export const categories: Category[] = [
     image: '/images/webpack.png',
     variant: 'blue',
   },
-  {
-    title: 'Dostępność',
-    path: 'accessibility',
-    image: '/images/a11y.png',
-    variant: 'black',
-  },
+
   {
     title: 'JavaScript',
     path: 'javascript',

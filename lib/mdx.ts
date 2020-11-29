@@ -58,8 +58,8 @@ export const getPostBySlug = async (slug: string) => {
 
 const sortPostsByNewest = (posts: Post[]) => {
   return posts.sort((a, b) => {
-    const dateA = dayjs(a.publishedAt, 'YYYY-MM-DD');
-    const dateB = dayjs(b.publishedAt, 'YYYY-MM-DD');
+    const dateA = dayjs(a.publishedAt, 'DD-MM-YYYY');
+    const dateB = dayjs(b.publishedAt, 'DD-MM-YYYY');
     if (dateA.isBefore(dateB)) {
       return 1;
     }
