@@ -16,6 +16,7 @@ type Params = {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const posts = await getPostsByCategory(params!.slug as string);
+  console.log(params!.slug as string);
 
   return {
     props: {
@@ -30,6 +31,8 @@ export const getStaticPaths = async () => {
   const paths = posts.map(({ category }) => ({
     params: { slug: slugify(category, { lower: true }) },
   }));
+
+  console.log(paths);
 
   return {
     paths,
