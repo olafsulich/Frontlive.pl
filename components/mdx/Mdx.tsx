@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useRouter } from 'next/router';
 import Heading from 'components/shared/components/heading/Heading';
 import styles from './mdx.module.scss';
 import Link from 'next/link';
@@ -17,7 +18,7 @@ type MdxProps = {
 const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
   const { title, category, publishedAt } = frontmatter;
   const pathToCategory = slugify(category, { lower: true });
-
+  const router = useRouter();
   return (
     <article className={styles.wrapper}>
       <div className={styles.content}>
@@ -33,7 +34,7 @@ const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
           </Heading>
         </header>
         {content}
-        <Footer publishedAt={publishedAt} />
+        <Footer publishedAt={publishedAt} title={title} url={router.query.slug as string} />
       </div>
     </article>
   );

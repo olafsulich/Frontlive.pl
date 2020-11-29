@@ -1,9 +1,17 @@
+@import 'common';
+
 .container {
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-direction: column;
   margin: 3rem auto;
+
+  @include mediaquery('xs') {
+    align-items: center;
+    flex-direction: row;
+  }
 }
 
 .wrapper {
@@ -11,6 +19,15 @@
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
+  margin-bottom: 3rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  @include mediaquery('xs') {
+    margin-bottom: 0;
+  }
 }
 
 .heading {
@@ -28,19 +45,4 @@
   color: #21232c;
   margin: 0;
   padding: 0;
-}
-
-.share {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.link {
-  margin-right: 2.5rem;
-
-  &:last-of-type {
-    margin-right: 0;
-  }
 }

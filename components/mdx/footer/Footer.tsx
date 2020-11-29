@@ -3,17 +3,17 @@ import styles from './footer.module.scss';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pl';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import TwitterIcon from '../../../public/icons/twitter.svg';
-import FacebookIcon from '../../../public/icons/facebook.svg';
-import LinkedInIcon from '../../../public/icons/linkedin.svg';
+import Share from './share/Share';
 
 dayjs.extend(localizedFormat);
 
 type FooterProps = {
   publishedAt: string;
+  url: string;
+  title: string;
 };
 
-const Footer = memo(({ publishedAt }: FooterProps) => {
+const Footer = memo(({ publishedAt, url, title }: FooterProps) => {
   const formattedDate = dayjs(publishedAt).locale('pl').format('LL');
   return (
     <footer className={styles.container}>
@@ -25,35 +25,7 @@ const Footer = memo(({ publishedAt }: FooterProps) => {
       </div>
       <div className={styles.wrapper}>
         <h2 className={styles.heading}>Udostępnij</h2>
-        <div className={styles.share}>
-          <a
-            href="https://www.linkedin.com/in/olaf-sulich"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            <span className="visually-hidden">Profil LinkedIn</span>
-            <TwitterIcon className={styles.icon} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/olaf-sulich"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            <span className="visually-hidden">Profil LinkedIn</span>
-            <FacebookIcon className={styles.icon} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/olaf-sulich"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            <span className="visually-hidden">Profil LinkedIn</span>
-            <LinkedInIcon className={styles.icon} />
-          </a>
-        </div>
+        <Share title={title} url={url}/>
       </div>
     </footer>
   );
