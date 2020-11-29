@@ -12,7 +12,7 @@ const Hero = () => {
             Witaj na blogu! Piszę głównie o tematach związanych z frontendem, mam nadzieję, że
             znajdziesz tutaj coś dla siebie.
           </p>
-          <NewsletterForm />
+          <NewsletterForm id="email" />
           <SocialLinks />
         </div>
       </div>

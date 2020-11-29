@@ -49,6 +49,8 @@
   font-size: 1.6rem;
   color: #ff0a78;
   padding: 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 
   @include mediaquery('sm') {
     margin-bottom: 1rem;
