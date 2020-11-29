@@ -29,14 +29,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <style jsx global>{`
         @font-face {
           font-family: 'Criteria';
-          src: url('/fonts/CriteriaCFBold.otf');
+          src: url('/fonts/CriteriaCFBold.woff'), url('/fonts/CriteriaCFBold.ttf'),
+            url('/fonts/CriteriaCFBold.otf');
           font-weight: bold;
           font-style: normal;
           font-display: swap;
         }
         @font-face {
           font-family: 'Criteria Demi';
-          src: url('/fonts/CriteriaCFDemibold.otf');
+          src: url('/fonts/CriteriaCFDemibold.woff'), url('/fonts/CriteriaCFDemibold.ttf'),
+            url('/fonts/CriteriaCFDemibold.otf');
           font-weight: normal;
           font-style: normal;
           font-display: swap;

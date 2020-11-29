@@ -15,6 +15,8 @@ class MyDocument extends Document {
         itemType="http://schema.org/WebPage"
       >
         <Head>
+          <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />
+          <link rel="preload" href="/fonts/CriteriaCFDemibold.otf" as="font" crossOrigin="" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             rel="preload"
@@ -26,8 +28,6 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@600&display=swap"
             as="stylesheet"
           />
-          <link rel="preload" href="/fonts/CriteriaCFBold.otf" as="font" crossOrigin="" />
-          <link rel="preload" href="/fonts/CriteriaCFDemiBold.otf" as="font" crossOrigin="" />
           <link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png" />
           <link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png" />
           <link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png" />

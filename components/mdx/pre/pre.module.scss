@@ -1,10 +1,22 @@
 @import 'common';
 
+.wrapper {
+  overflow: auto;
+  width: 100%;
+  // max-width: 80rem;
+  // align-self: center;
+  // justify-self: center;
+  // grid-column: 1 / 4 !important;
+  // padding: 3.2rem;
+  margin: 4rem 0;
+}
 .pre[class*='language-'],
 .pre {
+  overflow-x: scroll;
   font-size: 1.7rem;
   line-height: 1.7;
   width: 100%;
+  height: 100%;
   max-width: 80rem;
   align-self: center;
   justify-self: center;
@@ -13,19 +25,18 @@
   background: #f5f6f9;
   border: none;
   color: #2a2a2a;
-
   tab-size: 2;
+  // min-width: 100%;
   hyphens: none;
   direction: ltr;
   text-align: left;
   white-space: pre;
-  overflow-wrap: break-word;
-  word-spacing: normal;
-  word-break: keep-all;
-  overflow-x: scroll;
+  // overflow-wrap: break-word;
+  // word-spacing: normal;
+  // word-break: keep-all;
+  // overflow: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-  margin: 4rem 0;
 
   &::-webkit-scrollbar {
     height: 8px;
