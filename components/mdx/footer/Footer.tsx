@@ -19,7 +19,7 @@ const Footer = memo(({ publishedAt, url, title }: FooterProps) => {
     <footer className={styles.container}>
       <section className={styles.wrapper}>
         <h2 className={styles.heading}>Data dodania</h2>
-        <time className={styles.text}>{formattedDate}</time>
+        <p className={styles.text}>{formattedDate}</p>
       </section>
       <section className={styles.wrapper}>
         <h2 className={styles.heading}>Udostępnij</h2>
