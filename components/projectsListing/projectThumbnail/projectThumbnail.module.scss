@@ -6,7 +6,7 @@
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 8rem;
+  margin-bottom: 15rem;
 }
 
 .index {
@@ -50,7 +50,11 @@
 
 .link {
   font-size: 1.8rem;
-  color: #0ea5e9;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
 
   @include mediaquery('lg') {
     font-size: 2.2rem;
@@ -58,6 +62,38 @@
 
   @include mediaquery('xl') {
     font-size: 2.4rem;
+  }
+
+  &-blue {
+    color: #0ea5e9;
+  }
+  &-green {
+    color: #4ade80;
+  }
+  &-yellow {
+    color: #facc15;
+  }
+}
+
+.icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-left: 2rem;
+
+  &-blue {
+    path {
+      fill: #0ea5e9;
+    }
+  }
+  &-green {
+    path {
+      fill: #4ade80;
+    }
+  }
+  &-yellow {
+    path {
+      fill: #facc15;
+    }
   }
 }
 
@@ -73,14 +109,15 @@
 
 .technologies {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   background: #fff;
   list-style: none;
-  width: 30rem;
+  width: 45rem;
   border-radius: 8px;
+  z-index: 2;
 }
 
 .technology {
@@ -88,13 +125,16 @@
   color: #000;
   font-size: 2rem;
   margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .image {
   width: 70%;
   position: absolute;
-  right: -10rem;
-  top: 5rem;
+  right: -5rem;
+  top: 2rem;
 }
 
 .blue {

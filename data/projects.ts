@@ -24,7 +24,7 @@ export const projects: Project[] = [
     excerpt:
       'Utility classes help you work within the constraints of a system instead of littering your stylesheets with arbitrary values. They make it easy to be consistent with color choices, spacing, typography, shadows, and everything else that makes up a well-engineered design system.',
     path: 'second',
-    image: '/images/devfeedback.png',
+    image: '/images/use-haki.png',
     variant: 'green',
     technologies: ['Next.js(React)', 'TypeScript', 'Express', 'Prisma 2.0', 'PostgreSQL'],
   },
@@ -33,7 +33,7 @@ export const projects: Project[] = [
     excerpt:
       'Utility classes help you work within the constraints of a system instead of littering your stylesheets with arbitrary values. They make it easy to be consistent with color choices, spacing, typography, shadows, and everything else that makes up a well-engineered design system.',
     path: 'third',
-    image: '/images/devfeedback.png',
+    image: '/images/projecty.png',
     variant: 'yellow',
     technologies: ['Next.js(React)', 'TypeScript', 'Express', 'Prisma 2.0', 'PostgreSQL'],
   },

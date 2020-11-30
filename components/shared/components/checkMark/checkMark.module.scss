@@ -1,0 +1,41 @@
+.wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 2.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 2rem;
+
+  svg {
+    margin-bottom: 6px;
+  }
+}
+
+.blue {
+  background: rgba(34, 211, 238, 0.3);
+  svg path {
+    fill: #0ea5e9;
+  }
+}
+
+.green {
+  background: rgba(74, 222, 128, 0.3);
+  svg path {
+    fill: #06b6d4;
+  }
+}
+
+.yellow {
+  background: rgba(250, 204, 21, 0.3);
+  svg path {
+    fill: #f97316;
+  }
+}
+
+.purple {
+  background: rgba(217, 70, 239, 0.3);
+  svg path {
+    fill: #9333ea;
+  }
+}
