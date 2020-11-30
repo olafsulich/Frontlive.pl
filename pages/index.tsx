@@ -8,7 +8,7 @@ import Navigation from '../components/navigation/Navigation';
 import Heading from 'components/shared/components/heading/Heading';
 import Footer from 'components/footer/Footer';
 import { getNewestPosts, getPopularPosts } from 'lib/mdx';
-import { categories } from '../content/categories/categories';
+import { categories } from '../data/categories';
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();

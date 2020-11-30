@@ -6,7 +6,7 @@ import styles from './kategorie.module.scss';
 import Courses from 'components/categories/Categories';
 import Footer from 'components/footer/Footer';
 import Workshop from '../components/workshop/Workshop';
-import { categories } from '../content/categories/categories';
+import { categories } from '../data/categories';
 
 export default function Kategorie() {
   return (
