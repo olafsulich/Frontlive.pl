@@ -5,6 +5,7 @@ import styles from './mdx.module.scss';
 import Link from 'next/link';
 import slugify from 'slugify';
 import Footer from './footer/Footer';
+import cn from 'classnames';
 
 type PostFrontmatter = {
   title: string;
@@ -23,9 +24,14 @@ type MdxProps = {
 
 const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
   const { title } = frontmatter;
+  const isPost = 'category' in frontmatter;
   const router = useRouter();
   return (
-    <article className={styles.wrapper}>
+    <article
+      className={cn(styles.wrapper, {
+        [styles.projectWrapper]: !isPost,
+      })}
+    >
       <div className={styles.content}>
         <header className={styles.header}>
           {'category' in frontmatter ? (

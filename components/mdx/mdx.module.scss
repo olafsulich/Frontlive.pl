@@ -14,6 +14,12 @@
   }
 }
 
+.projectWrapper {
+  @include mediaquery('sm') {
+    margin-top: 8rem;
+  }
+}
+
 .heading {
   font-size: 2.8rem;
   text-align: center;
