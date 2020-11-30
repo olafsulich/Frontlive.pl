@@ -33,6 +33,13 @@
   }
 }
 
+.orange {
+  background: rgba(251, 146, 60, 0.3);
+  svg path {
+    fill: #db2777;
+  }
+}
+
 .purple {
   background: rgba(217, 70, 239, 0.3);
   svg path {
