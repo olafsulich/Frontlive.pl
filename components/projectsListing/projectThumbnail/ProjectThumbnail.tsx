@@ -33,13 +33,13 @@ const ProjectThumbnail = memo<ProjectThumbnailProps>(
         <div className={cn(styles.info, styles[variant])}>
           <ul className={styles.technologies} aria-label="Technologie wykorzystane w projekcie">
             {technologies.map((technology) => (
-              <li className={styles.technology}>
+              <li className={styles.technology} key={technology}>
                 <CheckMark variant={variant} />
                 {technology}
               </li>
             ))}
           </ul>
-          <img src={image} className={styles.image} />
+          <img src={image} className={styles.image} alt="" />
         </div>
       </article>
     );

@@ -1,3 +1,4 @@
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import Layout from '../components/layout/Layout';
 import React from 'react';
 import Navigation from '../components/navigation/Navigation';
@@ -5,8 +6,9 @@ import Heading from 'components/shared/components/heading/Heading';
 import styles from './portfolio.module.scss';
 import Footer from 'components/footer/Footer';
 import Workshop from '../components/workshop/Workshop';
-import { projects } from '../data/projects';
+// import { projects } from '../data/projects';
 import ProjectsListing from '../components/projectsListing/ProjectsListing';
+import { getAllProjects } from 'lib/mdx';
 
 type Variant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 
@@ -19,7 +21,19 @@ type Project = {
   technologies: string[];
 };
 
-export default function Kategorie() {
+export const getStaticProps: GetStaticProps = async () => {
+  const projects = getAllProjects();
+
+  return {
+    props: {
+      projects,
+    },
+    revalidate: 1,
+  };
+};
+
+export default function Portfolio({ projects }: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log(projects);
   return (
     <>
       <Layout>

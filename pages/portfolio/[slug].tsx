@@ -1,6 +1,6 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import hydrate from 'next-mdx-remote/hydrate';
-import { getPostBySlug, getPostsPaths } from 'lib/mdx';
+import { getProjectBySlug, getProjectsPaths } from 'lib/mdx';
 import Layout from 'components/layout/Layout';
 import Navigation from 'components/navigation/Navigation';
 import Mdx from '../../components/mdx/Mdx';
@@ -10,7 +10,7 @@ import Sparkles from '../../components/shared/components/sparkles/Sparkles';
 import Player from '../../components/mdx/player/Player';
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
-  const { transformedMdx, frontmatter } = await getPostBySlug(params.slug);
+  const { transformedMdx, frontmatter } = await getProjectBySlug(params.slug);
 
   return {
     props: {
@@ -22,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = getPostsPaths();
+  const paths = getProjectsPaths();
 
   return {
     paths,

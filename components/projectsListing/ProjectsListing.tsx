@@ -7,7 +7,7 @@ type Variant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 type Project = {
   title: string;
   excerpt: string;
-  path: string;
+  slug: string;
   image: string;
   variant: Variant;
   technologies: string[];
@@ -21,13 +21,13 @@ const ProjectsListing = memo(({ projects }: ProjectsListingProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.projectsWrapper}>
-        {projects.map(({ title, excerpt, path, image, variant, technologies }, i) => (
+        {projects.map(({ title, excerpt, slug, image, variant, technologies }, i) => (
           <ProjectThumbnail
             key={title}
             index={i + 1}
             title={title}
             excerpt={excerpt}
-            path={path}
+            path={slug}
             image={image}
             variant={variant}
             technologies={technologies}

@@ -12,13 +12,18 @@ import dayjs from 'dayjs';
 import Player from '../components/mdx/player/Player';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
+const PROJECTS_PATH = path.join(process.cwd(), 'content/projects');
 const MDX_PATTERN = /\.mdx?$/;
 
 export function getPostsSlugs() {
   return fs.readdirSync(POSTS_PATH).filter((path) => MDX_PATTERN.test(path));
 }
 
-type Frontmatter = {
+export function getProjectsSlugs() {
+  return fs.readdirSync(PROJECTS_PATH).filter((path) => MDX_PATTERN.test(path));
+}
+
+type PostFrontmatter = {
   title: string;
   category: string;
   publishedAt: string;
@@ -35,9 +40,29 @@ type Post = {
   popular: boolean;
 };
 
+type Variant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
+
+type ProjectFrontmatter = {
+  title: string;
+  excerpt: string;
+  path: string;
+  image: string;
+  variant: Variant;
+  technologies: string[];
+};
+
+type Project = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  variant: Variant;
+  technologies: string[];
+};
+
 export const customMdxComponents = { Sparkles: Sparkles, Player: Player };
 
-const transformMdx = async (content: string, frontmatter: Frontmatter) => {
+const transformMdx = async (content: string, frontmatter: PostFrontmatter | ProjectFrontmatter) => {
   return await renderToString(content, {
     components: customMdxComponents,
     mdxOptions: {
@@ -52,7 +77,15 @@ export const getPostBySlug = async (slug: string) => {
   const postFilePath = path.join(POSTS_PATH, `${slug}.mdx`);
   const source = fs.readFileSync(postFilePath);
   const { content, data: frontmatter } = matter(source);
-  const transformedMdx = await transformMdx(content, frontmatter as Frontmatter);
+  const transformedMdx = await transformMdx(content, frontmatter as PostFrontmatter);
+  return { transformedMdx, frontmatter };
+};
+
+export const getProjectBySlug = async (slug: string) => {
+  const projectFilePath = path.join(PROJECTS_PATH, `${slug}.mdx`);
+  const source = fs.readFileSync(projectFilePath);
+  const { content, data: frontmatter } = matter(source);
+  const transformedMdx = await transformMdx(content, frontmatter as ProjectFrontmatter);
   return { transformedMdx, frontmatter };
 };
 
@@ -68,6 +101,24 @@ const sortPostsByNewest = (posts: Post[]) => {
     }
     return 0;
   });
+};
+
+export const getAllProjects = () => {
+  const fileNames = fs.readdirSync(PROJECTS_PATH);
+
+  const allProjects = fileNames.map(
+    (filename: string): Project => {
+      const slug = filename.replace(MDX_PATTERN, '');
+      const fullPath = path.join(PROJECTS_PATH, filename);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const { data: frontmatter } = matter(fileContents);
+      const { title, excerpt, image, variant, technologies } = frontmatter;
+
+      return { slug, title, excerpt, image, variant, technologies };
+    },
+  );
+
+  return allProjects;
 };
 
 export const getAllPosts = () => {
@@ -122,4 +173,12 @@ export const getPostsPaths = () => {
     .map((path) => path.replace(MDX_PATTERN, ''))
     .map((slug) => ({ params: { slug } }));
   return postsPaths;
+};
+
+export const getProjectsPaths = () => {
+  const projectsSlugs = getProjectsSlugs();
+  const projectsPaths = projectsSlugs
+    .map((path) => path.replace(MDX_PATTERN, ''))
+    .map((slug) => ({ params: { slug } }));
+  return projectsPaths;
 };
