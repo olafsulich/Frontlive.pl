@@ -1,3 +1,5 @@
+@import 'common';
+
 .wrapper {
   width: 100%;
 }
@@ -5,4 +7,21 @@
 .heading {
   color: #5263f2;
   line-height: 1.5;
+}
+
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+
+  @include mediaquery('lg') {
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  }
+
+  @include mediaquery('xl') {
+    grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+  }
+
+  @include mediaquery('xxl') {
+    grid-template-columns: repeat(auto-fit, minmax(29rem, 1fr));
+  }
 }

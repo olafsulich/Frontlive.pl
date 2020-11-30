@@ -6,14 +6,6 @@
   @include mediaquery('sm') {
     margin-top: 10rem;
   }
-
-  @include mediaquery('lg') {
-    margin-top: 12rem;
-  }
-
-  @include mediaquery('xl') {
-    margin-top: 14rem;
-  }
 }
 
 .heading {

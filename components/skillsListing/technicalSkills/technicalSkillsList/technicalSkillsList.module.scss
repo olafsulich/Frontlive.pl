@@ -1,3 +1,5 @@
+@import 'common';
+
 .wrapper {
   width: 100%;
   margin-bottom: 6rem;
@@ -6,6 +8,14 @@
 .heading {
   color: #21232c;
   font-size: 1.6rem;
+
+  @include mediaquery('lg') {
+    font-size: 1.8rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2rem;
+  }
 }
 
 .list {
@@ -23,5 +33,15 @@
 
   &:last-of-type {
     margin-bottom: 0;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 1.8rem;
+    margin-bottom: 3rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2rem;
+    margin-bottom: 4rem;
   }
 }

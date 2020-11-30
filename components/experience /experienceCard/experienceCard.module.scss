@@ -1,13 +1,27 @@
+@import 'common';
+
 .wrapper {
   width: 100%;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 3rem 0;
+
+  @include mediaquery('lg') {
+    margin: 5rem 0;
+  }
+
+  @include mediaquery('xl') {
+    margin: 8rem 0;
+  }
 }
 
 .imageWrapper {
   margin-right: 1rem;
+
+  @include mediaquery('sm') {
+    margin-right: 2rem;
+  }
 }
 
 .image {
@@ -17,6 +31,16 @@
   &::first-of-type {
     width: auto;
     height: auto;
+  }
+
+  @include mediaquery('sm') {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  @include mediaquery('lg') {
+    width: 5rem;
+    height: 5rem;
   }
 }
 
@@ -32,16 +56,39 @@
   line-height: 1.5;
   color: #21232c;
   margin: 0;
+
+  @include mediaquery('sm') {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 2rem;
+  }
 }
 
 .duration {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   margin: 0;
   color: #6b7280;
+
+  @include mediaquery('sm') {
+    font-size: 1.8rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 2rem;
+  }
 }
 
 .description {
   font-size: 1.4rem;
   line-height: 1.7;
   color: #21232c;
+  max-width: 57.6rem;
+
+  @include mediaquery('sm') {
+    font-size: 1.6rem;
+    line-height: 2;
+  }
 }

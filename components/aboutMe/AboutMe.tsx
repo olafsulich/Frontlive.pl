@@ -27,7 +27,11 @@ const AboutMe = () => (
         </p>
         <div className={styles.contact}>
           <SocialLinks />
-          <button>Kontakt</button>
+          <div className={styles.linkWrapper}>
+            <a className={styles.link} href="mailto:olafsulich@gmail.com">
+              <span>Napisz do mnie!</span>
+            </a>
+          </div>
         </div>
       </div>
       <img src="/images/me.png" alt="" className={styles.image} />
