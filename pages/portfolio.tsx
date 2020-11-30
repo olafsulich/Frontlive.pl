@@ -6,6 +6,7 @@ import styles from './kategorie.module.scss';
 import Footer from 'components/footer/Footer';
 import Workshop from '../components/workshop/Workshop';
 import { projects } from '../data/projects';
+import ProjectsListing from '../components/projectsListing/ProjectsListing';
 
 type Variant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 
@@ -27,9 +28,7 @@ export default function Kategorie() {
           <Heading tag="h1" variant="primary" className={styles.heading}>
             Portfolio
           </Heading>
-          {projects.map(({ title }: Project) => (
-            <h2 key={title}>title</h2>
-          ))}
+          <ProjectsListing projects={projects} />
         </main>
       </Layout>
       <Workshop />
