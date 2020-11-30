@@ -9,3 +9,39 @@
 .imageWrapper {
   margin-right: 1rem;
 }
+
+.image {
+  width: 3rem;
+  height: 3rem;
+
+  &::first-of-type {
+    width: auto;
+    height: auto;
+  }
+}
+
+.textWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: #21232c;
+  margin: 0;
+}
+
+.duration {
+  font-size: 1.4rem;
+  margin: 0;
+  color: #6b7280;
+}
+
+.description {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: #21232c;
+}
