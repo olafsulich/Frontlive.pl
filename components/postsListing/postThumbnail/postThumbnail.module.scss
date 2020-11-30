@@ -17,8 +17,14 @@
   flex-direction: column;
   text-decoration: none;
 
-  &:hover .heading {
-    color: #5263f2;
+  &:hover,
+  &:focus {
+    .heading {
+      color: #5263f2;
+    }
+    .icon {
+      opacity: 1;
+    }
   }
 }
 
@@ -61,5 +67,23 @@
     font-size: 1.8rem;
     line-height: 3rem;
     max-width: 100%;
+  }
+}
+
+.readMore {
+  font-weight: 600;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-left: 1rem;
+  transform: translateY(2px);
+
+  path {
+    fill: #5263f2;
   }
 }

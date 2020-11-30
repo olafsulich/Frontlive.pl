@@ -7,7 +7,6 @@
   justify-content: center;
   flex-direction: column;
   margin-bottom: 10rem;
-
   @include mediaquery('lg') {
     margin-bottom: 15rem;
   }
@@ -84,13 +83,22 @@
   &-yellow {
     color: #facc15;
   }
+
+  &:hover,
+  &:focus {
+    .icon {
+      opacity: 1;
+    }
+  }
 }
 
 .icon {
   width: 2.4rem;
   height: 2.4rem;
   margin-left: 1rem;
+  opacity: 0;
   transform: translateY(2px);
+  transition: opacity 0.3s;
 
   &-blue {
     path {
