@@ -67,12 +67,14 @@
 .text {
   color: #fff;
   font-size: 1.6rem;
-  line-height: 2.8rem;
+  line-height: 1.7;
   text-align: center;
   max-width: 47rem;
 
   @include mediaquery('lg') {
     text-align: left;
+    font-size: 1.8rem;
+    line-height: 1.8;
   }
 
   @include mediaquery('xl') {
