@@ -6,7 +6,6 @@ import Heading from 'components/shared/components/heading/Heading';
 import styles from './portfolio.module.scss';
 import Footer from 'components/footer/Footer';
 import Workshop from '../components/workshop/Workshop';
-// import { projects } from '../data/projects';
 import ProjectsListing from '../components/projectsListing/ProjectsListing';
 import { getAllProjects } from 'lib/mdx';
 
