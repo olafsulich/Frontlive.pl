@@ -1,0 +1,27 @@
+.wrapper {
+  width: 100%;
+  margin-bottom: 6rem;
+}
+
+.heading {
+  color: #21232c;
+  font-size: 1.6rem;
+}
+
+.list {
+  width: 100%;
+  list-style: none;
+  padding: 2rem 0 0 0;
+}
+
+.item {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 2.5rem;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
