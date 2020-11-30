@@ -5,9 +5,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-
   margin: 1rem 0;
-  //   padding: 0 10%;
 
   @include mediaquery('sm') {
     margin-top: 4rem;
