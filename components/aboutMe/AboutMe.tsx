@@ -1,7 +1,10 @@
 import styles from 'aboutMe.module.scss';
+import Experience from '../experience /Experience';
 import React from 'react';
 import Heading from '../shared/components/heading/Heading';
 import SocialLinks from '../shared/components/socialLinks/SocialLinks';
+import TechnicalSkills from '../skillsListing/technicalSkills/TechnicalSkills';
+import SoftSkills from '../skillsListing/softSkills/SoftSkills';
 
 const AboutMe = () => (
   <section className={styles.wrapper}>
@@ -29,6 +32,9 @@ const AboutMe = () => (
       </div>
       <img src="/image/me.png" alt="" className={styles.image} />
     </div>
+    <Experience />
+    <TechnicalSkills />
+    <SoftSkills />
   </section>
 );
 
