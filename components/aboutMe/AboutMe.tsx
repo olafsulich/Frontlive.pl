@@ -30,7 +30,7 @@ const AboutMe = () => (
           <button>Kontakt</button>
         </div>
       </div>
-      <img src="/image/me.png" alt="" className={styles.image} />
+      <img src="/images/me.png" alt="" className={styles.image} />
     </div>
     <Experience />
     <TechnicalSkills />

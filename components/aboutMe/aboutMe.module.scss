@@ -1,0 +1,29 @@
+.wrapper {
+  width: 100%;
+}
+
+.aboutWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text {
+  color: #6b7280;
+  font-size: 1.6rem;
+  line-height: 1.7;
+}
+
+.contact {
+  widows: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4rem 0;
+
+  div {
+    transform: translateY(0);
+  }
+}
