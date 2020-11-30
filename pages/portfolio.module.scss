@@ -1,0 +1,36 @@
+@import 'common';
+
+.wrapper {
+  margin-top: 5rem;
+
+  @include mediaquery('sm') {
+    margin-top: 10rem;
+  }
+
+  @include mediaquery('lg') {
+    margin-top: 12rem;
+  }
+
+  @include mediaquery('xl') {
+    margin-top: 14rem;
+  }
+}
+
+.heading {
+  font-size: 4rem;
+  margin-bottom: 4rem;
+
+  @include mediaquery('xs') {
+    font-size: 5rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 7rem;
+    margin-bottom: 6rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 8rem;
+    margin-bottom: 8rem;
+  }
+}
