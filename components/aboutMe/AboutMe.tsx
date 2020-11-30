@@ -1,4 +1,4 @@
-import styles from 'aboutMe.module.scss';
+import styles from './aboutMe.module.scss';
 import Experience from '../experience /Experience';
 import React from 'react';
 import Heading from '../shared/components/heading/Heading';
