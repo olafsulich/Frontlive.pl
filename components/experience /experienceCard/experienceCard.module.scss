@@ -91,4 +91,8 @@
     font-size: 1.6rem;
     line-height: 2;
   }
+
+  @include mediaquery('lg') {
+    font-size: 1.8rem;
+  }
 }

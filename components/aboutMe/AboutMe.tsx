@@ -5,6 +5,7 @@ import Heading from '../shared/components/heading/Heading';
 import SocialLinks from '../shared/components/socialLinks/SocialLinks';
 import TechnicalSkills from '../skillsListing/technicalSkills/TechnicalSkills';
 import SoftSkills from '../skillsListing/softSkills/SoftSkills';
+import Recommendations from '../recommendations/Recommendations';
 
 const AboutMe = () => (
   <section className={styles.wrapper}>
@@ -39,6 +40,7 @@ const AboutMe = () => (
     <Experience />
     <TechnicalSkills />
     <SoftSkills />
+    <Recommendations />
   </section>
 );
 

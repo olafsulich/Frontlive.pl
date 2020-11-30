@@ -1,0 +1,24 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+}
+
+.heading {
+  color: #4ade80;
+  line-height: 1.5;
+  margin-bottom: 8rem;
+}
+
+.recommendations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+
+  @include mediaquery('xl') {
+    grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+  }
+
+  @include mediaquery('xxl') {
+    grid-template-columns: repeat(auto-fit, minmax(50rem, 1fr));
+  }
+}
