@@ -2,6 +2,7 @@
 title: 'GraphQL + TypeScript - wygeneruj sobie typy!'
 category: 'GraphQL'
 publishedAt: '28-08-2020'
+isPublished: true
 popular: false
 excerpt: 'Lubimy zaoszczędzać czas, a jednocześnie zrobić coś dobrze. Tak samo jest w przypadku programowania. Poznaj GraphQL Code Generator - narzędzie, które zaoszczędza czas i zapewnia TypeScriptowe typy!'
 ---
@@ -14,7 +15,7 @@ Wracamy, po krótkiej przerwie do GraphQLa. Tym chciałbym Ci przybliżyć świe
 
 Zacznijmy od zainstalowania generatora:
 
-```terminal
+```bash
 npm install --save-dev @graphql-codegen/cli
 ```
 
@@ -34,7 +35,7 @@ Gdy instalacje mamy już za sobą, dodajmy odpowiedni skrypt do `package.json`:
 
 Stwórzmy plik `codegen.yml`:
 
-```terminal
+```bash
 touch codegen.yml
 ```
 
@@ -48,7 +49,7 @@ To tutaj dzieje się cała **magia**, możemy tutaj podać masę opcji, ale po
 
 Zacznijmy od podstawowego połączenia generatora z **TypeScriptem**, żeby całość działała musimy zainstalować odpowiedni **plugin**:
 
-```terminal
+```bash
 npm install --save-dev @graphql-codegen/typescript
 ```
 
@@ -81,7 +82,7 @@ W `schema` podaliśmy ścieżkę do naszego schematu, a w `generates` ustawiliś
 
 Wystarczy teraz, że odpalimy komendę `generate` i powinniśmy zobaczyć plik `generated.ts`:
 
-```terminal
+```bash
 npm run generate
 ```
 
@@ -141,7 +142,7 @@ fragment AnimalFields on Animal {
 
 Zainstalujmy odpowiedni **plugin** i zmodyfikujmy plik konfiguracyjny:
 
-```terminal
+```bash
 npm install --save-dev @graphql-codegen/typescript-operations
 ```
 
@@ -163,7 +164,7 @@ Wspominałem na początku, że za pomocą tego narzędzia możemy **wygenerować
 
 Zacznijmy od zainstalowania **pluginu**:
 
-```terminal
+```bash
 npm install --save-dev @graphql-codegen/typescript-react-apollo
 ```
 

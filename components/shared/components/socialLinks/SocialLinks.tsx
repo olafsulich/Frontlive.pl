@@ -2,6 +2,7 @@ import styles from './socialLinks.module.scss';
 import GitHubIcon from '../../../../public/icons/github.svg';
 import LinkedInIcon from '../../../../public/icons/linkedin.svg';
 import TwitterIcon from '../../../../public/icons/twitter.svg';
+import FacebookIcon from '../../../../public/icons/facebook.svg';
 import { SocialLink } from './socialLink/SocialLink';
 
 export const SocialLinks = () => {
@@ -21,6 +22,11 @@ export const SocialLinks = () => {
         href="https://twitter.com/sulich_olaf"
         icon={TwitterIcon}
         label="Konto na Twitterze"
+      />
+      <SocialLink
+        href="https://facebook.com/frontlive"
+        icon={FacebookIcon}
+        label="Strona na Facebooku"
       />
     </div>
   );

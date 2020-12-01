@@ -20,6 +20,7 @@ export type PostFrontmatter = {
   publishedAt: string;
   excerpt: string;
   popular: boolean;
+  isPublished: boolean;
 };
 
 type Post = {
@@ -29,6 +30,7 @@ type Post = {
   slug: string;
   publishedAt: string;
   popular: boolean;
+  isPublished: boolean;
 };
 
 export const getPostBySlug = async (slug: string) => {
@@ -38,6 +40,8 @@ export const getPostBySlug = async (slug: string) => {
   const transformedMdx = await transformMdx(content, frontmatter as PostFrontmatter);
   return { transformedMdx, frontmatter };
 };
+
+const filterUnpublishedPosts = (posts: Post[]) => posts.filter((post) => post.isPublished);
 
 export const sortPostsByNewest = (posts: Post[]) => {
   return posts.sort((a, b) => {
@@ -63,7 +67,7 @@ export const getAllPosts = () => {
       const fullPath = path.join(POSTS_PATH, filename);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data: frontmatter } = matter(fileContents);
-      const { title, category, excerpt, publishedAt, popular } = frontmatter;
+      const { title, category, excerpt, publishedAt, popular, isPublished } = frontmatter;
 
       return {
         slug,
@@ -72,11 +76,13 @@ export const getAllPosts = () => {
         excerpt,
         publishedAt,
         popular,
+        isPublished,
       };
     },
   );
 
-  const sortedPosts = sortPostsByNewest(allPosts);
+  const filteredPosts = filterUnpublishedPosts(allPosts);
+  const sortedPosts = sortPostsByNewest(filteredPosts);
 
   return sortedPosts;
 };
