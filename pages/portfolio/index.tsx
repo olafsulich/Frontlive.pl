@@ -1,4 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { NextSeo } from 'next-seo';
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Footer } from 'components/footer/Footer';
@@ -17,11 +18,25 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
+const title = 'Frontlive.pl - Portfolio';
+const description = 'Przedstawienie moich projektów Open source';
+const url = 'https://frontlive.pl/portfolio';
+
 export default function PortfolioPage({
   projects,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <>
+      <NextSeo
+        title={title}
+        description={description}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+          description,
+        }}
+      />
       <Layout>
         <Navigation />
         <Portfolio projects={projects} />

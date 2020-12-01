@@ -1,4 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { NextSeo } from 'next-seo';
 import hydrate from 'next-mdx-remote/hydrate';
 import { getProjectBySlug, getProjectsPaths } from 'lib/mdx';
 import { Layout } from 'components/layout/Layout';
@@ -15,7 +16,10 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
   return {
     props: {
       transformedMdx,
-      frontmatter,
+      frontmatter: {
+        slug: params.slug,
+        ...frontmatter,
+      },
     },
     revalidate: 1,
   };
@@ -37,9 +41,21 @@ const BlogPost = ({
   frontmatter,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const content = hydrate(transformedMdx, { components: customMdxComponents });
+  const { title, excerpt, slug } = frontmatter;
+  const url = `https://frontlive.pl/portfolio/${slug}`;
 
   return (
     <>
+      <NextSeo
+        title={title}
+        description={excerpt}
+        canonical={url}
+        openGraph={{
+          url,
+          title,
+          description: excerpt,
+        }}
+      />
       <Layout>
         <Navigation />
       </Layout>

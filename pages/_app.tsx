@@ -1,7 +1,9 @@
 import Head from 'next/head';
-import type { AppProps,NextWebVitalsMetric } from 'next/app';
+import type { AppProps, NextWebVitalsMetric } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { DefaultSeo } from 'next-seo';
+import SEO from '../next-seo.config';
 import '../styles/main.scss';
 import { MdxCompProvider } from '../components/mdx/provider/MdxProvider';
 
@@ -26,9 +28,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover"
         />
-        <meta property="og:type" content="website" />
         <meta name="apple-mobile-web-app-title" content="Frontlive.pl" />
       </Head>
+      <DefaultSeo {...SEO} />
       <Component {...pageProps} />
     </MdxCompProvider>
   );
