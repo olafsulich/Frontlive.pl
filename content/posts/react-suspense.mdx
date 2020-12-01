@@ -1,0 +1,306 @@
+---
+title: 'React - Suspense & Concurrent mode'
+category: 'React'
+publishedAt: '26-06-2020'
+popular: false
+excerpt: 'Concurrent mode to zestaw nowych funkcjonalności, obecnie w fazie eksperymentalnej. Całą filozofia concurrent mode opiera się na nieblokowaniu renderowania elementu.'
+---
+
+Cześć 👋
+
+Dziś przedstawię wam parę nowości w **Reakcie**, które wchodzą w skład trybu współbieżnego (Concurrent mode).
+
+> Miej na uwadzę, że tryb współbieżności jest obecnie w fazie eksperymentalnej i nie jest dostępny w wersji stabilnej
+
+## Spis treści
+
+- [Wprowadzenie](#wprowadzenie)
+- [Instalacja](#instalacja)
+- [Suspense](#suspense)
+- [SuspenseList](#suspenselist)
+- [useTransition](#usetransition)
+- [useDeferredValue](#usedeferredvalue)
+
+## Wprowadzenie
+
+Możliwe, że słyszeliście już o **trybie współbieżnym** lub nawet z niego korzystaliście. Dla tych, którzy nie mieli jeszcze tej przyjemności, jest to zestaw nowych funkcjonalności, obecnie w fazie eksperymentalnej. Całą filozofia **concurrent mode** opiera się na **nieblokowaniu renderowania** elementu. React, domyślnie, gdy zacznie renderować jakiś element, **nie** może przerwać tej akcji, takie działanie nazywane jest _blocking renderingiem_.
+
+W trybie współbieżnym, w procesie renderowania, _przerywamy_ ten proces, dzięki czemu mamy nad nim **większą kontrole**.
+
+To tak w skrócie, jeśli chcesz poznać głębszą filozofię stojącą za **concurrent mode**, możesz o niej przeczytać w [dokumentacji](https://pl.reactjs.org/docs/concurrent-mode-intro.html).
+
+## Instalacja
+
+Okej, ale jak możemy z tego wszystkiego skorzystać? Po pierwsze musimy zainstalować **eksperymentalny build** Reakta:
+
+```bash
+npm install react@experimental react-dom@experimental
+```
+
+Drugim krokiem będzie wykorzystanie metody `createRoot()` w naszym pliku wejściowym **index.js**:
+
+```jsx
+// Normalnie
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// Tryb współbieżny
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+```
+
+## Suspense
+
+Zacznijmy od Suspensa, pozwala nam on _poczekać_ na dane zanim przerenderujemy nasz komponent. Jakie mogą być to dane? Mogą być to np. **dane przychodzące** z jakiegoś API, może być to również inny **komponent**.
+
+### Lazy
+
+Zacznijmy od komponentu, zaimportujemy od razu nasz komponent za pomocą **specjalnej** funkcji `lazy()`.
+
+```jsx
+// Stary sposób
+import MyComponent from './MyComponent';
+
+// Import za pomocą lazy
+
+const MyComponent = React.lazy(() => import('./MyComponent'));
+```
+
+`lazy()` przyjmuję funkcję jako argument, która wywołuje **dynamiczny** `import()` i zwraca nam _obietnicę_ (Promise).
+
+### Komponent z Suspense
+
+Przyjdźmy teraz do samego Suspensa, jest to zwykły komponent, który przyjmuje **propsa** `fallback`. Podajemy w nim **dowolny element** Reaktowy:
+
+```jsx
+import React, { Suspense } from 'react';
+
+const MyComponent = React.lazy(() => import('./MyComponent'));
+
+const App = () => {
+  <Suspense fallback={<span>Loading...</span>}>
+    <MyComponent />
+  </Suspense>;
+};
+```
+
+W ten sposób, **podczas ładowania** komponentu zobaczmy tekst `Loading...`. Możesz oczywiście wstawić tutaj jakiś **customowy loader**, na pewno będzie to lepiej wyglądać.
+
+> Funkcja lazy nie jest częścią trybu współbieżnego, ale świetnie sprawdza się w połączeniu z Suspense
+
+### Pobieranie danych
+
+Jak już wcześniej wspominałem, możemy wykorzystać tryb współbieżny do **pobierania danych**.
+
+```jsx
+import React, { Suspense } from 'react';
+import { fakeAnimalsApi } from './fakeApi';
+
+const api = fakeAnimalsApi();
+
+const ZooApp = () => {
+  return (
+    <Suspense fallback={<h1>Loading animal 🐼...</h1>}>
+      <AnimalProfile />
+      <Suspense fallback={<h1>Loading food 🍀...</h1>}>
+        <AnimalFood />
+      </Suspense>
+    </Suspense>
+  );
+};
+
+const AnimalProfile = () => {
+  const animal = api.animal.get();
+  return <h1>{animal.name}</h1>;
+};
+
+const AnimalFood = () => {
+  const food = api.food.get();
+  return (
+    <ul>
+      {food.map(({ id, name }) => (
+        <li key={id}>{name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+Zacznijmy od dołu, mamy tutaj dwa komponenty, które wykorzystują **atrapę api** ze zwierzętami. Próbujemy pobrać pewne informację, **nie sprawdzamy** jednak czy są one już dostępne. W komponencie `ZooApp` przekazujemy `AnimalProfile` i `AnimalFood` jako dzieci. React próbuje wyrenderować `AnimalProfile`, jednak dane **nie są jeszcze gotowe** do wyświetlenia w UI, przeskakuje więc do następnego komponentu `Animal Food` tutaj próbuje pobrać dane, ale sytuacja się powtarza. Wracamy do początku, React wyświetli nam pierwszy loader - `Loading animal 🐼...`.
+
+Zastosowaliśmy tutaj podwójny Suspense, gdy nasz komponent `AnimalProfile` się załaduje, wtedy nastąpi ładowanie `AnimalFood`. Możemy jednak wrzucić oba komponenty w jednego Suspensa.
+
+Całe to rozwiązanie, na początku, może wydawać Ci sie skomplikowane, ale **redukuje** nam ono dużo boilerplatu.
+
+```jsx
+❌
+
+if (someData) {
+  return <span>Loading animal 🐼...</span>;
+}
+
+✅
+
+<Suspense fallback={Loading animal 🐼...}>
+    {...}
+</Suspense>
+```
+
+## SuspenseList
+
+Pomaga nam zarządzać wieloma komponentami, które używają Suspense, a właściwie **w jakiej kolejności** mają być one wczytywane. Domyślnie, gdy opleciemy nasze komponenty w `SuspenseList`, React będzie wyświetlał poszczególne komponenty jeden po drugim.
+
+To zachowanie możemy jednak **zmieniać** wykorzystując dane **propsy**:
+
+- **revealOrder** - definiuje w jakiej kolejności dzieci SuspenseList mają być "wyświetlane"
+
+- **tail** - decyduje, w jaki sposób niezaładowane jeszcze elementy mają się wyświetlać
+
+```jsx
+<SuspenseList revealOrder="forwards" tail="collapsed">
+  <Suspense fallback={'Loading panda 🐼...'}>
+    <AnimalProfile id={1} />
+  </Suspense>
+  <Suspense fallback={'Loading dog 🐶...'}>
+    <AnimalProfile id={2} />
+  </Suspense>
+  <Suspense fallback={'Loading cat 🐱...'}>
+    <AnimalProfile id={3} />
+  </Suspense>
+</SuspenseList>
+```
+
+## useTransition
+
+Wraz z tymi wszystkimi nowościami dostajemy również **nowe hooki**, bo kto nie kocha hooksów 💙 ?
+
+Gdy używamy Suspensa i wykorzystujemy jakiś stan, dostaniemy **nieprzyjemne przejście**, ten urywek to po prostu zaczytywanie **kolejnych danych**. Jak temu zaradzić? Użyć `useTransition`! Pozwala on nam poczekać na dane, zanim przejdziemy do następnego ekranu.
+
+Zwraca on dwie wartości:
+
+- **startTransition** - przyjmuję callback, wskazuje on state, który ma zostać opóźniony
+
+- **isPending** - informuję o stanie naszego przejścia, zwraca boolean
+
+```jsx
+import React, { useState, useTransition, Suspense } from 'react';
+import { fetchFakeAnimals } from './fakeApi';
+
+const getNextId = (id) => (id === 3 ? 0 : id + 1);
+
+const initialApi = fetchFakeAnimals(0);
+
+const Main = () => {
+  const [api, setApi] = useState(initialApi);
+  const [startTransition, isPending] = useTransition({
+    timeoutMs: 3000,
+  });
+
+  const fetchNextAnimal = () => {
+    startTransition(() => {
+      const nextAnimalId = getNextId(api.animalId);
+      setApi(fetchFakeAnimals(nextAnimalId));
+    });
+  };
+
+  return (
+    <>
+      <button disabled={isPending} onClick={fetchNextAnimal}>
+        Next 👉
+      </button>
+
+      {isPending ? ' ⛔ ' : ' ✅ '}
+      <ZooApp api={api} />
+    </>
+  );
+};
+
+const ZooApp = () => {
+  return (
+    <Suspense fallback={<h1>Loading animal 🐼...</h1>}>
+      <AnimalProfile api={api} />
+      <Suspense fallback={<h1>Loading food 🍀...</h1>}>
+        <AnimalFood api={api} />
+      </Suspense>
+    </Suspense>
+  );
+};
+
+const AnimalProfile = ({ api }) => {
+  const animal = api.animal.get();
+  return <h1>{animal.name}</h1>;
+};
+
+const AnimalFood = ({ api }) => {
+  const food = api.food.get();
+  return (
+    <ul>
+      {food.map(({ id, name }) => (
+        <li key={id}>{name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+Tworzymy funkcję `fetchNextAnimal()`, która wykorzystuje `startTransition`. Później już tylko generujemy następne `id` dla danego zwierzaka i **ustawiamy state**. Całą funkcja odpali się **po kliknięciu** w przycisk.
+
+Spójrzmy jeszcze na chwilę na hooka `useTransition`, podajemy **obiekt z opcjami**. Możemy tutaj podać `timeoutMs`, czyli czas (liczony w milisekundach), po którym pokażemy **następny stan**.
+
+## useDeferredValue
+
+Powiedzmy, że tworzymy listę zwierząt, będą one **pobierane po wpisaniu** odpowiedniej nazwy do **inputa**. Żeby nie _zmylić_ użytkownika, chcemy stworzyć jakiś **wizualny efekt**, coś co pomoże mu zrozumieć, że dane są pobierane, a całość wyświetli poprzednio wyszukane zwierzęta.
+
+```jsx
+import { useState, useDeferredValue } from 'react';
+
+const ZooApp = ({ api }) => {
+  const [name, setName] = useState('panda');
+
+  const someFakeApiCall = () => api.filter(name);
+
+  const deferredApi = useDeferredValue(someFakeApiCall, {
+    timeoutMs: 1000,
+  });
+
+  const handleChange = (e) => setName(e.target.value);
+
+  return (
+    <>
+      <label>Filter animals:</label>
+      <input value={name} onChange={handleChange} />
+      <Suspense fallback={<h1>Loading animal 🐼...</h1>}>
+        <AnimalsList api={deferredApi} isStale={deferredApi !== someFakeApiCall} />
+      </Suspense>
+    </>
+  );
+};
+
+const AnimalsList = ({ isStale, api }) => {
+  const animals = api.animals.read();
+  return (
+    <ul style={{ opacity: isStale ? 0.5 : 1 }}>
+      {animals.map(({ id, text }) => (
+        <li key={id}>{text}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+W ten sposób, gdy będziemy filtrować naszą listę, dostaniemy lekkiego _laga_, swoiste **opóźnienie**, podczas którego nasza lista dostanie `opacity: 0.5`.
+Tak samo jak w przypadku `useTransition`, mamy tutaj możliwość podać opcję `timeoutMs`.
+
+> Wstawianie styli inlinowo nie jest dobrą praktyką, zostało użyte wyłącznie w celach prezentacyjnych
+
+## Podsumowanie
+
+Dzięki za wytrwanie do końca! Tryb współbieżny jest dopiero w fazie eksperymentalnej i używanie go produkcyjnie **może być ryzykowne**. Uważam jednak, tak jak sami twórcy, że concurrent mode to **przyszłość Reakta**. Przynosi on wiele **ciekawych** i **przydanych** ficzerów.
+
+Co o tym sądzicie? Dajcie znać w komentarzach 👇
+
+Do następnego!
+
+### Źródła
+
+[React Docs](https://pl.reactjs.org/docs/concurrent-mode-intro.html).

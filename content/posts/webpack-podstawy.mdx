@@ -1,0 +1,232 @@
+---
+title: 'Webpack 4 - pierwsze kroki z module bundlerem'
+category: 'Webpack'
+publishedAt: '12-06-2020'
+popular: false
+excerpt: 'Webpack to tzw. module bundler, pozwala nam na budowanie drzewa zależności, które ma na celu połączenie wielu modułów naszej aplikacji w jeden pakiet.'
+---
+
+Cześć 👋
+
+Webpack to tzw. **module bundler**, pozwala nam na budowanie drzewa zależności, które ma na celu połączenie wielu **modułów** naszej aplikacji w jeden pakiet.
+
+## Dlaczego webpack?
+
+Mamy dwie możliwości, żeby uruchomić naszą JavaScriptową aplikację w przeglądarce. Możemy dla każdej funkcjonalności dołączać `<script>` lub zawrzeć cały kod w jednym pliku `.js`. Takie rozwiązania, jak zapewnę się domyślasz, rodzą wiele problemów, czy to z **czytelnością**, **rozmiarem**, czy też **utrzymaniem naszego kodu**.
+
+Zanim stworzono Webpacka, powstały rozwiązania, które **częściowo** rozwiązały powyższe problemy, niektóre z nich rodziły też nowe.
+
+Dlatego powstał Webpack, pozwala on nie tylko bundlować pliki `.js`, ale również wspiera inne tzw. assety jak **obrazki**, **fonty** i **arkusze stylów**.
+
+Jest to bardzo **potężne** narzędzie i w dobie nowoczesnych stron i aplikacji **nie wyobrażam** sobie pracy bez niego(lub jemu podobnych).
+
+## Założenia
+
+Webpack opiera się o kilka konceptów:
+
+- Entry
+- Output
+- Loaders
+- Plugins
+- Mode
+
+Bez zbędnego teoretyzowania, **przejdźmy do praktyki**, później przyjrzymy im się nieco bliżej.
+
+## Instalacja
+
+Utwórzmy nowy projekt, zainicjujmy naszą aplikację.
+
+```bash
+npm init
+```
+
+Po wstępnej konfiguracji zainstalujmy niezbędne paczki:
+
+```bash
+npm install --save-dev webpack webpack-cli
+```
+
+## Pierwszy moduł!
+
+Na początek nie potrzebujemy **żadnego pliku** konfiguracyjnego, wystarczą nam tylko skrypty, a właściwie jeden:
+
+```json
+"scripts": {
+    "webpack": "webpack",
+  },
+```
+
+Utwórzmy teraz katalog `src/`, a w nim plik `index.js` i `hello.js`.
+
+```js
+// hello.js
+
+const hello = 'Hello world!';
+
+export default hello;
+
+// index.js
+import hello from './hello.js';
+
+console.log(hello);
+```
+
+W pliku `hello.js` stworzyliśmy stałą `hello` i wyeksportowaliśmy ją, następnie w `index.js` importujemy tą stałą i po prostu ją wylogowujemy.
+
+> Jeśli nie wiesz czym są moduły w JavaScripcie, skorzystaj z [tego materiału](http://kursjs.pl/kurs/es6/moduly.php)!
+
+Odpalmy teraz nasz skrypt i zobaczmy co się stanie:
+
+```bash
+npm run webpack
+```
+
+Jeśli wszystko poszło zgodnie z planem powinieneś zobaczyć **nowy folder** w katalogu głównym - `dist/`, a w nim plik `main.js`. Tutaj zostały zbundlowane nasze pliki `hello.js` i `index.js`.
+
+Za pomocą `node` odpalmy nasz skrypt:
+
+```bash
+node ./dist/main.js
+```
+
+W odpowiedzi dostajemy **Hello world!**, brawo właśnie napisałeś swój pierwszy moduł!
+
+## Dodawanie skryptów
+
+Webpack daje nam jednak ostrzeżenie o braku odpowiedniego trybu, by default ustawiony jest `mode production`. Dodajmy odpowiednie skrypty:
+
+```json
+"scripts": {
+    "webpack": "webpack",
+    "dev": "npm run webpack -- --mode development --watch",
+    "prod": "npm run webpack -- --mode production"
+  },
+```
+
+Dzięki fladze `--watch` Webpack będzie _obserwował_ zmiany w naszych plikach.
+
+Odpalmy nasz skrypt developerski:
+
+```bash
+npm run dev
+```
+
+Stwórzmy teraz plik `multiply.js` w `src/`, a w nim funkcję `multiplyByTwo`:
+
+```js
+// multiply.js
+
+const multiplyByTwo = (number) => {
+  return number * 2;
+};
+
+export { multiplyByTwo };
+```
+
+Zaimportujmy ją teraz do `index.js` i wylogujmy z argumentem `2`.
+
+```js
+// index.js
+import hello from './hello.js';
+import { multiplyByTwo } from './multiply.js';
+
+console.log(hello, multiplyByTwo(2));
+```
+
+Jeśli spojrzysz teraz do terminala, to zobaczysz **drzewko zależności**, o którym Ci wcześniej wspominałem.
+
+Odpalmy teraz tryb produkcyjny:
+
+```bash
+npm run prod
+```
+
+Zbundlowaliśmy nasze pliki, zobaczmy czy wszystko poszło dobrze:
+
+```bash
+node ./dist/main.js
+```
+
+W odpowiedzi powinieneś dostać `Hello world! 4`.
+
+## Konfiguracja
+
+Okej, teraz przyszła pora na bardziej skomplikowaną konfigurację, mamy kilka możliwości. Pierwsza, możliwe, że już Ci znana, to stworzenie pliku `webpack.config.js`, możemy również skorzystać z [CLI](https://webpack.js.org/api/cli/), ale my skupimy się na tej pierwszej opcji.
+
+```bash
+touch webpack.config.js
+```
+
+Zanim stworzymy naszą webpackową konfigurację, omówmy sobie pokrótce czym są, wspomniane przeze mnie wcześniej, **założenia**, na których opiera się cała praca z Webpackiem.
+
+### Entry
+
+Wyobraź sobie drzewko swoich plików, na samej górze takiego drzewka mamy nasz `entry point`, dokładnie tym był nasz `index.js`. Ten plik _zasila_ naszą aplikację.
+
+W pliku konfiguracyjnym plik wejściowy definiujemy w ten sposób:
+
+```js
+module.exports = {
+  entry: './index.js',
+};
+```
+
+### Output
+
+Webpack bierzę nasz plik z `entry pointa` i _przemiela_ go na zbundlowaną wersję, taki _przemielony_ kod musi gdzieś _wypluć_.
+
+Takim miejscem jest właśnie `output`. W konfiguracji potrzebujemy podać ścieżkę i nazwę dla zbundlowanego pliku.
+
+```js
+module.exports = {
+  output: {
+    path: './dist',
+    filename: 'bundle.js',
+  },
+};
+```
+
+### Loaders & rules
+
+Kolejnym konceptem w Webpacku są tzw. **loadery**, dzięki nim Webpack wie **jak i które** pliki zmienić przed dodaniem ich do drzewa zależności.
+
+Chcemy użyć Babela, TypeScripta, czy też bundlować pliki css? Nie ma problemu, dodajmy odpowiednie **loadery** do naszej konfiguracji:
+
+```js
+module.exports = {
+  rules: [
+    { test: /\.js$/, use: 'babel-loader' },
+    { test: /\.ts$/, use: 'ts-loader' },
+    { test: /\.css$/, use: 'css-loader' },
+  ],
+};
+```
+
+Gdy nasz plik będzie odpowiadał zadeklarowanym **rozszerzenią**, Webpack **przetrasformuje** go za pomocą danego **loadera**, zanim doda go do drzewa zależności.
+
+### Plugins
+
+Webpack został zbudowany właśnie na **pluginach**! Pluginy to takie **supermoce** Webpacka, mają większe możliwości niż loadery, dzięki nim możemy wpływać na proces kompilacji.
+
+Tak jak loadery, pluginy musimy najpierw zainstalować a potem dodać od naszego configu:
+
+```js
+const MinifyPlugin = require('babel-minify-webpack-plugin');
+module.exports = {
+  plugins: [new MinifyPlugin(minifyOpts, pluginOpts)],
+};
+```
+
+Każdy plugin ma swoje własne opcje, jednak każdy z nich podobnie jak klasy w js, plugin dodajemy **tworząc jego nową instancję**.
+
+## Podsumowanie
+
+To tyle na dziś, przedstawiłem Ci podstawowe założenia Webpacka, w następnym wpisie stworzymy już **pełnoprawną konfigurację** z wykorzystaniem loaderów, pluginów i innych dóbr jakie daje nam to wspaniałe narzędzie.
+
+Cały kod możecie znaleźć na [githubie](https://github.com/Frontlive/webpack-pierwsze-kroki).
+
+Do usłyszenia!
+
+### Źródła
+
+- [Webpack docs](https://webpack.js.org/)

@@ -16,9 +16,9 @@ if (!isProduction && isBrowser) {
   axe(React, ReactDOM, AXE_DELAY);
 }
 
-export function reportWebVitals(metric: NextWebVitalsMetric) {
-  console.log(metric);
-}
+// export function reportWebVitals(metric: NextWebVitalsMetric) {
+//   console.log(metric);
+// }
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (

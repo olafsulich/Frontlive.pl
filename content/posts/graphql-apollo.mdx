@@ -1,0 +1,823 @@
+---
+title: 'GraphQL + React - apollo, hooki i paginacja'
+category: 'GraphQL'
+publishedAt: '07-08-2020'
+popular: false
+excerpt: 'Jak połączyć GraphQL i React? Skorzystać z Apollo! Wybierzmy się na tą misję i stawmy czoła realnej aplikacji!'
+---
+
+Kontynuujemy serię o GraphQLu i zabieramy się za tworzenie **mini aplikacji**. Poznasz dzisiaj klienta **Apollo**, który udostępnia nam między innymi **hooki**, możliwość **zarządzania stanem aplikacji** i **cachowanie** danych. Dziś zajmiemy się tylko częścią tych zagadnień, jest tego bowiem za dużo, żeby zmieścić się w jednym wpisie, za tydzień **część druga**!
+
+A tutaj mały spojler aplikacji 👇
+
+![Gotowa aplikacja](../images/Apollo-app.png)
+
+## Spis treści
+
+- [Instalacja](#instalacja)
+- [Konfiguracja](#konfiguracja)
+- [Hooki](#hooki)
+  - [useQuery](#usequery)
+  - [useLazyQuery](#uselazyquery)
+  - [useMutation](#usemutation)
+  - [useSubscription](#usesubscription)
+- [Budowa aplikacji - zapytania](#budowa-aplikacji---zapytania)
+- [Budowa aplikacji - profil postaci](#budowa-aplikacji---profil-postaci)
+- [Budowa aplikacji - paginacja](#budowa-aplikacji---paginacja)
+- [Obsługa błędów](#obsluga-bledow)
+- [Podsumowanie](#podsumowanie)
+  - [Źródła](#źródła)
+
+## Instalacja
+
+Zacznijmy od stworzenia nowego projektu za pomocą **Create React App**:
+
+```terminal
+npx create-react-app graphql-apollo
+```
+
+Potrzebujemy zainstalować jeszcze potrzebne paczki:
+
+```terminal
+cd graphql-apollo && npm install @apollo/client graphql
+```
+
+## Konfiguracja
+
+Będziemy konfigurować nasz projekt **na bieżąco** dokładając do niego kolejne ficzery, ale potrzebujemy _bazy_, żeby zacząć pracę z **apollo**.
+
+Zacznijmy od stworzenia pliku `apollo-client.js`:
+
+```terminal
+touch apollo-client.js
+```
+
+Super, do skonfigurowania apollo potrzebujemy **trzech rzeczy**. Zainicjować nową klasę `ApolloClient`, ustawić **cache** i podać **endpoint** do naszego API.
+
+```js
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache({}),
+  uri: 'https://rickandmortyapi.com/graphql/',
+});
+
+export { client };
+```
+
+Przejdź teraz do pliku bazowego `index.js` i opleć swoją aplikację w `ApolloProvider`. Do providera podajemy wcześniej stworzonego **klienta apollo**.
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/client';
+import { client } from './apollo-client';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
+```
+
+Taka konstrukcja powinna nam wystarczy na początek.
+
+### Hooki
+
+Zanim przejdziemy do tworzenia aplikacji chciałbym Ci przybliżyć parę **niezbędnych** tematów, jednym z nich są udostępnione **hooki**.
+
+### useQuery
+
+Jest to podstawowy **hook** służący do robienia **zapytań** do naszego API. Jeśli nie wiesz czym są zapytania, zajrzyj do [poprzedniego postu](https://www.frontlive.pl/graphql-api/#zapytania).
+
+Na początki definiujemy zapytanie używając `gql` i template stringów, następnie podajemy je do `useQuery`. W odpowiedzi dostajemy trzy podstawowe rzeczy: `data`, `loading` i `error`. Zwracanych wartości jest oczywiście więcej, ale na tą chwilę potrzebujesz znać tylko te wymienione. Dużo tutaj nie trzeba tłumaczyć, `data` zwraca nam przychodzące **dane**, `loading` to boolean, który określa czy ów dane są już **gotowe**, a `error` mówi nam, czy podczas zapytania wystąpił jakiś **błąd**.
+
+```js
+import { gql, useQuery } from '@apollo/client';
+
+const GET_CHARACTERS = gql`
+  {
+    characters(page: 2) {
+      results {
+        name
+        id
+        image
+      }
+    }
+  }
+`;
+
+const Home = () => {
+  const { data, loading, error } = useQuery(GET_CHARACTERS);
+
+  if (loading) return null;
+  if (error) return `Error! ${error}`;
+  return <h1>{data.results.name}</h1>;
+};
+```
+
+Do naszego zapytania możemy podać obiekt, który przyjmuje, między innymi, **zmienne**, ale do tego przejdziemy w dalszej części.
+
+### useLazyQuery
+
+Ten hook jest bardzo podobny do poprzedniego, z tym, że tutaj zaciągamy dane _na żądanie_, a nie od razu, tak jak robi to `useQuery`. Za pomocą `useLazyQuery` możemy np. zaciągnąć potrzebne dane **po kliknięciu** w jakiś przycisk.
+
+```js
+const Home = () => {
+  const [getCharacters, { data, loading, error }] = useLazyQuery(GET_CHARACTERS);
+
+  if (loading) return null;
+  if (error) return `Error! ${error}`;
+  return <button onClick={getCharacters}>Kliknij mnie</button>;
+};
+```
+
+### useMutation
+
+Zaskoczę Was, `useMutation` służy do obsługi mutacji w Apollo. Tak na marginesie, całe API tej biblioteki jest na prawdę **świetne** i praca z Apollo jest **przyjemnością**, szczególnie, że mówimy tutaj o najnowszej wersji `3.0`. Ale dobra bez zbędnego gadania, przechodzimy do **mutacji** i nie, nie są to mutacje, które możesz znać z czystego jsa(tych, których **nie powinieneś** robić).
+
+Na początku stwórzmy naszą mutację, będzie ona **dodawać nową postać**:
+
+```js
+const ADD_CHARACTER = gql`
+  mutation AddCharacter($name: String!) {
+    addCharacter(name: $name) {
+      id
+      name
+    }
+  }
+`;
+```
+
+Wykorzystajmy ją w hooku:
+
+```jsx
+const Home = () => {
+  const [value, setValue] = useState();
+  const [addCharacter, { data }] = useMutation(ADD_CHARACTER);
+
+  const handleSubmit = () => {
+    addCharacter({
+      variables: {
+        name: e.target.name,
+      },
+    });
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" onChange={handleChange} />
+      <button type="submit">Dodaj nową postać</button>
+    </form>
+  );
+};
+```
+
+Teraz **po kliknięciu w przycisk** dodamy nową postać.
+
+### useSubscription
+
+Tutaj mamy małe zawirowanie, wydawało by się, że ten hook służy do **subskrybowania**, czyli **nasłuchiwania** na dane i gdy się zmienią zastąpić je w naszej aplikacji tymi nowymi. W praktyce tak jest, ale **z dużym wyjątkiem**. A mianowicie, ten hook ma specyficzne zastosowanie gdy chcemy _pobrać_ tylko jakiś **mały kawałek** naszych danych, lub gdy nasze dane potrzebują być zmieniane **bardzo intensywnie**, na przykład w aplikacji typu **chat**. Do takiego _zwykłego_ nasłuchiwania służy inna właściwość, o której opowiem wam troszkę później.
+
+Rozwiązanie z `useSubscription` wymaga **dodatkowej konfiguracji**, celowo, nie będę tutaj marnował Twojego czasu, bo zastosowanie subskrypcji nie jest takie powszechne jak innych hooków, chciałem Ci jedynie przekazać, że coś takiego w ogóle istnieje.
+
+Jeśli chcesz się dowiedzieć więcej o subskrypcjach, zajrzyj do [oficjalnej dokumentacji](https://www.apollographql.com/docs/react/data/subscriptions/).
+
+```js
+const COMMENTS_SUBSCRIPTION = gql`
+  subscription OnCommentAdded($postID: ID!) {
+    commentAdded(postID: $postID) {
+      id
+      content
+    }
+  }
+`;
+
+const LatestComment = () => {
+  const [id, setId] = useState('12345');
+  const { data, loading } = useSubscription(COMMENTS_SUBSCRIPTION, {
+    variables: { id },
+  });
+
+  if (loading) return null;
+  return <h1>New comment: {data.commentAdded.content}</h1>;
+};
+```
+
+## Budowa aplikacji - zapytania
+
+Postanowiłem podzieli ten artykuł na **mniejsze części**, jedne będą obejmowały **praktykę**, gdzie będziemy rozbudowywać małymi kroczkami aplikację, a inne to tematy **teoretyczne**, będziemy mieszać dane zagadnienia, nie wszystkich jednak użyjemy, zostawiam Ci **furtkę na rozbudowę apki**, dodanie ciekawych **ficzerów**. Nie będę się tutaj skupił na stylowaniu całości, jeśli będziesz chciał podejrzeć style, zajrzyj do [kodu na GitHubie](https://github.com/Frontlive/GraphQL-Apollo-Training).
+
+W tej części wykonamy pierwsze zapytanie, pobierzemy i wyświetlimy wszystkie postaci. **Zaczynajmy**!
+
+W pierwszej kolejności utwórzmy komponent `Card.js`, do którego będziemy przekazywać potrzebne propsy:
+
+```jsx
+import React from 'react';
+import styles from './Card.module.scss';
+import { Link } from 'react-router-dom';
+
+const Card = ({ name, image, status, location, origin, id }) => (
+  <article className={styles.wrapper}>
+    <div className={styles.imageWrapper}>
+      <img className={styles.image} src={image} alt="Character" />
+    </div>
+    <div className={styles.textWrapper}>
+      <div className={styles.textSection}>
+        <Link to={`/${id}`} className={styles.link}>
+          <h2 className={styles.heading}>{name}</h2>
+        </Link>
+        <p className={styles.status}>
+          <span className={styles.statusIcon} />
+          {status}
+        </p>
+      </div>
+
+      <div className={styles.textSection}>
+        <h3 className={styles.textGray}>Last known location:</h3>
+        <Link href="/" className={styles.link}>
+          {location}
+        </Link>
+      </div>
+      <div className={styles.textSection}>
+        <h3 className={styles.textGray}>First seen in:</h3>
+        <Link href="/" className={styles.link}>
+          {origin}
+        </Link>
+      </div>
+    </div>
+  </article>
+);
+
+export default Card;
+```
+
+Nic szczególnego, nie mamy tutaj **żadnego stanu**, ani **nie pobieramy danych**, jest to komponent czysto prezentacyjny.
+
+Stwórzmy więc nasz _główny_ komponent `Home.js`, który będzie wyświetlał listę wcześniej przygotowanych kart.
+
+```jsx
+import React from 'react';
+import Wrapper from '../Wrapper/Wrapper';
+import Card from '../Card/Card';
+import { gql, useQuery } from '@apollo/client';
+import styles from './Home.module.scss';
+
+const GET_CHARACTERS = gql`
+  {
+    characters {
+      results {
+        name
+        id
+        image
+        status
+        location {
+          name
+        }
+        origin {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const Home = () => {
+  const { data, loading, error } = useQuery(GET_CHARACTERS);
+
+  if (error) return <h1>Error</h1>;
+
+  return (
+    <div className={styles.appWrapper}>
+      <section className={styles.app}>
+        <h1>Rick and Morty</h1>
+        <Wrapper>
+          {loading ? (
+            <p>loading...</p>
+          ) : (
+            data.characters.results.map(({ name, image, status, location, origin, id }) => (
+              <Card
+                key={id}
+                name={name}
+                image={image}
+                location={location.name}
+                origin={origin.name}
+                status={status}
+                id={id}
+              />
+            ))
+          )}
+        </Wrapper>
+      </section>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+Tutaj dzieję się już znacznie więcej, na początku definiujemy zapytanie `GET_CHARACTERS` i podajemy je do hooka `useQuery`. Następnie sprawdzamy czy nie ma **błędu** i czy nasze dane są już **załadowane**.Później już tylko **mapujemy wynik** naszego zapytania i **zwracamy karty** z odpowiednimi propsami. Całość powinna wyglądać mniej więcej tak:
+
+![Lista postaci](../images/apollo-postacie.png)
+
+## Budowa aplikacji - profil postaci
+
+Rozbudujmy karty tak, aby po kliknięciu w nazwę danej postaci ukazywał nam się jej **profil z danymi** i **odcinkami** w których wystąpiła.
+
+Stwórzmy komponent `EpisodeCard.js`:
+
+```jsx
+import React from 'react';
+import styles from './EpisodeCard.module.scss';
+
+const EpisodeCard = ({ name }) => (
+  <article className={styles.wrapper}>
+    <h3 className={styles.heading}>{name}</h3>
+  </article>
+);
+
+export default EpisodeCard;
+```
+
+Okej super, najłatwiejsza rzecz za nami, teraz chcemy napisać odpowiednie **zapytanie**, które zwróci nam **potrzebne dane**:
+
+```js
+const GET_CHARACTER = gql`
+  query getCharacter($id: ID) {
+    character(id: $id) {
+      name
+      id
+      image
+      status
+      location {
+        name
+      }
+      origin {
+        name
+      }
+    }
+  }
+`;
+```
+
+Tworzymy **zmienną** `GET_CHARACTER`, która posiada w sobie zapytanie `getCharacter`. W nim podajemy, jako **argument**, `id` o typie `ID`, które później przekazujemy do pola `character`. Na tej podstawie GraphQL określi **dane jakiej postaci** ma nam przygotować.
+
+W tej aplikacji będziemy korzystać z [React Routera](https://reactrouter.com/web/guides/quick-start), który udostępnia hooka `useParams`, z niego _wyciągniemy_ potrzebne nam `id` dla zapytania.
+
+```jsx
+const { id } = useParams();
+```
+
+Zmienną przekazujemy w obiekcie, który jest drugim parametrem `useQuery`:
+
+```jsx
+const { data, loading } = useQuery(GET_CHARACTER, {
+  variables: { id },
+});
+```
+
+Następnym krokiem jest przygotowanie danych i przekazanie ich do komponentu `Card`.
+
+```jsx
+import React from 'react';
+import Card from '../Card/Card';
+import { useParams } from 'react-router-dom';
+import styles from './Character.module.scss';
+import { useQuery, gql } from '@apollo/client';
+import EpisodeCard from '../EpisodeCard/EpisodeCard';
+
+const GET_CHARACTER = gql`
+  query getCharacter($id: ID) {
+    character(id: $id) {
+      name
+      id
+      image
+      status
+      location {
+        name
+      }
+      origin {
+        name
+      }
+    }
+  }
+`;
+
+const Character = () => {
+  const { id } = useParams();
+  const { data, loading } = useQuery(GET_CHARACTER, {
+    variables: { id },
+  });
+
+  const character = data?.character;
+
+  return (
+    <div className={styles.wrapper}>
+      <section className={styles.app}>
+        <h1>Character</h1>
+        {loading ? (
+          <p>loading</p>
+        ) : (
+          <>
+            <div className={styles.cardWrapper}>
+              {
+                <Card
+                  key={character.id}
+                  name={character.name}
+                  image={character.image}
+                  location={character.location.name}
+                  origin={character.origin.name}
+                  status={character.status}
+                  id={id}
+                />
+              }
+            </div>
+          </>
+        )}
+      </section>
+    </div>
+  );
+};
+
+export default Character;
+```
+
+Karty mamy gotowe, pozostało nam pobrać dane o **odcinkach**, w których dana postać grała. Zastosujmy tutaj hooka `useLazyQuery`, który po kliknięciu w przycisk pobierze potrzebne dane.
+
+Tworzymy więc podobne zapytanie do poprzedniego:
+
+```jsx
+const GET_EPISODES = gql`
+  query getEpisodes($id: ID) {
+    character(id: $id) {
+      episode {
+        id
+        name
+      }
+    }
+  }
+`;
+```
+
+Wykorzystujemy hooka `useLazyQuery` podając mu, tak samo jak poprzednio, obiekt ze zmiennymi:
+
+```jsx
+const [getEpisodes, { data: EpisodesData, loading: EpisodesLoading }] = useLazyQuery(GET_EPISODES, {
+  variables: { id },
+});
+```
+
+W tym przypadku, w jednym komponencie, mamy dwa zapytania. Tutaj pojawia się **problem**, dostajemy dwa razy `data` i `loading`, żeby temu zaradzić nazywamy inaczej przychodzące _dane_ i informację o _stanie_ **ładowania**.
+
+Wystarczy już tylko dodać przycisk z funkcją `getEpisodes` i **zmapować** przychodzące dane.
+
+```jsx
+<div className={styles.episodesWrapper}>
+  <h2>Episodes</h2>
+  <button className={styles.button} onClick={getEpisodes}>
+    Load episodes
+  </button>
+  {EpisodesLoading ? (
+    <p>loading</p>
+  ) : (
+    <>
+      {EpisodesData &&
+        EpisodesData.character.episode.map(({ name, id }) => (
+          <EpisodeCard key={character.id} name={name} id={id} />
+        ))}
+    </>
+  )}
+</div>
+```
+
+Cały komponent `Character.js`:
+
+```jsx
+import React from 'react';
+import Card from '../Card/Card';
+import { useParams } from 'react-router-dom';
+import styles from './Character.module.scss';
+import { useQuery, useLazyQuery, gql } from '@apollo/client';
+import EpisodeCard from '../EpisodeCard/EpisodeCard';
+
+const GET_CHARACTER = gql`
+  query getCharacter($id: ID) {
+    character(id: $id) {
+      name
+      id
+      image
+      status
+      location {
+        name
+      }
+      origin {
+        name
+      }
+
+      episode {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const GET_EPISODES = gql`
+  query getEpisodes($id: ID) {
+    character(id: $id) {
+      episode {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const Character = () => {
+  const { id } = useParams();
+  const { data, loading } = useQuery(GET_CHARACTER, {
+    variables: { id },
+  });
+  const [getEpisodes, { data: EpisodesData, loading: EpisodesLoading }] = useLazyQuery(
+    GET_EPISODES,
+    {
+      variables: { id },
+    },
+  );
+
+  const character = data?.character;
+
+  return (
+    <div className={styles.wrapper}>
+      <section className={styles.app}>
+        <h1>Character</h1>
+        {loading ? (
+          <p>loading</p>
+        ) : (
+          <>
+            <div className={styles.cardWrapper}>
+              {
+                <Card
+                  key={character.id}
+                  name={character.name}
+                  image={character.image}
+                  location={character.location.name}
+                  origin={character.origin.name}
+                  status={character.status}
+                  id={id}
+                />
+              }
+            </div>
+          </>
+        )}
+        <div className={styles.episodesWrapper}>
+          <h2>Episodes</h2>
+          <button className={styles.button} onClick={getEpisodes}>
+            Load episodes
+          </button>
+          {EpisodesLoading ? (
+            <p>loading</p>
+          ) : (
+            <>
+              {EpisodesData &&
+                EpisodesData.character.episode.map(({ name, id }) => (
+                  <EpisodeCard key={character.id} name={name} id={id} />
+                ))}
+            </>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Character;
+```
+
+Na sam koniec dodajmy plik `App.js` a w nim ruter dla naszej aplikacji.
+
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from '../components/Home/Home';
+import Character from '../components/Character/Character';
+
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/:id">
+          <Character />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+Strona powinna wyglądać mniej więcej tak:
+
+![Karta postaci](../images/karta-postaci-apollo.png)
+
+## Budowa aplikacji - paginacja
+
+Wróćmy do naszej strony głównej, na obecną chwilę wyświetlamy **tylko pierwszą stronę** z naszymi postaciami. Żeby to zmienić potrzebujemy jakieś **paginacji**, co to jest paginacja? Na pewno spotkałeś się już z nią wiele razy, czy to przyciskami typu `load more` czy też klasycznym `next` i `previous`.
+
+Chcemy zaimplementować coś podobnego w naszej aplikacji, ja z Wami stworzę przycisk `next`, a jeśli tylko będziecie chcieli możecie też stworzyć `previous`, będzie to działało na tej samej zasadzie.
+
+Wejdźmy do pliku `Home.js` i zaktualizujmy nasze `useQuery`:
+
+```jsx
+const { data, loading, fetchMore } = useQuery(GET_CHARACTERS, {
+  variables: { page },
+});
+```
+
+Pojawia się nam tutaj funkcja `fetchMore`, która właśnie **idealnie** się sprawdzi do tego zastosowania.
+Pozwala nam ona **zaktualizować zapytanie** i **połączyć** poprzednie dane z tymi nowymi. Za chwilę zobaczymy jak to działa w praktyce. Ale zanim to zrobimy stwórzmy najprostszy `state`, który będzie przechowywał informacje o **bieżącej** stronie.
+
+```jsx
+const [page, setPage] = useState(1);
+```
+
+Dodajmy do tego funkcję która będzie go **inkrementować**:
+
+```jsx
+const handleIncrement = () => setPage((prevState) => prevState + 1);
+```
+
+Okej stwórzmy teraz funkcję, która faktycznie zrobi to czego oczekujemy.
+
+```jsx
+const loadMoreCharacters = () => {
+  fetchMore({
+    variables: {
+      page: page + 1,
+    },
+    updateQuery: (prev, { fetchMoreResult }) => {
+      if (!fetchMoreResult) return prev;
+      const newCharacters = Object.assign({}, prev, {
+        characters: {
+          ...prev.characters,
+          ...fetchMoreResult.characters,
+        },
+      });
+      return newCharacters;
+    },
+  });
+  handleIncrement();
+};
+```
+
+Jak widzisz, na początku wywołujemy `fetchMore`, a następnie `handleIncrement`. Ta pierwsza funkcja przyjmuje obiekt w którym możemy podać **zmienne** i metodę `updateQuery`, w niej dzieję się **cała magia**. Z `updateQuery` wyciągamy `prev`, czyli wartość z poprzedniego zapytania i `fetchMoreResult` czyli informację odnośnie tego nowego. Domyślnie `fetchMore` będzie korzystało z zapytania `GET_CHARACTERS`, które wcześniej stworzyliśmy i podaliśmy do `useQuery`, możemy to jednak **zmienić** dodając argument `query`. Dopiero na sam koniec inkrementujemy nasz `state`.
+
+Ostatnim krokiem będzie stworzenie przycisku i dodanie do niego stworzonej przez nas funkcji:
+
+```jsx
+<button className={styles.button} onClick={loadMoreCharacters}>
+  Next page
+</button>
+```
+
+Cały kod:
+
+```jsx
+import React, { useState } from 'react';
+import Wrapper from '../Wrapper/Wrapper';
+import Card from '../Card/Card';
+import { gql, useQuery } from '@apollo/client';
+import styles from './Home.module.scss';
+
+const GET_CHARACTERS = gql`
+  query getCharacters($page: Int) {
+    characters(page: $page) {
+      results {
+        name
+        id
+        image
+        status
+        location {
+          name
+        }
+        origin {
+          name
+        }
+      }
+    }
+  }
+`;
+
+const Home = () => {
+  const [page, setPage] = useState(1);
+  const { data, loading, fetchMore } = useQuery(GET_CHARACTERS, {
+    variables: { page: page },
+  });
+
+  const handleIncrement = () => setPage((prevState) => prevState + 1);
+
+  const loadMoreCharacters = () => {
+    fetchMore({
+      variables: {
+        page: page + 1,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        const newCharacters = Object.assign({}, prev, {
+          characters: {
+            ...prev.characters,
+            ...fetchMoreResult.characters,
+          },
+        });
+        return newCharacters;
+      },
+    });
+    handleIncrement();
+  };
+
+  return (
+    <div className={styles.appWrapper}>
+      <section className={styles.app}>
+        <h1>Rick and Morty</h1>
+        <button className={styles.button} onClick={loadMoreCharacters}>
+          Next page
+        </button>
+        <Wrapper>
+          {loading ? (
+            <p>loading...</p>
+          ) : (
+            data.characters.results.map(({ name, image, status, location, origin, id }) => (
+              <Card
+                key={id}
+                name={name}
+                image={image}
+                location={location.name}
+                origin={origin.name}
+                status={status}
+                id={id}
+              />
+            ))
+          )}
+        </Wrapper>
+      </section>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+## Obsługa błędów
+
+Jeśli chodzi o obsługę błędów, mieliśmy już z tym do czynienia przy hookach i wyglądało to tak:
+
+```jsx
+const { data, loading, error } = useQuery(GET_CHARACTERS);
+```
+
+Wyciągaliśmy `error` z `useQuery` i na tej zasadzie mogliśmy sprawdzać, czy wystąpił jakiś błąd.
+
+Dzięki Apollo, możemy przenieść obsługę błędów na jeszcze wyższy level i skorzystać z funkcji `onError`, która śledzi błędy związane z **siecią** i **serwerem**.
+
+```jsx
+import { onError } from "@apollo/client/link/error";
+
+const link = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+     //...
+    );
+
+  if (networkError){
+    //...
+  };
+});
+```
+
+Można to fajnie połączyć z **linkami**, ale na ten moment chciałem Ci tylko o tym wspomnieć, temat **linków** na pewno rozwiniemy w drugiej części.
+
+## Podsumowanie
+
+To wszystko na dziś, podstawowa **aplikacja gotowa**, nie jest ona napisana idealnie, także jeśli chcesz ją dalej rozbudowywać i np. wstawić jako projekt do portfolio, polecam Ci **zrefaktoryzować** porządnie ten kod. Samą aplikację będziemy rozbudowywać za tydzień, dodamy do niej **zarządzanie stanem aplikacji**, **cache** i wiele więcej.
+
+Kod gotowej aplikacji jest dostępny [na GitHubie](https://github.com/Frontlive/GraphQL-Apollo-Training).
+
+Mam nadzieję, że czegoś wartościowego się nauczyłeś/aś i że **wykorzystasz** jakoś zdobytą dziś wiedzę 💜
+
+Do usłyszenia!
+
+### Źródła
+
+- [GraphQL Docs](https://www.apollographql.com/docs/)
+- [The Rick and Morty API](https://rickandmortyapi.com/)

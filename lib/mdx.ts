@@ -9,7 +9,10 @@ import mdxPrism from 'mdx-prism';
 import { Sparkles } from '../components/shared/components/sparkles/Sparkles';
 import slugify from 'slugify';
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Player } from '../components/mdx/player/Player';
+
+dayjs.extend(customParseFormat);
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const PROJECTS_PATH = path.join(process.cwd(), 'content/projects');
@@ -89,7 +92,7 @@ export const getProjectBySlug = async (slug: string) => {
   return { transformedMdx, frontmatter };
 };
 
-const sortPostsByNewest = (posts: Post[]) => {
+export const sortPostsByNewest = (posts: Post[]) => {
   return posts.sort((a, b) => {
     const dateA = dayjs(a.publishedAt, 'DD-MM-YYYY');
     const dateB = dayjs(b.publishedAt, 'DD-MM-YYYY');
@@ -99,6 +102,7 @@ const sortPostsByNewest = (posts: Post[]) => {
     if (dateB.isBefore(dateA)) {
       return -1;
     }
+
     return 0;
   });
 };

@@ -1,0 +1,132 @@
+---
+title: 'Nowoczesny CSS - min(), max() i clamp()'
+category: 'CSS'
+publishedAt: '30-10-2020'
+popular: false
+excerpt: 'Znasz ten ból posiadania wielu media-queries w swoich projektach? A co jeśli bym Ci powiedział, że można to zmienić? Zobacz jak działają funkcje logiczne w CSS i jak pomagają nam tworzyć responsywne layouty.'
+---
+
+Znacie ten ból posiadania wielu `media-query` w swoich CSSach? Na przestrzeli lat, wraz ze wsparciem flexboxa i grida przez przeglądarki, ta sytuacja się zmieniała. Jednak flexbox i grid to nie wszystko, najlepiej by było gdyby różne elementy np. fonty skalowały się **automatycznie** i żebyśmy mieli nad nimi **pełną kontrolę**. Z pomocą przychodzą nam trzy **logiczne funkcje:** `min()`, `max()` i `clamp()`.
+
+## min()
+
+Ta funkcja przyjmuje wartości, które mogą być wyrażone w różnych jednostkach(rem,em,px,%,vw,vh...) i wybiera z nich tą **najmniejszą**. Funkcja `min()` ustawia **maksymalną** wartość.
+
+```css
+.element {
+  width: min(50px, 2rem);
+}
+```
+
+![](../images/min-fn-1.png)
+
+Załóżmy, że nadajemy szerokość dla boxa `min(50%, 800px)`, którą wartość w tym przypadku wybierze funkcja `min()`?. Z moich zaawansowanych obliczeń matematycznych wynika, że **50%**, ponieważ jest mniejsze niż 800px, gdy szerokość rodzica wynosi 1400px.
+
+![](../images/min-fn-2.png)
+
+Kolejność podawanych wartości nie ma znaczenia, możemy ich podać wiele.
+
+## max()
+
+Funkcja `max()` to przeciwieństwo `min()`, tutaj tak samo podajemy wartości po przecinku, ale funkcja wybiera **największą** z nich i ustawia **minimalną** wartość.
+
+```css
+.element {
+  width: max(5vw, 4rem);
+}
+```
+
+![](../images/max-fn-1.png)
+
+Weźmy taki przykład, podajemy do funkcji trzy wartości: `6rem`, `2vw`i `5%`. Załóżmy, że `1rem = 16px`, szerokość viewporta to 1920px, a rodzica 1000px. Największą wartością z tych będzie `6rem` i właśnie taką wartość **minimalną** funkcja ustali dla szerokości naszego boxa.
+
+![](../images/max-fn-2.png)
+
+W naszych funkcjach możemy wykorzystywać różne matematyczne działania, bez konieczności użycia znanego Ci pewnie `calc()`.
+
+## clamp()
+
+Ostatnia na naszej liście, czyli funkcja `clamp()`. Przyjmuje ona trzy wartości: minimalną, preferowaną i maksymalną.
+
+```css
+.element {
+  width: clamp(20rem, 50%, 800px);
+}
+```
+
+Jest ona tak na prawdę połączeniem poprzednich funkcji:
+
+```css
+.element {
+  width: max(20rem, min(50%, 800px)); /* = clamp(20rem, 50%, 800px) */
+}
+```
+
+![](../images/clamp-fn-1.png)
+
+Weźmy przykład z trzema wartościami: `20px`, `50%` i `4rem`. Tutaj nasza wartość domyślnie będzie 50%, nie może ona być mniejsza niż 20px i większa niż 4rem.
+
+## Przykłady użycia
+
+Do czego może Ci się to przydać? Jedziemy z przykładami!
+
+### Fluid typography
+
+Chyba najbardziej znany przykład w kontekście wykorzystania funkcji `clamp()`, czyli **fluid typography**. Możemy np. zrobić nagłówek, który skaluje się wraz z szerokością viewporta, jednocześnie ustawiając mu minimalną i maksymalna wartość.
+
+```css
+.heading {
+  font-size: clamp(1.5rem, 5vw, 5rem);
+}
+```
+
+<video controls="" muted="" width="100%">
+<source src="../images/fluid-1.mp4">
+</video>
+
+### Idealny paragraf
+
+Znacie zasadę, o odpowiedniej liczbie znaków w jednej lini tekstu? Mówi ona, że powinniśmy trzymać się w granicach 45 - 75 znaków na linię. Z `clamp()` to nic trudnego, ustawiamy preferowaną szerokość na `50%` i skrajne wartości na 45 i 75 z [jednostką ch](https://developer.mozilla.org/en-US/docs/Web/CSS/length).
+
+```css
+.text {
+  width: clamp(45ch, 50%, 75ch);
+}
+```
+
+![](../images/clamp-paragraph.png)
+
+### Dynamiczny margines
+
+Często potrzebujemy nadać margines, np. dla nagłówka, ale po chwili okazuję się, że jest on za mały/za duży dla danej rozdzielczości. Tutaj znowu możemy skorzystać z dobrodziejstw funkcji i zrobić to **dynamicznie**:
+
+```css
+.heading {
+  margin: min(5vh, 3rem) 0;
+}
+```
+
+![](../images/clamp-margin.png)
+
+## Wsparcie przeglądarek
+
+Wsparcie dla omawianych dziś funkcji jest **całkiem niezłe** i praktycznie wszystkie _szanujące się_ przeglądarki je wspierają.
+
+![Tabela wyników wsparcia przez przeglądarki dla funkcji clamp, min i max](../images/clamp-wsparcie.png)
+
+## Dostępność
+
+Przy wykorzystaniu tych funkcji z fontami, musimy zwrócić uwagę na [wymagania WCAG odnośnie zmieniania rozmiaru fontów](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html). Tekst powinień być skalowalny na przynajmniej 200%, upewnij się też, że Twoje fonty nie są za małe na urządzeniach mobilnych.
+
+## Podsumowanie i playground
+
+Logiczne funkcje to super sprawa, wiadomo, nie wyrzucimy wszystkich media-queries z naszego CSSa, ale możemy trochę zmniejszyć ich ilość i **ułatwić sobie życie**.
+
+To by było tyle na dzisiaj, a już na sam koniec zostawiam Cię z małym _playgroundem_, w którym testowałem opisywane dziś funkcje, **have fun!**
+
+https://codepen.io/olafsulich/pen/WNxaxmM
+
+### Źródła
+
+- [MDN clamp()](<https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()>)
+- [Web.dev - min(), max(), and clamp()](https://web.dev/min-max-clamp/)

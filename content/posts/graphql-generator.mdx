@@ -1,0 +1,231 @@
+---
+title: 'GraphQL + TypeScript - wygeneruj sobie typy!'
+category: 'GraphQL'
+publishedAt: '28-08-2020'
+popular: false
+excerpt: 'Lubimy zaoszczędzać czas, a jednocześnie zrobić coś dobrze. Tak samo jest w przypadku programowania. Poznaj GraphQL Code Generator - narzędzie, które zaoszczędza czas i zapewnia TypeScriptowe typy!'
+---
+
+Cześć 👋
+
+Wracamy, po krótkiej przerwie do GraphQLa. Tym chciałbym Ci przybliżyć świetne narzędzie jakim jest [GraphQL Code Generator](https://graphql-code-generator.com/). Dzięki niemu zaoszczędzimy czas i na postawie GraphQLowej **schemy** wygenerujemy w pełni poprawne TypeScriptowe **typy**, Reaktowe **komponenty**, czy też **hooki**!
+
+## Instalacja
+
+Zacznijmy od zainstalowania generatora:
+
+```terminal
+npm install --save-dev @graphql-codegen/cli
+```
+
+## Ustawienia
+
+Gdy instalacje mamy już za sobą, dodajmy odpowiedni skrypt do `package.json`:
+
+```json
+{
+  "scripts": {
+    "generate": "graphql-codegen"
+  }
+}
+```
+
+## Plik konfiguracyjny
+
+Stwórzmy plik `codegen.yml`:
+
+```terminal
+touch codegen.yml
+```
+
+To tutaj dzieje się cała **magia**, możemy tutaj podać masę opcji, ale podstawowymi będą `schema`, `documents` i `generates`.
+
+- `schema` - ścieżka do Twojej _schemy_
+- `documents` - ścieżka do dokumentów, które opisują zapytania, mutacje, subskrypcje i fragmenty
+- `generates` - opisuje co ma gdzie zostać wygenerowane i z jakich pluginów ma korzystać
+
+## TypeScript
+
+Zacznijmy od podstawowego połączenia generatora z **TypeScriptem**, żeby całość działała musimy zainstalować odpowiedni **plugin**:
+
+```terminal
+npm install --save-dev @graphql-codegen/typescript
+```
+
+Następnie, stwórzmy **scheme**, która będzie opisywać użytkownika.
+
+```ts
+type Language {
+  name: String!
+}
+
+type User {
+  name: String!
+  age: Int!
+  id: ID!
+  languages: [Language]!
+}
+```
+
+Super, teraz rozbudujemy nasz **plik konfiguracyjny**, tak abyśmy po odpaleniu komendy `generate` dostali **gotowe typy** na podstawie powyższego schematu.
+
+```yml
+schema: './schema.graphql'
+generates:
+  generated.ts:
+    plugins:
+      - typescript
+```
+
+W `schema` podaliśmy ścieżkę do naszego schematu, a w `generates` ustawiliśmy plik wyjściowy dla typów - `generated.ts`.
+
+Wystarczy teraz, że odpalimy komendę `generate` i powinniśmy zobaczyć plik `generated.ts`:
+
+```terminal
+npm run generate
+```
+
+Ten przykład był bardzo prosty i raczej mało użyteczny, albowiem najczęściej będziemy _zaciągać_ nasz schemat z backendu, co wtedy? Nic nie stoi nam na przeszkodzie, żeby podać po prostu do niego ścieżkę.
+
+```yml
+schema: 'http://localhost:3000/graphql'
+```
+
+Schematów możemy podać **wiele** i na **różnych poziomach**, na przykład, chcemy stworzyć dwa pliki z dwóch niezależnych od siebie schematów, nic trudnego!
+
+```yml
+generates:
+  ./generated1.ts:
+    schema: ./schema.graphql
+    plugins:
+      - typescript
+  ./generated1.ts:
+    schema: http://localhost:3000/graphql
+    plugins:
+      - typescript
+```
+
+Wspominałem przed chwilą o `documents` czyli o plikach gdzie przechowujemy nasze zapytania, mutacje czy też fragmenty, spójrzmy na przykładzie.
+
+Na początek, stwórzmy plik `schema.graphql` z naszym schematem:
+
+```graphql
+type Query {
+  animal(id: ID!): Animal
+  allAnimals: [Animal]
+}
+
+type Animal {
+  id: ID!
+  name: String!
+  age: Int!
+}
+```
+
+Chcemy stworzyć **zapytanie**, które będzie pobierało danego zwierzaka na podstawie `id`, dokładnie tak, jak podaliśmy na powyższym **schemacie**.
+
+Utwórzmy plik `getAnimal.graphql`
+
+```graphql
+query GetAnimal($animalId: ID!) {
+  animal(id: $animalId) {
+    ...AnimalFields
+  }
+}
+
+fragment AnimalFields on Animal {
+  id
+  name
+}
+```
+
+Zainstalujmy odpowiedni **plugin** i zmodyfikujmy plik konfiguracyjny:
+
+```terminal
+npm install --save-dev @graphql-codegen/typescript-operations
+```
+
+```yml
+schema: 'schema.graphql'
+documents: 'getAnimal.graphql'
+generates:
+  operations-types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+```
+
+Voilà dostaliśmy wygenerowane typy na podstawie **zapytania** i **schematu**.
+
+## React
+
+Wspominałem na początku, że za pomocą tego narzędzia możemy **wygenerować hooki**, które będą w pełni otypowane, nie ma co zwlekać, bierzemy się do pracy!
+
+Zacznijmy od zainstalowania **pluginu**:
+
+```terminal
+npm install --save-dev @graphql-codegen/typescript-react-apollo
+```
+
+Nie traćmy czasu i zostawmy nasz schemat i operacje **takimi jakie są**, a w pliku konfiguracyjnym dodajmy zainstalowany plugin.
+
+```yml
+schema: 'schema.graphql'
+documents: 'getAnimal.graphql'
+generates:
+  operations-types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+```
+
+Jeśli wygenerujesz teraz kod i spojrzysz do wygenerowanego pliku, na samym dole zobaczysz **wygenerowane hooki**!
+
+```ts
+export function useGetAnimalQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetAnimalQuery, GetAnimalQueryVariables>,
+) {
+  return Apollo.useQuery<GetAnimalQuery, GetAnimalQueryVariables>(GetAnimalDocument, baseOptions);
+}
+export function useGetAnimalLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetAnimalQuery, GetAnimalQueryVariables>,
+) {
+  return Apollo.useLazyQuery<GetAnimalQuery, GetAnimalQueryVariables>(
+    GetAnimalDocument,
+    baseOptions,
+  );
+}
+```
+
+Dostaliśmy dwa **otypowe** hooki, gdybyś chciał użyć mutacji czy też subskrypcji to nie ma najmniejszego problemu, działa to na tej samej zasadzie.
+
+Jak możemy z nich skorzystać? Dokładnie tak jak z dostarczanych przez apollo hooków `useQuery` i `useLazyQuery`, wystarczy je zaimportować.
+
+```tsx
+import { useGetAnimalQuery } from "operations-types.ts";
+
+const Animal = () => {
+  const { data } = useGetAnimalQuery(...);
+};
+```
+
+## TypedDocumentNode
+
+Generowanie hooków jest super, ale to zawsze dużo dodatkowego kod. `TypedDocumentNode` wskakuje na poziom wyżej i nie dość, że **skraca** nam wygenerowany kod to jeszcze dzięki niemu TypeScript będzie **podpowiadał** i **uzupełniał** typy na podstawie ustalonych wcześniej operacji!
+
+Zamiast wygenerowanych hooków dostajemy gotowe do wykorzystania **typy**:
+
+<p align="center">
+  <img alt="Użycie TypeDocumentNode w praktyce" src="../images/TypedDocumentNode.gif" />
+</p>
+
+## Podsumowanie
+
+[GraphQL Code Generator](https://graphql-code-generator.com/) jest na prawdę potężnym narzędziem, które niewyobrażalnie ułatwia nam pracę z GraphQLem i TypeScriptem, odwala ono połowę _brudnej_ roboty za nas!
+
+Generować możemy zarówno typy dla **frontendu** jak i **backendu**. Hooki w **Reakcie**, composition components we **Vue**, komponenty w **Angularze** to tylko niektóre opcje, warto się przyjrzeć temu narzędziu bliżej, polecam z całego serca 💜
+
+### Źródła
+
+- [GraphQL Code Generator](https://graphql-code-generator.com/)

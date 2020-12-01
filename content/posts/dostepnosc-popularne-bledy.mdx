@@ -1,0 +1,246 @@
+---
+title: 'Dostępność - top 10 najczęściej popełnianych błędów'
+category: 'Dostępność'
+publishedAt: '25-09-2020'
+popular: false
+excerpt: 'Często gdy robię code review napotykam na te same błędy dostępności, powtarzają się one tak często, że postanowiłem zrobić listę najczęściej popełnianych błędów dostępności. Przy każdym błędzie postaram Ci się wytłumaczyć dlaczego to jest błąd i jak go naprawić.'
+---
+
+Często gdy robię code review napotykam na **te same błędy dostępności**, powtarzają się one tak często, że postanowiłem zrobić listę _najczęściej popełnianych błędów dostępności_. Przy każdym błędzie postaram Ci się wytłumaczyć **dlaczego** to jest błąd i **jak go naprawić**.
+
+**Lecimy z listą**(kolejność przypadkowa)!
+
+## 1. Problemy z designem
+
+Dużo o tym pisałem w poprzednim wpisie - [Dostępność - projektowanie i semantyczny HTML](https://www.frontlive.pl/dostepnosc-projektowanie-i-semantyczny-html/). Najczęściej spotykam się ze źle zrobionym _layoutem_ i za małym kontrastem na tekstach.
+
+O co chodzi ze źle zrobionym _layoutem_? _Layout_ **nie musi być prosty**, chodzi o jego klarowne przedstawienie, żebyśmy my jako użytkownicy wiedzieli gdzie skupić nasz wzrok. Jako przykład pokażę Ci ulotkę informacyjną, nie jest to strona, ale dobrze **ukazuje istotę problemu**.
+
+![Przykład źle i dobrze dobranego layoutu - ulotki Covid-19 what you need to know i Covid-19 stop the spread of germss  ](../images/Covid-ulotki.png)
+
+Widzimy dwie ulotki jeśli chodzi o pierwszą, na czym skupiłeś swój wzrok? Zapewne na **logo**, potem lecimy w dół, aż w końcu docieramy do sekcji _Am I at risk?_. Tutaj się dzieję dużo, **nie wiadomo** na czym skupić wzrok.
+
+Dla porównania druga ulotka, zostajemy przy pandemicznych tematach. Nie jest to _layout_ prosty, jednokolumnowy, bo pewnie taki byłby, z punktu widzenia dostępności najlepszy. Lecimy tutaj wzrokiem jak zygzakiem, ale chociaż wiemy **na czym skupić uwagę**, mamy określone **punkty** z nagłówkami.
+
+## 2. Nawigacja klawiaturą
+
+To chyba najczęstszy błąd. Jest on powiązany z użyciem **odpowiednich tagów HTML**, o których mówiłem również w poprzednim wpisie - [Dostępność - projektowanie i semantyczny HTML](https://www.frontlive.pl/dostepnosc-projektowanie-i-semantyczny-html/).
+
+O co chodzi? Wiele użytkowników może poruszać się po Twojej stronie za pomocą **tylko klawiatury**. Z różnych względów nie używają oni myszki, po prostu. Chcemy zrobić wszystko aby umożliwić im swobodne korzystanie ze strony.
+
+Nawigować po stornie możemy używając przycisku `TAB` i połączenia przycisków `SHIFT` + `TAB`. **Wszystkie elementy interaktywne**, takie jak linki, przyciski, _modale_, _popupy_, _slidery_, galerie, dosłownie wszystko z czym możemy mieć jakiś kontakt, **powinno być dostępne za pomocą klawiatury**.
+
+Jak możesz sprawdzić czy Twoja strona jest pod tym kątem dostępna? Po prostu spróbuj przejść przez całą stronę **nie używając myszki**.
+
+## 3. Usuwanie outline
+
+Zapewne większość z nas kiedyś robiła następującą rzecz:
+
+```css
+*:focus {
+  outline: none;
+}
+```
+
+Czyli **usuwaliśmy outline**. Jest to poważny błąd dostępności właśnie w kontekście **nawigowania klawiaturą**. Skąd taki użytkownik miałby wiedzieć na jakim elemencie się znajduje?
+
+Rozwiązaniem tego problemu jest **nie usuwanie outline**, koniec i kropka. No nie do końca, choć to stwierdzenie jest prawdą. Często nie chcemy tego outline, bo wygląda po prostu brzydko, albo ma **za mały kontrast** na naszej stronie, to też może się zdarzyć.
+
+Mamy trzy wyjścia z tej sytuacji:
+
+1. Po prostu **ostylować** outline
+2. Ostylować _focusowalny_ element **sam w sobie**, tylko pamiętaj, nie używaj do tego tylko i wyłącznie kolorów, niektórzy użytkownicy mogą ich nie rozróżniać. Czyli, gdy element jest _focusowany_, dodajemy do niego np. `border` i `underline`.
+3. Zostawić outline tylko dla użytkowników, którzy **korzystają** z klawiatury.
+
+Do trzecie rozwiązania bardzo przydatna jest biblioteka [what-input](https://github.com/ten1seven/what-input), dzięki której możemy nadać style tylko dla np. użytkowników korzystających z klawiatury.
+
+Jak wygląda wykorzystanie [what-input](https://github.com/ten1seven/what-input) w praktyce?
+
+```css
+[data-whatintent='mouse'] *:focus {
+  outline: none;
+}
+```
+
+Dzięki takiemu zapisowi **usuwamy** outline dla użytkowników korzystających z myszki. Warto jednak wspomnieć, że powinniśmy w tym przypadku, tak czy siak zadbać o **wizualny focus** elementu.
+
+## 4. Linki
+
+Zacznijmy od tego, że linki to linki, a przyciski to przyciski, **nie powinniśmy** zagnieżdżać jednego w drugim. Tak samo **nie powinniśmy** nadawać zdarzenia `onClick` dla linka. Jest to częsty problem, możesz się o nim więcej dowiedzieć w jedenastym odcinku z serii [Wpadki i wypadki](https://www.webkrytyk.pl/2020/07/31/wpadki-i-wypadki-11/).
+
+Ale ja nie o tym, jak już wspominałem, w jednym z poprzednich wpisów, linki powinny nieść ze sobą jakąś **treść**. Co przez to rozumiem? Zamiast robić linka `Kliknij tutaj`, powinniśmy nadać mu jakieś większe **znaczenie**, np. _Nie powinniśmy usuwać outline, więcej o tym możesz przeczytać w `oficjalnej dokumentacji technicznej`_.
+
+Samo WCAG mówi nam jednak, że znaczenie linku **zależy od kontekstu, w którym się znajduje**.
+
+Przytoczę fragment z tekstu [Identifying the purpose of a link using link text combined with the text of the enclosing sentence](https://www.w3.org/WAI/WCAG21/Techniques/general/G53):
+
+> In the news summary containing the sentence "The Smallville Times **reports that** the School Board chose a 2007 school calendar that starts on August 27."
+
+Tutaj linkiem jest _reports that_ i kontekst tego linku zależy od **otaczającego go tekstu**. Niemniej jednak, nie zawsze będziemy mieli do czynienia z linkami, które są otaczene przez jakiś kontekst, np. tekst. Wtedy warto zadbać, żeby **bardziej opisać** link.
+
+Praktykę nazywania linków **ciężko** sobie wyrobić, a przynajmniej ja miałem/mam z tym problem. Najlepiej jak odpalisz czytnik ekranowy i tam sprawdzisz jak działanie aplikacji. W kolejnych artykułach wrócimy jeszcze do linków.
+
+## 5. Obrazki i ikonki
+
+Na każdym kursie HTML powtarzane jest to, żeby używać `alt` dla obrazków. Wszystko fajnie, tylko, że często ten `alt` jest po prostu **niepoprawny**. Tutaj podobna zasada jak przy linkach, spróbujmy na prawdę opisać co znajduję się na zdjęciu.
+
+Przykłady źle dobranego alta:
+
+```html
+<img alt="Dog" />
+<img alt="Person" />
+<img alt="Logo" />
+
+<!--Bardzo ważny obrazek-->
+<img alt="" />
+<img alt />
+```
+
+Mamy tutaj dwie sytuacje, w pierwszej co prawda dodajemy `alt`, ale niesie on za sobą **zbyt mało** informacji, samo `Dog` czy `Person` **niewiele** nam mówi. Drugi przypadek to **pominięcie** alta w ogóle, lub pozostawienie go **pustym** w przypadku gdy mamy jakiś obrazek, który niesie za sobą jakąś treść.
+
+Poprawione przykłady:
+
+```html
+<img alt="A cute dog sitting on the beach" />
+
+<img alt="A member of the National Hockey League's New York Rangers" />
+
+<img alt="Przykładowa nazwa firmy" />
+```
+
+Często obrazek, tak jak link, zależy od kontekstu w jakim się znajduję, dlatego mogą zdarzyć się sytuacje gdy najlepiej będzie gdy zostawimy `alt` **pustym**. Pamiętaj, aby **nigdy go nie usuwać**, gdy usuniemy `alt` czytnik przeczyta adres obrazka, a tego byśmy nie chcieli. Gdy obrazek jest czysto dekoracyjny, `alt` również powinien być pusty.
+
+Jak sprawdzić czy `alt` dla obrazka jest odpowiedni? Tak jak poprzednio, odpal czytnik ekranowy i sprawdź, czy jesteś w stanie coś *wyciągnąć* z danego zdjęcia.
+
+A co z ikonkami? Mówiłem o nich w poprzednim wpisie - [Dostępność - projektowanie i semantyczny HTML](https://www.frontlive.pl/dostepnosc-projektowanie-i-semantyczny-html/), w skrócie, **nie powinieneś** ich wstawiać w tag `<i>`, warto je również **schować** dla czytników ekranowy, no chyba, że dodają jakąś treść.
+
+**A co z SVG**? Jest wiele sposobów na ich umieszczenie, czy to _inlinowo_, czy też jako `<img>`. Jeśli SVG ma być czysto dekoracyjne, nie ma problemu, po prostu je **ukrywamy**, a co jeśli ma faktycznie przedstawiać jakąś **treść**?
+
+Carie Fisher stworzyła **świetny** artykuł - [Deeper Dive on Accessible SVG Patterns](https://cariefisher.com/a11y-svg/). Opisuje w nim ona **dostępne opcje** i porównuje je pod względem dostępności. Okazuję się, że najlepszym sposobem jest patent z wykorzystaniem `[role="img"]`, `<title>`, `<desc>` i `[aria-labelledby="[ID]"]`.
+
+![](../images/svg-a11-pattern.webp)
+
+## 6. Niedostępne audio/wideo
+
+Tutaj sprawa jest bardzo prosta, nie odpalaj _z automatu_ **ani muzyki ani wideo** na Twojej stronie. Jest to po prostu **złe** dla Twoich użytkowników.
+
+Pozwól użytkownikowi zarówno odtworzyć, jak i **zatrzymać** wideo. To samo tyczy się **dźwięku**. Idealnie by było gdybyś zapewnił **napisy**, gdy dźwięk jest wyłączony.
+
+## 7. Ograniczenia dla użytkownika
+
+Często myślimy o dostępności jako dodaniem od siebie czegoś _ekstra_, ale zdarza się również tak, że sami **psujemy odczucia** z korzystania z naszej strony.
+
+Najczęstszym błędem w tym kontekście jest blokowanie skalowania:
+
+```html
+<meta name="viewport" content="maximum-scale=1.0" />
+```
+
+Dokładnie ta sama sprawa tyczy się `user-scalable="no"`. **Nie utrudniajmy** użytkownikom życia i dajmy im korzystać z naszej strony tak, jak jest to dla nich najwygodniejsze.
+
+Kolejnym, powiązanym błędem jest ustawianie **fonta w pikselach,** [piksle blokują skalowanie tekstu](https://twitter.com/heydonworks/status/1151443153657958405). To nie chodzi o to, żeby nie używać pikseli w ogóle, ale **nie rób tego dla fontów**, dla nich zastosuj [relatywne jednostki](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units).
+
+## 8. Animacje
+
+Lubisz animację? No ba, **kto nie lubi**... Zdarzają się takie osoby, które nie chcą lub **nie mogą** patrzeć na jakieś animowane rzeczy na Twojej stronie internetowej. Animację, to **nie jest** najważniejsza rzecz na stronie i powinniśmy od nich podchodzić w ramach nurtu **Progressive enhancement**.
+
+Dobrą strategią jest wyłączenie lub zmienienie zachowania animacji, dostosowując je pod konkretnego użytkownika. Do tego służy właśnie `prefers-reduced-motion: reduce`.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  button {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button {
+    animation: vibrate 0.3s linear infinite both;
+  }
+}
+```
+
+Gdy nasz użytkownik ma włączoną opcję `reduce`, **usuwamy** animację, gdy nie ma jej ustawionej, zachowujemy, proste!
+
+## 9. Nagłówki
+
+Tutaj nie będę się za dużo rozpisywał, zrobił już to Tomek Jakut na swoim blogu w artykule [O nagłówkach słów kilka](https://blog.comandeer.pl/o-naglowkach-slow-kilka.html).
+
+Ale tak w skrócie, czemu powinniśmy się tak przejmować tymi nagłówkami? Stanowią one często, dla użytkowników ekranowych, **punkty nawigacyjne**, po których mogą przemieszczać się po stronie.
+
+Kilka faktów:
+
+- Nagłówki powinny postępować po sobie, w kolejności od `<h1>` do `<h6>`, nie powinniśmy **omijać** żadnego poziomu
+- Nagłówek `<h1>` powinien występować **tylko raz** na danej stronie
+- Nie powinniśmy stosować nagłówków jako **podtytułów**
+
+## 10. Formularze
+
+Formularze, przez niektórych kochane, przez niektórych znienawidzone. Na pierwszy rzut oka łatwe do zrealizowania, ale im dalej w las tym **ciężej**. Zapewnienie dostępnego formularza to bardzo ważny aspekt w naszych stronach i aplikacjach, bardzo często mamy przecież do czynienia z jakimś **logowaniem**, czy też **formularzem kontaktowym**.
+
+Zacznijmy od **źle** przygotowanego formularza:
+
+```html
+<form>
+  <input placeholder="Twój adres email" />
+  <input placeholder="Hasło" />
+  <input type="submit" placeholder="Potwierdź" />
+</form>
+```
+
+Poprawię teraz przykład i wytłumaczę Ci co zostało zmienione.
+
+```html
+<form>
+  <h1>Zaloguj się</h1>
+  <div>
+    <label for="email">Adres email</label>
+    <input id="email" type="email" name="email" autocomplete="username" required />
+  </div>
+  <div>
+    <label for="password">Hasło</label>
+    <input
+      id="current-password"
+      name="current-password"
+      type="password"
+      autocomplete="current-password"
+      aria-describedby="password-constraints"
+      required
+    />
+    <button type="button" class="show-password">
+      <span class="visuallyhidden">Pokaż hasło jako zwykły tekst</span>
+    </button>
+    <p id="password-constraints">
+      Hasło powinno składać się z minimum 8 znaków, w tym 2 znaków specjalnych
+    </p>
+  </div>
+  <button>Zaloguj się</button>
+</form>
+```
+
+Zacznijmy od samej góry, na początku dajemy znać użytkownikowi **co to za formularz**, czy to logowanie, czy rejestracja, a może formularz kontaktowy.
+
+Następnie do każdego `<input/>` nadajemy odpowiedni `<label/>` z odpowiednim atrybutem `[for]`. Co nam to daję? Po pierwsze, **cały czas widzimy** czego dotyczy dany input, informacja **nie znika** nam, tak jak ma to miejsce w przypadku korzystania z `[placeholder]`. Po drugie, jest to niezwykle ważne dla użytkowników **czytników ekranowych**, w ten sposób mogą **rozróżnić** dane pole. Dla sprostowania, oczywiście możemy tutaj ustawić `[placeholder]`, ale nie zapominajmy o labelu.
+
+Dodaliśmy odpowiednie **atrybuty** dla inputów, takie jak `[type]`, `[autocomplete]` i `[required]`. Przeglądarka wie jakiego **typu** jest dany input, dzięki temu np. możemy zapamiętać dane logowania. Określenie typu ma jeszcze szereg innych zalet, chociażby **pod względem UX** jeśli chodzi o korzystanie z urządzeń mobilnych. Ważne jest, żebyśmy **nie próbowali uniemożliwić** użytkownikowi wypełnienia danych. No i `[required]` czyli **walidacja**, która działa nawet bez włączonego JavaScriptu.
+
+Oprócz tego **opisaliśmy hasło** (tego opisu _mogłoby_ tutaj nie być, przecież to logowanie, przy rejestracji byłoby to bardziej przydatne, niemniej mam nadzieję, że Ci się przyda).
+
+Dodałem tutaj również przycisk często spotykany na stronach, czyli tzw. _Pokaż hasło_, zwróć uwagę, że **opisałem** go odpowiednio, tak, żeby użytkownik wiedział w co klika, jeszcze lepszym rozwiązaniem zamiast ikonki byłoby użycie _zwykłego_ tekstu, chociaż to już rzadko spotykane.
+
+Na koniec został nam `<button/>`, który jest o wiele lepszy niż `<input type="submit"/>`, chociażby pod względem stylowania, wiedz po prostu, **że nie warto** korzystać ze starego już `<input type="submit"/>`. Tutaj zastosowałem trick z _visuallyhidden_, o którym mówiłem w poprzednim wpisie - [Dostępność - projektowanie i semantyczny HTML](https://www.frontlive.pl/dostepnosc-projektowanie-i-semantyczny-html/)
+
+## Podsumowanie
+
+Nie była to _zwykła lista_, chciałem Ci przekazać przy tym trochę **wiedzy**. Z dostępnością jeszcze nie kończymy na tym blogu!
+
+Do zobaczenia za tydzień!
+
+### Źródła
+
+- [Accessible Images For When They Matter Most](https://www.smashingmagazine.com/2020/05/accessible-images/)
+- [Identifying the purpose of a link using link text combined with the text of the enclosing sentence](https://www.w3.org/WAI/WCAG21/Techniques/general/G53)
+- [O nagłówkach słów kilka](https://blog.comandeer.pl/o-naglowkach-slow-kilka.html)
+- [Deeper Dive on Accessible SVG Patterns](https://cariefisher.com/a11y-svg/)
+- [Heydon - Piksle blokują skalowanie tekstu](https://twitter.com/heydonworks/status/1151443153657958405)
+- [Sign-in form best practices](https://web.dev/sign-in-form-best-practices/)

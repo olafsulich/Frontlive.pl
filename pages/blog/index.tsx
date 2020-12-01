@@ -9,7 +9,6 @@ import { Blog } from '../../components/blog/Blog';
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getAllPosts();
-
   return {
     props: {
       posts,

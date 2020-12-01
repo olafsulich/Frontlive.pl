@@ -1,0 +1,296 @@
+---
+title: 'Firebase - pobieranie danych z Firestore'
+category: 'Firebase'
+publishedAt: '26-03-2020'
+popular: false
+excerpt: 'Wnieś swoją wiedzę na temat Firebase na wyższy poziom, poznaj Firestore - bazę danych Firebase.'
+---
+
+## Stwórzmy własną bazę danych!
+
+W poprzednim wpisie nauczyłeś się, jak dodać autoryzację użytkowników do swojej firebasowej aplikacji. Dziś poznamy [Cloud Firestore](https://firebase.google.com/docs/firestore).
+
+## Co powinieneś wiedzieć?
+
+Żeby wyciągnąć z tego artykułu 100%, powinieneś swobodnie poruszać się po Reactcie.
+
+- Mieć w małym palcu [HTML & CSS](https://tutorials.comandeer.pl/html5-blog.html).
+- Być obeznanym ze standardami [ES6+](https://www.youtube.com/watch?v=eA2YRceiDwk).
+- Rozumieć [Reactowe Hooki](https://reactjs.org/docs/hooks-intro.html)
+- Posiadać podstawową wiedzę ze [Styled Components](https://styled-components.com/)
+
+> Jeśli te zagadnienia są Ci obce, nie martw się! Firebase możesz również wykorzystać bez znajomości Reacta.
+
+## Konfiguracja Firebase
+
+Utwórzmy plik **firebase.js** a w nim dodajmy nasz objekt konfiguracyjny i zainicjujmy aplikację. Przypisujemy do consta firestore, metodę obiektu firebase, **firestore()**
+
+Twój plik powinien wyglądać mniej więcej tak:
+
+```js
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDctz47bkEEwdiOMPVnIWWqTTzdtpveAzw',
+  authDomain: 'frontlive-1.firebaseapp.com',
+  databaseURL: 'https://frontlive-1.firebaseio.com',
+  projectId: 'frontlive-1',
+  storageBucket: 'frontlive-1.appspot.com',
+  messagingSenderId: '1008294462858',
+  appId: '1:1008294462858:web:a888d2891e908d183e7473',
+};
+// Inicjujemy aplikację
+firebase.initializeApp(firebaseConfig);
+
+export const firestore = firebase.firestore();
+```
+
+> Jeśli nie wiesz co tutaj się stało, odsyłam Cię do pierwszego wpisu gdzie wyjaśniłem konfigurację bardziej szczegółowo.
+
+## Typy danych
+
+Żeby rozpocząć przygodę z [Firestore](https://firebase.google.com/docs/firestore), musimy najpierw dowiedzieć się, co tak naprawdę możemy w niej trzymać.
+
+- Array
+- String
+- Boolean
+- Date and time
+- Map
+
+To tylko kilka typów danych, jeśli chcesz poznać je wszystkie, kliknij [tutaj](https://firebase.google.com/docs/firestore/manage-data/data-types)
+
+## Tworzymy pierwszą kolekcję
+
+Przejdź teraz do zakładki Database i utwórz nową bazę danych.
+Po wybraniu odpowiedniej strefy czasowej powinieneś zobaczyć pustą bazę danych:
+
+![](../images/Firestore.png)
+
+Utwórzmy teraz nową kolekcję o nazwię **twórcy**, indetyfikator pozostawmy jako automatyczny i przechodzimy dalej.
+
+Jako naszego pierwszego twórce weźmy [Dana Abramova](https://mobile.twitter.com/dan_abramov).
+
+Stwórzmy odpowiednie **pola**, wszystkie będą typu `string`
+
+- name
+- photo
+- website
+
+Jako **wartości**, podamy odpowiednie dane:
+
+- name: Dan Abramov
+- photo: https://bit.ly/39hShFn
+- website: https://overreacted.io/
+
+Zapisujemy i gotowe!
+
+![](../images/Firestore-twórcy.png)
+
+Ten dziwny ciąg znaków to **id** naszego dokumentu, w moim przypadku jest to `zk5DTr1BchPfaeUUokOd`
+
+## Komponenty widoku
+
+Tworzymy podstawowy szkielet aplikacji, składający się z dwóch komponentów, **App** i **CreatorCard**:
+
+```js
+import React from 'react';
+import styled from 'styled-components';
+
+const StyledWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 5rem;
+`;
+
+const StyledHeading = styled.h1`
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+`;
+
+const App = () => {
+  return (
+    <StyledWrapper>
+      <StyledHeading>Twórcy</StyledHeading>
+    </StyledWrapper>
+  );
+};
+
+export default App;
+```
+
+---
+
+```js
+import React from 'react';
+import styled from 'styled-components';
+
+const StyledWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 5rem;
+`;
+
+const StyledCard = styled.div`
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 2px solid #f2f5f7;
+`;
+
+const StyledCreatorInfo = styled.div`
+  padding: 2rem;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-direction: column;
+`;
+
+const StyledCreatorName = styled.span`
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const StyledCreatorWebsite = styled.a`
+  font-size: 1rem;
+  color: inherit;
+`;
+
+const StyledCreatorImage = styled.img`
+  height: 100%;
+  width: 30%;
+`;
+
+const CreatorCard = () => {
+  return (
+    <StyledWrapper>
+      <StyledCard>
+        <StyledCreatorImage src="https://bit.ly/39hShFn" alt="Dan Abramov" />
+        <StyledCreatorInfo>
+          <StyledCreatorName>Dan Abramov</StyledCreatorName>
+          <StyledCreatorWebsite href="https://overreacted.io/">
+            https://overreacted.io/
+          </StyledCreatorWebsite>
+        </StyledCreatorInfo>
+      </StyledCard>
+    </StyledWrapper>
+  );
+};
+
+export default CreatorCard;
+```
+
+## Pobieranie danych
+
+Komponenty gotowe to teraz czas na najważniejsze - pobieranie kolekcji, którą przed chwilą stworzyliśmy.
+
+Jako nasz lokalny state, do którego będą przekazywane dane wykorzystamy hooka [useState](https://pl.reactjs.org/docs/hooks-state.html), a jego początkową wartością będzie pusta tablica.
+
+```js
+const [creators, setCreators] = useState([]);
+```
+
+Następnym krokiem będzie odwołanie się do kolekcji `twórcy`.
+
+```js
+const creatorsCollections = firestore.collection('twórcy');
+```
+
+Następnie piszemy prostą funkcję która zwróci nam objekt z **id** dokumentu oraz **resztą danych**.
+
+Jako argument przekazujemy dokument, wykorzystujemy również [spread operator](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Operatory/Spread_operator), żeby "rozsmarować" nasze dane.
+
+```js
+const documentsCollection = (doc) => {
+  return { id: doc.id, ...doc.data() };
+};
+```
+
+> **data()** zwraca wszystkie pola dokumentu.
+
+Na koniec tworzymy hooka [useEffect](https://pl.reactjs.org/docs/hooks-effect.html), w którym najwięcej się dzieje.
+
+Korzystamy tutaj z `subskrybcji`, więcej o **subskrybcjach** w useEffect możesz przeczytać [tutaj](https://typeofweb.com/react-hooks-useeffect-efekty-uboczne-w-komponencie/)
+
+Nasza kolekcja **creatorsCollection** daje nam dostęp do metody `onSnaphot()`, pozwala ona na ciągłe nasłuchiwanie zmian. Dzięki temu, zmiany, które wprowadzimy w bazie danej, będą **natychmiastowo** uaktualniane!
+
+Wewnątrz tej metody, podajemy **snapshota** i to go będziemy wykorzystywać we wcześniej przygotowanej funkcji `documentsCollection`.
+
+Używając **snapshota** mamy dostęp do metody `.docs`, która zwraca nam wszystkie dokumenty danej kolekcji. Teraz możemy użyć [map](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/map) i podać do niej funkcje `documentsCollection`.
+
+Wrzucamy teraz zmapowane dane z kolekcji do `setCreators` i gotowe!
+
+```js
+useEffect(() => {
+  const subscribe = creatorsReference.onSnapshot((snapshot) => {
+    const dataFromCollection = snapshot.docs.map(documentsCollection);
+    setCreators(dataFromCollection);
+  });
+  return () => subscribe;
+}, []);
+```
+
+> Halo halo, zrobiłem wszystko tak jak podałeś a wyskauje mi **ERROR**.
+
+Jeśli wyskoczył Ci **ERROR**, a w nim informacja o braku uprawnień to bardzo dobrze - przejdźmy w takim razie do tematu reguł w firestore.
+
+## Reguły firestore
+
+Jeśli przy konfiguracji wybrałeś aby Twoja baza danych była w trybie `produkcyjnym`, to Firestore będzie na Ciebie bardzo zły, dopóki nie zadeklarujesz **Reguł bezpieczeństwa**
+
+Temat reguł zasługuje na przynajmniej osobny wpis, więc nie będę teraz omawiał głębiej tego tematu.
+
+Aby wszystko zaczęło działać zezwól wszystkim dokumentom na **odczyt** i **zapis**
+
+```
+ rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write;
+    }
+  }
+}
+```
+
+## Wyświetlenie danych
+
+Mamy już wszystkie potrzebne dane do wyświetlenia karty z twórcą, bierzemy się do wyświetlenia całości.
+
+Do komponentu `CreatorCard` podajemy zdestrukturyzowane propsy `name, image, website`.
+
+Za pomocą metody [map](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/map) zwracamy `CreatorCard` z odpowiednimi propsami.
+
+Jako [key](https://pl.reactjs.org/docs/lists-and-keys.html) podajmy `id` dokumentu.
+
+```js
+<StyledWrapper>
+  <StyledHeading>Twórcy</StyledHeading>
+  {creators.map(({ id, name, photo, website }) => (
+     <CreatorCard key={id} name={name} photo={photo} website={website} />;
+  ))}
+</StyledWrapper>
+```
+
+## Podsumowanie
+
+Dzięki za wytrwanie do końca!
+
+Mam nadzieję, że po dzisieszym wpisie będziesz umiał stworzyć podstawową bazę danych w `Firestore` i zaciągnąć z niej dane.
+
+Zachęcam do dodania swoich ulubionych twórców, ja już to zrobiłem, rezultaty możesz zobaczyć poniżej 👇
+
+Cały kod znajdziesz [tutaj](https://codesandbox.io/s/friendly-mayer-5j8qm), pamiętaj tylko o podmienieniu danych konfiguracyjnych w pliku `firebase.js`.
+
+Do usłyszenia!

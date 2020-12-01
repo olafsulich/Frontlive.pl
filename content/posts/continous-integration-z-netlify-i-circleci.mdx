@@ -1,0 +1,130 @@
+---
+title: 'CircleCi + Netlify - Continuous Integration & Deployment'
+category: 'DevOps'
+publishedAt: '24-04-2020'
+popular: false
+excerpt: 'Na pewno każdy z Was słyszał o magicznym CI/CD, ale co to takiego, z czym się to je i dlaczego zaoszczędzi Ci to mnóstwo czasu?'
+---
+
+Każdy, kto wrzucał pliki na serwer ftp, wie, że **bywało to męczące**. Za każdym razem musieliśmy **odpalić testy**, **zbudować projekt** i tak w kółko... Na szczęście czasy się zmieniły, a technologia idzie do przodu.
+
+Dziś dowiesz się jak **automatycznie** zbuildować projekt, odpalić testy i całość wydeployować na **Netlify**.
+
+Zaczynamy!
+
+> W tym tutorialu będę korzystał z Reacta, ale możesz użyć dowolnej technologii do wykonania poniższych kroków!
+
+## O co chodzi w tym CI/CD?
+
+Skrót **CI/CD** oznacza continuous integration/continuous deployment, czyli proces ciągłej integracji/wdrożenia.
+
+## Continuous Integration
+
+To proces, w którym developer commitując do repozytorium zapewnia **kontrolę jakości** poprzez automatyczne testy.
+
+## Continuous Deployment
+
+To proces, w którym możemy **wdrażać kod** w zautomatyzowany sposób.
+
+## Konfiguracja projektu
+
+W twoim katalogu głównym utwórz folder `.circleci`, a w nim plik `config.yml`.
+
+Do wykonania całej operacji, potrzebujemy wykonać kilka kroków:
+
+- Zaciągnąć projekt z githuba
+- Pobrać lub cachować dependencje
+- **Odpalić testy**
+- **Zbuildować projekt**
+- **Wydeployować go na Netlify**
+
+Twój plik `config.yml` powinien wyglądać w ten sposób:
+
+```js
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:11.10.1
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: npm run test
+
+      - run: npm run build
+
+      - run: npm run netlify:deploy
+```
+
+### Skrypty
+
+- **npm run test**: odpala testy
+- **npm run build**: buduje projekt
+
+**netlify:deploy** to skrypt, który znajduje się w `package.json`, wygląda on tak:
+
+```
+"netlify:deploy": "netlify deploy --dir=./build -p -m \"$(git log -1 --pretty=%B)\""
+```
+
+- "--dir": określamy folder, z którego ma zostać wykonany deploy na **netlify**.
+- "-p": dzięki tej fladzę określamy, że jesteśmy w trybie produkcyjnym i netlify ma wydeployować projekt.
+- "-m \"\$(git log -1 --pretty=%B)\"": zaciąga wiadomość z ostatniego commita i wyświetla na netlify(opcjonalne).
+
+Aby całość działała, jak należy, musisz dodać do projektu `netlify-cli`:
+
+```
+npm install -D netlify-cli
+```
+
+### Konfiguracja Netlify
+
+Zaloguj się na platformie i wybierz swój projekt na **githubie**.
+
+Przejdź do [https://app.netlify.com/user/applications](https://app.netlify.com/user/applications) i utwórz nowy token.
+
+Skopiuj go, będzie on Ci potrzebny później.
+
+Przejdź teraz do ustawień projektu i skopiuj `API ID`.
+
+### UaktualnianieKonfiguracja CircleCi
+
+Żeby skonfigurować **CircleCi**, potrzebujesz konta na tej platformie podpiętego do twojego **githuba**.
+
+Wybierz i zbuilduj projekt.
+
+Twój build powinien zakończyć się **niepowodzeniem**.
+
+Przechodzimy do **Eniroment Variables**, które znajdziesz w ustawieniach projektu.
+
+Dodaj zmienna o nazwie `NETLIFY_AUTH_TOKEN` a jako jej wartość ustaw twój **personalny token** netlify.
+Potrzebujemy jeszcze id projektu, tworzymy kolejną zmienną o nazwie `NETLIFY_SITE_ID` z wartością **id projektu** na netlify.
+
+Wprowadź zmiany w projekcie i obserwuj magię **CircleCi**.
+
+Jeżeli twój build mieni się cały na zielono, to zrobiłeś wszystko tak, jak należy!
+
+![](../images/ci-test.png)
+
+## Podsumowanie
+
+Dzięki za wytrwanie do końca!
+
+Jeśli twój build failuje, nie martw się! To normalne, sprawdź ponownie wszystkie kroki i upewnij się, że wypushowałeś zmiany na githuba.
+
+Do usłyszenia!

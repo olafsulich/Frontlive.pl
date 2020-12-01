@@ -1,0 +1,202 @@
+---
+title: 'Dostępność - czytniki ekranowe i testowanie'
+category: 'Dostępność'
+publishedAt: '02-10-2020'
+popular: false
+excerpt: 'W poprzednich artykułach pisałem o dobrych praktykach, błędach i filozofii inkluzywności. Dziś pomówimy o czytnikach ekranowych i narzędziach do testowania dostępności.'
+---
+
+W poprzednich artykułach pisałem o dobrych praktykach, błędach i filozofii inkluzywności. Dziś pomówimy o **czytnikach ekranowych** i narzędziach do **testowania** dostępności.
+
+Zaczynajmy!
+
+## Spis treści
+
+- [Czytniki ekranowe](#czytniki-ekranowe)
+  - [Popularne screen readery](#popularne-screen-readery)
+- [Praca z VoiceOver](#praca-z-voiceover)
+  - [Podstawowe skróty klawiszowe](#podstawowe-skroty-klawiszowe)
+  - [Menu nawigacyjne](#menu-nawigacyjne)
+  - [Landmarki](#landmarki)
+  - [Praktyka](#praktyka)
+- [Testowanie](#testowanie)
+  - [Nawigacja klawiaturą](#nawigacja-klawiatura)
+  - [Screen readery](#screen-readery)
+  - [DevTools](#devtools)
+  - [Development](#development)
+  - [Rozszerzenia dla przeglądarek](#rozszerzenia-dla-przegladarek)
+  - [HTML Validator](#html-validator)
+  - [Checklisty](#checklisty)
+  - [Użytkownicy](#uzytkownicy)
+- [Podsumowanie](#podsumowanie)
+  - [Źródła](#źródła)
+
+## Czytniki ekranowe
+
+Czym są czytniki ekranowe? Cytując [wpis z Wikipedii](https://pl.wikipedia.org/wiki/Czytnik_ekranowy):
+
+> Czytnik ekranowy (ang. screen reader) – program komputerowy, który rozpoznaje i interpretuje informacje wyświetlane na monitorze komputera, a następnie przedstawia je użytkownikowi w postaci głosowej lub zostaje wysłany do brajlowskiego urządzenia wyjściowego. Czytniki ekranowe są formą technologii asystujących, wykorzystywaną m.in. przez osoby niewidome, niedowidzące, głuchoniewidome czy mające trudności w uczeniu się.
+
+Myślę, że idealnie oddaje to _czym jest_ czytnik ekranowy, ale jakie znaczenie ma **dla nas developerów**?
+
+Przede wszystkim, możemy dzięki niemu **przetestować** naszą stronę! Gdy sami użyjemy czytnika ekranowego, nie oszukując przy tym, możemy w łatwy sposób wyłapać **potencjalne błędy**, które na pewno przeszkadzały by użytkownikom, którzy na co dzień z niego korzystają.
+
+### Popularne screen readery
+
+Obecnie na rynku królują trzy czytniki - VoiceOver, [JAWS](https://www.freedomscientific.com/products/software/jaws/) i [NVDA](https://www.nvda.pl/).
+
+W tym wpisie będę korzystał z tego pierwszego, VoiceOver jest wbudowanym **czytnikiem na Mac OS**.
+JAWS i NVDA to czytniki dla **Windowsa**, ten pierwszy jest płatny, więc na potrzeby testowania zachęcam Cię do pobrania albo wersji próbnej JAWS albo **skorzystania z NVDA**, który jest **darmowy**!
+
+Czytniki różnią się między sobą, np. skrótami klawiszowymi, ale bez obaw, każdy z nich działa **na tej samej zasadzie**! Każdy z nich ma również jakieś pojedyncze _potknięcia_ i może się zdarzyć tak, że po prostu **nie przeczyta** czegoś co byśmy chcieli, ale to raczej _pojedyncze_ przypadki.
+
+## Praca z VoiceOver
+
+Żeby włączyć VoiceOvera potrzebujesz użyć _kombinacji_ przycisków `Command` + `F5`. Nie traćmy czasu i przejdźmy do testowania! Na cel obrałem sobie stronę [a11project.com](https://www.a11yproject.com/), którą swoją drogą polecam, **świetne źródło** do nauki dostępności.
+
+Po wejściu na stronę, czytnik **sam zacznie czytać** jej zawartość, oczywiście możemy przerwać takie działanie wciskając `Control`, w tym przypadku _przetabowuję_ się przez nawigację i zatrzymuję się na linku `Posts`. VoiceOver daje mi znać **gdzie się znajduję**(lista), na jakim **elemencie**(link `Posts`) i jaki obecny element ma **stan**, w tym przypadku link był przeze mnie odwiedzony.
+
+![ ](../images/SR-01.png)
+
+W lewym dolnym rogu powinno Ci się pojawić okienko informacyjne, tam będą wyświetlane czytane zwroty.
+
+### Podstawowe skróty klawiszowe
+
+Każdy czytnik posiada swoje **skróty klawiszowe**, w VoiceOverze aktywujemy skrót za pomocą `Control` + `Option`, takie połączenie często jest nazywane `VO`. Żeby zacząć czytać stronę naciśnij `VO`, czyli `Control` + `Option` i `A`. Do przerwania służy po prostu sam przycisk `Control`.
+
+Z podstawowych kombinacji możemy jeszcze wyróżnić:
+
+- `VO` + `→` - Przeniesienie do następnego elementu
+- `VO` + `←` - Przeniesienie do poprzedniego elementu
+- `VO` + `P` - Przeczytanie paragrafu
+- `VO` + `S` - Przeczytanie sentencji
+- `VO` + `fn` + `←` - Przeniesienie na początek strony
+- `VO` + `fn` + `→` - Przeniesienie na koniec strony
+
+Element oznacza tak na prawdę wszystko co czytnik może przeczytać, czy to link, paragraf, czy nagłówek. Komend jest znacznie więcej, jeśli będziesz potrzebował jakieś szczególnej możesz sprawdzić [oficjalną ściągawkę od Apple](https://www.apple.com/voiceover/info/guide/_1131.html).
+
+### Menu nawigacyjne
+
+Wspominałem Ci w poprzednich artykułach, że osoby korzystające ze _screen readerów_ często nawigują po stronie za pomocą **nagłówków**. Dlatego tak ważne jest ich odpowiednie ułożenie na stronie. Po nagłówkach możemy _skakać_ za pomocą kombinacji klawiszy `VO` + `Command` + `H`. Nie jest to najwygodniejsze w mojej opinii i mamy znacznie fajniejsze narzędzie do tego - **menu**.
+
+![ ](../images/SR-02.png)
+
+Menu odpalamy przy pomocy `VO` + `U`. Po menu możemy łatwo nawigować strzałkami góra, dół wybierając odpowiednie nagłówki, czytnik informuje nas także z **jakim poziomem** nagłówka mamy do czynienia. Naciskając `ENTER` wybieramy interesujący nas nagłówek.
+
+To menu nie zawiera tylko nagłówków, ale również wiele innych rzeczy. Nawigować możemy po np. **linkach**, **formularzach** i **tabelach**, opcji jest na prawdę wiele, ale działa to na takiej samej zasadzie. Po linkach, formularzach i tabelach możemy oczywiście nawigować, tak samo jak po nagłówkach za pomocą odpowiednich **skrótów klawiszowych**:
+
+- `VO` + `Command` + `L` - Przeniesienie do następnego linku
+- `VO` + `Command` + `J` - Przeniesienie do następnego formularza
+- `VO` + `Command` + `T` - Przeniesienie do następnej tabeli
+
+Z czego na pewno będziesz korzystał/a to połączenie przycisków `VO` + `Spacja`, które **otwiera** link.
+
+### Landmarki
+
+_Landmarki_, czyli po naszemu **punkty nawigacyjne** to kolejny sposób, jak sama nazwa mówi, na przemieszczanie się po stronie. Jeśli landmarki są poprawnie zrobione, to nawigacja w ten sposób jest na prawdę **przyjemna** i osoby korzystające z czytników **bardzo często** wykorzystują ten patent.
+
+![ ](../images/SR-03.png)
+
+Wyróżniamy punkty nawigacyjne takie jak:
+
+- `banner` - najczęściej jest to `<header>` dla naszej strony, tutaj często znajduję się **tytuł**
+- `complementary` - ten punkt, jak sama nazwa mówi odnosi się do _pobocznej_ części strony, jakiegoś **pobocznego kontentu**, często spotykany jako znacznik `<aside>`
+- `contentinfo` - zazwyczaj jest to po prostu `<footer>`, większość z nas wstawia **tylko jeden** `<footer>` na danej stronie, w przypadku wielu takich znaczników najlepiej opisać każdy z nich
+- `form` - punkt nawigacyjny dla **formularzy**, tutaj sprawa się komplikuje, bo formularzy często będziemy mieli wiele na jednej stronie. Tak jak wspominałem w poprzednim artykule, w takim przypadku najlepiej zadbać o **odpowiedni nagłówek**, dajmy znać użytkownikowi z jakim formularzem ma styczność, dodatkowo, w takim przypadku dobrze jest opisać sam formularz używając do tego np. `[aria-labelledby="id"]`
+- `main` - zapewne się domyślasz, tutaj bez niespodzianek, najczęściej takim punktem jest znacznik `<main>`, powinien on być w większości przypadków **jeden na stronę**
+- `navigation` - taka sama sytuacja jak poprzednio, najczęściej znacznik `<nav>`. Tutaj pamiętajmy, że nawigacji **możemy mieć kilka** i należy odpowiednio **nazwać** poszczególne
+- `region` - tutaj sprawa się nieco komplikuje, najczęściej ten punkt będzie występował jako `<section>`, z nim jednak lepiej **uważać** i go **nie nadużywać**, jeśli coś może być inna rolą, to nie powinieneś używać region
+- `search` - popularna **szukajka**, tutaj musimy oznaczyć formularz odpowiednią rolą `[role="search"]`, a input w nim zawarty powinień być typu `search`
+
+Możesz teraz pomyśleć, że to dziwne jakieś punkty nawigacyjne, które są tak na prawdę znacznikami, o co w tym chodzi, **WTF**?!
+
+Większość współczesnych przeglądarek wspiera takie znaczniki jak `<main>`, praktycznie wszystkie no może **poza IE**. Kiedyś do oznaczania punktów nawigacyjnych używało się tzw. [aria roles](https://www.w3.org/WAI/GL/wiki/Using_ARIA_landmarks_to_identify_regions_of_a_page). Wyglądało to mniej więcej tak:
+
+```html
+<div role="navigation"></div>
+<div role="main"></div>
+<div role="contentinfo"></div>
+```
+
+Weszły takie znaczniki jak `<nav>`, `<main>` i `<footer>` i nasz markup wygląda po prostu tak:
+
+```html
+<nav></nav>
+<main></main>
+<footer></footer>
+```
+
+**Nie musimy** już korzystać z tych ról, a przynajmniej nie z wszystkich, zastępują je odpowiednie **znaczniki HTML**. Ale jak wspominałem wyżej, role się nadal przydają i dzięki nim możemy ustalać punkty nawigacyjne dla treści, która **nie posiada** swojego _HTMLowego_ odpowiednika, np. **search**, nie mamy takiego znacznika, a dobrze by było móc mieć taki punkty nawigacyjny.
+
+Niestety, nie jest tak idealnie kolorowo i różne czytniki, na różnych przeglądarkach **zachowują się inaczej**, tu jeden czegoś nie wyłapie, tam drugi. Dla niektórych znaczników, tak czy siak będziemy musieli, jeśli chcemy zapewnić punkty nawigacyjne wszystkim, dodawać role. Więcej o tych problemach możesz przeczytać w artykule [HTML5 Landmarks Exposed](https://www.scottohara.me/blog/2019/04/05/landmarks-exposed.html).
+
+### Praktyka
+
+Dużo tych skrótów klawiszowych, ale spokojnie **szybko** się do nich przyzwyczaisz ;) Jeśli masz tylko ochotę odwiedź stronę [a11project.com](https://www.a11yproject.com/) i spróbuj _przenawigować_ się przez nią używając tylko **landmarków**, **nagłówków** lub **linków**. W mojej opinii najszybciej załapiesz ten temat **gdy zaczniesz używać** VoiceOvera, dlatego mam dla Ciebie jeszcze trzy praktyczne **ćwiczenia** na których możesz się sprawdzić:
+
+- [Obrazki w praktyce](https://webaim.org/articles/voiceover/images) - ten przykład świetnie pokazuje jak **ważny** jest `alt` i Ty możesz się o tym przekonać **na własnej skórze**!
+
+- [Dostępne formularze](https://webaim.org/articles/voiceover/forms) - jeśli w poprzednich materiałach jeszcze Cię nie przekonałem do korzystania z _labelek_ w formularzach, **ten przykład na pewno to zrobi**! Bardzo fajnie widać tutaj różnicę z i bez etykiet.
+
+## Testowanie
+
+Testowanie dostępności to bardzo **szeroki** temat, mamy wiele narzędzi, ale zanim zaczniemy korzystać z jakiś to sprawdźmy co mamy pod ręką.
+
+### Nawigacja klawiaturą
+
+Upewnij się, że Twoja strona, a właściwie to jej **elementy interaktywne** są dostępne przy pomocy klawiatury. W tym celu możesz użyć przycisków `TAB`, `SHIFT` + `TAB`, `Enter`, `Escape`, strzałek i spacji. Kombinacji przycisków jest wiele, najważniejsze jest to, żeby można było **zrobić klawiaturą to samo co myszką**(interakcje).
+
+Sprawdź, czy nie zepsułaś/eś czegoś z np. `tabindex` i coś co nie powinno się _focusować_ pierwsze, to robi. Często też spotykam się z tym, że zwinięte menu jest dostępne za pomocą klawiatury, tak nie powinno być.
+
+### Screen readery
+
+Główny temat tego artykułu, skorzystanie z czytnika jest **świetną opcją**, w ten sposób możesz przekonać się na własnej skórze co jest nie tak, co trzeba poprawić, co jest niejasne. Skorzystaj z tego, o czym Ci wspominałem, odpal **menu**, upewnij się, że nagłówki są w **logicznej kolejności**, spróbuj po nich nawigować, sprawdź **punkty nawigacyjne**. Przejdź przez całą stronę, słuchając tego co do Ciebie mówi, zwróć uwagę na **linki** i **alty** dla obrazków. Myślę, że fajnym testem może być zamknięcie oczu i spróbowanie tylko za pomocą czytnika i skrótów klawiszowych przedostać się przez całą stronę, **spróbuj**!
+
+### DevTools
+
+Same DevToolsy dają już nam **duże możliwości** w testowaniu dostępności, np. po najechaniu na tekst możemy sprawdzić jaką posiada rolę(nie mylić z rolami w punktach nawigacyjnych) i zobaczyć czy posiada **odpowiedni kontrast**. Nie możemy zapominać o **drzewku dostępności** i **LightHousie**, który po przeprowadzeniu audytu może wskazać potencjalne **błędy**.
+
+![Okienko w Google Chrome DevTools ukazujące pomocne informacje w kontekście dostępności](../images/DevTools-a11y.png)
+
+Niedawno pojawiła się również opcja testowania strony pod kątem **niepełnosprawności wzrokowych**. Chrome może **zasymulować** nam np. achromatopsje i pokazać jak strona będzie wyglądała gdy osoba z takim typem niepełnosprawności będzie chciała z niej korzystać, **świetna opcja** sami sprawdźcie!
+
+![Porównanie normalnego widzenia z różnymi typami niepełnosprawności wzrokowej](../images/DevTools-vision.jpg)
+
+### Development
+
+Testować naszą stronę możemy również **na bieżąco**, podczas developmentu!
+
+Najbardziej znanymi narzędziami do tego typu zastosowań są [AXE](https://www.deque.com/axe/) i [WAVE](https://wave.webaim.org/). Są one dostępne pod **różnymi formami**, czy to w formie rozszerzenia przeglądarkowego, biblioteki, czy też w roli integracji z narzędziami typu CI/CD.
+
+Piszę w Reakcie, więc nie mogłem o tym nie wspomnieć, tak istnieje również **implementacja AXE do Reakta** - [@axe-core/react](https://www.npmjs.com/package/@axe-core/react). Poza tym mamy również **plugin do eslinta**, specjalnie dedykowany pod JSX - [eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y#readme), a wisienką na torcie niech będzie [cypress-axe](https://github.com/avanslaars/cypress-axe), dzięki któremu możemy wpleść dostępność do naszych **testów e2e**.
+
+### Rozszerzenia dla przeglądarek
+
+Jak już wspomniałem, np. takiego [AXE](https://www.deque.com/axe/) możemy dodać jako rozszerzenie do przeglądarki. Takich rozszerzeń jest mnóstwo, jedne odpowiadają za sprawdzenie **poprawności nagłówków**, drugie za odpowiedni **kontrast**, ja korzystałem z [Accessibility Insights](https://accessibilityinsights.io/) i było nawet okej.
+
+### HTML Validator
+
+Możliwe, że znaliście go wcześniej, oto **legendarny** już [HTML Validator](https://validator.w3.org/nu/), **lepszy HTML to lepsza dostępność**, warto wrzucić tutaj swoją stronę i zobaczyć czy wszystko jest okej.
+
+### Checklisty
+
+Tyle tych rzeczy do sprawdzenia, więc może przydałoby się to gdzieś skompletować, stworzyć jakąś **checkliste**? Zanim się za to zabierzesz, coś już takiego istnieje i jest na stronie, którą dziś testowaliśmy - [a11project checklist](https://www.a11yproject.com/checklist/). Sprawdź również poprzedni artykuł - [Dostępność - top 10 najczęściej popełnianych błędów](https://www.frontlive.pl/dostepnosc-top-10-bledow/).
+
+### Użytkownicy
+
+Nie ma nic skuteczniejszego niż testy realnych **użytkowników**, a przynajmniej testerów. Gdy sami testujemy produkty, zawsze nam coś umknie i znajdzie się coś do poprawienia, pamiętaj, **ludzie w kontekście dostępności są najważniejsi**.
+
+## Podsumowanie
+
+Jedną rzecz jaką chciałbym, żebyś wyciągnął z tego artykułu jest to, aby **zacząć korzystać z czytników ekranowych**. Mi to otworzyło oczy(na testy zamknęło ;) ) na problem i jego wagę. Accessibility **nie jest** straszne, po prostu **trzeba zacząć**!
+
+Powodzenia w dalszym zgłębianiu tematu i mam nadzieję **wdrażaniu** rozwiązań u siebie!
+
+Do usłyszenia!
+
+### Źródła
+
+- [Accessible Landmarks](https://www.scottohara.me/blog/2018/03/03/landmarks.html)
+- [Using VoiceOver to Evaluate Web Accessibility](https://webaim.org/articles/voiceover/)
+- [Emulate vision deficiencies in DevTools](https://addyosmani.com/blog/emulate-vision-deficiencies-devtools/)
+- [The A11 Project](https://www.a11yproject.com/)

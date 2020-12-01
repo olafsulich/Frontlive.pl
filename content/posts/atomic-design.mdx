@@ -1,0 +1,93 @@
+---
+title: 'Atomic Design - myśl atomami i klockami LEGO!'
+category: 'Inne'
+publishedAt: '29-05-2020'
+popular: false
+excerpt: 'Jak dobrze zorganizować strukturę katalogów, w naszej aplikacji, tak, aby całość nawet przy większych rozmiarach była czytelna i łatwa w utrzymaniu? Atomic Design na ratunek!'
+---
+
+Jak dobrze zorganizować strukturę katalogów, w naszej aplikacji, tak, aby całość nawet przy większych rozmiarach była **czytelna** i **łatwa w utrzymaniu**?
+
+W Reacie **nie mamy** narzuconej struktury folderów i znana już [strona](http://react-file-structure.surge.sh/) Dana Abramova dosadnie nam o tym przypomina.
+
+Warto jednak popróbować różnych rozwiązań i znaleźć odpowiednie **dla siebie**. W moim przypadku świetnie sprawdza się metodologia **Atomic Design**, opierająca się o umieszczanie komponentów w różych folderach, **w zależności od ich roli**.
+
+> Atomic Design nie jest metodologią, która sprawdza się tylko w projektach Reactowych, użyj jej, z czym tylko chcesz.
+
+## Założenia
+
+Atomic Design opiera się o kilka założeń, najważniejszym z nich jest rozbijanie elementów na **mniejsze części** i łączenie ich w większą całość. Ułatwia nam to **utrzymanie** i ewentualną **rozbudowę**.
+
+Jak wygląda podział?
+
+- Atoms
+- Molecules
+- Organisms
+- Templates
+- Pages
+
+Atomy i molekuły? To brzmi chemicznie, ale nie każdy lubi chemię, więc spójrzmy na **klocki LEGO**.
+
+![design system](../images/atomic.png)
+
+Tak jak klocki, łączymy tutaj najmniejsze (**atomy**) z większymi (**molekułami**), a te z jeszcze większymi **organizmami**.
+
+## Atoms
+
+Najczęściej będziemy ich używać jako tych **najmniejszych komponentów** w naszej aplikacji, należą do nich:
+
+- Button
+- Label
+- Input
+- Heading
+
+Atomy to nie tylko komponenty, mogą być wykorzystywane również jako **animacje** czy **palety kolorów**.
+Same w sobie są mało istotne, dopiero w połączeniu z molekułami tworzą większą całość.
+
+## Molecules
+
+Wspomniane już przed chwilą atomy łączą się w **molekuły**. Molekułą może być częste połączenie `inputa` i `labelki`, czy też przycisków `sign in`/`sign up`.
+
+![molekuły](../images/molecules.png)
+
+## Organizmy
+
+Organizmy to już **bardziej rozbudowane struktury**, złożone z molekuł. Tworzą one _samodzielne_, _przenośnie_ i _reużywalne_ komponenty. Organizmem może być:
+
+- Navigation
+- Sidebar
+- Form
+- Modal
+
+![organizmy](../images/organisms.png)
+
+## Templates
+
+Jeżeli atomy przedstawiają rozrzucone, **pojedyncze klocki**, molekuły to **grupy** tych klocków, a organizmy tworzą z nich **pojazd**, to szablony reprezentują **pustą legówkową ulicę**, bez ludków i z opuszczonymi samochodami.
+
+Są to znane już z designów wireframy, **niewypełnione jeszcze treścią** strony. Przedstawiają taki _proof of concept_ finalnej wersji.
+
+Do czego można ich użyć? Do np. jakiegoś **dynamicznie przychodzącego kontentu**, powiedzmy, że tworzymy bloga.
+Każdy wpis będzie wyglądał podobnie, więc tworzymy `postTemplate`.
+
+![szablony](../images/templates.jpg)
+
+## Pages
+
+Jak sama nazwa mówi, są to już **pełnoprawne strony**, wypełnione, wspomnianym kontentem, jakimiś danymi, tym co nasz użytkownik w ostateczności zobaczy.
+
+Z perspektywy fana LEGO, jest to miasto **wypełnione życiem**, korkami, smogiem i wszystkim, co lubimy najbardziej :)
+
+![strony](../images/pages.jpg)
+
+## Podsumowanie
+
+To by było na tyle, daj znać, co o tym myślisz, **jak organizujesz swoje aplikacje**?
+
+No i najważniejsze, pochwal się zestawami LEGO!
+
+Do usłyszenia!
+
+### Źródła
+
+- [Atomic Design - Brad Frost](https://bradfrost.com/blog/post/atomic-web-design/)

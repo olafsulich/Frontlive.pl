@@ -42,7 +42,6 @@ const BlogPost = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const content = hydrate(transformedMdx, { components: customMdxComponents });
   const { title, excerpt, publishedAt, slug } = frontmatter;
-  const date = new Date(publishedAt).toISOString();
   const url = `http://frontlive.pl/blog/${slug}`;
 
   return (
@@ -54,7 +53,7 @@ const BlogPost = ({
         openGraph={{
           type: 'article',
           article: {
-            publishedTime: date,
+            publishedTime: publishedAt,
           },
           url,
           title,
@@ -63,8 +62,8 @@ const BlogPost = ({
       />
       <ArticleJsonLd
         authorName="Olaf Sulich"
-        dateModified={date}
-        datePublished={date}
+        dateModified={publishedAt}
+        datePublished={publishedAt}
         description={excerpt}
         publisherLogo="/favicons/android-chrome-192x192.png"
         publisherName="Olaf Sulich"
