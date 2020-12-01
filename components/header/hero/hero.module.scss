@@ -38,7 +38,7 @@
   font-family: 'Criteria';
   font-size: 5rem;
   max-width: 100%;
-  color: #3a3a3a;
+  color: var(--gray-200);
   opacity: 1;
   margin: 0;
 
@@ -83,7 +83,7 @@
   margin-top: 2rem;
   font-size: 1.6rem;
   line-height: 2.8rem;
-  color: #425466;
+  color: var(--gray-300);
   width: 100%;
   max-width: 40rem;
 

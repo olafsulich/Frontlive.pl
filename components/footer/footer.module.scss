@@ -13,7 +13,7 @@
 }
 
 .newsletterWrapper {
-  color: #000;
+  color: var(--black);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -25,7 +25,7 @@
 .heading {
   font-size: 2.6rem;
   font-family: 'Criteria Demi';
-  color: #ff0a78;
+  color: var(--red);
   margin: 0;
   margin-bottom: 3rem;
 
@@ -41,7 +41,7 @@
 .text {
   font-size: 1.6rem;
   line-height: 3rem;
-  color: #0a0c10;
+  color: var(--dark-200);
   margin: 0;
   position: relative;
 

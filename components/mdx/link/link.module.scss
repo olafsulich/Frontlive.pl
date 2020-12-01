@@ -2,8 +2,8 @@
 
 .link {
   text-decoration: none;
-  border-bottom: 2px solid #e2eafd;
-  color: #5183f5;
+  border-bottom: 2px solid var(--gray);
+  color: var(--blue-600);
   font-weight: 600;
   font-size: 1.8rem;
   line-height: 3.6rem;
@@ -11,9 +11,9 @@
   &:hover,
   &:active,
   &:focus {
-    background: lighten(#5183f5, 33%);
-    color: darken(#5183f5, 10%);
-    border-bottom: 2px solid darken(#5183f5, 10%);
+    background: var(--blue-700);
+    color: var(--blue-800);
+    border-bottom: 2px solid var(--blue-800);
   }
 
   @include mediaquery('lg') {

@@ -6,7 +6,7 @@
 }
 
 .heading {
-  color: #21232c;
+  color: var(--dark-100);
   font-size: 1.6rem;
 
   @include mediaquery('lg') {

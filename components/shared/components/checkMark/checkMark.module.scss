@@ -13,36 +13,36 @@
 }
 
 .blue {
-  background: rgba(34, 211, 238, 0.3);
+  background: var(--blue-400);
   svg path {
-    fill: #0ea5e9;
+    fill: var(--blue-200);
   }
 }
 
 .green {
-  background: rgba(74, 222, 128, 0.3);
+  background: var(--green-100);
   svg path {
-    fill: #06b6d4;
+    fill: var(--blue-500);
   }
 }
 
 .yellow {
-  background: rgba(250, 204, 21, 0.3);
+  background: var(--yellow-100);
   svg path {
-    fill: #f97316;
+    fill: var(--orange);
   }
 }
 
 .orange {
-  background: rgba(251, 146, 60, 0.3);
+  background: var(--orange-100);
   svg path {
-    fill: #db2777;
+    fill: var(--red-100);
   }
 }
 
 .purple {
-  background: rgba(217, 70, 239, 0.3);
+  background: var(--purple-200);
   svg path {
-    fill: #9333ea;
+    fill: var(--purple-100);
   }
 }

@@ -54,7 +54,7 @@
 .heading {
   font-size: 1.6rem;
   line-height: 1.5;
-  color: #21232c;
+  color: var(--dark-100);
   margin: 0;
 
   @include mediaquery('sm') {
@@ -70,7 +70,7 @@
 .duration {
   font-size: 1.6rem;
   margin: 0;
-  color: #6b7280;
+  color: var(--gray-300);
 
   @include mediaquery('sm') {
     font-size: 1.8rem;
@@ -84,7 +84,7 @@
 .description {
   font-size: 1.4rem;
   line-height: 1.7;
-  color: #21232c;
+  color: var(--dark-100);
   max-width: 57.6rem;
 
   @include mediaquery('sm') {

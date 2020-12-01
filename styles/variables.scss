@@ -1,36 +1,96 @@
 :root {
-  --white: #ffffff;
-  --black: #0000000;
-  --dark-100: #21232c;
-  --dark-200: #0a0c10;
-  --dark-300: #0f1b35;
-  --gray-100: ##e8f2ff;
-  --gray-200: #3a3a3a;
-  --gray-300: #425466;
-  --gray-400: #6b7280;
-  --blue-100: #0000ee;
-  --blue-200: #0ea5e9;
-  --blue-300: #5263f2;
-  --blue-300: rgba(34, 211, 238, 0.3);
-  --yellow: #facc15;
+  --white: rgb(255, 255, 255);
+  --white-100: rgb(245, 246, 249);
+  --black: rgb(0, 0, 0);
+  --black-100: rgba(0, 0, 0, 0.1);
+  --dark-100: rgb(33, 35, 44);
+  --dark-200: rgb(10, 12, 16);
+  --dark-300: rgb(15, 27, 53);
+  --gray: rgb(226, 234, 253);
+  --gray-100: rgb(232, 242, 255);
+  --gray-200: rgb(58, 58, 58);
+  --gray-300: rgb(66, 84, 102);
+  --gray-400: rgb(107, 114, 128);
+  --gray-500: rgb(79, 125, 149);
+  --blue-100: rgb(0, 0, 238);
+  --blue-200: rgb(14, 165, 233);
+  --blue-300: rgb(82, 99, 242);
+  --blue-400: rgba(34, 211, 238, 0.3);
+  --blue-500: rgb(6, 182, 212);
+  --blue-600: rgb(81, 131, 245);
+  --blue-700: rgba(81, 131, 245, 0.7);
+  --blue-800: rgba(55, 92, 177, 0.7);
+  --blue-gradient-accent: rgba(34, 211, 238, 0.8);
+  --blue-gradient-accent-dark: rgba(14, 56, 165, 0.8);
+  --blue-gradient-accent-secondary: rgba(74, 103, 247, 0.9);
+  --yellow: rgb(250, 204, 21);
   --yellow-100: rgba(250, 204, 21, 0.3);
-  --green: #4ade80;
+  --yellow-gradient-accent: rgba(250, 204, 21, 0.8);
+  --green: rgb(74, 222, 128);
   --green-100: rgba(74, 222, 128, 0.3);
-  --red: #ff0a78;
-  --purple: #663399;
-  --purple-100: #9333ea;
+  --green-200: rgba(74, 222, 128, 0.2);
+  --green-gradient-accent: rgba(74, 222, 128, 0.8);
+  --red: rgb(255, 10, 120);
+  --red-100: rgb(219, 39, 119);
+  --red-gradient-accent: rgba(255, 10, 120, 0.7);
+  --purple: rgb(102, 51, 153);
+  --purple-100: rgb(147, 51, 234);
   --purple-200: rgba(217, 70, 239, 0.3);
-  --orange: #f97316;
+  --purple-300: rgb(101, 31, 255);
+  --purple-gradient-accent: rgba(217, 70, 239, 0.8);
+  --purple-gradient-accent-secondary: rgba(170, 0, 255, 0.8);
+  --orange: rgb(249, 115, 22);
   --orange-100: rgba(251, 146, 60, 0.3);
-  --purple-gradient: linear-gradient(152deg, rgba(217, 70, 239, 0.8) 13.5%, #9333ea 99.6%);
-  --yellow-gradient: linear-gradient(152deg, rgba(250, 204, 21, 0.8) 13.5%, #f97316 99.6%);
-  --blue-gradient: linear-gradient(
-    152deg,
-    rgba(34, 211, 238, 0.8) 13.5%,
-    #4a67f7 99.6%,
-    #0ea5e9 99.6%
+  --orange-gradient-accent: rgba(251, 146, 60, 0.8);
+  --gradient-angle: 120deg;
+  --gradient-primary-color-percent: 99.6%;
+  --gradient-secondary-color-percent: 13.5%;
+  --main-button-gradient-angle: 120deg;
+  --main-button-gradient-primary-color-percent: 91%;
+  --main-button-gradient-secondary-color-percent: 52%;
+  --main-button-gradient-tertiary-color-percent: 12%;
+  --main-button-gradient: linear-gradient(
+    var(--main-button-gradient-angle),
+    var(--blue-gradient-accent-secondary) var(--main-button-gradient-tertiary-color-percent),
+    var(--purple-gradient-accent-secondary) var(--main-button-gradient-secondary-color-percent),
+    var(--red-gradient-accent) var(--main-button-gradient-primary-color-percent)
   );
-  --orange-gradient: linear-gradient(152deg, rgba(251, 146, 60, 0.8) 13.9%, #db2777 98%);
-  --green-gradient: linear-gradient(152deg, rgba(74, 222, 128, 0.8) 13.5%, #06b6d4 99.6%);
-  --black-gradient: linear-gradient(152deg, rgba(14, 56, 165, 0.8) 13.9%, #000000 98.03%);
+  --purple-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--purple-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--purple-100) var(--gradient-primary-color-percent)
+  );
+  --yellow-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--yellow-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--orange) var(--gradient-primary-color-percent)
+  );
+  --blue-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--blue-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--blue-300) var(--gradient-primary-color-percent)
+  );
+  --orange-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--orange-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--red-100) var(--gradient-primary-color-percent)
+  );
+  --green-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--green-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--blue-500) var(--gradient-primary-color-percent)
+  );
+  --black-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--blue-gradient-accent-dark) var(--gradient-secondary-color-percent),
+    var(--black) var(--gradient-primary-color-percent)
+  );
+  --red-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--orange-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--red-100) var(--gradient-primary-color-percent)
+  );
+  --button-shine: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  --button-shine-radius: 20px 20px 100px 100px / 14px 14px 30px 30px;
+  --button-shine-text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 1px;
 }

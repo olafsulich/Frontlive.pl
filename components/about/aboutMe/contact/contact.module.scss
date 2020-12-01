@@ -29,7 +29,7 @@
   width: 17.5rem;
   height: 5.5rem;
   border-radius: 4px;
-  background: linear-gradient(152.92deg, rgba(74, 222, 128, 0.8) 13.51%, #06b6d4 99.58%);
+  background: var(--green-gradient);
 
   &::before {
     content: '';
@@ -39,8 +39,8 @@
     left: 6px;
     right: 6px;
     height: 20%;
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-    border-radius: 20px 20px 100px 100px / 14px 14px 30px 30px;
+    background: var(--button-shine);
+    border-radius: var(--button-shine-radius);
     pointer-events: none;
   }
 }
@@ -50,11 +50,11 @@
   border: none;
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: var(--white);
   font-weight: 600;
   font-size: 1.6rem;
   cursor: pointer;
-  text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 1px;
+  text-shadow: var(--button-shine-text-shadow);
   -webkit-box-pack: center;
   -webkit-box-align: center;
   text-decoration: none;

@@ -23,14 +23,14 @@
   width: 100%;
   background: none;
   border: none;
-  border-bottom: 3px solid #ff0a78;
+  border-bottom: 3px solid var(--red);
   padding: 1rem 0;
   font-size: 1.8rem;
 
   &::placeholder {
     font-weight: 600;
     font-size: 1.8rem;
-    color: #425466;
+    color: var(--gray-300);
   }
 
   @include mediaquery('sm') {
@@ -62,8 +62,8 @@
     left: 6px;
     right: 6px;
     height: 20%;
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
-    border-radius: 20px 20px 100px 100px / 14px 14px 30px 30px;
+    background: var(--button-shine);
+    border-radius: var(--button-shine-radius);
     pointer-events: none;
   }
 }
@@ -73,28 +73,23 @@
   border: none;
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: var(--white);
   font-weight: 600;
   font-size: 1.6rem;
   cursor: pointer;
-  text-shadow: rgba(0, 0, 0, 0.15) 1px 1px 1px;
+  text-shadow: var(--button-shine-text-shadow);
   -webkit-box-pack: center;
   -webkit-box-align: center;
 }
 
 .normal {
-  background: linear-gradient(
-    120deg,
-    rgba(74, 103, 247, 0.9) 12%,
-    rgba(170, 0, 255, 0.8) 52%,
-    rgba(255, 10, 120, 0.7) 91%
-  );
+  background: var(--main-button-gradient);
 }
 
 .success {
-  background: linear-gradient(152.92deg, rgba(74, 222, 128, 0.8) 13.51%, #06b6d4 99.58%);
+  background: var(--green-gradient);
 }
 
 .error {
-  background: linear-gradient(152.92deg, rgba(251, 146, 60, 0.8) 13.89%, #db2777 98.03%);
+  background: var(--red-gradient);
 }

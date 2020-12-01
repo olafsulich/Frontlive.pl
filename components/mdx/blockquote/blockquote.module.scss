@@ -1,9 +1,9 @@
 @import 'common';
 
 .blockquote {
-  border-left: 4px solid #4ade80;
+  border-left: 4px solid var(--green);
   padding: 2rem;
-  background: rgba(74, 222, 128, 0.2);
+  background: var(--green-200);
   margin: 3rem 0;
   border-radius: 4px;
 

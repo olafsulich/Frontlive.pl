@@ -10,7 +10,7 @@
 }
 
 .link {
-  color: #000;
+  color: var(--black);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -20,7 +20,7 @@
   &:hover,
   &:focus {
     .heading {
-      color: #5263f2;
+      color: var(--blue-300);
     }
     .icon {
       opacity: 1;
@@ -32,7 +32,7 @@
   font-size: 1.8rem;
   line-height: 2.6rem;
   font-weight: 600;
-  color: #21232c;
+  color: var(--dark-100);
   margin: 0;
   margin-bottom: 1.5rem;
 
@@ -50,7 +50,7 @@
 .text {
   font-size: 1.6rem;
   line-height: 2.8rem;
-  color: #0a0c10;
+  color: var(--dark-200);
   margin: 0;
 
   @include mediaquery('xs') {
@@ -84,6 +84,6 @@
   transform: translateY(2px);
 
   path {
-    fill: #5263f2;
+    fill: var(--blue-300);
   }
 }

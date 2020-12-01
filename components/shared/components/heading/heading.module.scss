@@ -4,7 +4,7 @@
   font-family: 'Criteria', 'Roboto';
   font-size: 5rem;
   max-width: 100%;
-  color: #3a3a3a;
+  color: var(--gray-200);
   opacity: 1;
   margin: 0;
 
@@ -33,7 +33,7 @@
 .secondary {
   font-size: 2.6rem;
   font-family: 'Criteria Demi', 'Roboto';
-  color: #ff0a78;
+  color: var(--red);
   margin-bottom: 5rem;
 
   @include mediaquery('lg') {
@@ -49,7 +49,7 @@
   font-size: 1.8rem;
   line-height: 2.6rem;
   font-weight: 600;
-  color: #21232c;
+  color: var(--dark-100);
   margin: 0;
   margin-bottom: 1.5rem;
 

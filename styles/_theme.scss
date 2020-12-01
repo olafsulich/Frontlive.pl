@@ -1,7 +1,7 @@
 .comment,
 .prolog,
 .cdata {
-  color: #4f7d95;
+  color: var(--gray-500);
 }
 
 .namespace {
@@ -9,16 +9,13 @@
 }
 
 .string,
-.attr-value {
-  color: #651fff;
-}
-
+.attr-value,
 .keyword,
 .attr-name,
 .template-string,
 .class,
 .selector {
-  color: #651fff;
+  color: var(--purple-300);
 }
 
 .tag,
@@ -26,7 +23,7 @@
 .number,
 .class-name,
 .constant {
-  color: #ff39a8;
+  color: var(--red);
 }
 
 .tag {
@@ -35,12 +32,12 @@
 
 .function,
 .function-variable {
-  color: #3d5afe;
+  color: var(--blue-100);
 }
 
 .punctuation,
 .parameter {
-  color: #0a0c10;
+  color: var(--dark-200);
 }
 
 .selector {
@@ -58,5 +55,5 @@
 .inserted,
 .operator,
 .pseudo-class {
-  color: #00b3c0;
+  color: var(--blue-500);
 }

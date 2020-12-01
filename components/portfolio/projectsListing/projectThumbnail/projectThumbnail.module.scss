@@ -14,7 +14,7 @@
 
 .index {
   font-size: 3rem;
-  color: #fff;
+  color: var(--white);
   font-weight: bold;
   width: 3.5rem;
   height: 3.5rem;
@@ -30,7 +30,7 @@
 
 .heading {
   font-size: 3rem;
-  color: #3a3a3a;
+  color: var(--gray-200);
   margin-bottom: 1rem;
 
   @include mediaquery('lg') {
@@ -45,7 +45,7 @@
 
 .excerpt {
   font-size: 1.8rem;
-  color: #6b7280;
+  color: var(--gray-300);
   line-height: 1.7;
 
   @include mediaquery('lg') {
@@ -75,13 +75,13 @@
   }
 
   &-blue {
-    color: #0ea5e9;
+    color: var(--blue-200);
   }
   &-green {
-    color: #4ade80;
+    color: var(--green);
   }
   &-yellow {
-    color: #facc15;
+    color: var(--yellow);
   }
 
   &:hover,
@@ -102,17 +102,17 @@
 
   &-blue {
     path {
-      fill: #0ea5e9;
+      fill: var(--blue-200);
     }
   }
   &-green {
     path {
-      fill: #4ade80;
+      fill: var(--green);
     }
   }
   &-yellow {
     path {
-      fill: #facc15;
+      fill: var(--yellow);
     }
   }
 }
@@ -140,7 +140,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 3rem 2rem;
-  background: #fff;
+  background: var(--white);
   list-style: none;
   width: 100%;
   border-radius: 8px;
@@ -153,7 +153,7 @@
 
 .technology {
   width: 100%;
-  color: #000;
+  color: var(--black);
   font-size: 2rem;
   margin-bottom: 2.5rem;
   display: flex;
