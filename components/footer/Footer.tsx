@@ -1,11 +1,9 @@
-import { memo } from 'react';
+import { NewsletterForm } from '../shared/components/newsletterForm/NewsletterForm';
+import { SocialLinks } from '../shared/components/socialLinks/SocialLinks';
+import { Sparkles } from '../shared/components/sparkles/Sparkles';
 import styles from './footer.module.scss';
-import NewsletterForm from '../shared/components/newsletterForm/NewsletterForm';
-import SocialLinks from '../shared/components/socialLinks/SocialLinks';
-import ArrowRightIcon from '../../public/icons/arrow-right.svg';
-import Sparkles from '../shared/components/sparkles/Sparkles';
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <>
       <footer className={styles.wrapper}>
@@ -23,5 +21,3 @@ const Footer = () => {
     </>
   );
 };
-
-export default Footer;

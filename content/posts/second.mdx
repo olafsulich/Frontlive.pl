@@ -11,3 +11,17 @@ excerpt: 'Visualize my journey through the scenic lands of Norway with rich, stu
 
 1. asda
 2. asdada
+
+```jsx
+import { ThemeProvider } from 'styled-components';
+import { COLORS } from '../constants';
+// This element wraps our entire application,
+// to make the theme available via context.
+const App = ({ children }) => {
+  return <ThemeProvider theme={{ colors: COLORS }}>{children}</ThemeProvider>;
+};
+// Elsewhere…
+const Button = styled.button`
+  background: ${(props) => props.theme.colors.primary};
+`;
+```

@@ -1,8 +1,8 @@
-import SocialLinks from '../../shared/components/socialLinks/SocialLinks';
-import NewsletterForm from '../../shared/components/newsletterForm/NewsletterForm';
+import { SocialLinks } from '../../shared/components/socialLinks/SocialLinks';
+import { NewsletterForm } from '../../shared/components/newsletterForm/NewsletterForm';
 import styles from './hero.module.scss';
 
-const Hero = () => {
+export const Hero = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -16,9 +16,7 @@ const Hero = () => {
           <SocialLinks />
         </div>
       </div>
-      <img className={styles.heroImage} src="/images/hand.png" alt="" />
+      <img className={styles.heroImage} src="/images/olaf.png" alt="" width="351px" />
     </div>
   );
 };
-
-export default Hero;

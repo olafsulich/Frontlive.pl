@@ -6,12 +6,8 @@ type LinkProps = {
   href: string;
 };
 
-const Link = memo(({ children, href }: LinkProps) => {
-  return (
-    <a href={href} className={styles.link}>
-      {children}
-    </a>
-  );
-});
-
-export default Link;
+export const Link = memo(({ children, href }: LinkProps) => (
+  <a href={href} className={styles.link}>
+    {children}
+  </a>
+));

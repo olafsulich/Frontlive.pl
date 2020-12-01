@@ -5,8 +5,6 @@ type ParagraphProps = {
   children: ReactNode;
 };
 
-const Paragraph = memo(({ children }: ParagraphProps) => {
-  return <p className={styles.paragraph}>{children}</p>;
-});
-
-export default Paragraph;
+export const Paragraph = memo(({ children }: ParagraphProps) => (
+  <p className={styles.paragraph}>{children}</p>
+));

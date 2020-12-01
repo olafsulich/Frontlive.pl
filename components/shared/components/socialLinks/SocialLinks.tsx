@@ -2,39 +2,26 @@ import styles from './socialLinks.module.scss';
 import GitHubIcon from '../../../../public/icons/github.svg';
 import LinkedInIcon from '../../../../public/icons/linkedin.svg';
 import TwitterIcon from '../../../../public/icons/twitter.svg';
+import { SocialLink } from './socialLink/SocialLink';
 
-const SocialLinks = () => {
+export const SocialLinks = () => {
   return (
     <div className={styles.wrapper}>
-      <a
+      <SocialLink
         href="https://github.com/olafsulich"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.link}
-      >
-        <span className="visually-hidden">Repozytorium na GitHubie</span>
-        <GitHubIcon className={styles.icon} />
-      </a>
-      <a
+        icon={GitHubIcon}
+        label="Repozytorium na GitHubie"
+      />
+      <SocialLink
         href="https://www.linkedin.com/in/olaf-sulich"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.link}
-      >
-        <span className="visually-hidden">Profil LinkedIn</span>
-        <LinkedInIcon className={styles.icon} />
-      </a>
-      <a
+        icon={LinkedInIcon}
+        label="Profil LinkedIn"
+      />
+      <SocialLink
         href="https://twitter.com/sulich_olaf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.link}
-      >
-        <span className="visually-hidden">Konto na Twitterze</span>
-        <TwitterIcon className={styles.icon} />
-      </a>
+        icon={TwitterIcon}
+        label="Konto na Twitterze"
+      />
     </div>
   );
 };
-
-export default SocialLinks;

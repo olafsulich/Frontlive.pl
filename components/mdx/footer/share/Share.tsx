@@ -9,7 +9,7 @@ type ShareProps = {
   url: string;
 };
 
-const Share = memo<ShareProps>(({ title, url }) => (
+export const Share = memo<ShareProps>(({ title, url }) => (
   <div className={styles.share}>
     <TwitterShareButton
       title={title}
@@ -26,5 +26,3 @@ const Share = memo<ShareProps>(({ title, url }) => (
     </FacebookShareButton>
   </div>
 ));
-
-export default Share;

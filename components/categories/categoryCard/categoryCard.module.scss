@@ -16,12 +16,33 @@
   position: relative;
   text-decoration: none;
   color: #fff;
+
+  &:hover,
+  &:focus {
+    .heading::before {
+      opacity: 1;
+    }
+  }
 }
 
 .heading {
   font-size: 3.6rem;
   font-weight: 700;
   margin-top: 7rem;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    bottom: -1rem;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
 }
 
 .icon {

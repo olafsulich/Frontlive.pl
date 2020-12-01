@@ -1,12 +1,12 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import Header from '../components/header/Header';
-import PostsListing from '../components/postsListing/PostsListing';
-import Layout from '../components/layout/Layout';
-import Categories from '../components/categories/Categories';
-import Workshop from '../components/workshop/Workshop';
-import Navigation from '../components/navigation/Navigation';
-import Heading from 'components/shared/components/heading/Heading';
-import Footer from 'components/footer/Footer';
+import { Header } from '../components/header/Header';
+import { PostsListing } from '../components/blog/postsListing/PostsListing';
+import { Layout } from '../components/layout/Layout';
+import { Categories } from '../components/categories/Categories';
+import { Workshop } from '../components/workshop/Workshop';
+import { Navigation } from '../components/navigation/Navigation';
+import { Heading } from 'components/shared/components/heading/Heading';
+import { Footer } from 'components/footer/Footer';
 import { getNewestPosts, getPopularPosts } from 'lib/mdx';
 import { categories } from '../data/categories';
 

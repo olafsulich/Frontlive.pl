@@ -1,6 +1,7 @@
 import { memo } from 'react';
+import { Heading } from 'components/shared/components/heading/Heading';
+import { CategoriesList } from './categoriesList/CategoriesList';
 import styles from './categories.module.scss';
-import CategoryCard from './categoryCard/CategoryCard';
 
 type Variant = 'blue' | 'green' | 'orange' | 'yellow' | 'purple' | 'black';
 
@@ -15,20 +16,13 @@ type CategoriesProps = {
   categories: Category[];
 };
 
-const Courses = memo<CategoriesProps>(({ categories }) => {
+export const Categories = memo<CategoriesProps>(({ categories }) => {
   return (
-    <div className={styles.wrapper}>
-      {categories.map(({ title, path, image, variant }) => (
-        <CategoryCard
-          key={title}
-          title={title}
-          path={`/kategorie/${path}`}
-          image={image}
-          variant={variant}
-        />
-      ))}
-    </div>
+    <main className={styles.wrapper}>
+      <Heading tag="h1" variant="primary" className={styles.heading}>
+        Kategorie
+      </Heading>
+      <CategoriesList categories={categories} />
+    </main>
   );
 });
-
-export default Courses;

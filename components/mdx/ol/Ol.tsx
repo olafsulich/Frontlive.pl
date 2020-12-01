@@ -5,8 +5,4 @@ type olProps = {
   children: ReactNode;
 };
 
-const Ol = memo(({ children }: olProps) => {
-  return <ol className={styles.list}>{children}</ol>;
-});
-
-export default Ol;
+export const Ol = memo(({ children }: olProps) => <ol className={styles.list}>{children}</ol>);

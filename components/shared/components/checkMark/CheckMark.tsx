@@ -9,10 +9,8 @@ type CheckMarkProps = {
   variant: Variant;
 };
 
-const CheckMark = memo<CheckMarkProps>(({ variant }) => (
+export const CheckMark = memo<CheckMarkProps>(({ variant }) => (
   <span aria-hidden="true" className={cn(styles.wrapper, styles[variant])}>
     <CheckMarkIcon />
   </span>
 ));
-
-export default CheckMark;

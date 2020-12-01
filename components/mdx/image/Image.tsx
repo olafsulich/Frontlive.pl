@@ -6,8 +6,6 @@ type ImageProps = {
   alt: string;
 };
 
-const Image = memo(({ src, alt }: ImageProps) => {
-  return <img className={styles.image} src={src} alt={alt} />;
-});
-
-export default Image;
+export const Image = memo(({ src, alt }: ImageProps) => (
+  <img className={styles.image} src={src} alt={alt} />
+));

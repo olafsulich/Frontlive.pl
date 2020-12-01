@@ -5,8 +5,4 @@ type EmProps = {
   children: ReactNode;
 };
 
-const Em = memo(({ children }: EmProps) => {
-  return <em className={styles.em}>{children}</em>;
-});
-
-export default Em;
+export const Em = memo(({ children }: EmProps) => <em className={styles.em}>{children}</em>);

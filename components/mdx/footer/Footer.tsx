@@ -1,10 +1,10 @@
 import { memo, ReactNode } from 'react';
-import styles from './footer.module.scss';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pl';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import Share from './share/Share';
+import { Share } from './share/Share';
+import styles from './footer.module.scss';
 
 dayjs.extend(localizedFormat);
 dayjs.extend(customParseFormat);
@@ -15,7 +15,7 @@ type FooterProps = {
   title: string;
 };
 
-const Footer = memo(({ publishedAt, url, title }: FooterProps) => {
+export const Footer = memo(({ publishedAt, url, title }: FooterProps) => {
   const formattedDate = dayjs(publishedAt, 'DD-MM-YYYY').locale('pl').format('LL');
   return (
     <footer className={styles.container}>
@@ -30,5 +30,3 @@ const Footer = memo(({ publishedAt, url, title }: FooterProps) => {
     </footer>
   );
 });
-
-export default Footer;

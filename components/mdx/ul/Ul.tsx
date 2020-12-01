@@ -5,8 +5,4 @@ type UlProps = {
   children: ReactNode;
 };
 
-const Ul = memo(({ children }: UlProps) => {
-  return <ul className={styles.list}>{children}</ul>;
-});
-
-export default Ul;
+export const Ul = memo(({ children }: UlProps) => <ul className={styles.list}>{children}</ul>);

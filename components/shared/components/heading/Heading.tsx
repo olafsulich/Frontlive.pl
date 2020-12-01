@@ -12,8 +12,6 @@ type HeadingProps = {
   className?: string;
 };
 
-const Heading = memo(({ children, tag: Tag = 'h1', variant, className }: HeadingProps) => {
+export const Heading = memo(({ children, tag: Tag = 'h1', variant, className }: HeadingProps) => {
   return <Tag className={cn(className, styles[variant])}>{children}</Tag>;
 });
-
-export default Heading;

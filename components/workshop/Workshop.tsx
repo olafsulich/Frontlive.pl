@@ -1,7 +1,6 @@
-import { memo } from 'react';
 import styles from './workshop.module.scss';
 
-const Workshop = memo(() => {
+export const Workshop = () => {
   return (
     <aside className={styles.wrapper}>
       <div className={styles.textWrapper}>
@@ -30,6 +29,4 @@ const Workshop = memo(() => {
       <img src="/images/gatsby-cta.png" alt="" className={styles.logo} />
     </aside>
   );
-});
-
-export default Workshop;
+};

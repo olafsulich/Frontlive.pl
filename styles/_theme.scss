@@ -16,6 +16,7 @@
 .keyword,
 .attr-name,
 .template-string,
+.class,
 .selector {
   color: #651fff;
 }
@@ -34,9 +35,10 @@
 
 .function,
 .function-variable {
-  color: #5263f2;
+  color: #3d5afe;
 }
 
+.punctuation,
 .parameter {
   color: #0a0c10;
 }
@@ -53,10 +55,8 @@
 .builtin,
 .cdata,
 .char,
-.class,
 .inserted,
 .operator,
-.property,
-.punctuation {
+.pseudo-class {
   color: #00b3c0;
 }

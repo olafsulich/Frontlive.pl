@@ -1,0 +1,13 @@
+@import 'common';
+
+.container {
+  margin-top: 5rem;
+
+  @include mediaquery('sm') {
+    margin-top: 10rem;
+  }
+}
+
+.aboutWrapper {
+  width: 100%;
+}

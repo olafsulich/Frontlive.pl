@@ -5,8 +5,6 @@ type CodeProps = {
   children: ReactNode;
 };
 
-const Code = memo(({ children }: CodeProps) => {
-  return <code className={styles.code}>{children}</code>;
-});
-
-export default Code;
+export const Code = memo(({ children }: CodeProps) => (
+  <code className={styles.code}>{children}</code>
+));

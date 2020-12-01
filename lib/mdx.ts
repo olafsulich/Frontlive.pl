@@ -6,10 +6,10 @@ import remarkAutoLinkHeadings from 'remark-autolink-headings';
 import remarkSlug from 'remark-slug';
 import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
-import Sparkles from '../components/shared/components/sparkles/Sparkles';
+import { Sparkles } from '../components/shared/components/sparkles/Sparkles';
 import slugify from 'slugify';
 import dayjs from 'dayjs';
-import Player from '../components/mdx/player/Player';
+import { Player } from '../components/mdx/player/Player';
 
 const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 const PROJECTS_PATH = path.join(process.cwd(), 'content/projects');

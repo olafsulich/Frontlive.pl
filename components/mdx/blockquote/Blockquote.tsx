@@ -5,8 +5,6 @@ type BlockquoteProps = {
   children: ReactNode;
 };
 
-const Blockquote = memo(({ children }: BlockquoteProps) => {
-  return <blockquote className={styles.blockquote}>{children}</blockquote>;
-});
-
-export default Blockquote;
+export const Blockquote = memo(({ children }: BlockquoteProps) => (
+  <blockquote className={styles.blockquote}>{children}</blockquote>
+));

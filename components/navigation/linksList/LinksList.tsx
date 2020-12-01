@@ -1,41 +1,19 @@
 import { memo } from 'react';
-import ActiveLink from '../activeLink/ActiveLink';
-import styles from './linksList.module.scss';
 import cn from 'classnames';
 import { useHeaderState } from '../../shared/context/HeaderContext';
+import { ListItem } from '../linksList/listItem/ListItem';
+import styles from './linksList.module.scss';
 
-const LinksList = memo(() => {
+export const LinksList = memo(() => {
   const { isMenuVisible } = useHeaderState();
 
   return (
     <ul className={cn(styles.list, { [styles.active]: isMenuVisible })}>
-      <li className={styles.item}>
-        <ActiveLink href="/" activeClassName={styles.activeLink}>
-          <a className={styles.link}>Strona główna</a>
-        </ActiveLink>
-      </li>
-      <li className={styles.item}>
-        <ActiveLink href="/blog" activeClassName={styles.activeLink}>
-          <a className={styles.link}>Artykuły</a>
-        </ActiveLink>
-      </li>
-      <li className={styles.item}>
-        <ActiveLink href="/kategorie" activeClassName={styles.activeLink}>
-          <a className={styles.link}>Kategorie</a>
-        </ActiveLink>
-      </li>
-      <li className={styles.item}>
-        <ActiveLink href="/portfolio" activeClassName={styles.activeLink}>
-          <a className={styles.link}>Portfolio</a>
-        </ActiveLink>
-      </li>
-      <li className={styles.item}>
-        <ActiveLink href="/o-mnie" activeClassName={styles.activeLink}>
-          <a className={styles.link}>O mnie</a>
-        </ActiveLink>
-      </li>
+      <ListItem title="Strona główna" href="/" />
+      <ListItem title="Artykuły" href="/blog" />
+      <ListItem title="Kategorie" href="/kategorie" />
+      <ListItem title="Portfolio" href="/portfolio" />
+      <ListItem title="O mnie" href="/o-mnie" />
     </ul>
   );
 });
-
-export default LinksList;

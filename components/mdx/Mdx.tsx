@@ -1,11 +1,11 @@
 import { memo } from 'react';
-import { useRouter } from 'next/router';
-import Heading from 'components/shared/components/heading/Heading';
-import styles from './mdx.module.scss';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import slugify from 'slugify';
-import Footer from './footer/Footer';
 import cn from 'classnames';
+import { Heading } from 'components/shared/components/heading/Heading';
+import { Footer } from './footer/Footer';
+import styles from './mdx.module.scss';
 
 type PostFrontmatter = {
   title: string;
@@ -22,7 +22,7 @@ type MdxProps = {
   content: string;
 };
 
-const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
+export const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
   const { title } = frontmatter;
   const isPost = 'category' in frontmatter;
   const router = useRouter();
@@ -58,5 +58,3 @@ const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
     </article>
   );
 });
-
-export default Mdx;

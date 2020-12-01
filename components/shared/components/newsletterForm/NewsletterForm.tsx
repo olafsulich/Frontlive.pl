@@ -1,13 +1,13 @@
-import { MouseEvent, FormEvent, useState, ChangeEvent } from 'react';
+import { MouseEvent, FormEvent, useState, ChangeEvent, memo } from 'react';
 import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
-import Loader from './loader/Loader';
+import { Loader } from './loader/Loader';
 
 type NewsletterFormProps = {
   id: string;
 };
 
-const NewsletterForm = ({ id = 'email' }: NewsletterFormProps) => {
+export const NewsletterForm = memo(({ id = 'email' }: NewsletterFormProps) => {
   const [inputValue, setInputValue] = useState('');
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
@@ -69,6 +69,4 @@ const NewsletterForm = ({ id = 'email' }: NewsletterFormProps) => {
       </div>
     </form>
   );
-};
-
-export default NewsletterForm;
+});

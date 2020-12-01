@@ -1,10 +1,9 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
-import Router from 'next/router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/main.scss';
-import MdxCompProvider from '../components/mdx/provider/MdxProvider';
+import { MdxCompProvider } from '../components/mdx/provider/MdxProvider';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isBrowser = typeof window !== 'undefined';

@@ -3,7 +3,7 @@ import styles from './hamburgerButton.module.scss';
 import cn from 'classnames';
 import { useHeaderState } from '../../shared/context/HeaderContext';
 
-const HamburgerButton = memo(() => {
+export const HamburgerButton = memo(() => {
   const { isMenuVisible, toogleMenu } = useHeaderState();
 
   return (
@@ -20,5 +20,3 @@ const HamburgerButton = memo(() => {
     </button>
   );
 });
-
-export default HamburgerButton;

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext } from 'react';
-import useToggle from '../utils/useToggle';
+import { useToggle } from '../utils/useToggle';
 
 type State = {
   isMenuVisible: boolean;
@@ -10,7 +10,7 @@ type HeaderProviderProps = { children: ReactNode };
 
 const HeaderStateContext = createContext<State | undefined>(undefined);
 
-const HeaderProvider = ({ children }: HeaderProviderProps) => {
+export const HeaderProvider = ({ children }: HeaderProviderProps) => {
   const [isMenuVisible, toogleMenu] = useToggle();
 
   return (
@@ -20,12 +20,10 @@ const HeaderProvider = ({ children }: HeaderProviderProps) => {
   );
 };
 
-const useHeaderState = () => {
+export const useHeaderState = () => {
   const context = useContext(HeaderStateContext);
   if (context === undefined) {
     throw new Error('useCountState must be used within a CountProvider');
   }
   return context;
 };
-
-export { HeaderProvider, useHeaderState };

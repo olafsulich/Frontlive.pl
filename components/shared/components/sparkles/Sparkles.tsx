@@ -1,16 +1,16 @@
 import { useState, memo, ReactNode } from 'react';
 import { generateSparkle } from './utils/generateSparkle';
-import Sparkle from './sparkle/Sparkle';
-import styles from './sparkles.module.scss';
+import { Sparkle } from './sparkle/Sparkle';
 import { range } from './utils/range';
-import usePrefersReducedMotion from '../../utils/usePrefersReducedMotion';
-import useRandomInterval from './utils/useRandomInterval';
+import { usePrefersReducedMotion } from '../../utils/usePrefersReducedMotion';
+import { useRandomInterval } from './utils/useRandomInterval';
+import styles from './sparkles.module.scss';
 
 type SparklesProps = {
   children: ReactNode;
 };
 
-const Sparkles = memo<SparklesProps>(({ children }) => {
+export const Sparkles = memo<SparklesProps>(({ children }) => {
   const [sparkles, setSparkles] = useState(() => {
     return range(3).map(() => generateSparkle());
   });
@@ -39,5 +39,3 @@ const Sparkles = memo<SparklesProps>(({ children }) => {
     </span>
   );
 });
-
-export default Sparkles;

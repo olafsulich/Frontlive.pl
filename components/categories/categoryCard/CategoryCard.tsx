@@ -12,7 +12,7 @@ type CategoryCardProps = {
   image: string;
 };
 
-const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, image }) => {
+export const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, image }) => {
   return (
     <article className={cn(styles.wrapper, styles[variant])}>
       <Link href={path}>
@@ -24,5 +24,3 @@ const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, image }) =
     </article>
   );
 });
-
-export default CategoryCard;

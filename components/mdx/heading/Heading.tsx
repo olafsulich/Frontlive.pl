@@ -10,12 +10,8 @@ type HeadingProps = {
   id: string;
 };
 
-const Heading = memo(({ children, tag: Tag = 'h2', id }: HeadingProps) => {
-  return (
-    <Tag id={id} className={cn(styles.heading, styles[Tag])}>
-      {children}
-    </Tag>
-  );
-});
-
-export default Heading;
+export const Heading = memo(({ children, tag: Tag = 'h2', id }: HeadingProps) => (
+  <Tag id={id} className={cn(styles.heading, styles[Tag])}>
+    {children}
+  </Tag>
+));

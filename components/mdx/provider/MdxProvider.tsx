@@ -1,15 +1,15 @@
-import { ReactNode, useMemo, useCallback } from 'react';
+import { ReactNode, useMemo, useCallback, memo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import Heading from '../heading/Heading';
-import Paragraph from '../paragraph/Paragraph';
-import Link from '../link/Link';
-import Blockquote from '../blockquote/Blockquote';
-import Ul from '../ul/Ul';
-import Ol from '../ol/Ol';
-import Pre from '../pre/Pre';
-import Code from '../code/Code';
-import Em from '../em/Em';
-import Image from '../image/Image';
+import { Heading } from '../heading/Heading';
+import { Paragraph } from '../paragraph/Paragraph';
+import { Link } from '../link/Link';
+import { Blockquote } from '../blockquote/Blockquote';
+import { Ul } from '../ul/Ul';
+import { Ol } from '../ol/Ol';
+import { Pre } from '../pre/Pre';
+import { Code } from '../code/Code';
+import { Em } from '../em/Em';
+import { Image } from '../image/Image';
 
 type ComponentProps = {
   children: ReactNode;
@@ -38,7 +38,7 @@ type ImageProps = {
   alt: string;
 };
 
-const MdxCompProvider = ({ children }: ComponentProps) => {
+export const MdxCompProvider = memo<ComponentProps>(({ children }) => {
   const getHeadingProps = useCallback(({ children, id: headingId }: HeadingComponentProps) => {
     const { href, children: linkChildren, id: linkId } = children[0].props;
     const headingProps = children[1];
@@ -126,6 +126,4 @@ const MdxCompProvider = ({ children }: ComponentProps) => {
   );
 
   return <MDXProvider components={mdxComponents}>{children}</MDXProvider>;
-};
-
-export default MdxCompProvider;
+});

@@ -1,14 +1,13 @@
 import Link from 'next/link';
+import styles from './logo.module.scss';
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <Link href="/">
-      <a>
-        <img src="/images/logo.png" alt="" />
+      <a className={styles.link}>
+        <img src="/images/logo.png" alt="" className={styles.logo} />
         <span className="visually-hidden">Frontlive.pl</span>
       </a>
     </Link>
   );
 };
-
-export default Logo;

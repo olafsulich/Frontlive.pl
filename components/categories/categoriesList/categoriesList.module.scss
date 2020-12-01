@@ -1,0 +1,14 @@
+@import 'common';
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
+  grid-column-gap: 4rem;
+  grid-row-gap: 4rem;
+  align-items: start;
+  justify-items: center;
+
+  @include mediaquery('sm') {
+    justify-items: start;
+  }
+}

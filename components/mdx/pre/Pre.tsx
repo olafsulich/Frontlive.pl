@@ -5,8 +5,4 @@ type PreProps = {
   children: ReactNode;
 };
 
-const Pre = memo(({ children }: PreProps) => {
-  return <pre className={styles.pre}>{children}</pre>;
-});
-
-export default Pre;
+export const Pre = memo(({ children }: PreProps) => <pre className={styles.pre}>{children}</pre>);
