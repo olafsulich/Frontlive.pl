@@ -1,9 +1,9 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { Layout } from '../components/layout/Layout';
-import { Navigation } from '../components/navigation/Navigation';
+import { Layout } from '../../components/layout/Layout';
+import { Navigation } from '../../components/navigation/Navigation';
 import { Footer } from 'components/footer/Footer';
-import { Workshop } from '../components/workshop/Workshop';
-import { Portfolio } from '../components/portfolio/Portfolio';
+import { Workshop } from '../../components/workshop/Workshop';
+import { Portfolio } from '../../components/portfolio/Portfolio';
 import { getAllProjects } from 'lib/mdx';
 
 export const getStaticProps: GetStaticProps = async () => {
