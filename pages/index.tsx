@@ -2,7 +2,7 @@ import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { Header } from '../components/header/Header';
 import { PostsListing } from '../components/blog/postsListing/PostsListing';
 import { Layout } from '../components/layout/Layout';
-import { Categories } from '../components/categories/Categories';
+import { CategoriesList } from '../components/categories/categoriesList/CategoriesList';
 import { Workshop } from '../components/workshop/Workshop';
 import { Navigation } from '../components/navigation/Navigation';
 import { Heading } from 'components/shared/components/heading/Heading';
@@ -39,7 +39,7 @@ export default function Home({
               Najnowsze
             </Heading>
           </PostsListing>
-          <Categories categories={categories.slice(0, 3)} />
+          <CategoriesList categories={categories.slice(0, 3)} />
           <PostsListing posts={popularPosts}>
             <Heading tag="h2" variant="secondary">
               Najpopularniejsze
