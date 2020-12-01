@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import type { AppProps } from 'next/app';
+import type { AppProps,NextWebVitalsMetric } from 'next/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/main.scss';
@@ -12,6 +12,10 @@ if (!isProduction && isBrowser) {
   const axe = require('react-axe');
   const AXE_DELAY = 1000;
   axe(React, ReactDOM, AXE_DELAY);
+}
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  console.log(metric);
 }
 
 export default function MyApp({ Component, pageProps }: AppProps) {
