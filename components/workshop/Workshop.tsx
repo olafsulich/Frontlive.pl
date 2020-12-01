@@ -26,7 +26,7 @@ export const Workshop = () => {
           </a>
         </div>
       </div>
-      <img src="/images/gatsby-cta.png" alt="" className={styles.logo} />
+      <img src="/images/gatsby-cta.png" alt="" className={styles.logo} width="290" height="338" />
     </aside>
   );
 };
