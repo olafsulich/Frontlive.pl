@@ -5,7 +5,7 @@ import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Footer } from 'components/footer/Footer';
 import { Workshop } from '../../components/workshop/Workshop';
-import { getPostsByCategory, getAllPosts } from 'lib/mdx';
+import { getPostsByCategory, getAllPosts } from 'lib/posts';
 import slugify from 'slugify';
 import { CategoryPageTemplate } from '../../components/categories/categoryPageTemplate/CategoryPageTemplate';
 

@@ -5,7 +5,7 @@ import { Navigation } from '../../components/navigation/Navigation';
 import { Footer } from 'components/footer/Footer';
 import { Workshop } from '../../components/workshop/Workshop';
 import { Portfolio } from '../../components/portfolio/Portfolio';
-import { getAllProjects } from 'lib/mdx';
+import { getAllProjects } from 'lib/projects';
 
 export const getStaticProps: GetStaticProps = async () => {
   const projects = getAllProjects();

@@ -7,7 +7,7 @@ import { Workshop } from '../components/workshop/Workshop';
 import { Navigation } from '../components/navigation/Navigation';
 import { Heading } from 'components/shared/components/heading/Heading';
 import { Footer } from 'components/footer/Footer';
-import { getNewestPosts, getPopularPosts } from 'lib/mdx';
+import { getNewestPosts, getPopularPosts } from 'lib/posts';
 import { categories } from '../data/categories';
 
 export const getStaticProps: GetStaticProps = async () => {

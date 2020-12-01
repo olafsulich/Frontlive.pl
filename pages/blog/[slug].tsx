@@ -1,7 +1,7 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import hydrate from 'next-mdx-remote/hydrate';
-import { getPostBySlug, getPostsPaths } from 'lib/mdx';
+import { getPostBySlug, getPostsPaths } from 'lib/posts';
 import { Layout } from 'components/layout/Layout';
 import { Navigation } from 'components/navigation/Navigation';
 import { Mdx } from '../../components/mdx/Mdx';

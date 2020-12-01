@@ -4,7 +4,7 @@ import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Footer } from 'components/footer/Footer';
 import { Workshop } from '../../components/workshop/Workshop';
-import { getAllPosts } from 'lib/mdx';
+import { getAllPosts } from 'lib/posts';
 import { Blog } from '../../components/blog/Blog';
 
 export const getStaticProps: GetStaticProps = async () => {
