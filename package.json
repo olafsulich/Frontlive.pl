@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:rss && next build",
+    "build:rss": "ts-node ./scripts/generate-rss.ts",
     "postbuild": "next-sitemap",
     "start": "next start",
     "test": "jest",
@@ -44,7 +45,9 @@
     "remark-capitalize": "^1.1.0",
     "remark-code-titles": "^0.1.1",
     "remark-slug": "^6.0.0",
+    "rss": "^1.2.2",
     "slugify": "^1.4.6",
+    "ts-node": "^9.0.0",
     "typescript-eslint": "0.0.1-alpha.0",
     "what-input": "^5.2.10"
   },
@@ -57,6 +60,7 @@
     "@types/node": "^14.14.7",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/rss": "0.0.28",
     "@types/testing-library__cypress": "^5.0.8",
     "@types/testing-library__jest-dom": "^5.9.5",
     "@types/testing-library__react": "^10.2.0",

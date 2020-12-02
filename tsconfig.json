@@ -44,6 +44,6 @@
     "./typings/svg.d.ts",
     "./typings/next-mdx-remote.d.ts"
   ],
-  "exclude": ["node_modules", ".next", "out", "public", "cypress"],
+  "exclude": ["node_modules", ".next", "out", "public", "cypress", "./scripts/generate-rss.ts"],
   "include": ["types/next-env.d.ts", "**/*.ts", "**/*.tsx", "review.txt"]
 }

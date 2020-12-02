@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Host: https://frontlive.pl
+Sitemap: https://frontlive.pl/sitemap.xml

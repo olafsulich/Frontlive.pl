@@ -13,12 +13,15 @@ type BlogProps = {
   posts: Post[];
 };
 
-export const Blog = memo<BlogProps>(({ posts }) => (
-  <main className={styles.wrapper}>
-    <PostsListing headingTag="h2" posts={posts}>
-      <Heading tag="h1" variant="primary" className={styles.heading}>
-        Artykuły
-      </Heading>
-    </PostsListing>
-  </main>
-));
+export const Blog = memo<BlogProps>(({ posts }) => {
+  console.log(posts);
+  return (
+    <main className={styles.wrapper}>
+      <PostsListing headingTag="h2" posts={posts}>
+        <Heading tag="h1" variant="primary" className={styles.heading}>
+          Artykuły
+        </Heading>
+      </PostsListing>
+    </main>
+  );
+});
