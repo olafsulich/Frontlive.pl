@@ -16,7 +16,7 @@ export const Hero = () => {
           <SocialLinks />
         </div>
       </div>
-      <img className={styles.heroImage} src="/images/olaf.png" alt="" width="350" height="445" />
+      <img className={styles.heroImage} src="/images/olaf.png" alt="" width="350" height="443" />
     </div>
   );
 };

@@ -6,7 +6,13 @@ export const Workshop = () => {
       <div className={styles.textWrapper}>
         <div className={styles.info}>
           <h2 className={styles.heading}>
-            <img src="/images/przeprogramowani.png" alt="" className={styles.image} />
+            <img
+              src="/images/przeprogramowani.png"
+              width={255.94}
+              height={55}
+              alt=""
+              className={styles.image}
+            />
             <span className={styles.headingText}>Kurs Gatsby.js</span>
           </h2>
         </div>
@@ -26,7 +32,7 @@ export const Workshop = () => {
           </a>
         </div>
       </div>
-      <img src="/images/gatsby-cta.png" alt="" className={styles.logo} width="290" height="338" />
+      <img src="/images/gatsby-cta.png" alt="" className={styles.logo} width="291" height="338" />
     </aside>
   );
 };
