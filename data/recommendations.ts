@@ -1,7 +1,7 @@
 export const recommendations = [
   {
     content:
-      'HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
     author: {
       image: '/images/user.png',
       name: 'John Doe',
@@ -10,15 +10,7 @@ export const recommendations = [
   },
   {
     content:
-      'I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs',
-    author: {
-      image: '/images/user.png',
-      name: 'John Doe',
-      company: 'Vercel',
-    },
-  },
-  {
-    content: 'Olaf is a nice guy and great developer',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
     author: {
       image: '/images/user.png',
       name: 'John Doe',
@@ -27,7 +19,7 @@ export const recommendations = [
   },
   {
     content:
-      'I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs. I recently got the following message in a DM: I’ve been building with HTML and CSS for years, and I still don’t know how to implement pixel-perfect designs',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
     author: {
       image: '/images/user.png',
       name: 'John Doe',
@@ -36,7 +28,16 @@ export const recommendations = [
   },
   {
     content:
-      'I recently I still don’t know how to implement pixel-perfect designs to implement pixel-perfect designs',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
+    author: {
+      image: '/images/user.png',
+      name: 'John Doe',
+      company: 'Vercel',
+    },
+  },
+  {
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
     author: {
       image: '/images/user.png',
       name: 'John Doe',

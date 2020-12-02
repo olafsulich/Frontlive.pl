@@ -40,10 +40,15 @@
 
 .buttonWrapper {
   position: relative;
-  width: 17.5rem;
-  height: 5.5rem;
+  width: 12.5rem;
+  height: 4.5rem;
   border-radius: 4px;
   margin-top: 2rem;
+
+  @include mediaquery('xs') {
+    width: 17.5rem;
+    height: 5.5rem;
+  }
 
   @include mediaquery('sm') {
     margin-top: 0;

@@ -10,16 +10,14 @@ export const AboutMe = () => (
         O mnie
       </Heading>
       <p className={styles.text}>
-        I recently got the following message in a DM: I’ve been building with HTML and CSS for
-        years, and I still don’t know how to implement pixel-perfect designs If you're not familiar
-        with the term, "pixel-perfection" is the idea that your HTML/CSS implementation should be as
-        close to the original mockup…
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
       </p>
       <p className={styles.text}>
-        I recently got the following message in a DM: I’ve been building with HTML and CSS for
-        years, and I still don’t know how to implement pixel-perfect designs If you're not familiar
-        with the term, "pixel-perfection" is the idea that your HTML/CSS implementation should be as
-        close to the original mockup…
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
       </p>
       <Contact />
     </div>
