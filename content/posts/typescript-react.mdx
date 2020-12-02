@@ -19,8 +19,8 @@ Dziś przyjrzymy się trochę bliżej mojemu ulubionemu połączeniu, czyli **Re
 
 Jeśli TS jest dla Ciebie **nowością**, to zachęcam Cię najpierw do przeczytania dwóch poprzednich wpisów o TypeScripcie:
 
-- [TypeScript - podstawowe typy, funkcje, tablice i interfejsy](/typescript-podstawy)
-- [TypeScript - Generics, klasy i zaawansowane typy](/typescript-sredniozaawansowany/).
+- [TypeScript - podstawowe typy, funkcje, tablice i interfejsy](https://frontlive.pl/blog/typescript-podstawy)
+- [TypeScript - Generics, klasy i zaawansowane typy](https://frontlive.pl/blog/typescript-sredniozaawansowany/).
 
 ## Agenda
 
@@ -103,7 +103,7 @@ class App extends React.Component<MyProps, MyState> {
 export default App;
 ```
 
-Zamiast `type` możesz również używać `interfejsów`, wspominałem o ich różnicach w [poprzednim wpisie](typescript-sredniozaawansowany).
+Zamiast `type` możesz również używać `interfejsów`, wspominałem o ich różnicach w [poprzednim wpisie](https://frontlive.pl/blog/typescript-sredniozaawansowany).
 
 ### Funkcyjne
 
@@ -154,7 +154,7 @@ const [isVisible, setVisibility] = useState(false);
 
 Często jednak się zdarza, że nasz `state` może być np. `null` lub `object`.
 W takim przypadku musimy zadeklarować typy, robimy to za pomocą nawiasów - `< >`.
-Taka konstrukcja może Ci się kojarzyć z [typami generycznymi](/typescript-sredniozaawansowany/#typy-generycznegenerics).
+Taka konstrukcja może Ci się kojarzyć z [typami generycznymi](https://frontlive.pl/blog/typescript-sredniozaawansowany/#typy-generycznegenerics).
 
 ```tsx
 type User = {
@@ -224,7 +224,7 @@ Sprawdźmy jak przerobić [przykład licznika](https://pl.reactjs.org/docs/hooks
 
 Po kolei, definiujemy typ `State`, który wykorzystujemy zarówno w **reducerze**, jak i w **początkowym stanie**. Przy reducerach fajnie sprawdzają się [enumy](/typescript-podstawy/#enum).
 
-`Action` to tzw. [Discriminated Unions](/typescript-sredniozaawansowany/#discriminated-unions).
+`Action` to tzw. [Discriminated Unions](https://frontlive.pl/blog/typescript-sredniozaawansowany/#discriminated-unions).
 
 ```tsx
 interface State {
@@ -302,11 +302,11 @@ const App = () => {
 ```
 
 Wszystko wydaję się działać prawidłowo, niestety mamy tutaj **błąd** w `onClick`.
-Z hooka zwracamy [union type](/typescript-sredniozaawansowany/#union-types-i-type-guard), co w naszym przypadku jest **niechcianym zachowaniem**.
+Z hooka zwracamy [union type](https://frontlive.pl/blog/typescript-sredniozaawansowany/#union-types-i-type-guard), co w naszym przypadku jest **niechcianym zachowaniem**.
 Możemy to zmienić na dwa sposoby:
 
-- Zastosować [const assertion](/typescript-podstawy/#const-assertions).
-- Zwrócić wartość jako [tuple array](/typescript-podstawy/#tuple-array).
+- Zastosować [const assertion](https://frontlive.pl/blog/typescript-podstawy/#const-assertions).
+- Zwrócić wartość jako [tuple array](https://frontlive.pl/blog/typescript-podstawy/#tuple-array).
 
 Najlepszym sposobem będzie opcja numer dwa, z **const assertion** wiążą się [pewne problemy](https://github.com/babel/babel/issues/9800).
 
@@ -356,7 +356,7 @@ const App = () => {
 
 ### Union types
 
-Typy generyczne wspierają [union types](/typescript-sredniozaawansowany/#union-types-i-type-guard), nic nie stoi na przeszkodzie, żebyśmy taki zdefiniowali:
+Typy generyczne wspierają [union types](https://frontlive.pl/blog/typescript-sredniozaawansowany/#union-types-i-type-guard), nic nie stoi na przeszkodzie, żebyśmy taki zdefiniowali:
 
 ```tsx
 const handleClick = (
@@ -459,7 +459,7 @@ export { CountProvider, useCountState, useCountDispatch };
 
 ## Portale
 
-Przeróbmy przykład z Reactowych docsów na TypeScripta. Wykorzystujemy tutaj [asercje typów](/typescript-podstawy/#asercja-typow), reszta nie powinna być dla Ciebie nowością.
+Przeróbmy przykład z Reactowych docsów na TypeScripta. Wykorzystujemy tutaj [asercje typów](https://frontlive.pl/blog/typescript-podstawy/#asercja-typow), reszta nie powinna być dla Ciebie nowością.
 
 ```tsx
 const Modal: React.FC = ({ children }) => {
@@ -499,7 +499,7 @@ function logProps<T>(WrappedComponent: React.ComponentType<T>) {
 ```
 
 Teraz pewnie pomyślisz, **ale to jest nieczytelne**!! Ostrzegałem 😄. Okej, ale co tu się stało? Nie będę omawiał całej logiki komponentu, bo jest to przykład z dokumentacji, który możesz znaleźć [tutaj](https://pl.reactjs.org/docs/higher-order-components.html#dont-mutate-the-original-component-use-composition).
-A co jeśli chodzi o typy? Mamy tutaj [funkcję generyczną](/typescript-sredniozaawansowany/#funkcje), której parametrem jest `WrappedComponent`, jest on również [typu generycznego](/typescript-sredniozaawansowany/#typy-generycznegenerics). Okej, to jest jasne a co z tą dziwną konstrukcją? `...(this.props as T)`? Jest to spowodowane znanym już od wersji 3.2 problemem. Więcej możesz dowiedzieć się [w tym issue](https://github.com/Microsoft/TypeScript/issues/28938#issuecomment-450636046).
+A co jeśli chodzi o typy? Mamy tutaj [funkcję generyczną](https://frontlive.pl/blog/typescript-sredniozaawansowany/#funkcje), której parametrem jest `WrappedComponent`, jest on również [typu generycznego](/typescript-sredniozaawansowany/#typy-generycznegenerics). Okej, to jest jasne a co z tą dziwną konstrukcją? `...(this.props as T)`? Jest to spowodowane znanym już od wersji 3.2 problemem. Więcej możesz dowiedzieć się [w tym issue](https://github.com/Microsoft/TypeScript/issues/28938#issuecomment-450636046).
 
 ## Redux
 
@@ -515,7 +515,7 @@ npm install -D @types/react-redux
 
 ## Akcje
 
-Zamiast `action constants` znalazłem zastosowanie dla [enumów](/typescript-podstawy/#enum). Definiujemy tutaj enuma **UserTypes**, który będzie nam jeszcze potrzebny za chwilę, przy reducerach. Jest jeszcze interface **UserActionTypes** i alias **Name**. Całość spinamy w naszą akcję:
+Zamiast `action constants` znalazłem zastosowanie dla [enumów](https://frontlive.pl/blog/typescript-podstawy/#enum). Definiujemy tutaj enuma **UserTypes**, który będzie nam jeszcze potrzebny za chwilę, przy reducerach. Jest jeszcze interface **UserActionTypes** i alias **Name**. Całość spinamy w naszą akcję:
 
 ```tsx
 enum UserTypes {
@@ -616,7 +616,7 @@ export type ThunkAction<R, S, E, A extends Action> = (
 ) => R;
 ```
 
-Całość wydaje się **mocno przytłaczająca** przez wszechobecne [typy generyczne](/typescript-sredniozaawansowany/#typy-generycznegenerics).
+Całość wydaje się **mocno przytłaczająca** przez wszechobecne [typy generyczne](https:/frontlive.pl/blog/typescript-sredniozaawansowany/#typy-generycznegenerics).
 
 Uprośćmy sobie powyższy przykład:
 
@@ -640,7 +640,7 @@ export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
 - **R**: void
 - **S**: RootState
 - **E**: null
-- **A**: Action<string>
+- **A**: Action
 
 Wykorzystanie w akcji:
 
@@ -702,7 +702,7 @@ const StyledHeading = styled.h2<{ customColor: string }>`
 `;
 ```
 
-Podajemy tutaj typ propsa w [object type literal](/typescript-sredniozaawansowany/#type-vs-interface).
+Podajemy tutaj typ propsa w [object type literal](https://frontlive.pl/blog/typescript-sredniozaawansowany/#type-vs-interface).
 
 ## Podsumowanie
 

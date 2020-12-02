@@ -150,15 +150,14 @@ W regułach bezpieczeństwa możesz również pisać funkcję, stwórzmy funkcj�
 
 Zacznijmy od zalogowania się do **Firebase**.
 
-```
+```bash
 $ fireabse login
 ```
 
 Zainicjujmy aplikację:
 
-```
+```bash
  $ fireabse init
-
 ```
 
 Do wyboru mamy następujące opcję:
@@ -185,9 +184,8 @@ Jeśli odznaczyłeś opcję **Hosting**, będziesz musiał wybrać jeszcze folde
 
 Instalacja:
 
-```
+```bash
  npm install firebase-functions@latest firebase-admin@latest firebase-tools@latest
-
 ```
 
 Przejdz do folderu functions a w nim do `index.js`.
@@ -270,7 +268,7 @@ exports.newCreator = functions.firestore.document('creators/{creatorId}').onCrea
 
 Aby wydeployować funkcję, musimy użyć komendy:
 
-```
+```bash
 $ firebase deploy --only functions
 ```
 

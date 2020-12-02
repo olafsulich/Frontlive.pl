@@ -19,11 +19,11 @@ Ta funkcja przyjmuje wartości, które mogą być wyrażone w różnych jednostk
 }
 ```
 
-![](../images/min-fn-1.png)
+![](/images/articlesImages/min-fn-1.png)
 
 Załóżmy, że nadajemy szerokość dla boxa `min(50%, 800px)`, którą wartość w tym przypadku wybierze funkcja `min()`?. Z moich zaawansowanych obliczeń matematycznych wynika, że **50%**, ponieważ jest mniejsze niż 800px, gdy szerokość rodzica wynosi 1400px.
 
-![](../images/min-fn-2.png)
+![](/images/articlesImages/min-fn-2.png)
 
 Kolejność podawanych wartości nie ma znaczenia, możemy ich podać wiele.
 
@@ -37,11 +37,11 @@ Funkcja `max()` to przeciwieństwo `min()`, tutaj tak samo podajemy wartości po
 }
 ```
 
-![](../images/max-fn-1.png)
+![](/images/articlesImages/max-fn-1.png)
 
 Weźmy taki przykład, podajemy do funkcji trzy wartości: `6rem`, `2vw`i `5%`. Załóżmy, że `1rem = 16px`, szerokość viewporta to 1920px, a rodzica 1000px. Największą wartością z tych będzie `6rem` i właśnie taką wartość **minimalną** funkcja ustali dla szerokości naszego boxa.
 
-![](../images/max-fn-2.png)
+![](/images/articlesImages/max-fn-2.png)
 
 W naszych funkcjach możemy wykorzystywać różne matematyczne działania, bez konieczności użycia znanego Ci pewnie `calc()`.
 
@@ -63,7 +63,7 @@ Jest ona tak na prawdę połączeniem poprzednich funkcji:
 }
 ```
 
-![](../images/clamp-fn-1.png)
+![](/images/articlesImages/clamp-fn-1.png)
 
 Weźmy przykład z trzema wartościami: `20px`, `50%` i `4rem`. Tutaj nasza wartość domyślnie będzie 50%, nie może ona być mniejsza niż 20px i większa niż 4rem.
 
@@ -81,9 +81,7 @@ Chyba najbardziej znany przykład w kontekście wykorzystania funkcji `clamp()`,
 }
 ```
 
-<video controls="" muted="" width="100%">
-<source src="../images/fluid-1.mp4">
-</video>
+<Player url="/images/articlesImages/fluid-1.mp4" label="" />
 
 ### Idealny paragraf
 
@@ -95,7 +93,7 @@ Znacie zasadę, o odpowiedniej liczbie znaków w jednej lini tekstu? Mówi ona, 
 }
 ```
 
-![](../images/clamp-paragraph.png)
+![](/images/articlesImages/clamp-paragraph.png)
 
 ### Dynamiczny margines
 
@@ -107,13 +105,13 @@ Często potrzebujemy nadać margines, np. dla nagłówka, ale po chwili okazuję
 }
 ```
 
-![](../images/clamp-margin.png)
+![](/images/articlesImages/clamp-margin.png)
 
 ## Wsparcie przeglądarek
 
 Wsparcie dla omawianych dziś funkcji jest **całkiem niezłe** i praktycznie wszystkie _szanujące się_ przeglądarki je wspierają.
 
-![Tabela wyników wsparcia przez przeglądarki dla funkcji clamp, min i max](../images/clamp-wsparcie.png)
+![Tabela wyników wsparcia przez przeglądarki dla funkcji clamp, min i max](/images/articlesImages/clamp-wsparcie.png)
 
 ## Dostępność
 
