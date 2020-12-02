@@ -10,8 +10,8 @@ export const Logo = () => {
           src="/images/logo.png"
           alt=""
           className={styles.logo}
-          width={40}
-          height={40}
+          width={35}
+          height={35}
           priority={true}
           quality={100}
           layout="fixed"

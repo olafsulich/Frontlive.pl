@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './workshop.module.scss';
 
 export const Workshop = () => {
@@ -6,10 +7,11 @@ export const Workshop = () => {
       <div className={styles.textWrapper}>
         <div className={styles.info}>
           <h2 className={styles.heading}>
-            <img
+            <Image
               src="/images/przeprogramowani.png"
               width={273}
               height={64}
+              quality={100}
               alt=""
               className={styles.image}
             />
@@ -32,7 +34,14 @@ export const Workshop = () => {
           </a>
         </div>
       </div>
-      <img src="/images/gatsby-cta.png" alt="" className={styles.logo} width="291" height="338" />
+      <Image
+        src="/images/gatsby-cta.png"
+        alt=""
+        className={styles.logo}
+        width="291"
+        height="338"
+        quality={100}
+      />
     </aside>
   );
 };

@@ -21,7 +21,7 @@ export const Hero = () => {
         <Image
           src="/images/olaf.png"
           alt=""
-          width={600}
+          width={590}
           height={740}
           priority={true}
           quality={100}

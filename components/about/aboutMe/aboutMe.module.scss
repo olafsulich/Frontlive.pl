@@ -31,7 +31,7 @@
     margin-bottom: 3rem;
   }
 
-  @include mediaquery('xxl') {
+  @include mediaquery('xl') {
     margin-right: 8rem;
     font-size: 1.8rem;
     margin-bottom: 4rem;
@@ -59,16 +59,26 @@
     padding-right: 6rem;
   }
 
-  @include mediaquery('xxl') {
+  @include mediaquery('xl') {
     padding-right: 10rem;
   }
 }
 
 .image {
   width: 100%;
+  min-width: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @include mediaquery('lg') {
-    max-width: 36.4rem;
+    min-width: 33rem;
+  }
+
+  @include mediaquery('xl') {
+    min-width: 36.4rem;
+    width: 36.4rem;
+    height: 63.8rem;
   }
 }
 

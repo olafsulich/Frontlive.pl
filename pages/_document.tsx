@@ -34,8 +34,8 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png" />
           <link rel="manifest" href="/site.webmanifest" />
-          <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#000000" />
-          <meta name="msapplication-TileColor" content="#000000" />
+          <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#ffffff" />
+          <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="theme-color" content="#ffffff" />
           <meta name="apple-mobile-web-app-title" content="Frontlive" />
         </Head>

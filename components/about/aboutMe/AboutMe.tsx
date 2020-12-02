@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Heading } from '../../shared/components/heading/Heading';
 import { Contact } from './contact/Contact';
 import styles from './aboutMe.module.scss';
@@ -22,6 +23,8 @@ export const AboutMe = () => (
       </p>
       <Contact />
     </div>
-    <img src="/images/me.png" alt="" className={styles.image} width="100%" />
+    <div className={styles.image}>
+      <Image src="/images/me.png" alt="" width={530} height={929} quality={100} priority={true} />
+    </div>
   </div>
 );

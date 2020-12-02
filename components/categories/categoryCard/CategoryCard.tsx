@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import Image from 'next/image';
 import Link, { LinkProps } from 'next/link';
 import cn from 'classnames';
 import styles from './categoryCard.module.scss';
@@ -18,7 +19,9 @@ export const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, ima
       <Link href={path}>
         <a className={styles.link}>
           <h2 className={styles.heading}>{title}</h2>
-          <img src={image} className={styles.icon} alt="" />
+          <div className={styles.icon}>
+            <Image src={image} alt="" width={220} height={220} layout="fixed" quality={85} />
+          </div>
         </a>
       </Link>
     </article>
