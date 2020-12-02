@@ -32,28 +32,28 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
-        (function() {
-		if( "fonts" in document ) {
-			// Optimization for Repeat Views
-			if( sessionStorage.fontsLoadedCriticalFoftPreload ) {
-				document.documentElement.className += " fonts-loaded-2";
-				return;
-			}
+              (() => {
+                if( "fonts" in document ) {
+                // Optimization for Repeat Views
+                if( sessionStorage.fontsLoadedCriticalFoftPreload ) {
+                  document.documentElement.className += " fonts-loaded-2";
+                  return;
+                }
 
-			document.fonts.load("1em Criteria").then(function () {
-				document.documentElement.className += " fonts-loaded-1";
+                document.fonts.load("1em Criteria").then(function () {
+                  document.documentElement.className += " fonts-loaded-1";
 
-				Promise.all([
-					document.fonts.load("500 1em Criteria Demi"),
-				]).then(function () {
-					document.documentElement.className += " fonts-loaded-2";
+                  Promise.all([
+                    document.fonts.load("500 1em Criteria Demi"),
+                  ]).then(function () {
+                    document.documentElement.className += " fonts-loaded-2";
 
-					// Optimization for Repeat Views
-					sessionStorage.fontsLoadedCriticalFoftPreload = true;
-				});
-			});
-		}
-	})();
+                    // Optimization for Repeat Views
+                    sessionStorage.fontsLoadedCriticalFoftPreload = true;
+                  });
+              });
+              }
+            })();
         `,
           }}
         />
