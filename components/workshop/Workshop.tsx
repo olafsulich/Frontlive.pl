@@ -34,14 +34,9 @@ export const Workshop = () => {
           </a>
         </div>
       </div>
-      <Image
-        src="/images/gatsby-cta.png"
-        alt=""
-        className={styles.logo}
-        width="291"
-        height="338"
-        quality={100}
-      />
+      <div className={styles.logo}>
+        <Image src="/images/gatsby-cta.png" alt="" width={291} height={338} quality={100} />
+      </div>
     </aside>
   );
 };
