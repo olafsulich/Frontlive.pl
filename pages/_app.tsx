@@ -32,6 +32,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <script
           dangerouslySetInnerHTML={{
             __html: `
+            // Optimize loading local fonts with Critical foft with preload. Read more https://www.zachleat.com/web/comprehensive-webfonts/#critical-foft-preload;
               (() => {
                 if( "fonts" in document ) {
                 // Optimization for Repeat Views
@@ -58,26 +59,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           }}
         />
       </Head>
-      <style jsx>
-        {`
-          @font-face {
-            font-family: 'Criteria';
-            src: url('/fonts/CriteriaCFBold.woff') format('woff'),
-              url('/fonts/CriteriaCFBold.ttf') format('truetype');
-            font-weight: bold;
-            font-style: normal;
-            font-display: swap;
-          }
-          @font-face {
-            font-family: 'Criteria Demi';
-            src: url('/fonts/CriteriaCFDemibold.woff') format('woff'),
-              url('/fonts/CriteriaCFDemibold.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-          }
-        `}
-      </style>
       <DefaultSeo {...SEO} />
       <Component {...pageProps} />
     </MdxCompProvider>
