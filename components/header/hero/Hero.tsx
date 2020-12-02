@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { SocialLinks } from '../../shared/components/socialLinks/SocialLinks';
 import { NewsletterForm } from '../../shared/components/newsletterForm/NewsletterForm';
 import styles from './hero.module.scss';
@@ -16,7 +17,16 @@ export const Hero = () => {
           <SocialLinks />
         </div>
       </div>
-      <img className={styles.heroImage} src="/images/olaf.png" alt="" width="348" height="443" />
+      <div className={styles.heroImage}>
+        <Image
+          src="/images/olaf.png"
+          alt=""
+          width={600}
+          height={740}
+          priority={true}
+          quality={100}
+        />
+      </div>
     </div>
   );
 };

@@ -64,7 +64,14 @@
   }
 }
 
+.heroImageWrapper {
+  width: 34.8rem;
+  height: 43.4rem;
+  object-fit: cover;
+}
+
 .heroImage {
+  object-fit: cover;
   display: none;
   @include mediaquery('lg') {
     display: block;
