@@ -29,7 +29,55 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           content="width=device-width, user-scalable=yes, initial-scale=1.0, viewport-fit=cover"
         />
         <meta name="apple-mobile-web-app-title" content="Frontlive.pl" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function() {
+		if( "fonts" in document ) {
+			// Optimization for Repeat Views
+			if( sessionStorage.fontsLoadedCriticalFoftPreload ) {
+				document.documentElement.className += " fonts-loaded-2";
+				return;
+			}
+
+			document.fonts.load("1em Criteria").then(function () {
+				document.documentElement.className += " fonts-loaded-1";
+
+				Promise.all([
+					document.fonts.load("500 1em Criteria Demi"),
+				]).then(function () {
+					document.documentElement.className += " fonts-loaded-2";
+
+					// Optimization for Repeat Views
+					sessionStorage.fontsLoadedCriticalFoftPreload = true;
+				});
+			});
+		}
+	})();
+        `,
+          }}
+        />
       </Head>
+      <style jsx>
+        {`
+          @font-face {
+            font-family: 'Criteria';
+            src: url('/fonts/CriteriaCFBold.woff') format('woff'),
+              url('/fonts/CriteriaCFBold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'Criteria Demi';
+            src: url('/fonts/CriteriaCFDemibold.woff') format('woff'),
+              url('/fonts/CriteriaCFDemibold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+          }
+        `}
+      </style>
       <DefaultSeo {...SEO} />
       <Component {...pageProps} />
     </MdxCompProvider>

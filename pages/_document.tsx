@@ -15,10 +15,34 @@ class MyDocument extends Document {
         itemType="http://schema.org/WebPage"
       >
         <Head>
-          <link rel="preload" href="/fonts/CriteriaCFBold.woff" as="font" crossOrigin="" />
-          <link rel="preload" href="/fonts/CriteriaCFDemibold.woff" as="font" crossOrigin="" />
-          <link rel="preload" href="/fonts/CriteriaCFBold.ttf" as="font" crossOrigin="" />
-          <link rel="preload" href="/fonts/CriteriaCFDemibold.ttf" as="font" crossOrigin="" />
+          <link
+            rel="preload"
+            href="/fonts/CriteriaCFBold.woff"
+            as="font"
+            type="font/woff"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/CriteriaCFDemibold.woff"
+            type="font/woff"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/CriteriaCFBold.ttf"
+            type="font/ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/CriteriaCFDemibold.ttf"
+            type="font/ttf"
+            as="font"
+            crossOrigin=""
+          />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             rel="preload"

@@ -16,13 +16,19 @@ export const Share = memo<ShareProps>(({ title, url }) => (
       via="olafsulich"
       url={`www.frontlive.pl/blog/${url}`}
       className={styles.link}
+      aria-label="Udostępnij na Twitterze"
+      aria-haspopup="true"
     >
-      <span className="visually-hidden">Udostępnij na Twitterze</span>
-      <TwitterIcon className={styles.icon} />
+      <TwitterIcon aria-hidden="true" className={styles.icon} />
     </TwitterShareButton>
-    <FacebookShareButton quote={title} url={`www.frontlive.pl/blog/${url}`} className={styles.link}>
-      <span className="visually-hidden">Udostępnij na Facebooku</span>
-      <FacebookIcon className={styles.icon} />
+    <FacebookShareButton
+      aria-label="Udostępnij na Facebooku"
+      quote={title}
+      url={`www.frontlive.pl/blog/${url}`}
+      className={styles.link}
+      aria-haspopup="true"
+    >
+      <FacebookIcon aria-hidden="true" className={styles.icon} />
     </FacebookShareButton>
   </div>
 ));
