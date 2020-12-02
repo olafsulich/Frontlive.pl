@@ -1,4 +1,6 @@
 const path = require('path');
+const withPWA = require('next-pwa');
+const runtimeCaching = require('next-pwa/cache');
 require('what-input');
 
 const withPolyfills = (module.exports = (nextConfig = {}) => {
@@ -24,8 +26,14 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
   });
 });
 
-module.exports = withPolyfills({
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
-});
+module.exports = withPolyfills(
+  withPWA({
+    pwa: {
+      dest: 'public',
+      runtimeCaching,
+    },
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles')],
+    },
+  }),
+);

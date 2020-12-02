@@ -8,8 +8,8 @@ export const Workshop = () => {
           <h2 className={styles.heading}>
             <img
               src="/images/przeprogramowani.png"
-              width={255.94}
-              height={55}
+              width={273}
+              height={64}
               alt=""
               className={styles.image}
             />
