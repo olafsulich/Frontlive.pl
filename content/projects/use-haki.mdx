@@ -1,12 +1,18 @@
 ---
 title: 'use-haki'
-excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit'
+excerpt: 'Biblioteka z zestawem Custom React Hooks. Hooki w niej zawarte, to zbiór funkcji pomocniczych, których używałem w przeszłości, przepisanych w pełni na TypeScript'
 image: '/images/use-haki.png'
 variant: 'green'
 technologies: ['React', 'TypeScript', 'Eslint & Prettier', 'CircleCI', 'Microbundle']
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+Biblioteka z zestawem <Sparkles>Custom React Hooks</Sparkles>. Hooki w niej zawarte, to zbiór funkcji pomocniczych, których używałem w przeszłości, przepisanych w pełni na TypeScript. Znajdziesz tutaj wiele przydatnych hooków, jak na przykład hook do obsługi LocalStorage. Zdarzają się również specjalne hooki jak `useUnsplash` i hook <Sparkles>useHelloRomanJoke</Sparkles>, który zwraca programistyczny suchar [Hello Romana](https://www.youtube.com/channel/UCq8XmOMtrUCb8FcFHQEd8_g)!
+
+![](/images/use-haki.png)
+
+## Informacje
+
+- [Repozytorium na GitHubie](https://github.com/olafsulich/use-haki)
 
 ## Technologie
 
@@ -15,3 +21,45 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - Eslint & Prettier
 - CircleCI
 - Microbundle
+
+## Proces
+
+Podczas budowania swoich projektów Reaktowych, zauważyłem, że często wykorzystuję **te same** custom hooki. Pomyślałem więc, czemu by nie stworzyć dedykowanej biblioteki, gdzie trzymałbym te _najczęściej_ wykorzystywane?
+
+Tak zrodził się pomysł na projekt - **use haki**.
+
+Z czasem stwierdziłem, że fajnie by było stworzyć z tego w pełni reużywalną bibliotekę, dla wszystkich. Zacząłem dodawać napisane wcześniej hooki, przepisywać je na TypeScripta, tak, żeby utrwalić wiedzę o TS.
+
+Gdy już dodałem wszystkie **podstawowe** funkcje, pomyślałem, że super pomysłem byłoby zrobienie tych mniej szablonowych. Tak zrodziły się hooki `useUnsplash` i `useHelloRomanJoke`.
+
+## useHelloRomanJoke
+
+Hook `useHelloRomanJoke` zwraca randomowy żart popularnego twórcy w naszej branży - [Hello Romana](https://www.youtube.com/channel/UCq8XmOMtrUCb8FcFHQEd8_g). Adam jest znany ze swoich sucharów, po niektórych trzeba aż się napić(wody).
+
+Okej, ale jak zebrać te wszystki żarty? Występują one prawie w każdym odcinku na samym początku, pobranie żartu automatycznie nie jest możliwe. Więc jak sobie poradziłem? Zaczałem oglądać i spisywać suchary. Każdy żart posiada dwa człony - pytanie i odpowiedź. Takich zestawów pytań i odpowiedźi zebrałem **96**, moja psychika nie dała rady wyciągnąć więcej...
+
+Żarty są trzymane w [JSONBIN](https://jsonbin.io/), wpisywanie ich tam było karkołomne, ale teraz mogę się pochwalić największą bazą polskich sucharów programistycznych w formie api - well done!
+
+Spójrzmy na kilka z nich, ostrzegam, będzie sucho:
+
+> Co Frontendowiec mówi do konia?
+>
+> Wiśta Vue.
+
+> Co mówi ksiądz na ślubie informatyka?
+>
+> Pobieranie zakończone.
+
+> Przy czym najczęściej programista pomaga w domu?
+>
+> Przy parsowaniu.
+
+## Open Source
+
+Biblioteka, tak jak **wszystkie** moje projekty, ma otwarty kod! Możesz z niej korzystać do woli, forkować, zmieniać, co Ci się żywnie podoba.
+
+Masz pomysł na hooka? Swórz [issue](https://guides.github.com/features/issues/) lub [pull requesta](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests). Oczywiście wszelkie kontrybucje do projektu mile widziane. Hooki nie muszą być napisane w TypeScripcie, mogą być w czystym JavaScripcie. Wejdź w Open Source pełna parą i kontrybuuj!
+
+## Problemy
+
+Na obecną chwilę większość hooków nie jest otestowana. Jest to pierwszy krok na mojej liście **do zrobienia** jeśli chodzi o ten projekt.

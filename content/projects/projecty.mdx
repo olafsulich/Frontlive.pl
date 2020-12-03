@@ -1,12 +1,19 @@
 ---
 title: 'Projecty'
-excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit'
+excerpt: 'Aplikacja do zarządzania projektami dla zespołów. Możliwość ustalania ról, tasków, sprintów to tylko niektóre funkcjonalności tego produktu'
 image: '/images/projecty.png'
 variant: 'yellow'
 technologies: ['React', 'TypeScript', 'Redux', 'Firebase', 'Formik']
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+Aplikacja do zarządzania projektami dla zespołów. Możliwość ustalania ról, tasków, sprintów to tylko niektóre funkcjonalności tego produktu.
+
+![Strona główna Projecty, przedstawiająca członków zespołu i ich role](https://camo.githubusercontent.com/3670cc55ef1d613b4f709183954a7eea82d56ca90ef8eac6068e013419d43d00/68747470733a2f2f692e6962622e636f2f3154726e4d72772f5445616d312e706e67)
+
+## Informacje
+
+- [Repozytorium na GitHubie](https://github.com/olafsulich/Projecty)
+- [Wersja live projektu](https://projecty.netlify.app/)
 
 ## Technologie
 
@@ -16,4 +23,41 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 - Firebase
 - Formik
 
-## Problemy
+## Proces
+
+Projecty powstawało, gdy zacząłem realizować swoje pierwsze, komercyjne projekty wraz z grupą Hypnocoders. W tamtym okresie bardzo dużo nauczyłem się o **pracy w zespole**, wydzielania zadań, ustalania spritów itp.
+Podczas tej intenywnej nauki wpadłem na pomysł stworzenia aplikacji, która mogłaby usprawnić nam pracę. W teorii, dzieki niej moglibyśmy wydzielać zadania, planować sprinty i komunikować się ze sobą przy użyciu ogłoszeń.
+
+![Wybór odpowiedniej dla nas roli przy zakładaniu zaspołu](https://camo.githubusercontent.com/7f9d9ee3ab35d4beca772095402c721b00a51270670f9ad57ddfcac814cd0fa4/68747470733a2f2f692e6962622e636f2f67366a7a4832702f53656c6563742d526f6c2e706e67)
+
+Przy dołączaniu do zespołu wybieramy odpowiednią dla nas rolę, mamy do wyboru developera, designera, project managera i QA.
+
+## Historia nienaprawionego błędu
+
+Projekt z początku powstawał na Reaktowym frameworku [Gatsby.js](https://www.gatsbyjs.com/). Lubiłem(i nadal lubię) Gatsbiego, dlatego uważałem, że będzie to dobry wybór na kolejną moją aplikację.
+
+Do pewnego momentu wszystko szło zgodnie z planem, powstawały nowe strony i komponenty, aż do deploymentu. Błąd był powiązany z **Firebasem**, którego również używałem do stworzenia tego projektu. Po wielu nieudanych próbach naprawy błędu we własnym zakresie, poddałem się i postanowiłem zasięgnąć pomocy gdzie tylko się da...
+
+Pytałem wszędzie, na grupach na facebooku, programistycznych kanałach na discordzie, StackOverflow, aż w końcu stworzyłem [issue na GitHubie](https://github.com/firebase/firebase-js-sdk/issues/2946). Osoby, które angażują się w Open Source to na prawdę pomocni ludzie, niejednokrotnie próbowali pomóc w rozwiązaniu mojego problemu. Niestety, **nie udało się**, pomimo licznych prób, spędzonych tygodni w kodzie i godzinach dyskutowania w społeczności.
+
+Nie chciałem porzucić projektu na dobre, spędziłem nad nim już wtedy sporo czasu, postanowiłem go więc przepisać! Utworzyłem nowy projekt i tym razem skorzystałem z popularnej biblioteki [Create React App](https://pl.reactjs.org/docs/create-a-new-react-app.html). <Sparkles>Udało się!</Sparkles> Projekt wrócił do żywych i mogłem dalej kontynuować nad nim pracę.
+
+## Dobór technologii
+
+Dobór technologii dla mnie, na tamten moment, był oczywisty, no może z wyłączeniem Gatsbiego.
+
+Skorzystałem ze swojej _głównej_ technologii - Reakta. To w nim na tamten moment chciałem się rozwijać. Do niego doszedł **TypeScript**, którego również jestem wielkim fanem.
+
+[Firebase](https://firebase.google.com/), czyli technologia, w której stworzyłem już wcześniej kilka projektów, posłużyła mi jako backend dla całej aplikacji. Dzięki niej nie musiałem tworzyć swojego backendu(nawet wtedy bym nie potrafił) i mogłem skupić się wyłącznie na logice po stronie frontendu. Firebase udostępnił mi również możliwość logowania i rejestrowania użytkowników, czyli funkcjonalności która była podstawą _Projecty_.
+
+Do stylowania wykorzystałem [Styled Components](https://styled-components.com/) i po code review bardziej doświadczonych programistów, wydzieliłem je do osobnych plików.
+
+[Redux](https://redux.js.org/) wraz z [Thunkiem](https://github.com/reduxjs/redux-thunk) posłużył mi jako stanu globalnego aplikacji.
+
+Formularze obsłużyłem biblioteką [Formik](https://formik.org/), a do poprawnej walidacji danych wykorzystałem paczkę [Yup](https://github.com/jquense/yup).
+
+## Co mogło pójść lepiej i czego się nauczyłem
+
+Pomimo tego, że po skończeniu projektu byłem z niego bardzo dumny, teraz widzę ile rzeczy **mogło pójść lepiej**, co zrobiłem źle i jak to powinno wyglądać. Do dzisiaj zastanawiam się, co mnie skłoniło do wydzielania typów dla komponentu do osobnego pliku...
+
+W ostateczności jestem z niego **zadowolony**, nauczył mnie on bardzo wielu rzeczy, dzięki niemu zagłębiłem się jeszcze bardziej w świat TypeScripta i Reakta. Wtedy też dostawałem swoje pierwsze code review od bardziej doświadczonych osób(wielkie dzięki dla Jakuba Siedleckiego, z którym o 3 nad ranem poprawialiśmy mój kod :D ).

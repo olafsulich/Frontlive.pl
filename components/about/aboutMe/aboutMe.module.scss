@@ -28,13 +28,13 @@
 
   @include mediaquery('lg') {
     margin-right: 2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
   }
 
   @include mediaquery('xl') {
     margin-right: 8rem;
     font-size: 1.8rem;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
     line-height: 2;
   }
 }
@@ -82,46 +82,17 @@
   }
 }
 
-.linkWrapper {
-  width: 17.5rem;
-  height: 5.5rem;
-  border-radius: 4px;
-  margin-top: 2rem;
-  background: var(--green-gradient);
-
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    top: 2px;
-    left: 6px;
-    right: 6px;
-    height: 20%;
-    background: var(--button-shine);
-    border-radius: var(--button-shine-border-radius);
-    pointer-events: none;
-  }
-}
-
 .link {
-  border-radius: 4px;
-  border: none;
-  width: 100%;
-  height: 100%;
-  color: var(--white);
-  font-weight: 600;
-  font-size: 1.6rem;
-  cursor: pointer;
-  text-shadow: var(--button-shine-text-shadow);
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.5rem;
+  border-bottom: 2px solid var(--gray-100);
+  color: var(--blue-600);
+  font-weight: 600;
+  margin: 0 4px;
 
-  @include mediaquery('xs') {
-    padding: 0 2rem;
+  &:hover,
+  &:active,
+  &:focus {
+    background: var(--gray-100);
+    border-bottom: 2px solid var(--blue-600);
   }
 }

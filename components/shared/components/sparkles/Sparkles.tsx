@@ -26,7 +26,7 @@ export const Sparkles = memo<SparklesProps>(({ children }) => {
       nextSparkles.push(sparkle);
       setSparkles(nextSparkles);
     },
-    prefersReducedMotion ? null : 0,
+    prefersReducedMotion ? null : 50,
     prefersReducedMotion ? null : 450,
   );
 

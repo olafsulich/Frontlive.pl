@@ -26,10 +26,19 @@
 }
 
 .linkWrapper {
-  width: 17.5rem;
-  height: 5.5rem;
+  position: relative;
+  width: 13.5rem;
+  height: 4.5rem;
+  margin-top: 2rem;
   border-radius: 4px;
   background: var(--green-gradient);
+  padding: 0 0.5rem;
+
+  @include mediaquery('xs') {
+    width: 17.5rem;
+    height: 5.5rem;
+    padding: 0 2rem;
+  }
 
   &::before {
     content: '';
@@ -61,9 +70,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
 
-  @include mediaquery('xs') {
-    padding: 0 2rem;
+  @include mediaquery('xl') {
+    padding: 0 1.5rem;
   }
 }

@@ -13,9 +13,7 @@ type BlogProps = {
   posts: Post[];
 };
 
-export const Blog = memo<BlogProps>(({ posts }) => {
-  console.log(posts);
-  return (
+export const Blog = memo<BlogProps>(({ posts }) => (
     <main className={styles.wrapper}>
       <PostsListing headingTag="h2" posts={posts}>
         <Heading tag="h1" variant="primary" className={styles.heading}>
@@ -23,5 +21,4 @@ export const Blog = memo<BlogProps>(({ posts }) => {
         </Heading>
       </PostsListing>
     </main>
-  );
-});
+  ));

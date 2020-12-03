@@ -6,7 +6,7 @@ export const Contact = () => (
     <SocialLinks />
     <div className={styles.linkWrapper}>
       <a className={styles.link} href="mailto:olafsulich@gmail.com">
-        <span>Napisz do mnie!</span>
+        <span>Skontaktuj się!</span>
       </a>
     </div>
   </div>
