@@ -6,16 +6,7 @@ export const Logo = () => {
   return (
     <Link href="/">
       <a className={styles.link}>
-        <Image
-          src="/images/logo.png"
-          alt=""
-          className={styles.logo}
-          width={35}
-          height={35}
-          priority={true}
-          quality={100}
-          layout="fixed"
-        />
+        <img src="/images/logo.png" alt="" className={styles.logo} width="35" height="35" />
         <span className="visually-hidden">Frontlive.pl by Olaf Sulich</span>
       </a>
     </Link>
