@@ -18,18 +18,18 @@ if (!isProduction && isBrowser) {
   axe(React, ReactDOM, AXE_DELAY);
 }
 
-export function reportWebVitals({ id, name, label, value = 1 }: NextWebVitalsMetric) {
-  if (!id || !name || typeof window === 'undefined') {
-    return;
-  }
-  //@ts-ignore
-  window.gtag('event', name, {
-    event_category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
-    event_label: id,
-    value: Math.round(name === 'CLS' ? value * 1000 : value),
-    non_interaction: true,
-  });
-}
+// export function reportWebVitals({ id, name, label, value = 1 }: NextWebVitalsMetric) {
+//   if (!id || !name || typeof window === 'undefined') {
+//     return;
+//   }
+//   //@ts-ignore
+//   window.gtag('event', name, {
+//     event_category: label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+//     event_label: id,
+//     value: Math.round(name === 'CLS' ? value * 1000 : value),
+//     non_interaction: true,
+//   });
+// }
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
