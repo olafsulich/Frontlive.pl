@@ -18,7 +18,7 @@ export const otherSkills = ['Firebase', 'Git', 'Figma', 'UI/UX'];
 
 export const softSkills = [
   'Umiejętność komunikatywnej pracy w zespole',
-  'Przyjmowanie i dawanie code review',
+  'Code review',
   'SCRUM',
   'Git workflow',
   'Odpowiedzialność',
