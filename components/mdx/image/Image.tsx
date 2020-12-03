@@ -12,7 +12,7 @@ export const Image = memo(({ src, alt }: ImageProps) => {
   return (
     <>
       {EXTERNAL_IMAGE_PATTERN.test(src) ? (
-        <img className={styles.image} src={src} alt={alt} />
+        <img className={styles.image} src={src} alt={alt} loading="lazy" />
       ) : (
         <picture className={styles.wrapper}>
           <source
@@ -20,7 +20,12 @@ export const Image = memo(({ src, alt }: ImageProps) => {
             srcSet={require(`../../../public${src}?webp`)}
             type="image/webp"
           />
-          <img className={styles.image} src={require(`../../../public${src}`)} alt={alt} />
+          <img
+            className={styles.image}
+            src={require(`../../../public${src}`)}
+            alt={alt}
+            loading="lazy"
+          />
         </picture>
       )}
     </>

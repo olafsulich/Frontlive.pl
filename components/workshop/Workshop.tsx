@@ -41,7 +41,7 @@ export const Workshop = () => {
       </div>
       <picture className={styles.logo}>
         <source srcSet={require(`../../public/images/gatsby-cta.png?webp`)} type="image/webp" />
-        <img src="/images/gatsby-cta.png" alt="" width="291" height="338" />
+        <img src="/images/gatsby-cta.png" alt="" width="291" height="338" loading="lazy" />
       </picture>
     </aside>
   );
