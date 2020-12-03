@@ -6,6 +6,15 @@ type ImageProps = {
   alt: string;
 };
 
-export const Image = memo(({ src, alt }: ImageProps) => (
-  <img className={styles.image} src={src} alt={alt} />
-));
+export const Image = memo(({ src, alt }: ImageProps) => {
+  return (
+    <picture className={styles.wrapper}>
+      <source
+        className={styles.image}
+        srcSet={require(`../../../public${src}?webp`)}
+        type="image/webp"
+      />
+      <img className={styles.image} src={require(`../../../public${src}`)} />
+    </picture>
+  );
+});

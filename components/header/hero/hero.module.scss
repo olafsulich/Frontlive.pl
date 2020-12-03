@@ -65,15 +65,16 @@
 }
 
 .heroImageWrapper {
-  width: 34.8rem;
-  height: 43.4rem;
-  object-fit: cover;
+  display: none;
+  @include mediaquery('xl') {
+    display: block;
+  }
 }
 
 .heroImage {
   object-fit: cover;
   display: none;
-  @include mediaquery('lg') {
+  @include mediaquery('xl') {
     display: block;
   }
 }

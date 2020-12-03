@@ -33,8 +33,9 @@ export const AboutMe = () => (
       </p>
       <Contact />
     </div>
-    <div className={styles.image}>
-      <Image src="/images/me.png" alt="" width={530} height={929} quality={100} priority={true} />
-    </div>
+    <picture className={styles.image}>
+      <source srcSet={require(`../../../public/images/me.png?webp`)} type="image/webp" />
+      <img src="/images/me.png" alt="" className={styles.image} />
+    </picture>
   </div>
 );

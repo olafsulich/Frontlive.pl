@@ -17,16 +17,14 @@ export const Hero = () => {
           <SocialLinks />
         </div>
       </div>
-      <div className={styles.heroImage}>
-        <Image
-          src="/images/olaf.png"
-          alt=""
-          width={497}
-          height={634}
-          priority={true}
-          quality={100}
+      <picture className={styles.heroImageWrapper}>
+        <source
+          className={styles.heroImage}
+          srcSet={require(`../../../public/images/olaf.png?webp`)}
+          type="image/webp"
         />
-      </div>
+        <img src="/images/olaf.png" alt="" width="348" height="443" className={styles.heroImage} />
+      </picture>
     </div>
   );
 };

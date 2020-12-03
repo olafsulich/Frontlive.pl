@@ -1,6 +1,8 @@
 const path = require('path');
 const withPWA = require('next-pwa');
 const runtimeCaching = require('next-pwa/cache');
+const withOptimizedImages = require('next-optimized-images');
+
 require('what-input');
 
 const withPolyfills = (module.exports = (nextConfig = {}) => {
@@ -27,14 +29,18 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withPWA({
-    pwa: {
-      disable: process.env.NODE_ENV === 'development',
-      dest: 'public',
-      runtimeCaching,
-    },
-    sassOptions: {
-      includePaths: [path.join(__dirname, 'styles')],
-    },
-  }),
+  withPWA(
+    withOptimizedImages({
+      imagesFolder: 'images',
+
+      pwa: {
+        disable: process.env.NODE_ENV === 'development',
+        dest: 'public',
+        runtimeCaching,
+      },
+      sassOptions: {
+        includePaths: [path.join(__dirname, 'styles')],
+      },
+    }),
+  ),
 );

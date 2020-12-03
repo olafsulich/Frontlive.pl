@@ -19,9 +19,14 @@ export const CategoryCard = memo<CategoryCardProps>(({ title, path, variant, ima
       <Link href={path}>
         <a className={styles.link}>
           <h2 className={styles.heading}>{title}</h2>
-          <div className={styles.icon}>
-            <Image src={image} alt="" width={220} height={220} layout="fixed" quality={85} />
-          </div>
+          <picture className={styles.icon}>
+            <source
+              className={styles.image}
+              srcSet={require(`../../../public${image}?webp`)}
+              type="image/webp"
+            />
+            <img src={image} alt="" width="206" height="206" className={styles.image} />
+          </picture>
         </a>
       </Link>
     </article>

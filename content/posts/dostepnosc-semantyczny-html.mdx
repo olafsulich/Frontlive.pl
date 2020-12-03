@@ -18,11 +18,14 @@ Zacznijmy od **kontrastu**, jest to bardzo ważny aspekt, często pomijany.
 
 Chcemy ułatwić korzystanie z naszej strony **wszystkim użytkownikom**. Świetnym narzędziem do testowania kontrastu jest strona [whocanuse.com](https://whocanuse.com/). Nie sprawdza ona jedynie czy dobrane przez nas kolory mają odpowiedni kontrast pod względem WCAG. Po podaniu kolorów dostajemy gotową metrykę, pokazuje ona **dla kogo nasza strona jest dostępna**. Możesz tutaj sprawdzić np. czy osoby z wykrytą protanomalią będą mogły **swobodnie** odczytać tekst. Pamiętasz jak mówiłem o **tymczasowej niepełnosprawności**? Whocanuse pozwala nam sprawdzić kontrast kolorów w pełnym słońcu!
 
-![](/images/articlesImages/whocanuse.png)
+<Image src="/images/dostepnosc-semantyczny-html/whocanuse.png" alt="" />
 
 Słyszałem opinie projektantów, którzy uważali, że nie da się stworzyć **ładnej** strony z odpowiednim kontrastem. Nie jest to oczywiście prawda, a lenistwo, czy też niedopatrzenie/niewiedza mówiących tak osób. Steve Schoger, twórca świetnej książki o designie [RefactoringUI](https://refactoringui.com/book/) utwierdził mnie w tym przekonaniu. Jakiś czas temu przedstawił on na twitterze [przykład źle i dobrze dobranego kontrastu](https://twitter.com/steveschoger/status/1045371124274483200), wersja zgodna ze sztuką **wygląda jeszcze lepiej**!
 
-![Porównanie źle dobranego kontrastu z dobrym, źródło - www.refactoringui.com](/images/articlesImages/color-contrast.png)
+<Image
+  src="/images/dostepnosc-semantyczny-html/color-contrast.png"
+  alt="Porównanie źle dobranego kontrastu z dobrym, źródło - www.refactoringui.com"
+/>
 
 ## User experience
 
@@ -142,7 +145,7 @@ Powodów jest jeszcze wiele, chociażby korzystanie z tzw. _landmarków_, o któ
 
 Na pewno większość z was kojarzy drzewko **DOM**, niektórzy mogą znać też jego _CSSowy_ odpowiednik, czyli CSSOM. Sprawa wygląda bardzo podobnie jeśli chodzi o dostępność, przeglądarki dają nam do dyspozycji tzw. Accessibility tree, czyli **drzewko dostępności**. Opisuje ono budowę strony pod względem dostępności.
 
-![Drzewko dostępności](/images/articlesImages/accessibility-tree.jpg)
+<Image src="/images/dostepnosc-semantyczny-html/accessibility-tree.jpg" alt="Drzewko dostępności" />
 
 Jak wejść do drzewa dostępności? Jakże epicko to brzmi, ale po prostu kliknąć w odpowiednią zakładkę w _dev toolsach_. Jak już to zrobimy będziemy mogli wybrać dany element i np. **sprawdzić jaką posiada rolę**. Opcji jest oczywiście **znacznie więcej**, bo mamy dostęp jeszcze do wartości danego elementu, np. inputa. Jeśli już mowa o inpucie to możemy sprawdzić czy jest on np. focusowalny, jakie posiada atrybuty aria itp. Opcji jest bardzo dużo i zachęcam Cie do przetestowania tego samodzielnie. Jeśli sprawdzisz drzewko dostępności dla pierwszego przykładu i jego poprawionej wersji zobaczysz znaczącą różnice.
 

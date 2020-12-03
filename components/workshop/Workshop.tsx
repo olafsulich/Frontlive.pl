@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import styles from './workshop.module.scss';
 
 export const Workshop = () => {
@@ -7,14 +6,20 @@ export const Workshop = () => {
       <div className={styles.textWrapper}>
         <div className={styles.info}>
           <h2 className={styles.heading}>
-            <Image
-              src="/images/przeprogramowani.png"
-              width={273}
-              height={64}
-              quality={100}
-              alt=""
-              className={styles.image}
-            />
+            <picture className={styles.image}>
+              <source
+                className={styles.image}
+                srcSet={require(`../../public/images/przeprogramowani.png?webp`)}
+                type="image/webp"
+              />
+              <img
+                src="/images/przeprogramowani.png"
+                alt=""
+                width="273"
+                height="64"
+                className={styles.image}
+              />
+            </picture>
             <span className={styles.headingText}>Kurs Gatsby.js</span>
           </h2>
         </div>
@@ -34,9 +39,10 @@ export const Workshop = () => {
           </a>
         </div>
       </div>
-      <div className={styles.logo}>
-        <Image src="/images/gatsby-cta.png" alt="" width={291} height={338} quality={100} />
-      </div>
+      <picture className={styles.logo}>
+        <source srcSet={require(`../../public/images/gatsby-cta.png?webp`)} type="image/webp" />
+        <img src="/images/gatsby-cta.png" alt="" width="291" height="338" />
+      </picture>
     </aside>
   );
 };

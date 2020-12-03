@@ -9,6 +9,7 @@ import { Footer } from 'components/footer/Footer';
 import { Workshop } from '../../components/workshop/Workshop';
 import { Sparkles } from '../../components/shared/components/sparkles/Sparkles';
 import { Player } from '../../components/mdx/player/Player';
+import { Image } from '../../components/mdx/image/Image';
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
   const { transformedMdx, frontmatter } = await getPostBySlug(params.slug);
@@ -34,7 +35,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const customMdxComponents = { Sparkles, Player };
+export const customMdxComponents = { Sparkles, Player, Image };
 
 const BlogPost = ({
   transformedMdx,

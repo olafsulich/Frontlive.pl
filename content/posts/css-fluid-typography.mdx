@@ -19,11 +19,11 @@ Ta funkcja przyjmuje wartości, które mogą być wyrażone w różnych jednostk
 }
 ```
 
-![](/images/articlesImages/min-fn-1.png)
+<Image src="/images/css-fluid-typography/min-fn-1.png" alt="" />
 
 Załóżmy, że nadajemy szerokość dla boxa `min(50%, 800px)`, którą wartość w tym przypadku wybierze funkcja `min()`?. Z moich zaawansowanych obliczeń matematycznych wynika, że **50%**, ponieważ jest mniejsze niż 800px, gdy szerokość rodzica wynosi 1400px.
 
-![](/images/articlesImages/min-fn-2.png)
+<Image src="/images/css-fluid-typography/min-fn-2.png" alt="" />
 
 Kolejność podawanych wartości nie ma znaczenia, możemy ich podać wiele.
 
@@ -37,11 +37,11 @@ Funkcja `max()` to przeciwieństwo `min()`, tutaj tak samo podajemy wartości po
 }
 ```
 
-![](/images/articlesImages/max-fn-1.png)
+<Image src="/images/css-fluid-typography/max-fn-1.png" alt="" />
 
 Weźmy taki przykład, podajemy do funkcji trzy wartości: `6rem`, `2vw`i `5%`. Załóżmy, że `1rem = 16px`, szerokość viewporta to 1920px, a rodzica 1000px. Największą wartością z tych będzie `6rem` i właśnie taką wartość **minimalną** funkcja ustali dla szerokości naszego boxa.
 
-![](/images/articlesImages/max-fn-2.png)
+<Image src="/images/css-fluid-typography/max-fn-2.png" alt="" />
 
 W naszych funkcjach możemy wykorzystywać różne matematyczne działania, bez konieczności użycia znanego Ci pewnie `calc()`.
 
@@ -63,7 +63,7 @@ Jest ona tak na prawdę połączeniem poprzednich funkcji:
 }
 ```
 
-![](/images/articlesImages/clamp-fn-1.png)
+<Image src="/images/css-fluid-typography/clamp-fn-1.png" alt="" />
 
 Weźmy przykład z trzema wartościami: `20px`, `50%` i `4rem`. Tutaj nasza wartość domyślnie będzie 50%, nie może ona być mniejsza niż 20px i większa niż 4rem.
 
@@ -81,7 +81,7 @@ Chyba najbardziej znany przykład w kontekście wykorzystania funkcji `clamp()`,
 }
 ```
 
-<Player url="/images/articlesImages/fluid-1.mp4" label="" />
+<Player url="/images/css-fluid-typography/fluid-1.mp4" label="" />
 
 ### Idealny paragraf
 
@@ -93,7 +93,7 @@ Znacie zasadę, o odpowiedniej liczbie znaków w jednej lini tekstu? Mówi ona, 
 }
 ```
 
-![](/images/articlesImages/clamp-paragraph.png)
+<Image src="/images/css-fluid-typography/clamp-paragraph.png" alt="" />
 
 ### Dynamiczny margines
 
@@ -105,13 +105,16 @@ Często potrzebujemy nadać margines, np. dla nagłówka, ale po chwili okazuję
 }
 ```
 
-![](/images/articlesImages/clamp-margin.png)
+<Image src="/images/css-fluid-typography/clamp-margin.png" alt="" />
 
 ## Wsparcie przeglądarek
 
 Wsparcie dla omawianych dziś funkcji jest **całkiem niezłe** i praktycznie wszystkie _szanujące się_ przeglądarki je wspierają.
 
-![Tabela wyników wsparcia przez przeglądarki dla funkcji clamp, min i max](/images/articlesImages/clamp-wsparcie.png)
+<Image
+  src="/images/css-fluid-typography/clamp-wsparcie.png"
+  alt="Tabela wyników wsparcia przez przeglądarki dla funkcji clamp, min i max"
+/>
 
 ## Dostępność
 
@@ -122,8 +125,6 @@ Przy wykorzystaniu tych funkcji z fontami, musimy zwrócić uwagę na [wymagania
 Logiczne funkcje to super sprawa, wiadomo, nie wyrzucimy wszystkich media-queries z naszego CSSa, ale możemy trochę zmniejszyć ich ilość i **ułatwić sobie życie**.
 
 To by było tyle na dzisiaj, a już na sam koniec zostawiam Cię z małym _playgroundem_, w którym testowałem opisywane dziś funkcje, **have fun!**
-
-https://codepen.io/olafsulich/pen/WNxaxmM
 
 ### Źródła
 

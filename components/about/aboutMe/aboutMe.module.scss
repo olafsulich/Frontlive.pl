@@ -66,18 +66,18 @@
 
 .image {
   width: 100%;
-  min-width: 30rem;
+  width: 30rem !important;
+  max-width: 36.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
 
   @include mediaquery('lg') {
-    min-width: 33rem;
+    width: 33rem !important;
   }
 
   @include mediaquery('xl') {
-    min-width: 36.4rem;
-    width: 36.4rem;
+    width: 36.4rem !important;
     height: 63.8rem;
   }
 }

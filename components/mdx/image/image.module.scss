@@ -1,5 +1,20 @@
 @import 'common';
 
+.wrapper {
+  width: 100%;
+  // height: clamp(14.6rem, 30vh, 40rem);
+
+  // @include mediaquery('sm') {
+  //   height: clamp(17rem, 40vh, 40rem);
+  // }
+}
+
+.nextImage {
+  width: auto;
+  height: 100%;
+  position: relative;
+}
+
 .image {
   width: 100%;
 
