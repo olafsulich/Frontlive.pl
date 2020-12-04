@@ -33,22 +33,26 @@ module.exports = withOffline(
 
     workboxOpts: {
       swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
-      exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
-      // Ignore all URL parameters.
-      ignoreURLParametersMatching: [/.*/],
-      dontCacheBustURLsMatching: /.*/,
       runtimeCaching: [
+        // {
+        //   urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+        //   handler: 'CacheFirst',
+        //   options: {
+        //     cacheName: 'images',
+        //     expiration: {
+        //       maxEntries: 3,
+        //     },
+        //   },
+        // },
         {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+          urlPattern: /^https?.*api/,
           handler: 'CacheFirst',
-        },
-        {
-          urlPattern: /^https?.*/,
-          handler: 'NetworkFirst',
           options: {
             cacheName: 'offlineCache',
             expiration: {
-              maxEntries: 200,
+              maxEntries: 50,
+              maxAgeSeconds: 30 * 24 * 60 * 60,
+              purgeOnQuotaError: true,
             },
           },
         },
