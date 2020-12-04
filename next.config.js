@@ -33,7 +33,7 @@ module.exports = withOffline(
 
     workboxOpts: {
       swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
-      // exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
+      exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
       runtimeCaching: [
         {
           urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
