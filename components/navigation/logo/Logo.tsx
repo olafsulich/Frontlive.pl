@@ -14,7 +14,6 @@ export const Logo = () => {
           />
           <img src="/images/logo.png" alt="" width="35" height="35" className={styles.logo} />
         </picture>
-        {/* <img src="/images/logo.png" alt="" className={styles.logo} width="35" height="35" /> */}
         <span className="visually-hidden">Frontlive.pl by Olaf Sulich</span>
       </a>
     </Link>
