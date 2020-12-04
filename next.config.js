@@ -32,11 +32,13 @@ module.exports = withPolyfills(
   withOptimizedImages({
     imagesFolder: 'images',
 
-    // pwa: {
-    //   disable: process.env.NODE_ENV === 'development',
-    //   dest: 'public',
-    //   runtimeCaching,
-    // },
+    pwa: {
+      mode: 'production',
+      disable: process.env.NODE_ENV === 'development',
+      dest: 'public',
+      runtimeCaching,
+      buildExclude: [/chunks\/images\/.*$/],
+    },
     sassOptions: {
       includePaths: [path.join(__dirname, 'styles')],
     },
