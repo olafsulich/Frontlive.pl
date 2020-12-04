@@ -29,15 +29,15 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withOptimizedImages(
-    withPWA({
+  withPWA(
+    withOptimizedImages({
       imagesFolder: 'images',
 
       pwa: {
         disable: process.env.NODE_ENV === 'development',
         dest: 'public',
         runtimeCaching,
-        buildExclude: [/chunks\/images\/.*$/],
+        buildExcludes: [/chunks\/images\/.*$/],
       },
       sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
