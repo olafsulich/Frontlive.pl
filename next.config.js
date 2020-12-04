@@ -46,16 +46,16 @@ module.exports = withOffline(
               },
             },
           },
-          {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images',
-              expiration: {
-                maxEntries: 5,
-              },
-            },
-          },
+          // {
+          //   urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+          //   handler: 'CacheFirst',
+          //   options: {
+          //     cacheName: 'images',
+          //     expiration: {
+          //       maxEntries: 5,
+          //     },
+          //   },
+          // },
         ],
       },
 
