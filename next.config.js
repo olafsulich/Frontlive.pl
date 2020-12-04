@@ -33,7 +33,6 @@ module.exports = withPolyfills(
     imagesFolder: 'images',
 
     pwa: {
-      mode: 'production',
       disable: process.env.NODE_ENV === 'development',
       dest: 'public',
       runtimeCaching,
