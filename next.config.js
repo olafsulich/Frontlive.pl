@@ -1,6 +1,4 @@
 const path = require('path');
-const withPWA = require('next-pwa');
-const runtimeCaching = require('next-pwa/cache');
 const withOptimizedImages = require('next-optimized-images');
 
 require('what-input');
@@ -29,19 +27,11 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withOptimizedImages(
-    withPWA({
-      imagesFolder: 'images',
+  withOptimizedImages({
+    imagesFolder: 'images',
 
-      pwa: {
-        disable: process.env.NODE_ENV === 'development',
-        dest: 'public',
-        runtimeCaching,
-        buildExcludes: [/chunks\/images\/.*$/],
-      },
-      sassOptions: {
-        includePaths: [path.join(__dirname, 'styles')],
-      },
-    }),
-  ),
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles')],
+    },
+  }),
 );
