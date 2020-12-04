@@ -4,12 +4,21 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Thu, 03 Dec 2020 22:05:56 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 04 Dec 2020 16:47:04 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
+        <item>
+            <title><![CDATA[Nowy rok, nowy Frontlive!]]></title>
+            <description><![CDATA[Kulisy powstawania nowej odsłony Frontlive - mojego bloga i jednocześnie strony portfolio. Jak dobrałem technologię do projektu? Z jakimi wyzwaniami się mierzyłem?]]></description>
+            <link>https://frontlive.pl/blog/nowy-frontlive</link>
+            <guid isPermaLink="false">nowy-frontlive</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Invalid Date</pubDate>
+        </item>
         <item>
             <title><![CDATA[Nowoczesny CSS - min(), max() i clamp()]]></title>
             <description><![CDATA[Znasz ten ból posiadania wielu media-queries w swoich projektach? A co jeśli bym Ci powiedział, że można to zmienić? Zobacz jak działają funkcje logiczne w CSS i jak pomagają nam tworzyć responsywne layouty.]]></description>
