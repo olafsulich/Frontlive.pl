@@ -29,18 +29,16 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withPWA(
-    withOptimizedImages({
-      imagesFolder: 'images',
+  withOptimizedImages({
+    imagesFolder: 'images',
 
-      pwa: {
-        disable: process.env.NODE_ENV === 'development',
-        dest: 'public',
-        runtimeCaching,
-      },
-      sassOptions: {
-        includePaths: [path.join(__dirname, 'styles')],
-      },
-    }),
-  ),
+    // pwa: {
+    //   disable: process.env.NODE_ENV === 'development',
+    //   dest: 'public',
+    //   runtimeCaching,
+    // },
+    sassOptions: {
+      includePaths: [path.join(__dirname, 'styles')],
+    },
+  }),
 );
