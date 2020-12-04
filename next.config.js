@@ -34,16 +34,13 @@ module.exports = withOffline(
     workboxOpts: {
       swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
       exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
+      // Ignore all URL parameters.
+      ignoreURLParametersMatching: [/.*/],
+      dontCacheBustURLsMatching: /.*/,
       runtimeCaching: [
         {
           urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
           handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            expiration: {
-              maxEntries: 1,
-            },
-          },
         },
         {
           urlPattern: /^https?.*/,
