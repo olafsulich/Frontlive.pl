@@ -28,46 +28,48 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withOffline(
-  withOptimizedImages({
-    imagesFolder: 'images',
+  withPolyfills(
+    withOptimizedImages({
+      imagesFolder: 'images',
 
-    workboxOpts: {
-      swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
-      // exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
-      runtimeCaching: [
-        // {
-        //   urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-        //   handler: 'CacheFirst',
-        //   options: {
-        //     cacheName: 'images',
-        //     expiration: {
-        //       maxEntries: 5,
-        //     },
-        //   },
-        // },
-        {
-          urlPattern: /^https?.*/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'offlineCache',
-            expiration: {
-              maxEntries: 200,
+      workboxOpts: {
+        swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
+        exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
+        runtimeCaching: [
+          {
+            urlPattern: /^https?.*/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'offlineCache',
+              expiration: {
+                maxEntries: 200,
+              },
             },
           },
-        },
-      ],
-    },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 5,
+              },
+            },
+          },
+        ],
+      },
 
-    sassOptions: {
-      includePaths: [path.join(__dirname, 'styles')],
-    },
-    async rewrites() {
-      return [
-        {
-          source: '/service-worker.js',
-          destination: '/_next/static/service-worker.js',
-        },
-      ];
-    },
-  }),
+      sassOptions: {
+        includePaths: [path.join(__dirname, 'styles')],
+      },
+      async rewrites() {
+        return [
+          {
+            source: '/service-worker.js',
+            destination: '/_next/static/service-worker.js',
+          },
+        ];
+      },
+    }),
+  ),
 );
