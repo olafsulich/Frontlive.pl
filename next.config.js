@@ -1,5 +1,6 @@
 const path = require('path');
 const withOptimizedImages = require('next-optimized-images');
+const withOffline = require('next-offline');
 
 require('what-input');
 
@@ -27,11 +28,29 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withOptimizedImages({
-    imagesFolder: 'images',
+  withOffline(
+    withOptimizedImages({
+      imagesFolder: 'images',
 
-    sassOptions: {
-      includePaths: [path.join(__dirname, 'styles')],
-    },
-  }),
+      workboxOpts: {
+        exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 5,
+              },
+            },
+          },
+        ],
+      },
+
+      sassOptions: {
+        includePaths: [path.join(__dirname, 'styles')],
+      },
+    }),
+  ),
 );
