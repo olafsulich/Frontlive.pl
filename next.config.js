@@ -37,6 +37,7 @@ module.exports = withPolyfills(
         disable: process.env.NODE_ENV === 'development',
         dest: 'public',
         runtimeCaching,
+        publicExcludes: [/\/images\/*$/],
         buildExcludes: [/chunks\/images\/.*$/],
       },
       sassOptions: {
