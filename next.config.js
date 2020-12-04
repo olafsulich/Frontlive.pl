@@ -33,6 +33,7 @@ module.exports = withPolyfills(
       imagesFolder: 'images',
 
       workboxOpts: {
+        swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
         exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
         runtimeCaching: [
           {
@@ -51,7 +52,7 @@ module.exports = withPolyfills(
             options: {
               cacheName: 'offlineCache',
               expiration: {
-                maxEntries: 5,
+                maxEntries: 200,
               },
             },
           },
@@ -60,6 +61,14 @@ module.exports = withPolyfills(
 
       sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
+      },
+      async rewrites() {
+        return [
+          {
+            source: '/service-worker.js',
+            destination: '/_next/static/service-worker.js',
+          },
+        ];
       },
     }),
   ),
