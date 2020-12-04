@@ -82,15 +82,10 @@
 }
 
 .description {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   line-height: 1.7;
   color: var(--dark-100);
   max-width: 57.6rem;
-
-  @include mediaquery('sm') {
-    font-size: 1.6rem;
-    line-height: 2;
-  }
 
   @include mediaquery('lg') {
     font-size: 1.8rem;

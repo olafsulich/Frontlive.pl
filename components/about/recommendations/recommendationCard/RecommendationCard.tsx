@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import styles from './recommendationCard.module.scss';
+import QuoteIcon from '../../../../public/icons/quote.svg';
 
 type RecommendationCardProps = {
   content: string;
@@ -14,6 +15,7 @@ export const RecommendationCard = memo<RecommendationCardProps>(({ content, auth
   const { image, name, company } = author;
   return (
     <blockquote className={styles.wrapper}>
+      <QuoteIcon className={styles.quote} />
       <p className={styles.text}>{content}</p>
       <div className={styles.author}>
         <img src={image} alt="" className={styles.authorImage} />
