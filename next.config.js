@@ -29,7 +29,7 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withPwa(
+  withPWA(
     withOptimizedImages({
       imagesFolder: 'images',
 
