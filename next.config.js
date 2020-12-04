@@ -45,6 +45,16 @@ module.exports = withPolyfills(
               },
             },
           },
+          {
+            urlPattern: /^https?.*/,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'offlineCache',
+              expiration: {
+                maxEntries: 5,
+              },
+            },
+          },
         ],
       },
 
