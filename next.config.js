@@ -28,12 +28,12 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withOffline(
-    withOptimizedImages({
+  withOptimizedImages(
+    withOffline({
       imagesFolder: 'images',
 
       workboxOpts: {
-        swDest: process.env.NEXT_EXPORT ? 'service-worker.js' : 'static/service-worker.js',
+        swDest: 'service-worker.js',
         exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
         runtimeCaching: [
           {
@@ -61,14 +61,6 @@ module.exports = withPolyfills(
 
       sassOptions: {
         includePaths: [path.join(__dirname, 'styles')],
-      },
-      async rewrites() {
-        return [
-          {
-            source: '/service-worker.js',
-            destination: '/_next/static/service-worker.js',
-          },
-        ];
       },
     }),
   ),
