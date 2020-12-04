@@ -29,17 +29,19 @@ const withPolyfills = (module.exports = (nextConfig = {}) => {
 });
 
 module.exports = withPolyfills(
-  withOptimizedImages({
-    imagesFolder: 'images',
+  withPwa(
+    withOptimizedImages({
+      imagesFolder: 'images',
 
-    pwa: {
-      disable: process.env.NODE_ENV === 'development',
-      dest: 'public',
-      runtimeCaching,
-      buildExclude: [/chunks\/images\/.*$/],
-    },
-    sassOptions: {
-      includePaths: [path.join(__dirname, 'styles')],
-    },
-  }),
+      pwa: {
+        disable: process.env.NODE_ENV === 'development',
+        dest: 'public',
+        runtimeCaching,
+        buildExclude: [/chunks\/images\/.*$/],
+      },
+      sassOptions: {
+        includePaths: [path.join(__dirname, 'styles')],
+      },
+    }),
+  ),
 );
