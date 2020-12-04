@@ -36,22 +36,22 @@ module.exports = withOffline(
       // exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/],
       runtimeCaching: [
         {
+          urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 1,
+            },
+          },
+        },
+        {
           urlPattern: /^https?.*/,
           handler: 'NetworkFirst',
           options: {
             cacheName: 'offlineCache',
             expiration: {
               maxEntries: 200,
-            },
-          },
-        },
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'images',
-            expiration: {
-              maxEntries: 3,
             },
           },
         },
