@@ -30,3 +30,16 @@
   justify-content: flex-start;
   flex-direction: column;
 }
+
+.primary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 4rem;
+  transform: translateY(-1rem);
+
+  @include mediaquery('lg') {
+    grid-gap: 6rem;
+    grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+  }
+}
