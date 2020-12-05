@@ -92,7 +92,7 @@
 }
 
 .primary {
-  background: rgba(241, 241, 241, 0.3);
+  background: var(--gray-700);
   height: 26rem;
   display: flex;
   align-items: flex-start;

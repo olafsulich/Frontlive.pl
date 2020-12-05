@@ -8,7 +8,9 @@ html,
 body {
   padding: 0;
   margin: 0;
+  scroll-behavior: smooth;
 }
+
 body {
   background-color: var(--white);
   height: 100%;
@@ -56,8 +58,7 @@ button {
   padding-bottom: 5px;
 }
 
-a {
-  scroll-behavior: smooth;
+* {
   scroll-margin-top: 4rem;
 }
 
