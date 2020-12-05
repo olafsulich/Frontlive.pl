@@ -6,8 +6,7 @@ import mdxPrism from 'mdx-prism';
 import { Sparkles } from '../components/shared/components/sparkles/Sparkles';
 import { Player } from '../components/mdx/player/Player';
 import { Image } from '../components/mdx/image/Image';
-import type { ProjectFrontmatter } from './projects';
-import type { PostFrontmatter } from './posts';
+import type { PostFrontmatter, ProjectFrontmatter } from './utils/types';
 
 export const customMdxComponents = { Sparkles, Player, Image };
 

@@ -2,6 +2,7 @@ import { MouseEvent, FormEvent, useState, ChangeEvent, memo } from 'react';
 import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
 import { Loader } from './loader/Loader';
+import { subscribeToNewsletter } from './utils/api';
 
 type NewsletterFormProps = {
   id: string;
@@ -23,16 +24,7 @@ export const NewsletterForm = memo(({ id = 'email' }: NewsletterFormProps) => {
     e.preventDefault();
     setLoadingState(true);
 
-    const res = await fetch('/api/subscribe', {
-      body: JSON.stringify({
-        email: inputValue,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-
+    const res = await subscribeToNewsletter(inputValue);
     const { error } = await res.json();
 
     if (error) {
@@ -54,7 +46,6 @@ export const NewsletterForm = memo(({ id = 'email' }: NewsletterFormProps) => {
           type="email"
           required
           id={id}
-          // placeholder="Adres email"
           value={inputValue}
           className={styles.input}
           onChange={handleInputChange}
