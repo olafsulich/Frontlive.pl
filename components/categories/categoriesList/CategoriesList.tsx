@@ -11,20 +11,27 @@ type Category = {
   variant: Variant;
 };
 
+type Tag = 'section' | 'div';
+
 type CategoriesListProps = {
   categories: Category[];
+  tag: Tag;
+  label?: string;
 };
 
-export const CategoriesList = memo<CategoriesListProps>(({ categories }) => (
-  <div className={styles.wrapper}>
-    {categories.map(({ title, path, image, variant }) => (
-      <CategoryCard
-        key={title}
-        title={title}
-        path={`/kategorie/${path}`}
-        image={image}
-        variant={variant}
-      />
-    ))}
-  </div>
-));
+export const CategoriesList = memo<CategoriesListProps>(
+  ({ categories, tag: Tag = 'section', label }) => (
+    <Tag className={styles.wrapper}>
+      {label ? <h2 className="visually-hidden">{label}</h2> : null}
+      {categories.map(({ title, path, image, variant }) => (
+        <CategoryCard
+          key={title}
+          title={title}
+          path={`/kategorie/${path}`}
+          image={image}
+          variant={variant}
+        />
+      ))}
+    </Tag>
+  ),
+);

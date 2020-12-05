@@ -22,7 +22,7 @@ export const Categories = memo<CategoriesProps>(({ categories }) => {
       <Heading tag="h1" variant="primary" className={styles.heading}>
         Kategorie
       </Heading>
-      <CategoriesList categories={categories} />
+      <CategoriesList tag="div" categories={categories} />
     </main>
   );
 });

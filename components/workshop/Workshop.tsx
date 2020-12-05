@@ -20,7 +20,9 @@ export const Workshop = () => {
                 className={styles.image}
               />
             </picture>
-            <span className={styles.headingText}>Kurs Gatsby.js</span>
+            <span className={styles.headingText} id="workshop">
+              Kurs Gatsby.js
+            </span>
           </h2>
         </div>
         <p className={styles.text}>
