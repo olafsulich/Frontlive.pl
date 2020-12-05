@@ -18,7 +18,7 @@ type CategoriesProps = {
 
 export const Categories = memo<CategoriesProps>(({ categories }) => {
   return (
-    <main className={styles.wrapper}>
+    <main className={styles.wrapper} id="main">
       <Heading tag="h1" variant="primary" className={styles.heading}>
         Kategorie
       </Heading>

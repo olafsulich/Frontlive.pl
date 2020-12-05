@@ -13,6 +13,7 @@ body {
   background-color: var(--white);
   height: 100%;
   width: 100%;
+  position: relative;
 }
 
 [data-whatintent='mouse'] *:focus {

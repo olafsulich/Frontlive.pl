@@ -9,7 +9,7 @@ export const SoftSkills = () => (
       Umiejętności miękkie
     </Heading>
     <div className={styles.skills}>
-      <SoftSkillsList title="Umiejętności miękkie" skills={softSkills} />
+      <SoftSkillsList skills={softSkills} />
     </div>
   </section>
 );

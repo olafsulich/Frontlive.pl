@@ -6,7 +6,7 @@ import { AboutMe } from './aboutMe/AboutMe';
 import styles from './about.module.scss';
 
 export const About = () => (
-  <main className={styles.container}>
+  <main className={styles.container} id="main">
     <section className={styles.aboutWrapper}>
       <AboutMe />
       <Experience />

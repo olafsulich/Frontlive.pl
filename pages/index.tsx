@@ -33,7 +33,7 @@ export default function Home({
         <Header>
           <Navigation />
         </Header>
-        <main>
+        <main id="main">
           <PostsListing posts={newestPosts}>
             <Heading tag="h2" variant="secondary">
               Najnowsze

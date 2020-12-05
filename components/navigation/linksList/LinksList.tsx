@@ -8,7 +8,7 @@ export const LinksList = memo(() => {
   const { isMenuVisible } = useHeaderState();
 
   return (
-    <ul className={cn(styles.list, { [styles.active]: isMenuVisible })}>
+    <ul className={cn(styles.list, { [styles.active]: isMenuVisible })} id="navigation">
       <ListItem title="Strona główna" href="/" />
       <ListItem title="Artykuły" href="/blog" />
       <ListItem title="Kategorie" href="/kategorie" />

@@ -20,7 +20,7 @@ type PortfolioProps = {
 };
 
 export const Portfolio = memo<PortfolioProps>(({ projects }) => (
-  <main className={styles.wrapper}>
+  <main className={styles.wrapper} id="main">
     <Heading tag="h1" variant="primary" className={styles.heading}>
       Portfolio
     </Heading>
