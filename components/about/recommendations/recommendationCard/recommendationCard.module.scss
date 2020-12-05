@@ -6,7 +6,7 @@
   justify-content: flex-start;
   flex-direction: column;
   position: relative;
-  margin: 0 4rem 8rem 2.2rem;
+  margin: 0 0 8rem 0;
 
   @include mediaquery('xl') {
     margin: 0 6rem 8rem 2.2rem;
@@ -22,14 +22,22 @@
   height: 8rem;
   position: absolute;
   top: -0.5rem;
-  left: -2.2rem;
+  left: -1rem;
+
+  @include mediaquery('xs') {
+    left: -2.2rem;
+  }
 }
 
 .text {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.7;
   color: var(--dark-100);
-  margin-right: 1rem;
+  // padding-right: 1rem;
+
+  @include mediaquery('lg') {
+    font-size: 1.8rem;
+  }
 
   @include mediaquery('xl') {
     font-size: 2rem;

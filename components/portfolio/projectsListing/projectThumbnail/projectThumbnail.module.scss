@@ -65,6 +65,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 3rem;
+  color: var(--black);
 
   @include mediaquery('lg') {
     font-size: 2.2rem;
@@ -72,16 +73,6 @@
 
   @include mediaquery('xl') {
     font-size: 2.4rem;
-  }
-
-  &-blue {
-    color: var(--blue-200);
-  }
-  &-green {
-    color: var(--green);
-  }
-  &-yellow {
-    color: var(--yellow);
   }
 
   &:hover,
@@ -100,20 +91,8 @@
   transform: translateY(2px);
   transition: opacity 0.3s;
 
-  &-blue {
-    path {
-      fill: var(--blue-200);
-    }
-  }
-  &-green {
-    path {
-      fill: var(--green);
-    }
-  }
-  &-yellow {
-    path {
-      fill: var(--yellow);
-    }
+  path {
+    fill: var(--black);
   }
 }
 

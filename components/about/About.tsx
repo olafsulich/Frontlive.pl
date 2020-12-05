@@ -7,12 +7,12 @@ import styles from './about.module.scss';
 
 export const About = () => (
   <main className={styles.container} id="main">
-    <section className={styles.aboutWrapper}>
+    <div className={styles.aboutWrapper}>
       <AboutMe />
       <Experience />
       <TechnicalSkills />
       <SoftSkills />
       <Recommendations />
-    </section>
+    </div>
   </main>
 );

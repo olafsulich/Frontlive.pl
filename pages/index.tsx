@@ -39,7 +39,10 @@ export default function Home({
               Najnowsze
             </Heading>
           </PostsListing>
-          <CategoriesList categories={categories.slice(0, 3)} />
+          <aside>
+            <h2 className="visually-hidden">Popularne kategorie</h2>
+            <CategoriesList categories={categories.slice(0, 3)} />
+          </aside>
           <PostsListing posts={popularPosts}>
             <Heading tag="h2" variant="secondary">
               Najpopularniejsze

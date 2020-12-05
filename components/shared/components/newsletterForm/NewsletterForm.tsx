@@ -49,19 +49,21 @@ export const NewsletterForm = memo(({ id = 'email' }: NewsletterFormProps) => {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit}>
-      <label htmlFor={id} className="visually-hidden">
-        Twój adres email
-      </label>
-      <input
-        type="email"
-        required
-        id={id}
-        placeholder="Adres email"
-        value={inputValue}
-        className={styles.input}
-        onChange={handleInputChange}
-        aria-invalid={status === 'error'}
-      />
+      <div className={styles.inputLabelWrapper}>
+        <input
+          type="email"
+          required
+          id={id}
+          // placeholder="Adres email"
+          value={inputValue}
+          className={styles.input}
+          onChange={handleInputChange}
+          aria-invalid={status === 'error'}
+        />
+        <label htmlFor={id} className={styles.label}>
+          Adres email
+        </label>
+      </div>
       <div className={styles.buttonWrapper}>
         <button disabled={isLoading} className={cn(styles.button, styles[status])}>
           {isLoading ? <Loader /> : <span>{title}</span>}

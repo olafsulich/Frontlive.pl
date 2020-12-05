@@ -8,14 +8,16 @@ export const Experience = () => (
     <Heading variant="secondary" tag="h2" className={styles.heading}>
       Doświadczenie
     </Heading>
-    {experience.map(({ title, description, duration, image }) => (
-      <ExperienceCard
-        key={title}
-        title={title}
-        description={description}
-        duration={duration}
-        image={image}
-      />
-    ))}
+    <ol className={styles.list}>
+      {experience.map(({ title, description, duration, image }) => (
+        <ExperienceCard
+          key={title}
+          title={title}
+          description={description}
+          duration={duration}
+          image={image}
+        />
+      ))}
+    </ol>
   </section>
 );

@@ -5,7 +5,7 @@ import styles from './aboutMe.module.scss';
 import { Sparkles } from '../../shared/components/sparkles/Sparkles';
 
 export const AboutMe = () => (
-  <div className={styles.wrapper}>
+  <section className={styles.wrapper}>
     <div className={styles.text}>
       <Heading className={styles.heading} variant="primary" tag="h1">
         O mnie
@@ -37,5 +37,5 @@ export const AboutMe = () => (
       <source srcSet={require(`../../../public/images/me.png?webp`)} type="image/webp" />
       <img src="/images/me.png" alt="" className={styles.image} />
     </picture>
-  </div>
+  </section>
 );

@@ -20,7 +20,7 @@ type ProjectsListingProps = {
 export const ProjectsListing = memo(({ projects }: ProjectsListingProps) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.projectsWrapper}>
+      <ul className={styles.projectsWrapper}>
         {projects.map(({ title, excerpt, slug, image, variant, technologies }, i) => (
           <ProjectThumbnail
             key={title}
@@ -33,7 +33,7 @@ export const ProjectsListing = memo(({ projects }: ProjectsListingProps) => {
             technologies={technologies}
           />
         ))}
-      </div>
+      </ul>
     </div>
   );
 });

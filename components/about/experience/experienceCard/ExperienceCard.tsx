@@ -10,7 +10,7 @@ type ExperienceCardProps = {
 
 export const ExperienceCard = memo<ExperienceCardProps>(
   ({ title, description, duration, image }) => (
-    <article className={styles.wrapper}>
+    <li className={styles.wrapper}>
       <div className={styles.imageWrapper}>
         <img src={image} alt="" className={styles.image} />
       </div>
@@ -22,6 +22,6 @@ export const ExperienceCard = memo<ExperienceCardProps>(
         </p>
         <p className={styles.description}>{description}</p>
       </div>
-    </article>
+    </li>
   ),
 );

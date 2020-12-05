@@ -19,13 +19,26 @@
   }
 }
 
+.inputLabelWrapper {
+  width: 100%;
+  display: flex;
+  flex-flow: column-reverse;
+  position: relative;
+
+  @include mediaquery('sm') {
+    max-width: 32rem;
+  }
+}
+
 .input {
   width: 100%;
   background: none;
   border: none;
   border-bottom: 3px solid var(--red);
-  padding: 1rem 0;
+  padding: 0.2rem 0;
   font-size: 1.8rem;
+  transition: all 0.2s;
+  outline: none;
 
   &::placeholder {
     font-weight: 600;
@@ -33,9 +46,24 @@
     color: var(--gray-300);
   }
 
-  @include mediaquery('sm') {
-    max-width: 32rem;
+  &:focus + .label {
+    transform: translateY(-3rem);
   }
+}
+
+.label {
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: var(--gray-300);
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.2s;
+  transform: translateY(-1rem);
 }
 
 .buttonWrapper {

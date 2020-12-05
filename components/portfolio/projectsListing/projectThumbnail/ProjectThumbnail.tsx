@@ -20,14 +20,14 @@ type ProjectThumbnailProps = {
 export const ProjectThumbnail = memo<ProjectThumbnailProps>(
   ({ index, title, excerpt, path, image, variant, technologies }) => {
     return (
-      <article className={styles.wrapper}>
+      <li className={styles.wrapper}>
         <span className={cn(styles.index, styles[variant])}>{index}</span>
         <h2 className={styles.heading}>{title}</h2>
         <p className={styles.excerpt}>{excerpt}</p>
         <Link href={`/portfolio/${path}`}>
-          <a className={cn(styles.link, styles[`link-${variant}`])}>
+          <a className={styles.link}>
             Czytaj więcej
-            <ArrowRightIcon className={cn(styles.icon, styles[`icon-${variant}`])} />
+            <ArrowRightIcon className={styles.icon} />
           </a>
         </Link>
         <div className={cn(styles.info, styles[variant])}>
@@ -41,7 +41,7 @@ export const ProjectThumbnail = memo<ProjectThumbnailProps>(
           </ul>
           <img src={image} className={styles.image} alt="" />
         </div>
-      </article>
+      </li>
     );
   },
 );

@@ -5,14 +5,18 @@
 }
 
 .heading {
-  color: var(--green);
+  color: var(--green-300);
   line-height: 1.5;
   margin-bottom: 8rem;
 }
 
 .recommendations {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+
+  @include mediaquery('xs') {
+    grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+  }
 
   @include mediaquery('xl') {
     grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
