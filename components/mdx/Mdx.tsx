@@ -33,7 +33,7 @@ export const Mdx = memo<MdxProps>(({ frontmatter, content }) => {
       })}
     >
       <div className={styles.content}>
-        <header className={styles.header}>
+        <header className={styles.header} id="main">
           {'category' in frontmatter ? (
             <Link href={`/kategorie/${slugify(frontmatter.category, { lower: true })}`}>
               <a className={styles.category}>

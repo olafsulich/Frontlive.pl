@@ -42,7 +42,7 @@ const BlogPost = ({
   frontmatter,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const content = hydrate(transformedMdx, { components: customMdxComponents });
-  const { title, excerpt, publishedAt, slug } = frontmatter;
+  const { title, excerpt, publishedAt, slug,image } = frontmatter;
   const url = `http://frontlive.pl/blog/${slug}`;
 
   return (
@@ -59,6 +59,14 @@ const BlogPost = ({
           url,
           title,
           description: excerpt,
+          images: [
+            {
+              url: image,
+              alt: title,
+              width: 1200,
+              height: 628,
+            },
+          ],
         }}
       />
       <ArticleJsonLd
@@ -68,7 +76,7 @@ const BlogPost = ({
         description={excerpt}
         publisherLogo="/favicons/android-chrome-192x192.png"
         publisherName="Olaf Sulich"
-        images={['/images/category-typescript.png']}
+        images={[image]}
         title={title}
         url={url}
       />

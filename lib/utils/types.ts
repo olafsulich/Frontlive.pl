@@ -10,6 +10,7 @@ export type PostFrontmatter = {
   publishedAt: string;
   popular: boolean;
   isPublished: boolean;
+  image: string;
 } & Frontmatter;
 
 export type ProjectFrontmatter = {
