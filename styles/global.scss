@@ -13,7 +13,6 @@ body {
   background-color: var(--white);
   height: 100%;
   width: 100%;
-  position: relative;
 }
 
 [data-whatintent='mouse'] *:focus {
@@ -46,13 +45,13 @@ button {
 }
 
 .mdx-marker {
-  background: #e9ebf2;
+  background: var(--gray-100);
   display: block;
   margin-right: -3.2rem;
   margin-left: -3.2rem;
   padding-right: 1em;
   padding-left: 2.4rem;
-  border-left: 4px solid #ff39a8;
+  border-left: 4px solid var(--red);
   padding-top: 5px;
   padding-bottom: 5px;
 }

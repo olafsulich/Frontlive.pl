@@ -5,11 +5,11 @@ import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
 import { Sparkles } from '../components/shared/components/sparkles/Sparkles';
 import { Player } from '../components/mdx/player/Player';
-import {Image} from '../components/mdx/image/Image';
+import { Image } from '../components/mdx/image/Image';
 import type { ProjectFrontmatter } from './projects';
 import type { PostFrontmatter } from './posts';
 
-export const customMdxComponents = { Sparkles: Sparkles, Player: Player, Image: Image };
+export const customMdxComponents = { Sparkles, Player, Image };
 
 export const transformMdx = async (
   content: string,

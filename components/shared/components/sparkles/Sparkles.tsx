@@ -10,9 +10,14 @@ type SparklesProps = {
   children: ReactNode;
 };
 
+const RANDOM_RANGE_START = 3;
+const MAX_SPARKLE_DELTA = 750;
+const MIN_RANDOM_INTERVAL_DELAY = 50;
+const MAX_RANDOM_INTERVAL_DELAY = 450;
+
 export const Sparkles = memo<SparklesProps>(({ children }) => {
   const [sparkles, setSparkles] = useState(() => {
-    return range(3).map(() => generateSparkle());
+    return range(RANDOM_RANGE_START).map(() => generateSparkle());
   });
   const prefersReducedMotion = usePrefersReducedMotion();
   useRandomInterval(
@@ -21,13 +26,13 @@ export const Sparkles = memo<SparklesProps>(({ children }) => {
       const now = Date.now();
       const nextSparkles = sparkles.filter((sp) => {
         const delta = now - sp.createdAt;
-        return delta < 750;
+        return delta < MAX_SPARKLE_DELTA;
       });
       nextSparkles.push(sparkle);
       setSparkles(nextSparkles);
     },
-    prefersReducedMotion ? null : 50,
-    prefersReducedMotion ? null : 450,
+    prefersReducedMotion ? null : MIN_RANDOM_INTERVAL_DELAY,
+    prefersReducedMotion ? null : MAX_RANDOM_INTERVAL_DELAY,
   );
 
   return (
