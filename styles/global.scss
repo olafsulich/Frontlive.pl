@@ -60,6 +60,10 @@ button {
 
 * {
   scroll-margin-top: 4rem;
+  ::selection {
+    background-color: var(--yellow);
+    color: var(--black);
+  }
 }
 
 video,

@@ -184,3 +184,9 @@
 .black {
   background: var(--black-gradient);
 }
+
+.image {
+  &:first-of-type {
+    border-radius: 10px;
+  }
+}

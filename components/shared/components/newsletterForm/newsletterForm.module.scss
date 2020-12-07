@@ -37,14 +37,9 @@
   border-bottom: 3px solid var(--red);
   padding: 0.2rem 0;
   font-size: 1.8rem;
+  color: var(--gray-600);
   transition: all 0.2s;
   outline: none;
-
-  &::placeholder {
-    font-weight: 600;
-    font-size: 1.8rem;
-    color: var(--gray-300);
-  }
 
   &:focus + .label {
     transform: translateY(-3rem);

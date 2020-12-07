@@ -45,6 +45,7 @@ export const NewsletterForm = memo(({ id = 'email' }: NewsletterFormProps) => {
         <input
           type="email"
           required
+          autoComplete="email"
           id={id}
           value={inputValue}
           className={styles.input}
