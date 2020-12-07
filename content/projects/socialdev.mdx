@@ -6,3 +6,36 @@ variant: 'blue'
 technologies: ['React', 'TypeScript', 'Firebase', 'Styled Components', 'Storybook']
 order: 4
 ---
+
+Zawsze chciałem napisać własny **portal społecznościowy**, być drugim Markiem Zuckerberg(ale nie być reptylianinem :P). SocialDev to moja własna implementacja, traktuję ją jako takie _MVP_. Po założeniu konta możemy dodawać i komentować posty. Możemy również założyć kanał głosowy, pokój, taki ala Messenger. Podczas korzystania z portalu dostajemy powiadomienia o nowych użytkownikach i postach.
+
+![](/images/socialdev.png)
+
+## Informacje
+
+- [Repozytorium na GitHubie](https://github.com/olafsulich/SocialDev-Firebase)
+- [Wersja live projektu](https://social-dev-dcf2d.firebaseapp.com/)
+
+## Technologie
+
+- React
+- TypeScript
+- Firebase
+- Styled Components
+- Storybook
+- CircleCI
+- React Hook Form
+
+## Proces
+
+Jak zawsze, zacząłem od designu strony. Mocno inspirowałem się Twitterem, dlatego nawet sam loading posiada jego logo. Interfejs miał być prosty i przejrzysty, też taki wyszedł, ale jest tutaj zdecydowanie za pusto i za mało się dzieję.
+
+Po skończonym designie zacząłem pisać! Pamiętam, że bawiłem się świetnie podczas tworzenia tej aplikacji. Było to dla mnie coś nowego i czułem już, że SocialDev za parę miesięcy zastąpi Facebooka ;)
+
+W tym projekcie dogłębnie poznawałem [Firebase](https://firebase.google.com/). Była to dla mnie, na tamten moment, najlepsza opcja. Cały backend aplikacji miałem z głowy, tak samo było z hostingiem i [Cloud Functions](https://firebase.google.com/docs/functions). Wszystko obsługiwała platforma od Googla.
+
+## Czego się nauczyłem?
+
+Przede wszystkim, żeby nie pisać własnego Twittera/Facebooka itp. Co prawda była to super zabawa, ale aplikacja daję dużo to życzenia.
+
+Traktuję ten projekt jako super przygodę, przy okazji nauczyłem się Firebase, o którym później stworzyłem [serię artykułów](https://frontlive.pl/kategorie/firebase). Poza samym Firebasem, aplikacja była napisana w Reakcie, bez TypeScripta. Wraz z rozwojem projektu, postawnowiłem całą przypisać! W pełni na TypeScript, chociaż tutaj miejscami pojawia się `any`.
