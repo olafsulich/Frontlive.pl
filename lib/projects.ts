@@ -9,9 +9,14 @@ export const getProjectBySlug = async (slug: string) => {
   return project;
 };
 
+const sortProjectsByOrder = (posts: Project[]) => {
+  return posts.sort((a, b) => (a.order > b.order ? 1 : -1));
+};
+
 export const getAllProjects = () => {
   const allProjects = getAllResources<Project>(PROJECTS_PATH);
-  return allProjects;
+  const sortedProjects = sortProjectsByOrder(allProjects);
+  return sortedProjects;
 };
 
 export const getProjectsPaths = () => {

@@ -27,6 +27,7 @@ export type Project = {
   image: string;
   variant: Variant;
   technologies: string[];
+  order: number;
 };
 
 export type Post = {
