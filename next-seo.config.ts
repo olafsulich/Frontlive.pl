@@ -1,5 +1,6 @@
 const title = 'Frontlive.pl by Olaf Sulich';
-const description = 'Najbardziej konkretne artykuły dla frontend developerów';
+const description =
+  'Najbardziej konkretne artykuły dla frontend developerów. Głównie React i TypeScript, ale znajdziesz tutaj wiele, wiele więcej.';
 const url = 'https://frontlive.vercel.app/';
 const twitterHandler = '@sulich_olaf';
 
