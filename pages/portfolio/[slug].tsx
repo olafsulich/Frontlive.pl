@@ -41,7 +41,7 @@ const BlogPost = ({
   frontmatter,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const content = hydrate(transformedMdx, { components: customMdxComponents });
-  const { title, excerpt, slug } = frontmatter;
+  const { title, excerpt, slug, imageOpenGraph } = frontmatter;
   const url = `https://frontlive.pl/portfolio/${slug}`;
 
   return (
@@ -54,6 +54,14 @@ const BlogPost = ({
           url,
           title,
           description: excerpt,
+          images: [
+            {
+              url: `https:frontlive.vercel.app${imageOpenGraph}`,
+              alt: title,
+              width: 1200,
+              height: 628,
+            },
+          ],
         }}
       />
       <Layout>

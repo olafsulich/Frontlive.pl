@@ -18,6 +18,7 @@ export type ProjectFrontmatter = {
   image: string;
   variant: Variant;
   technologies: string[];
+  imageOpenGraph: string;
 } & Frontmatter;
 
 export type Project = {
@@ -38,4 +39,5 @@ export type Post = {
   publishedAt: string;
   popular: boolean;
   isPublished: boolean;
+  imageOpenGraph: string;
 };

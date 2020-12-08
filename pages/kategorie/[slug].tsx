@@ -55,7 +55,7 @@ export default function Kategoria({ posts }: InferGetStaticPropsType<typeof getS
           description,
           images: [
             {
-              url: `/images/category-${slug}.png`,
+              url: `https:frontlive.vercel.app/images/category-${slug}.png`,
               alt: title,
               width: 1200,
               height: 628,
