@@ -72,3 +72,16 @@ iframe {
     border-radius: 10px !important;
   }
 }
+
+.error {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 8rem 0;
+
+  h1 {
+    text-align: center;
+  }
+}

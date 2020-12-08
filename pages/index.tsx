@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { Header } from '../components/header/Header';
 import { PostsListing } from '../components/blog/postsListing/PostsListing';
@@ -27,6 +28,20 @@ export default function Home({
   newestPosts,
   popularPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  useEffect(() => {
+    console.log(`
+    #     #      #######                             ### 
+    #     # #       #    #    # ###### #####  ###### ### 
+    #     # #       #    #    # #      #    # #      ### 
+    ####### #       #    ###### #####  #    # #####   #  
+    #     # #       #    #    # #      #####  #          
+    #     # #       #    #    # #      #   #  #      ### 
+    #     # #       #    #    # ###### #    # ###### ### 
+    `);
+    console.log('Ta strona została zaprojektowana i wykonana przez Olafa Sulicha 🎨 🖥️');
+    console.log('Miłej zabawy w konsoli <3');
+  });
+
   return (
     <>
       <Layout>
@@ -52,7 +67,7 @@ export default function Home({
         </main>
       </Layout>
       <Workshop />
-        <Footer />
+      <Footer />
     </>
   );
 }
