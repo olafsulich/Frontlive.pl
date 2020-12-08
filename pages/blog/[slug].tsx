@@ -42,8 +42,9 @@ const BlogPost = ({
   frontmatter,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const content = hydrate(transformedMdx, { components: customMdxComponents });
-  const { title, excerpt, publishedAt, slug,image } = frontmatter;
+  const { title, excerpt, publishedAt, slug, image } = frontmatter;
   const url = `http://frontlive.pl/blog/${slug}`;
+  const articleImage = `http://frontlive.vercel.app/${image}`;
 
   return (
     <>
@@ -61,7 +62,7 @@ const BlogPost = ({
           description: excerpt,
           images: [
             {
-              url: image,
+              url: articleImage,
               alt: title,
               width: 1200,
               height: 628,
@@ -76,7 +77,7 @@ const BlogPost = ({
         description={excerpt}
         publisherLogo="/favicons/android-chrome-192x192.png"
         publisherName="Olaf Sulich"
-        images={[image]}
+        images={[articleImage]}
         title={title}
         url={url}
       />
@@ -87,7 +88,7 @@ const BlogPost = ({
         <Mdx frontmatter={frontmatter} content={content} />
       </main>
       <Workshop />
-        <Footer />
+      <Footer />
     </>
   );
 };
