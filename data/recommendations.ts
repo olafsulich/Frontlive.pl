@@ -1,11 +1,11 @@
 export const recommendations = [
   {
     content:
-      "Dzięki Olafowi z  Frontlive udało mi się dostać moją pierwszą pracę w React! Jego kurs z TypeScript + React to według mnie najlepsze źródło jakie mogłem znaleźć na początku mojej drogi z TypeScriptem. Moim następnym celem jest nauka Gatsby'ego tak więc mam nadzieję, że Frontlive również tutaj mnie nie zawiedzie!",
+      'Olaf zrealizował na przeprogramowani.pl cieszący się popularnością kurs “Gatsby.js  - od zera do gotowej aplikacji”. W przygotowanych materiałach wykazał się świetną znajomością Gatsby.js oraz React.js. Regularnie publikowane przez Olafa materiały na blogu frontlive.pl wskazują na jego chęć do ciągłego rozwoju oraz pogłębiania wiedzy z zakresu programowania frontendowego. Współpraca z Olafem to sama przyjemność. Mimo młodego wieku cechuje go wysoki poziom kompetencji miękkich oraz etyki pracy.',
     author: {
-      image: '/images/rekomendacje/szymon-hrabia.jpg',
-      name: 'Szymon Hrabia',
-      company: 'Parkalot',
+      image: '/images/rekomendacje/marcin-czarkowski.jpg',
+      name: 'Marcin Czarkowski',
+      company: 'Senior Frontend Engineer w SmartRecruiters',
     },
   },
   {
@@ -14,16 +14,16 @@ export const recommendations = [
     author: {
       image: '/images/rekomendacje/adam-siekierski.jpg',
       name: 'Adam Siekierski',
-      company: 'Require Podcast',
+      company: 'CTO w Require Podcast',
     },
   },
   {
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit',
+      "Dzięki Olafowi z  Frontlive udało mi się dostać moją pierwszą pracę w React! Jego kurs z TypeScript + React to według mnie najlepsze źródło jakie mogłem znaleźć na początku mojej drogi z TypeScriptem. Moim następnym celem jest nauka Gatsby'ego tak więc mam nadzieję, że Frontlive również tutaj mnie nie zawiedzie!",
     author: {
-      image: '/images/user.png',
-      name: 'John Doe',
-      company: 'Vercel',
+      image: '/images/rekomendacje/szymon-hrabia.jpg',
+      name: 'Szymon Hrabia',
+      company: 'Frontend Developer w Parkalot',
     },
   },
   {

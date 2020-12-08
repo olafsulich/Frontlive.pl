@@ -9,7 +9,7 @@ export const experience = [
   {
     title: 'Bloger - Przeprogramowani',
     description:
-      'Przeprogramowani to grupa, której celem jest budować świadomych i gotowych na wyzwania tego zawodu specjalistów. W tym co robimy stawiamy zawsze na sprawdzone informacje poparte badaniami, naukę od osób bardziej doświadczonych od nas oraz na proces nieustannego rozwoju. Działamy na Youtube, blogu i prowadzimy programistyczne podcasty.',
+      'Przeprogramowani.pl, czyli szersze spojrzenie na programowanie. Przeprogramowani to projekt dla ambitnych programistów dla których priorytetem jest nieustanny rozwój, zwiększanie kompetencji oraz lepsze rozumienie branży IT. Jesteśmy fanami wychodzenia poza ramy konkretnych definicji, dlatego w ramach projektu prowadzimy rozmowy z gośćmi oraz spotkania na żywo, piszemy artykuły, tworzymy filmy, nagrywamy podcasty, i wiele więcej. To wszystko opakowujemy w kanał na YouTube, blog, podcast oraz aplikację na iOS.',
     duration: 'listopad 2020 - obecnie',
     image: '/images/przeprogramowani-logo.png',
   },

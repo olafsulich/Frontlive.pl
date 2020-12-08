@@ -52,9 +52,7 @@ export default function Home({
         </main>
       </Layout>
       <Workshop />
-      <Layout>
         <Footer />
-      </Layout>
     </>
   );
 }

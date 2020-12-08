@@ -39,9 +39,9 @@ export default function BlogPage({ posts }: InferGetStaticPropsType<typeof getSt
         <Blog posts={posts} />
       </Layout>
       <Workshop />
-      <Layout>
+     
         <Footer />
-      </Layout>
+     
     </>
   );
 }

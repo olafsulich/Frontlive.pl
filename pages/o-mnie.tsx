@@ -28,9 +28,7 @@ export default function AboutPage() {
         <About />
       </Layout>
       <Workshop />
-      <Layout>
         <Footer />
-      </Layout>
     </>
   );
 }

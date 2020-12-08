@@ -42,9 +42,7 @@ export default function PortfolioPage({
         <Portfolio projects={projects} />
       </Layout>
       <Workshop />
-      <Layout>
-        <Footer />
-      </Layout>
+      <Footer />
     </>
   );
 }

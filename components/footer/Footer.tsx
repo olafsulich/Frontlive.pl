@@ -5,8 +5,8 @@ import styles from './footer.module.scss';
 
 export const Footer = () => {
   return (
-    <>
-      <footer className={styles.wrapper}>
+    <footer className={styles.footer}>
+      <div className={styles.wrapper}>
         <div className={styles.newsletterWrapper}>
           <h2 className={styles.heading}>Newsletter</h2>
           <p className={styles.text}>
@@ -17,7 +17,7 @@ export const Footer = () => {
           <NewsletterForm id="footerNewsletter" />
           <SocialLinks />
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 };

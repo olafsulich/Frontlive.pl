@@ -16,7 +16,7 @@ type CategoryPageTemplateProps = {
 
 export const CategoryPageTemplate = memo<CategoryPageTemplateProps>(({ posts, category }) => (
   <main className={styles.wrapper} id="main">
-    <PostsListing posts={posts}>
+    <PostsListing posts={posts} primary={true}>
       <Heading tag="h1" variant="primary" className={styles.heading}>
         {category}
       </Heading>

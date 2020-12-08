@@ -87,9 +87,7 @@ const BlogPost = ({
         <Mdx frontmatter={frontmatter} content={content} />
       </main>
       <Workshop />
-      <Layout>
         <Footer />
-      </Layout>
     </>
   );
 };

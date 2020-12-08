@@ -29,9 +29,7 @@ export default function Kategorie() {
         <Categories categories={categories} />
       </Layout>
       <Workshop />
-      <Layout>
-        <Footer />
-      </Layout>
+      <Footer />
     </>
   );
 }

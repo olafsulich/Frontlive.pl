@@ -15,7 +15,7 @@ const SEO = {
     description,
     images: [
       {
-        url: '/images/main.png',
+        url: `${url}images/main.png`,
         alt: title,
         width: 1200,
         height: 628,

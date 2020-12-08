@@ -68,9 +68,9 @@ export default function Kategoria({ posts }: InferGetStaticPropsType<typeof getS
         <CategoryPageTemplate posts={posts} category={posts[0].category} />
       </Layout>
       <Workshop />
-      <Layout>
+     
         <Footer />
-      </Layout>
+      
     </>
   );
 }
