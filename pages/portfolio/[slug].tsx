@@ -56,7 +56,7 @@ const BlogPost = ({
           description: excerpt,
           images: [
             {
-              url: `https:frontlive.vercel.app${imageOpenGraph}`,
+              url: `https://frontlive.vercel.app${imageOpenGraph}`,
               alt: title,
               width: 1200,
               height: 628,

@@ -37,7 +37,7 @@ export default function PortfolioPage({
           description,
           images: [
             {
-              url: `https:frontlive.vercel.app/images/portfolio.png`,
+              url: `https://frontlive.vercel.app/images/portfolio.png`,
               alt: title,
               width: 1200,
               height: 628,
