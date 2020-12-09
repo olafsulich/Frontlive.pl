@@ -1,16 +1,24 @@
-<img src="https://i.ibb.co/5kFbmY8/Zrzut-ekranu-2020-12-9-o-12-03-56.png" width="100%" />
+<h1 align="center">
 
-<br/>
+<br>
 
-<h1 align="center">Frontlive.pl</h1>
 
-<br/>
+<img src="https://i.ibb.co/sttPX1y/tlo-fb-2.png" width="100%" />
+
+<br>
+
+<br>
+
+</h1>
+
+
+## Overview 🎉
 
 Personal blog and portfolio. 
 
 🇵🇱 Read the whole story behind this project - https://frontlive.pl/blog/nowy-frontlive
 
-## Technologies 
+## Technologies 🔧
 
 - Next.js(React)
 - TypeScript 
