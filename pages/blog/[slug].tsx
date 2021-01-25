@@ -10,6 +10,7 @@ import { Workshop } from '../../components/workshop/Workshop';
 import { Sparkles } from '../../components/shared/components/sparkles/Sparkles';
 import { Player } from '../../components/mdx/player/Player';
 import { Image } from '../../components/mdx/image/Image';
+import dayjs from 'dayjs';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params!.slug as string;
