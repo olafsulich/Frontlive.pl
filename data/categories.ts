@@ -8,6 +8,12 @@ export const categories: Category[] = [
     variant: 'blue',
   },
   {
+    title: 'Jest',
+    path: 'jest',
+    image: '/images/categories/jest.png',
+    variant: 'green',
+  },
+  {
     title: 'GraphQL',
     path: 'graphql',
     image: '/images/categories/graphql.png',
@@ -32,16 +38,16 @@ export const categories: Category[] = [
     variant: 'blue',
   },
   {
-    title: 'JavaScript',
-    path: 'javascript',
-    image: '/images/categories/javascript.png',
-    variant: 'yellow',
-  },
-  {
     title: 'CSS',
     path: 'css',
     image: '/images/categories/css.png',
     variant: 'blue',
+  },
+  {
+    title: 'JavaScript',
+    path: 'javascript',
+    image: '/images/categories/javascript.png',
+    variant: 'yellow',
   },
   {
     title: 'Recenzje',

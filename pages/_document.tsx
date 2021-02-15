@@ -80,6 +80,11 @@ class MyDocument extends Document {
             defer
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
           />
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "5ac2428685874efb86c8c912d27be908"}'
+          ></script>
         </Head>
         <body>
           <Main />

@@ -1,50 +1,32 @@
 import styles from './workshop.module.scss';
+import FacebookLogo from '../../public/icons/facebook-logo.svg';
+import LikeIcon from '../../public/icons/like.svg';
+import BlobIcon from '../../public/icons/blob.svg';
+import DotsIcon from '../../public/icons/dots.svg';
 
 export const Workshop = () => {
   return (
     <aside className={styles.wrapper}>
-      <div className={styles.textWrapper}>
-        <div className={styles.info}>
-          <h2 className={styles.heading}>
-            <picture className={styles.image}>
-              <source
-                className={styles.image}
-                srcSet={require(`../../public/images/przeprogramowani.png?webp`)}
-                type="image/webp"
-              />
-              <img
-                src="/images/przeprogramowani.png"
-                alt=""
-                width="273"
-                height="64"
-                className={styles.image}
-              />
-            </picture>
-            <span className={styles.headingText} id="workshop">
-              Kurs Gatsby.js
-            </span>
-          </h2>
-        </div>
-        <p className={styles.text}>
-          Darmowy kurs frameworka Gatsby i JamStack przygotowany we współpracy z Przeprogramowanymi.
-          Zaczynamy od pustej strony, a kończymy na pełnoprawnej aplikacji!
-        </p>
-        <div className={styles.linkWrapper}>
-          <a
-            href="https://przeprogramowani.pl/darmowy-kurs-gatsby"
-            target="_blank"
-            rel="noopener noreferer"
-            className={styles.link}
-          >
-            <span className="visually-hidden">Czytaj</span>
-            <span>Więcej</span>
-          </a>
-        </div>
+      <div className={styles.logoWrapper}>
+        <h2 className={styles.logo}>
+          <FacebookLogo aria-hidden="true" />
+          <span className="visually-hidden" id="workshop">
+            Frontlive na Facebooku
+          </span>
+        </h2>
+        <a
+          className={styles.link}
+          href="https://www.facebook.com/frontlivepl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <LikeIcon />
+          <span className={styles.linkText}>Lubię to!</span>
+        </a>
       </div>
-      <picture className={styles.logo}>
-        <source srcSet={require(`../../public/images/gatsby-cta.png?webp`)} type="image/webp" />
-        <img src="/images/gatsby-cta.png" alt="" width="291" height="338" loading="lazy" />
-      </picture>
+      <BlobIcon aria-hidden="true" className={styles.blob} />
+      <DotsIcon aria-hidden="true" className={styles.dotsFirst} />
+      <DotsIcon aria-hidden="true" className={styles.dotsSecond} />
     </aside>
   );
 };

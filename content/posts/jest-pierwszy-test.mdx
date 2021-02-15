@@ -1,0 +1,261 @@
+---
+title: 'Jest - pierwszy test'
+category: 'Jest'
+publishedAt: '15-02-2021'
+isPublished: true
+popular: false
+image: '/images/jest-pierwszy-test/jest-pierwszy-test.png'
+excerpt: 'Poznaj najpopularnieszy framework do testowania kodu JavaScript!'
+---
+
+W poprzednim wpisie poznaliśmy podstawowe założenia kryjące się za testowaniem. Dziś przeszła pora na pracę z prawdziwymi narzędziami. Przedstawiam Ci <Sparkles>Jest</Sparkles> - najpopularnieszy framework do testowania kodu JS!
+
+Cały dzisiejszy kod napisany jest w **TypeScripcie**, taki mały eksperyment :) Jeśli nie znasz TS, to nic straconego! Możesz pominąć część związaną z typami lub zajrzeć do mojej [serii artykułów](https://frontlive.pl/kategorie/typescript) na temat tego języka.
+
+## Konfiguracja
+
+Jeśli chcesz pominąć konfigurację, możesz skorzystać z przygotowanego [startera na GitHubie](https://github.com/olafsulich/jest-workshop/tree/01-pierwszy-test/start).
+
+Zanim zaczniemy pisać faktyczne testy, potrzebujemy zainstalować kilka niezbędnych paczek:
+
+```bash
+npm install jest ts-jest typescript @types/jest --save-dev
+```
+
+Świetnie, żeby korzystać z wszystkich dobrodziejstw Jest, musimy stworzyć plik konfiguracyjny `jest.config.js` w katalogu głównym.
+
+```js
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+};
+```
+
+Na ten moment ustawiamy tylko tzw. _preset_ i środowisko dla naszych testów.
+
+## Pierwszy test
+
+O co tak naprawdę chodzi w testach? Najogólniej mówiąc, będziemy w nich chcieli **porównywać** oczekiwaną przez nas wartość, do takiej, jaka faktycznie jest.
+
+Zacznijmy od prostej funkcji, która będzie mnożyła podaną liczbę przez 2, a następnie ją zwracała:
+
+```ts
+function multiplyBy2(value: number) {
+  return value * 2;
+}
+```
+
+Jeśli chcielibyśmy opisać oczekiwane działanie funkcji, to powiedzielibyśmy, że po podaniu argumentu `2`, z naszej funkcji zawsze otrzymamy `4`.
+
+Przełóżmy teraz to stwierdzenie na kod i stwórzmy funkcję, która będzie sprawdzała działanie `multiplyBy2`:
+
+```ts
+function expect<T>(actual: T) {
+  return {
+    toBe(expected: T) {
+      if (actual !== expected) {
+        throw new Error(`${actual} is not equal to ${expected}`);
+      }
+    },
+  };
+}
+```
+
+Przetestujmy teraz funkcję `multiplyBy2` za pomocą `expect()`:
+
+```ts
+expect<number>(multiplyBy2(2)).toBe(5);
+```
+
+Bang! Nasz test nie przeszedł i dostaliśmy błąd _4 is not equal to 5_. Świetnie, nasza funkcja zadziałała tak, jakbyśmy tego oczekiwali.
+
+## Podstawy Jest
+
+Dzięki Jest, nie musimy tworzyć funkcji `expect`, ten framework robi to za nas! Dodatkowo korzystaliśmy w niej z tzw. _matchera_ - `toBe`. Jest dostarcza nam szereg podobnych _matcherów_, do których za chwilę przejdziemy.
+
+Przenieśmy się teraz na **mecz koszykówki**. Jest pomoże nam przetestować kilka, kluczowych dla rozgrywek, funkcji. Zacznijmy od czegoś prostego, zwróćmy zawodników obu drużyn:
+
+```ts
+export type Player = {
+  readonly name: string;
+  readonly points: number;
+};
+
+export function getAllPlayers(team1: Player[], team2: Player[]) {
+  return [...team1, ...team2];
+}
+```
+
+Nasza funkcja gotowa, czas ją przetestować! Stwórzmy nowy katalog `tests`, a w nim plik `match.spec.ts`. Rozszerzenie `.spec` jest tutaj kluczone, dzięki niemu Jest wie, że jest to **plik z testami**. Możesz się również spotkać z rozszerzeniem `.test`, działa to na tej samej zasadzie.
+
+Jest oferuję nam specjalną funkcję `it()`, w której dzieje się cała magia. W pierwszej kolejności podajemy **opis testu**. Drugim parametrem jest _callback_, w którym będziemy wywoływać funkcję i porównywać oczekiwaną i faktyczną wartość.
+
+```ts
+it('opis testu', () => {
+  // test
+});
+```
+
+Zaimportujmy teraz właściwą funkcję i potrzebne dane obu drużyn. Jak widzisz, wywołujemy `getAllPlayers` w środku `it()`, następnie korzystamy ze znanej Ci już funkcji `expect()`.
+
+```ts
+import { getAllPlayers } from '../src/match';
+import { team1, team2, allPlayers } from '../data/teams';
+
+it('returns all players in a match', () => {
+  const result = getAllPlayers(team1, team2);
+  expect(result).toEqual(allPlayers);
+});
+```
+
+Tym razem korzystamy z _matchera_ `.toEqual()`, służy on, w przeciwieństwie do `.toBe`, do porównywania nieprymitywnych wartości.
+
+Nadeszła ta wiekopomna chwila, **odpalmy nasz test!** Dodajmy do `package.json` odpowiedni skrypt:
+
+```json
+"scripts": {
+    "test": "jest --watch"
+  },
+```
+
+Uff, nasz test przeszedł, jesteśmy bezpieczni!
+
+> Dzięki fladze --watch, Jest będzie nasłuchiwał na zmiany w plikach z testami
+
+## Testy w praktyce
+
+W ramach praktyki napiszmy jeszcze kilka prostych funkcji. Po zakończonym meczu chcemy wyłonić najlepszego gracza i zebrać łączną liczbę punktów.
+
+```ts
+export function getGreatestPlayer(players: Player[]) {
+  const playerWithHighestScore = players.reduce((prev, curr) => {
+    return prev.points > curr.points ? prev : curr;
+  });
+  return playerWithHighestScore;
+}
+
+export function getTotalScore(players: Player[]) {
+  const totalScore = players.reduce((prev, curr) => {
+    return prev + curr.points;
+  }, 0);
+  return totalScore;
+}
+```
+
+Przyszła pora na testy. Jak widzisz, w naszych testach, korzystamy z wcześniej przygotowanej i otestowanej funkcji `getAllPlayers`:
+
+```ts
+it('returns player with the most points', () => {
+  const players = getAllPlayers(team1, team2);
+  const greatestPlayer = getGreatestPlayer(players);
+  expect(greatestPlayer.name).toBe('Blake Griffin');
+});
+
+it('returns a total score', () => {
+  const players = getAllPlayers(team1, team2);
+  const totalScore = getTotalScore(players);
+  expect(totalScore).toBe(163);
+});
+```
+
+Cała organizacja meczu zakończyła się sukcesem, a to wszystko dzięki naszym testom! Dodatkowo nasza ulubiona drużyna wygrała i chcemy to uczcić! Udajemy się do lokalnego baru, by kupić piwo.
+
+Właściciel baru napisał specjalną funkcję, dzięki której tylko osoby pełnoletnie mogą kupić alkohol:
+
+```ts
+export type Person = {
+  readonly name: string;
+  readonly age: number;
+};
+
+export function getBeer(person: Person) {
+  if (person.age < 18) {
+    throw new Error("You're too young to buy a beer");
+  }
+  return '🍺';
+}
+```
+
+W tym przypadku musimy sprawdzić, czy osoba jest pełnoletnia, jeśli tak, to zwracamy jej piwo, w przeciwnym wypadku wyświetlamy odpowiedni komunikat z błędem:
+
+```ts
+import { getBeer, Person } from '../src/beer';
+
+describe('getBeer', () => {
+  it('returns a beer if the person is at least 18 years old', () => {
+    const person: Person = {
+      name: 'Olaf',
+      age: 20,
+    };
+
+    expect(person.age).toBeGreaterThanOrEqual(18);
+    expect(getBeer(person)).toBe('🍺');
+  });
+});
+```
+
+Skorzystajmy tutaj z dostępnej w Jest funkcji `describe`. Dzięki niej możemy _zgrupować_ kilka testów i otrzymać przejrzystsze informacje w konsoli. Jak widzisz, nasze testy świetnie opisują działanie funkcji, służą nam za swoistą dokumentację, którą czytamy jak normalne zdania.
+
+Wróćmy do testu, sprawdzamy tutaj, czy osoba ma przynajmniej 18 lat, wykorzystujemy do tego kolejny _matcher_ `.toBeGreaterThanOrEqual`. Jeśli wynik wyjdzie pozytywny, to wywołujemy naszą funkcję z wcześniej przygotowanym obiektem i otrzymujemy piwo, wszystko poszło po naszej myśli.
+
+To był nasz _happy path_, teraz musimy obsłużyć przypadek, w którym osoba ma mniej niż 18 lat.
+
+```ts
+import { getBeer, Person } from '../src/beer';
+
+describe('getBeer', () => {
+  it('returns a beer if the person is at least 18 years old', () => {
+    const person: Person = {
+      name: 'Olaf',
+      age: 20,
+    };
+
+    expect(person.age).toBeGreaterThanOrEqual(18);
+    expect(getBeer(person)).toBe('🍺');
+  });
+
+  it('throws an error when the person is under 18 years old', () => {
+    const person: Person = {
+      name: 'Maciek',
+      age: 16,
+    };
+
+    expect(person.age).toBeLessThan(18);
+    expect(() => getBeer(person)).toThrow("You're too young to buy a beer");
+  });
+});
+```
+
+Tutaj ponownie korzystamy z `it()` i kolejnego _matchera_ `.toBeLessThan()`. Następnie przekazujemy przygotowany obiekt i sprawdzamy, czy nasza funkcja rzuci błędem. Zwróć uwagę, że w przypadku _matchera_ `.toTrow`, `.getBeer` musimy jeszcze _owrapować_ w dodatkową funkcję, w innym przypadku nasza asercja nie zadziała.
+
+## Asynchroniczność
+
+Wróćmy do początku, załóżmy, że nasza funkcja `multiplyBy2` byłaby asynchroniczna:
+
+```ts
+import { multiplyBy2 } from './multiplyBy2';
+
+export function multiplyBy2Async(value: number) {
+  return Promise.resolve(multiplyBy2(value));
+}
+```
+
+Przetestowanie tej funkcji to bułka z masłem, możemy skorzystać np. ze znanej Ci składni async await:
+
+```ts
+import { multiplyBy2Async } from '../src/multiplyBy2Async';
+
+it('multiplies given number by 2 asynchronously', async () => {
+  const result = await multiplyBy2Async(2);
+  const expected = 4;
+  expect(result).toBe(expected);
+});
+```
+
+Do asynchronicznego kodu jeszcze wrócimy w następnym wpisie, ale warto, żebyś wiedział/a o takiej opcji :)
+
+## Podsumowanie
+
+To wszystko na dziś, cały kod znajdziesz w [repozytorium na GitHubie](https://github.com/olafsulich/jest-workshop).
+
+Do usłyszenia!
