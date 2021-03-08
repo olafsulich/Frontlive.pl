@@ -117,7 +117,7 @@ it('returns better player', () => {
 });
 ```
 
-W pierwszej kolejności podajemy do funkcji obiekt, a następnie metodę, później już tylko tworzymy jej implementację za pomocą `.mockImplementation()`. O `spyOn` należy myśleć w takim kontkeście - bierzymy metodę obiektu, zamieniamy ją w szpiega, który pozwala szpiewgować jej wywołania i zmieniać oryginalną implementację.
+W pierwszej kolejności podajemy do funkcji obiekt, a następnie metodę, później już tylko tworzymy jej implementację za pomocą `.mockImplementation()`. O `spyOn` należy myśleć w takim kontkeście - bierzemy metodę obiektu, zamieniamy ją w szpiega, który pozwala szpiewgować jej wywołania i zmieniać oryginalną implementację.
 
 Zasadniczą różnicą pomiędzy `jest.fn()`, a szpiegiem, jest to, że naszego mocka możemy przywrócić do jego oryginalnej implementacji, korzystając z metody `.mockRestore()`. W naszym przypadku nie ma to sensu, ale warto, żebyś o tym wiedział/a:
 
