@@ -26,9 +26,13 @@
 
 .link {
   border-radius: 8px;
-  background: #1876f2;
+  background: linear-gradient(
+    var(--gradient-angle),
+    var(--red-100) var(--gradient-secondary-color-percent),
+    var(--orange-gradient-accent) var(--gradient-primary-color-percent)
+  );
   border: none;
-  width: 20rem;
+  width: 18rem;
   height: 5rem;
   color: var(--white);
   font-weight: 600;
@@ -37,14 +41,14 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 3rem;
-  z-index: 100;
+  z-index: 9999999999;
 }
 
-.linkText {
-  transform: translateY(2px);
-}
+// .linkText {
+//   transform: translateY(2px);
+// }
 
 .logo {
   margin: 0 auto;
@@ -55,6 +59,7 @@
 .blob {
   position: absolute;
   pointer-events: none;
+  z-index: 1;
 }
 
 .dotsFirst {
