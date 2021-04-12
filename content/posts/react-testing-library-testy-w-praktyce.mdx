@@ -2,7 +2,7 @@
 title: 'React Testing Library - testy w praktyce'
 category: 'React'
 publishedAt: '12-04-2021'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/react-testing-library-praktyka/rtl-praktyka.png'
 excerpt: 'Po ostatnim wprowadzającym wpisie przyszedł czas na przykłady z życia wzięte. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebasach. Przez jednych lubiany, przez drugich znienawidzony - formularz...'
@@ -43,8 +43,8 @@ export const LoginForm = ({ login }: LoginFormProps) => {
     resolver: yupResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginType) => {
-    login(data);
+  const onSubmit = async (data: LoginType) => {
+    await login(data);
   };
 
   const { errors } = formState;
