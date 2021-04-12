@@ -150,6 +150,7 @@ describe('LoginForm', () => {
     const usernameRequiredErrorMessage = await screen.findByText(errorMessages.username.required);
     const passwordRequiredErrorMessage = await screen.findByText(errorMessages.password.required);
 
+    expect(loginMock).not.toBeCalled();
     expect(usernameRequiredErrorMessage).toBeInTheDocument();
     expect(passwordRequiredErrorMessage).toBeInTheDocument();
   });
@@ -202,7 +203,7 @@ describe('LoginForm', () => {
 });
 ```
 
-Na sam koniec pobieramy elementy, które zawierają wiadomości błędów oraz sprawdzamy, czy pojawiły się w drzewie DOM. Wykorzystujemy również asercje, poza tymi poprzednimi, możemy również sprawdzić, czy nasza funkcja `login`, pod postacią `loginMock`, została wykonana.
+Na sam koniec pobieramy elementy, które zawierają wiadomości błędów oraz sprawdzamy, czy pojawiły się w drzewie DOM. Ponownie możemy również sprawdzić, czy nasza funkcja `login`, pod postacią `loginMock`, została wykonana.
 
 ## Happy path
 

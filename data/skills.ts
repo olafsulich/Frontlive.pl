@@ -7,9 +7,12 @@ export const frontendSkills = [
   'Gatsby',
   'Next.js',
   'GraphQL',
+  'Jest',
+  'React Testing Library',
+  'Cypress',
 ];
 
-export const backendSkills = ['Node.js', 'Express', 'PostgreSQL', 'Prisma 2.0'];
+export const backendSkills = ['Node.js', 'Express', 'Nest', 'PostgreSQL', 'Prisma 2.0'];
 
 export const devOpsSkills = ['CI/CD', 'Docker'];
 

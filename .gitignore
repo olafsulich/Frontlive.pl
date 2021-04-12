@@ -36,3 +36,4 @@ yarn-error.log*
 # custom 
 folder-structure.md
 .env
+ts-notes.md
