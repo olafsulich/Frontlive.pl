@@ -17,7 +17,7 @@ export const experience = [
     title: 'Freelancer - Hypnocoders',
     description:
       'Hypnocoders to grupa 5 programistów - freelancerów. Działamy głównie z klientami z Holandii, dla których realizujemy najróżniejsze projekty komercyjne. Pracujemy głównie z React.js i Node. Specjalizujemy się w JamStacku.',
-    duration: 'marzec 2020 - obecnie',
+    duration: 'marzec 2020 - styczeń 2021',
     image: '/images/hypnocoders-logo.png',
   },
   {
