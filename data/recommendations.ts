@@ -44,7 +44,7 @@ Mogę z pewnością rekomendować Olafa jako wybitną i profesjonalną osobę.`,
     author: {
       image: '/images/rekomendacje/adam-siekierski.jpg',
       name: 'Adam Siekierski',
-      company: 'CEO w Require Podcast',
+      company: 'Full-stack Developer w AppUnite',
     },
   },
   {
@@ -62,7 +62,7 @@ Mogę z pewnością rekomendować Olafa jako wybitną i profesjonalną osobę.`,
     author: {
       image: '/images/rekomendacje/szymon-hrabia.jpg',
       name: 'Szymon Hrabia',
-      company: 'Frontend Developer w Parkalot',
+      company: 'Frontend Developer w AppUnite',
     },
   },
 ];

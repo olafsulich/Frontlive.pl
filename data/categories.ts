@@ -13,23 +13,24 @@ export const categories: Category[] = [
     image: '/images/categories/jest.png',
     variant: 'green',
   },
+  //   {
+  //     title: 'Architektura',
+  //     path: 'architektura',
+  //     image: '/images/categories/architektura.png',
+  //     variant: 'purple',
+  //   },
   {
-    title: 'GraphQL',
-    path: 'graphql',
-    image: '/images/categories/graphql.png',
-    variant: 'purple',
+    title: 'JavaScript',
+    path: 'javascript',
+    image: '/images/categories/javascript.png',
+    variant: 'yellow',
   },
+
   {
     title: 'Dostępność',
     path: 'dostepnosc',
     image: '/images/categories/a11y.png',
     variant: 'black',
-  },
-  {
-    title: 'Svelte',
-    path: 'svelte',
-    image: '/images/categories/svelte.png',
-    variant: 'orange',
   },
   {
     title: 'React',
@@ -44,10 +45,17 @@ export const categories: Category[] = [
     variant: 'blue',
   },
   {
-    title: 'JavaScript',
-    path: 'javascript',
-    image: '/images/categories/javascript.png',
-    variant: 'yellow',
+    title: 'Svelte',
+    path: 'svelte',
+    image: '/images/categories/svelte.png',
+    variant: 'orange',
+  },
+
+  {
+    title: 'GraphQL',
+    path: 'graphql',
+    image: '/images/categories/graphql.png',
+    variant: 'purple',
   },
   {
     title: 'Recenzje',
@@ -56,22 +64,23 @@ export const categories: Category[] = [
     variant: 'green',
   },
   {
+    title: 'Inne',
+    path: 'inne',
+    image: '/images/categories/inne.png',
+    variant: 'yellow',
+  },
+  {
     title: 'Firebase',
     path: 'firebase',
     image: '/images/categories/firebase.png',
     variant: 'orange',
   },
+
   {
     title: 'DevOps',
     path: 'devops',
     image: '/images/categories/devops.png',
     variant: 'black',
-  },
-  {
-    title: 'Inne',
-    path: 'inne',
-    image: '/images/categories/inne.png',
-    variant: 'yellow',
   },
   {
     title: 'Webpack',

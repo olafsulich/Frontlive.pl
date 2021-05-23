@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Heading } from 'components/shared/components/heading/Heading';
 import { CategoriesList } from './categoriesList/CategoriesList';
-import type { Variant, Category } from '../../types/types';
+import type { Category } from '../../types/types';
 import styles from './categories.module.scss';
 
 type CategoriesProps = {
