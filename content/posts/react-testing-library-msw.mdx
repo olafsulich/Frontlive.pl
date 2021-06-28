@@ -1,0 +1,186 @@
+---
+title: 'React Testing Library - Mock Service Worker'
+category: 'React'
+publishedAt: '28-06-2021'
+isPublished: true
+popular: false
+image: '/images/react-testing-library-msw/rtl-msw.png'
+excerpt: 'MSW to narzędzie nowej geneneracji, które umożliwia łatwiejszą i przyjemniejszą pracę z mockami...'
+---
+
+Pogadajmy przez chwilę o mockowaniu, a szczególnie o mockowaniu fetcha/axiosa przy testowaniu komponentów, które pobierają nasze dane np. z zewnętrznego API. Oto klasyczny przykład:
+
+```ts
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+describe('getAllPlayers', () => {
+  it('returns list of players', async () => {
+    mockedAxios.get.mockResolvedValue(allPlayers);
+
+    const players = await match.getAllPlayers();
+
+    expect(mockedAxios.get).toBeCalledTimes(1);
+    expect(players).toEqual(allPlayers);
+  });
+});
+```
+
+Czy tutaj jest **źle**? Absolutnie nie. Czy da się to zrobić lepiej? Jeszcze jak 😎
+
+## Mock Service Worker
+
+O co więc chodzi z tym całym MSW? Biblioteka pozwala nam w **łatwiejszy i bardziej przejrzysty** sposób pracować z mockami. Potrzebujemy ustawić odpowiednie nagłówki, czy dodać opóźnienie dla zapytania, nie ma problemu!
+
+```ts
+rest.get('/url', (req, res, ctx) => {
+  return res(ctx.status(301), ctx.set('Content-Type', 'application/json'), ctx.delay(2000));
+});
+```
+
+Co więcej, MSW możemy wykorzystywać również poza samymi testami. Załóżmy, że nasz backend nie został jeszcze w pełni przygotowany, a nam się spieszy i chcemy mieć dostęp do danych. Dzięki MSW możemy _zasymulować_ prawdziwy serwer i kontynuować pracę nad frontem.
+
+Ale jak nie o tym, wróćmy do testów i sprawdźmy, jak to narzędzie działa w praktyce.
+
+## MSW w praktyce
+
+Stwórzmy komponent, który będzie wyświetlał post użytkownika w naszej aplikacji:
+
+```tsx
+import { useGetPost } from '../../utils/hooks/useGetPost';
+
+type PostProps = {
+  readonly id: number;
+};
+
+export const Post = ({ id }: PostProps) => {
+  const { isLoading, isSuccess, isError, data, error } = useGetPost(id);
+  return (
+    <>
+      {isLoading ? <p>Loading...</p> : null}
+      {isError ? <p>Something went wrong</p> : null}
+      {isSuccess ? <p>Success</p> : null}
+      <h2>{data?.title}</h2>
+      <p>{data?.body}</p>
+    </>
+  );
+};
+```
+
+Pod przykrywką `useGetPost()` kryje się [React Query](https://react-query.tanstack.com/), ale implementacja nie ma tu większego znaczenia.
+
+W pliku z testem komponentu, w pierwszej kolejności, ustawiamy nasz serwer, to tutaj dzieje się cała magia. Do funkcji `setupServer` przekazujemy tzw. handler, w którym deklarujemy naszego mocka. W handlerze korzystamy z paczki `rest`, która posiada w sobie metody nazwane analogicznie do metod HTTP. Przekazujemy do nich **adres url** i **callback**.
+
+```ts
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { postData } from '../../data/post';
+
+const server = setupServer(
+  rest.get<PostType>('https://jsonplaceholder.typicode.com/posts/1', (_req, res, ctx) => {
+    return res(
+      ctx.json({
+        ...postData,
+      }),
+    );
+  }),
+);
+```
+
+Z poziomu callbacku mamy dostęp do obiektu [żądania](https://mswjs.io/docs/api/request), [odpowiedzi](https://mswjs.io/docs/api/response) i tzw. [contextu](https://mswjs.io/docs/api/context). W środku zwracamy odpowiedź i korzystamy z metody `ctx.json()`, która ustawia `body` odpowiedzi wraz z nagłówkiem `Content-Type: application/json`.
+
+Jedźmy dalej, naszym następnym krokiem będzie stworzenie prostego _wrappera_ na funkcje `render` z React Testing Library. Dlaczego tak? To wszystko przez wcześniej wspominane React Query, jeśli nie korzystasz z tej biblioteki, to możesz na spokojnie pominąć ten krok.
+
+```tsx
+import {
+  render as rtlRender,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  RenderOptions,
+} from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import { ReactNode } from 'react';
+import { postData } from '../../data/post';
+import { Post } from './Post';
+import type { Post as PostType } from '../../utils/types';
+
+const server = setupServer(
+  rest.get<PostType>('https://jsonplaceholder.typicode.com/posts/1', (_req, res, ctx) => {
+    return res(
+      ctx.json({
+        ...postData,
+      }),
+    );
+  }),
+);
+
+const queryClient = new QueryClient();
+
+const render = (ui: ReactNode, { ...rtlOptions }: RenderOptions = {}) => {
+  return rtlRender(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>, {
+    ...rtlOptions,
+  });
+};
+
+describe('Post', () => {
+  beforeAll(() => server.listen());
+  afterEach(() => {
+    server.resetHandlers();
+    queryClient.clear();
+  });
+  afterAll(() => server.close());
+});
+```
+
+Ohh, zapomniałem o najważniejszym, **nie zapomnij po sobie posprzątać**! W funkcjach pomocniczych otwieramy i zamykamy połączenie z serwerem oraz czyścimy handlery i cache.
+
+Uff, konfiguracja skończona, przejdźmy do właściwego testu. Jeśli czytałeś [poprzednie wpisy z tej serii](https://frontlive.pl/blog/react-testing-library-testy-w-praktyce), to nie powinno być tutaj dla Ciebie żadnego zaskoczenia. Sprawdzamy tutaj, czy tytuł naszego posta zostanie wyświetlony po etapie ładowania:
+
+```tsx
+it('shows correct title when loading status is over', async () => {
+  render(<Post id={1} />);
+
+  const loading = screen.getByText(/loading/i);
+
+  expect(loading).toBeInTheDocument();
+
+  await waitForElementToBeRemoved(loading).then(() => {
+    const postHeading = screen.getByRole('heading', { level: 2 });
+    expect(postHeading).toHaveTextContent(postData.title);
+  });
+});
+```
+
+Okej Olaf, a co z edge casami? Na tym polu MSW również mnie nie zawiodło, jeśli potrzebujemy zadeklarować handler na poziomie jednego testu, to nic nie stoi nam na przeszkodzie!
+
+```tsx
+it('shows an error message when request fails', async () => {
+  server.use(
+    rest.get('https://jsonplaceholder.typicode.com/posts/1', (_req, res, ctx) => {
+      return res(ctx.status(500));
+    }),
+  );
+
+  render(<Post id={1} />);
+
+  const loading = screen.getByText(/loading/i);
+
+  expect(loading).toBeInTheDocument();
+
+  await waitForElementToBeRemoved(loading).then(() => {
+    const error = screen.getByText(/something went wrong/i);
+    expect(error).toBeInTheDocument();
+  });
+});
+```
+
+## Podsumowanie
+
+Mock Service Worker bardzo pozytywnie mnie (i [nie tylko mnie](https://kentcdodds.com/blog/stop-mocking-fetch)) zaskoczył i to, co Ci dziś pokazałem, to tylko ułamek jego możliwości 🔥
+
+Cały kod (+1 przykład) znajdziesz w [repozytorium na GitHubie](https://github.com/olafsulich/react-testing-library-workshop).
+
+Do usłyszenia!
