@@ -1,0 +1,66 @@
+---
+title: 'React Testing Library - testy accessibility'
+category: 'React'
+publishedAt: '12-07-2021'
+isPublished: true
+popular: false
+image: '/images/react-testing-library-a11y/rtl-a11y.png'
+excerpt: 'Testować accessibility możemy różnymi narzędziami i na różne sposoby... W tym wpisie na tapet bierzemy testy dostępności skupione na zakresie komponentu z pomocą biblioteki `jest-axe` 🧪'
+---
+
+Testować accessibility możemy różnymi narzędziami i na różne sposoby... Warto wspomnieć o świetnych pluginach do [ESlinta](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y#readme) i [Cypressa](https://github.com/avanslaars/cypress-axe). Dzisiaj jednak na tapet bierzemy testy dostępności skupione na zakresie komponentu z pomocą biblioteki [jest-axe](https://github.com/nickcolley/jest-axe).
+
+W pierwszej kolejności tworzymy komponent `Image`:
+
+```tsx
+type ImageProps = {
+  accessible?: boolean;
+};
+
+export const Image = ({ accessible }: ImageProps) => {
+  return <img src="/" alt={accessible ? 'alt' : undefined} />;
+};
+```
+
+W zależności od przekazywanego propsa, `Image` będzie lub nie będzie "dostępny" (nie róbcie tego w domu 😬). W naszych testach chcemy to sprawdzić:
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import { Image } from './Image';
+
+expect.extend(toHaveNoViolations);
+
+describe('Image', () => {
+  it('fails when the component is not accessible', async () => {
+    const { container } = render(<Image accessible={false} />);
+    const results = await axe(container);
+
+    expect(results).not.toHaveNoViolations();
+  });
+
+  it('should have no violations when the component is accessible', async () => {
+    const { container } = render(<Image accessible={true} />);
+    const results = await axe(container);
+
+    expect(results).toHaveNoViolations();
+  });
+});
+```
+
+Z biblioteki odpowiednio wyciągamy funkcję `axe`, która jest silnikiem sprawdzającym oraz matcher `toHaveNoViolations`.
+
+To co jest naprawdę świetne to informacje o błędach podczas gdy nasz test nie przejdzie. Dostajemy szczegółowy opis czego dotyczy błąd oraz jak go naprawić:
+
+<Image
+  src="/images/react-testing-library-a11y/jest-axe.png"
+  alt="Informacje w konsoli o błędzie wraz z instrukcjami jak ten błąd naprawić"
+/>
+
+## Podsumowanie
+
+Warto dodać, że takie testy **nie gwarantują** nam, że nasz komponent będzie w pełni dostępny, mogą jednak wskazać istotne problemy na poziomie samych testów. Jeśli chcesz się dowiedzieć więcej o testowaniu dostępności, to polecam sprawdzić [dedykowany wpis](https://frontlive.pl/blog/dostepnosc-czytniki-ekranowe) na ten temat 🤩
+
+Cały kod z dzisiejszego wpisu dostępny jest w [repozytorium na GitHubie](https://github.com/olafsulich/react-testing-library-workshop/tree/main/4-accessibility/finish).
+
+Do usłyszenia!
