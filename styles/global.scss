@@ -15,9 +15,14 @@ body {
   margin: 0;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
 body {
   background-color: #101821;
-  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   width: 100%;
   overflow-x: hidden;
 }
