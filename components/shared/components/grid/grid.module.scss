@@ -1,13 +1,25 @@
+@import 'common';
+
 .grid {
   width: 100%;
   margin-top: 30rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  //   align-items: space-between;
-  justify-items: space-between;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  row-gap: 3rem;
 
-  :nth-child(2) {
-    justify-self: end;
-    align-self: end;
+  @include mediaquery('xl') {
+    // grid-template-columns: repeat(auto-fit, minmax(48.5rem, 1fr));
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 3rem;
+    justify-items: space-between;
+    align-content: center;
+
+    :nth-child(2) {
+      justify-self: end;
+      align-self: end;
+    }
   }
 }

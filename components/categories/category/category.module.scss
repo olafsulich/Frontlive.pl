@@ -1,0 +1,16 @@
+.category {
+  font-size: 1.8rem;
+  background-color: #182431;
+  border-radius: 8px;
+  color: #bdddff;
+  text-decoration: none;
+  padding: 1.3rem 1.6rem;
+  display: inline-block;
+  margin-right: 3rem;
+  margin-bottom: 2.4rem;
+
+  &:hover {
+    transition: transform 0.2s;
+    transform: scale(1.05);
+  }
+}
