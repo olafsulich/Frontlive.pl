@@ -1,0 +1,457 @@
+---
+title: 'Firebase - autoryzacja w 10 minut? To mozliwe!'
+category: 'Firebase'
+publishedAt: '18-03-2020'
+isPublished: true
+popular: false
+image: '/images/firebase-autoryzacja/firebase-autoryzacja.png'
+excerpt: 'Potrzebujesz autoryzacji użytkowników wraz z prostym formularzem logowania i rejestracji. Firebase sprawdzi się idealnie!'
+---
+
+## To prostsze niż się wydaje!
+
+Załóżmy, że robisz stronę internetową/aplikację i potrzebujesz autoryzacji użytkowników wraz z prostym formularzem logowania i rejestracji. Pierwsza myśl, która najprawdopodobniej przyszła Ci do głowy - potrzebuję serwera i bazy danych, ale w końcu Ty jesteś frontendowcem, nie backend developerem, czy programistą baz danych. Nie chcesz zagłębiać się w backendowe sprawy, a szybko rozwiązać problem. Właśnie wtedy, pomocą dłoń wyciąga do Ciebie Firebase.
+
+## Co powinieneś wiedzieć?
+
+Żeby wyciągnąć z tego artykułu 100%, powinieneś swobodnie poruszać się po Reactcie.
+
+- Mieć w małym palcu [HTML & CSS](https://tutorials.comandeer.pl/html5-blog.html).
+- Być obeznanym ze standardami [ES6+](https://www.youtube.com/watch?v=eA2YRceiDwk).
+- Rozumieć [Reactowe Hooki](https://reactjs.org/docs/hooks-intro.html)
+- Posiadać podstawową wiedzę ze [Styled Components](https://styled-components.com/)
+
+> Jeśli te zagadnienia są Ci obce, nie martw się! Firebase możesz równiezż wykorzystać bez znajomości Reacta.
+
+## Konfiguracja Firebase
+
+Naszym pierwszym krokiem, będzie konfiguracja Firebase, kliknij [tutaj](https://console.firebase.google.com/) i utwórz nowy projekt.
+
+Po utworzeniu projektu, kliknij `Dodaj aplikację` i wybierz `Aplikacja sieciowa`.
+
+Po przeklikaniu wymaganych danych, skopiuj **plik konfiguracyjny**. Powinien on wyglądać, mniej więcej tak:
+
+```js
+var config = {
+  apiKey: 'AIzaSyDctz47bkEEwdiOMPVnIWWqTTzdtpveAzw',
+  authDomain: 'frontlive-1.firebaseapp.com',
+  databaseURL: 'https://frontlive-1.firebaseio.com',
+  projectId: 'frontlive-1',
+  storageBucket: 'frontlive-1.appspot.com',
+  messagingSenderId: '1008294462858',
+  appId: '1:1008294462858:web:a888d2891e908d183e7473',
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+```
+
+Utwórz nowy plik w katalogu **src/**, o nazwię **firebase.js**.
+
+Dodaj niezbędne importy i przypisz metodę **auth()** do consta **auth**, możesz go od razu wyeksportować:
+
+```js
+import firebase from 'firebase/app';
+import 'firebase/auth';
+export const auth = firebase.auth();
+```
+
+Twój plik **firebase.js**, po konfiguracji, powinien wyglądać mniej więcej tak:
+
+```js
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDctz47bkEEwdiOMPVnIWWqTTzdtpveAzw',
+  authDomain: 'frontlive-1.firebaseapp.com',
+  databaseURL: 'https://frontlive-1.firebaseio.com',
+  projectId: 'frontlive-1',
+  storageBucket: 'frontlive-1.appspot.com',
+  messagingSenderId: '1008294462858',
+  appId: '1:1008294462858:web:a888d2891e908d183e7473',
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+export const auth = firebase.auth();
+```
+
+### Konfiguracja Firebase Auth
+
+Konfiguracja projektu gotowa, więc szybko przechodzimy do konfiguracji **firebase auth** i bierzemy się do kodzenia!
+
+Przejdz do zakładki `Authentication` i wybierz `E-mail/hasło`. Teraz wystarczy włączyć usługę i gotowe!
+
+## Komponent Form
+
+Uff… konfiguracja gotowa, teraz możemy przejść do ciekawszych rzeczy, Przygotujmy komponent Form.js. Możesz zrobić to sam w ramach ćwiczeń lub skorzystać z mojego rozwiązania:
+
+```js
+import React, { useReducer } from 'react';
+import styled from 'styled-components';
+import { auth } from './Firebase';
+
+const StyledForm = styled.form`
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Montserrat';
+`;
+
+const StyledWrapper = styled.div`
+  width: 100%;
+  height: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const StyledLabel = styled.label`
+  width: 25.5rem;
+  text-align: left;
+  font-size: 1.2rem;
+  padding: 1rem 0;
+`;
+
+const StyledInput = styled.input`
+  width: 24rem;
+  font-size: 1rem;
+  background-color: hsla(204, 26%, 96%, 1);
+  padding: 15px 20px;
+  border: none;
+  outline: none;
+
+  :placeholder {
+    letter-spacing: 1px;
+    color: hsla(0, 0%, 33%, 0.5);
+  }
+`;
+
+const StyledButtonsWrapper = styled.div`
+  width: 24rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const StyledButton = styled.button`
+  color: #fff;
+  font-size: 1.1rem;
+  background-color: #ffbb4a;
+  width: 8rem;
+  height: 3rem;
+  padding: 0.5rem;
+  border: none;
+`;
+
+const Form = () => {
+  return (
+    <StyledForm>
+      <StyledWrapper>
+        <StyledLabel htmlFor="email-input">Email</StyledLabel>
+        <StyledInput
+          placeholder="jondoe@gmail.com"
+          id="email-input"
+          type="email"
+          name="email"
+          required
+        />
+      </StyledWrapper>
+      <StyledWrapper>
+        <StyledLabel htmlFor="password-input">Hasło</StyledLabel>
+        <StyledInput
+          placeholder="********"
+          type="password"
+          name="password"
+          id="password-input"
+          required
+        />
+      </StyledWrapper>
+      <StyledButtonsWrapper>
+        <StyledButton type="submit" name="Zaloguj się">
+          Zaloguj się
+        </StyledButton>
+        <StyledButton type="submit" name="Zarejestruj się">
+          Zarejestruj się
+        </StyledButton>
+      </StyledButtonsWrapper>
+    </StyledForm>
+  );
+};
+
+export default Form;
+```
+
+## Zarządzanie statem za pomocą useReducer
+
+Do zarządzania statem, postanowiłem użyc hooka [useReducer](https://pl.reactjs.org/docs/hooks-reference.html#usereducer).
+
+Tworzymy hooka, a w nim podajemy dwie wartości, email oraz password:
+
+```js
+const [inputsContent, setInputsContent] = useReducer(
+  (state, newState) => ({ ...state, ...newState }),
+  {
+    email: '',
+    password: '',
+  },
+);
+```
+
+Możemy je od razu [zdestrukturyzować](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Operatory/Destructuring_assignment):
+
+```js
+const { email, password } = inputsContent;
+```
+
+## Obsługa inputów i zmiana stanu
+
+Tworzymy funkcję **handleInputChange**, do której przekazujemy event.
+
+Przypisujemy **name** do **value** i gotowe!
+
+```js
+const handleInputChange = (e) => {
+  setInputsContent({
+    [e.target.name]: e.target.value,
+  });
+};
+```
+
+## Wysyłanie danych do Firebase
+
+Przyszedł czas na najważniejszą rzecz, **wysłanie tych danych** do firebase.
+
+Tworzymy dwie funkcję **handleSignIn** i **handleSignUp**, jedna odpowiada za logowanie użytkownika, druga za rejestrację.
+
+Jak widzisz wykorzystujemy metody z `Firebase`: [signInWithEmailAndPassword](https://firebase.google.com/docs/auth/web/password-auth) i [createUserWithEmailAndPassword](https://firebase.google.com/docs/auth/web/password-auth).
+
+Dodajemy jeszcze najprostszą z możliwych obsługę błędów i gotowe!
+
+```js
+const handleSignIn = (e) => {
+  e.preventDefault();
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .catch((error) =>
+      alert(`Your email or password is incorrect, please check your data, ${error}`),
+    );
+};
+
+const handleSignUp = (e) => {
+  e.preventDefault();
+  auth
+    .createUserWithEmailAndPassword(email, password)
+    .catch((error) => alert(`Email is already in use, sign in or use other email, ${error}`));
+};
+```
+
+## Podanie funkcji dla odpowiednich elementów
+
+Okej, ale jak to wszystko połączyć w całość?
+
+Nic trudnego, do inputów dodaj zdarzenie [onChange](https://pl.reactjs.org/docs/forms.html), którego wartością będzie **handleInputChange**.
+
+Do buttonów dodaj odpowiednie funkcję przy zdarzeniu [onClick](https://pl.reactjs.org/docs/handling-events.html): **handleSignIn** i **handleSignUp**.
+
+```js
+<StyledForm>
+  <StyledWrapper>
+    <StyledLabel htmlFor="email-input">Email</StyledLabel>
+    <StyledInput
+      placeholder="jondoe@gmail.com"
+      id="email-input"
+      type="email"
+      name="email"
+      required
+      onChange={handleInputChange}
+      value={email}
+    />
+  </StyledWrapper>
+  <StyledWrapper>
+    <StyledLabel htmlFor="password-input">Hasło</StyledLabel>
+    <StyledInput
+      placeholder="********"
+      type="password"
+      name="password"
+      id="password-input"
+      required
+      onChange={handleInputChange}
+      value={password}
+    />
+  </StyledWrapper>
+  <StyledButtonsWrapper>
+    <StyledButton type="submit" name="submit" value="1" onClick={handleSignIn}>
+      zaloguj się
+    </StyledButton>
+    <StyledButton type="submit" name="submit" value="1" onClick={handleSignUp}>
+      zarejestruj się
+    </StyledButton>
+  </StyledButtonsWrapper>
+</StyledForm>
+```
+
+## Komponent App
+
+W komponencie App tworzymy hooka [useState](https://pl.reactjs.org/docs/hooks-state.html) z początkową wartością `null`
+
+Piszemy potrzebne **Styled Components** i przechodzimy do dalszej pracy.
+
+Używamy tutaj [renderowania warunkowego](https://pl.reactjs.org/docs/conditional-rendering.html), aby wyświetlić pożądany komponent, zależnie od tego czy użytkownik jest, czy nie jest zalogowany.
+
+```js
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import Form from './Form';
+
+const StyledWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const StyledHeading = styled.h1`
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  color: hsl(153, 91%, 48%, 100%);
+`;
+
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  return (
+    <StyledWrapper>
+      {currentUser ? (
+        <StyledHeading>Zalogowany</StyledHeading>
+      ) : (
+        <StyledHeading logout>Niezalogowany</StyledHeading>
+      )}
+      <Form />
+    </StyledWrapper>
+  );
+};
+
+export default App;
+```
+
+## Sprawdzanie czy użytkownik jest zalogowany
+
+Do sprawdzenia, czy nasz użytkownik jest zalogowany, użyjemy hooka [useEffect](https://pl.reactjs.org/docs/hooks-effect.html).
+
+Ustawiamy `obserwator` na obiekt **auth**.
+
+Gdy **auth** zmieni swoją wartość, przy logowaniu oraz zarejestrowaniu użytkownika, nasz `obserwator` to wykryje i ustawi wartość `currentUser` analogicznie do stanu obiektu auth.
+
+Dodatkowo, możemy wrzucić naszego `usera` do localStorage, aby po odświeżeniu okna przeglądarki, nadal był zalogowany.
+
+Dodajemy [renderowanie warunkowe](https://pl.reactjs.org/docs/conditional-rendering.html), żeby wyświeltić prawidłowy stan naszego użytkownika.
+
+```js
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import Form from './Form';
+import { auth } from './Firebase';
+
+const StyledWrapper = styled.section`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const StyledHeading = styled.h1`
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  color: hsl(153, 91%, 48%, 100%);
+`;
+
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser(user);
+        localStorage.setItem('currentUser', user.uid);
+      } else {
+        setCurrentUser(null);
+        localStorage.removeItem('currentUser');
+      }
+    });
+  }, []);
+
+  return (
+    <StyledWrapper>
+      {currentUser ? (
+        <StyledHeading>Zalogowany</StyledHeading>
+      ) : (
+        <StyledHeading logout>Niezalogowany</StyledHeading>
+      )}
+      <Form />
+    </StyledWrapper>
+  );
+};
+
+export default App;
+```
+
+## Wylogowanie użytkownika
+
+Został nam ostatni punkt na liście, wylogowanie użytkownika, bułka z masłem! Bierzemy się do pracy.
+
+Tworzymy funkcje `handleSignOut` w komponencie **App**, używając przy tym metody `signOut()` obiektu `auth`;
+
+```js
+const handleSignOut = () => auth.signOut();
+```
+
+Dodajemy prosty button:
+
+```js
+const LogoutButton = styled.button`
+  color: hsla(152, 94%, 33%, 1);
+  background-color: hsla(204, 26%, 96%, 1);
+  padding: 0.6rem 1.8rem;
+  font-size: 1.1rem;
+  border: none;
+```
+
+Przypisujemy mu zdarzenie [onClick](https://pl.reactjs.org/docs/handling-events.html) i gotowe!
+
+```js
+...
+return (
+    <StyledWrapper>
+      {currentUser ? (
+        <>
+          <StyledHeading>Zalogowany</StyledHeading>
+          <LogoutButton onClick={handleSignOut}>wyloguj się</LogoutButton>
+        </>
+      ) : (
+        <StyledHeading logout>Niezalogowany</StyledHeading>
+      )}
+      <Form />
+    </StyledWrapper>
+  );
+...
+```
+
+## Podsumowanie
+
+Dzięki za wytrwanie do końca.
+
+Mam nadzieję, że czegoś się nauczyłeś i że się podobało 😄
+
+Cały kod znajdziesz [tutaj](https://codesandbox.io/s/naughty-faraday-jvio6), żeby wszystko działało poprawnie, podmień dane pliku konfiguracyjnego w `firebase.js`.
+
+Do usłyszenia!

@@ -1,0 +1,358 @@
+---
+title: 'CSS Houdini - przyszłość CSSa czy niepotrzebna nowość?'
+category: 'CSS'
+publishedAt: '03-07-2020'
+isPublished: true
+popular: true
+image: '/images/css-houdini/css-houdini.png'
+excerpt: 'CSS Houdini to zbiór API, udostępnionych przez przeglądarkę, dzięki którym, mamy bezpośredni dostęp do drzewka CSSOM.'
+---
+
+**CSS Houdini** to zbiór API, udostępnionych przez przeglądarkę, dzięki którym, mamy **bezpośredni** dostęp do drzewka [CSSOM](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model)(CSS Object Model). Pozwala nam to **rozszerzać** CSSa o nowe funkcjonalności, _wpinać_ się do _silnika renderującego_ i mówić przeglądarce, w **jaki sposób** ma wykorzystać CSSa podczas renderowania. A to wszystko z pomocą **JavaScriptu**!
+
+> Wsparcie przeglądarek dla Houdini różni się dla każdego API, jeśli chcesz zobaczyć pełen wykres wsparcia, zachęcam Cię do odwiedzenia https://ishoudinireadyyet.com/.
+
+## Dlaczego warto?
+
+Po pierwsze, nowości wprowadzane do CSSa często potrzebują [pollyfilli](https://pl.wikipedia.org/wiki/Polyfill), mogą być one na bazie JavaScriptu, jednak te niosą ze sobą problemy z wydajnością. Dzieje się tak dlatego, że muszą one poczekać aż [DOM](https://developer.mozilla.org/pl/docs/DOM_i_JavaScript) i [CSSOM](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model) się utworzą. Gdy drzewa się stworzą i nasz dokument zostanie załadowany, kończy się **pierwszy cykl renderowania**, dopiero po nim nasz pollyfill może zadziałać. W **CSS Houdini** nie czekamy na ten pierwszy cykl renderowania.
+
+Następną zaletą jest, powiązaną już z poprzednią, jest fakt, iż **nie musimy czekać** na nowości, aż zostaną wprowadzone do przeglądarek.
+
+## Spis treści
+
+- [TypedOM API](#typedom-api)
+  - [computedStyleMap](#computedstylemap)
+  - [attributeStyleMap](#attributestylemap)
+  - [CSSStyleValue](#cssstylevalue)
+- [Custom Properties And Values API](#custom-properties-and-values-api)
+- [Paint API](#paint-api)
+- [Animation API](#animation-api)
+- [Layout API](#layout-api)
+- [Wsparcie przeglądarek](#wsparcie-przegladarek)
+- [Przyszłość CSS czy niepotrzebna nowość?](#przyszlosc-css-czy-niepotrzebna-nowosc)
+- [Podsumowanie](#podsumowanie)
+  - [Źródła](#zrodla)
+
+## TypedOM API
+
+Jak możemy zmieniać CSSowe wartości w JavaScripcie?
+
+Nic prostszego, pobieramy element, piszemy `.style` i wybraną wartość:
+
+```js
+button.style.fontSize = 32 + 'px';
+```
+
+Nie jest to przyjemny sposób, może rodzić wiele **problemów i bugów**.
+
+### computedStyleMap
+
+W **TypedOM** manipulacja CSSem, jest bardziej logiczna, prostsza i szybsza. Zamiast stringów dostajemy obiekt `CSSStyleValue` z kluczami i wartościami:
+
+```
+{
+  value: 20,
+  unit: "px"
+}
+```
+
+```js
+const button = document.querySelector('.button');
+
+button.computedStyleMap().get('font-size');
+```
+
+Wykorzystujemy tutaj metodę `computedStyleMap()`, zwraca nam ona wszystkie style danego elementu z **stylesheeta** (computed styles). Dzięki niej mamy dostęp do metody `get()`, która zwraca daną własność. Oprócz niej mamy dostęp również do metod: `set()`,`delete()`,`has()` i `append()`.
+
+### attributeStyleMap
+
+Oprócz `computedStyleMap()` mamy również dostęp do wartości `attributeStyleMap`. Możemy, dzięki niej, pobierać, zamiast computed styles, wartości inlinowe.
+
+```js
+let heightValue = element.attributeStyleMap.get('height');
+heightValue.value++;
+target.attributeStyleMap.set('height', heightValue);
+```
+
+### CSSStyleValue
+
+TypedOM udostępnia nam również klasę w której wszystkie CSSowe **wartości są opisane**. Dzięki temu mamy dostęp do jej _subklas_: `CSSKeywordValue`, `CSSNumericValue`,`CSSTransformValue`, `CSSResourceValue`.
+
+Dzięki `CSSKeywordValue` do slów kluczowych, np. `none`:
+
+```js
+element.attributeStyleMap.set("display", new CSSKeywordValue("none")));
+```
+
+Obiekty `CSSNumericValue` możemy podzielić na `CSSUnitValues` i `CSSMathValues`. Ta pierwsza reprezentuje **numeryczne** wartości wraz z jednostkami, np. `CSSUnitValue(12, 'px')`, ta druga zaś bardziej **zaawansowane** operacje, np. `CSSMathSum(CSS.em(5), CSS.px(5))`, odpowiada to znanemu już ze _zwykłego_ CSSa `calc(5em + 5px)`.
+
+Dzięki `CSSTransformValue` możemy wpływać na wartości `transform`, a `CSSResourceValue` na np. `background-image`(za pomocą `CSSImageValues`).
+
+## Custom Properties And Values API
+
+Custom Properties And Values pozwala nam **rozszerzać** zmienne CSSowe dodając do nich pewnie ciekawe ficzery.
+Żeby je stworzyć używamy specjalnej metody `registerProperty()`, metoda ta przyjmuje pewne argumenty:
+
+- `name` - nazwa
+- `syntax` - mówi przeglądarce jak ją parsować, mamy do dyspozycji np. `<color>`, `<integer>`, `<number>`, `<percentage>`
+- `inherits` - informacja o dziedziczeniu przez rodzica, możliwe opcje: `true` lub `false`
+- `initialValue` - początkowa wartość
+
+```js
+// JS
+CSS.registerProperty({
+  name: '--box__gradient--position',
+  syntax: '<percentage>',
+  initialValue: '60%',
+  inherits: false,
+});
+```
+
+```css
+// CSS
+.box {
+  width: 20rem;
+  height: 20rem;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 1) 0%,
+    var(--box__color) var(--box__gradient--position)
+  );
+  transition: --box__color 0.5s ease, --box__gradient--position 1s 0.5s ease;
+}
+
+.box:hover {
+  --box__color: #baebae;
+  --box__gradient--position: 0%;
+}
+```
+
+Tym sposobem **osiągnęliśmy nieosiągalne** w CSS - **zanimowaliśmy gradient**.
+
+## Paint API
+
+Zanim zaczniemy, Paint API jest **Workletem**. A co to ten Worklet? Worklety to moduły czy też skrypty działające w osobnym wątku JavaScriptu. Mają imitować natywną funkcjonalność przeglądarki. Worklet wywołujemy specjalną funkcją `addModule`, która jest obietnicą.
+
+```js
+await demoWorklet.addModule("path/to/script.js");
+
+Promise.all([
+  demoWorklet1.addModule("script1.js"),
+  demoWorklet2.addModule("script2.js"),
+]).then((results) => {...});
+```
+
+Okej to tyle odnośnie **Workletów**, przejdźmy do **Paint API!**
+
+Dzięki **Paint API** możemy rysować, za pomocą `context`(tak, to ten context z canvasa ), bezpośrednio do właściwości elementu takich jak `background-image`. Jeżeli znacie `canvasa` będziecie czuli się jak w domu.
+
+Tworzymy Worklet!
+
+```js
+registerPaint(
+  'paintWorketExample',
+  class {
+    static get inputProperties() {
+      return ['--myVariable'];
+    }
+    static get inputArguments() {
+      return ['<color>'];
+    }
+    static get contextOptions() {
+      return { alpha: true };
+    }
+
+    paint(ctx, size, properties, args) {
+      /* ... */
+    }
+  },
+);
+```
+
+- `inputProperties` - tablica `custom properties`, których Worklet ma _śledzić_
+- `<color>` - tablica argumentów, jakie mogą być podane podczas wywołania
+- `contextOptions` - pozwala nam ustawić `aplpę`, czyli takie `opacity` dla kolorów, jeśli wartość będzie false, wszystkie kolory będą miały 100% `opacity`
+- `paint` - tutaj dzieję się cała magia, funkcja może przyjąć kilka parametrów, `ctx` jest praktycznie tym samym jak `ctx` w canvasie, `size` jest obiektem składającym się z rozmiarów elementu `width` i `height`,`properties` są definiowane przez `inputProperties`, a args przez `inputArguments`.
+
+Rejestracja Workleta w główym pliku `.js`:
+
+```js
+CSS.paintWorklet.addModule('ścieżka_do_workleta.js');
+```
+
+**Użycie w CSS:**
+
+```css
+.exampleElement {
+  background-image: paint(paintWorketExample, blue);
+}
+```
+
+Wywołujemy tutaj wcześniej napisaną funkcję `paint()`, argument `paintWorketExample` to **nazwa** Workletu, a `blue` to podane **argumenty**.
+
+<Image
+  src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/f4bfba2d-a245-4b76-a303-b0e78b0c293b/2-image-paint-api.gif"
+  alt="Przykład wykorzystania Paint API"
+/>
+
+> Pełny kod tego przykładu ☝️ możecie znaleźć [na Githubie GoogleChromeLabs](https://github.com/GoogleChromeLabs/houdini-samples/blob/master/paint-worklet/ripple/index.html)
+
+## Animation API
+
+Ten **Worklet** pozwala nam **nasłuchiwać** na przeróżne eventy takie jak `scroll`,`hover` czy `click`. Dodatkowo, wpływa bardzo dobrze na wydajność(w porównaniu chociażby do `requestAnimationFrame`) ponieważ działa na osobnym wątku.
+
+```js
+registerAnimator(
+  'animationWorkletExample',
+  class {
+    constructor(options) {
+      /* ... */
+    }
+    animate(currentTime, effect) {
+      /* ... */
+    }
+  },
+);
+```
+
+- `constructor` - ustawiamy tutaj _setup_ naszego Workleta, odpalany przy stworzeniu nowej instancji
+- `animate` - tutaj trafia cała logika, `currentTime` to aktualna wartość czasu dla animacji, `effect` jest tablicą efektów, których używa animacja
+
+Wywołanie Workleta w głowyn pliku `.js`:
+
+```js
+async function init() {
+  await CSS.animationWorklet.addModule('ścieżka_do_workleta.js');
+
+  const effect = new KeyframeEffect(
+    document.querySelector('#rotation'),
+    [
+      {
+        transform: 'rotateZ(0deg) ',
+      },
+      {
+        transform: 'rotateZ(-280deg)',
+      },
+    ],
+    {
+      duration: 3000,
+      iterations: 5,
+    },
+  );
+
+  new WorkletAnimation('animationWorkletExample', effect, document.timeline, {}).play();
+}
+
+init();
+```
+
+Wyjaśnijmy sobie powyższy przykład, tak jak zawsze, na początku **pobieramy** nasz Worklet, następnie **inicjujemy klasę** `WorkletAnimation`. A w niej pojawia się nasz efekt - `KeyframeEffect`. Pierwszy **podajemy element**, który ma być animowany. Następnie podajemy tablicę obiektów z `keyframesami` i dodatkowe opcje takie jak: **czas trwania animacji** i **liczba iteracji**. Później już tylko oś czasu `currentTime` i dodatkowe opcje dla **konstruktora**.
+
+<Image
+  src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/66382772-0c0c-4b34-9326-4451db5d9c15/3-image-animation-api.gif"
+  alt="Przykład wykorzystania Animation API"
+/>
+
+> Pełny kod tego przykładu ☝️ możecie znaleźć [na Githubie houdini-examples](https://github.com/GoogleChromeLabs/houdini-samples/blob/master/paint-worklet/ripple/index.html)
+
+## Layout API
+
+Ostatni już w Workletów, rozszerza nam możliwości jakie daje nam przeglądarka w ramach tworzenia **layoutu**. Dzięki temu możemy stworzyć własną wartość dla `display`, na przykład `masonry`.
+
+```js
+registerLayout(
+  'exampleLayout',
+  class {
+    static get inputProperties() {
+      return ['--exampleVariable'];
+    }
+
+    static get childrenInputProperties() {
+      return ['--exampleChildVariable'];
+    }
+
+    static get layoutOptions() {
+      return {
+        childDisplay: 'normal',
+        sizing: 'block-like',
+      };
+    }
+
+    intrinsicSizes(children, edges, styleMap) {
+      /* ... */
+    }
+
+    layout(children, edges, constraints, styleMap, breakToken) {
+      /* ... */
+    }
+  },
+);
+```
+
+- `inputProperties` - tak jak w przypadku **Paint API**, tylko w tym przypadku Worklet _śledzi_ `custom properties`, które przynależą do **rodzica** elementu
+- `childrenInputProperties` - podobnie do `inputProperties`, tym razem _śledzimy_ `custom properties` dla **dzieci** elementu
+- `layoutOptions` - znajdziemy tutaj `childDisplay`, który definiuje **w jaki sposób** mają zostać wyświetlone **dzieci** elementu, jako `block`(**blokowo**), czy też `normal`(**inlinowo**). Za to `sizing` może mieć pre-definiowane wartość `block-like` lub `manual`. Mówi to przeglądarce czy ma **przekalkulować** rozmiar elementu, czy też nie.
+- `intrinsicSizes` - definiuje w jaki sposób kontener lub jego dzieci mają się zachowywać w kontekście **layoutu**.
+- `layout` - główna funkcja do **tworzenia** naszego layoutu, możemy wykorzystać tutaj **dzieci elementu**, ustawić **krawędzie** i **ograniczenia**.
+
+Odpalenie Workleta w głównym pliku `.js`:
+
+```js
+async function init() {
+  await CSS.animationWorklet.addModule('ścieżka_do_workleta.js');
+}
+init();
+```
+
+Wykorzystanie w CSS:
+
+```css
+.exampleElement {
+  display: layout(exampleLayout);
+}
+```
+
+- `exampleLayout` - nazwa Workletu
+
+<Image
+  src="https://cloud.netlifyusercontent.com/assets/344dbf88-fdf9-42bb-adb4-46f01eedd629/6ede5f0c-d568-49fe-a83b-1a9561c2fded/4-image-layout-api.gif"
+  alt="Przykład wykorzystania Layout API"
+/>
+
+> Pełny kod tego przykładu ☝️ możecie znaleźć [na Githubie houdini-examples](https://github.com/codeAdrian/houdini-examples/tree/master/layout-api-example)
+
+## Wsparcie przeglądarek
+
+Wsparcie przeglądarek dla **CSS Houdini** jest w tym momencie raczej średnie. Ale jestem pewien, że w najbliżej przyszłości sytuacja **znacznie się poprawiać**.
+
+Warto jednak dać **Houdini** szansę i wykorzystywać tą technologię w nurcie [Progressive Enhancement](https://en.wikipedia.org/wiki/Progressive_enhancement).
+
+Jeżeli chcecie na bieżąco śledzić wsparcie dla **CSS Houdini**, to polecam Wam rzucić okiem na [ishoudinireadyyet](https://ishoudinireadyyet.com/) 👇
+
+<Image src="/images/css-houdini/wsparcie-houdini.png" alt="Wspracie przeglądarek dla CSS Houdini" />
+
+## Przyszłość CSS czy niepotrzebna nowość?
+
+Dla mnie jest to zdecydowanie **przyszłość CSSa**. Mamy dostęp do kilku świetnych API, możemy dodawać nowe funkcjonalności dla naszych styli, jednym słowem **Houdini to przyszłość**!
+
+Poza tym, przez fakt, że możemy **wpinać** się do procesu renderowania, nasze strony i aplikacje stają się **szybsze** i **wydajniejsze**.
+
+## Podsumowanie
+
+Jak się Wam podoba **CSS Houdini**? Dajcie znać 👇
+
+Nie jest to na pewno łatwe rozwiązanie, największe problemy może sprawiać [Layout API](/#layout-api), jednak **warto się pobawić**, chociażby [w tym playgroudzie](https://houdini.glitch.me/).
+
+Zostawiam, jak zawsze, przydatne **linki i źródła**, tym samym zachęcam do głębszego poznawania **Houdini**!
+
+Do usłyszenia!
+
+### Źródła
+
+- [MDN - CSS Houdini](https://developer.mozilla.org/en-US/docs/Web/Houdini)
+- [A Practical Overview Of CSS Houdini](https://www.smashingmagazine.com/2020/03/practical-overview-css-houdini/)
+- [Houdini Examples](https://github.com/codeAdrian/houdini-examples)
+- [W3C - CSS Houdini Drafts Examples ](https://github.com/w3c/css-houdini-drafts)
+- [W3C - CSS Houdini Drafts Spec](https://drafts.css-houdini.org/)
+- [Google Chrome Labs - Houdini Demo](https://googlechromelabs.github.io/houdini-samples/)
+- [Ishoudinireadyyet](https://ishoudinireadyyet.com/)

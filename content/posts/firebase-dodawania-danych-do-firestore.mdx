@@ -1,0 +1,256 @@
+---
+title: 'Firebase - dodawanie danych do Firestore'
+category: 'Firebase'
+publishedAt: '29-03-2020'
+isPublished: true
+popular: false
+image: '/images/firebase-dodawanie-danych-do-firestore/firebase-dodawanie-danych.png'
+excerpt: 'Poznaj techniki obsługi Firestore, stwórzmy aplikację z naszymi ulubionymi twórcami!'
+---
+
+## Okej, a co jeśli chciałbym coś dodać?
+
+Ostatnio utworzyliśmy prostą bazę danych, z której pobieraliśmy dane. Dziś dowiesz się, jak te dane dodawać.
+**Let's go!**
+
+## Co powinieneś wiedzieć?
+
+Żeby wyciągnąć z tego artykułu 100%, powinieneś swobodnie poruszać się po Reactcie.
+
+- Mieć w małym palcu [HTML & CSS](https://tutorials.comandeer.pl/html5-blog.html).
+- Być obeznanym ze standardami [ES6+](https://www.youtube.com/watch?v=eA2YRceiDwk).
+- Rozumieć [Reactowe Hooki](https://reactjs.org/docs/hooks-intro.html)
+- Posiadać podstawową wiedzę ze [Styled Components](https://styled-components.com/)
+- Zaznajomić się z poprzednimi wpisami o Firebase.
+
+> Jeśli te zagadnienia są Ci obce, nie martw się! Firebase możesz również wykorzystać bez znajomości Reacta.
+
+## Słowem wstępu
+
+Żeby nie tracić czasu na budowanie bazy danych od zera, skorzystam z tej **stworzonej w poprzednim wpisie**.
+
+Będziemy również rozwijać nasz projekt o ulubionych twórcach, możesz go znaleźć [tutaj](https://www.frontlive.pl/pobieranie-danych-z-firestore/)
+
+> Jeśli jesteś nowy w Firebase, możesz zajrzeć do [pierwszego artykułu](https://www.frontlive.pl/autoryzacja-w-firebase/)
+
+## Przygotowanie komponentu
+
+Stwórzymy teraz podstawowy widok komponentu w **AddCreator.js**
+
+```js
+import React from 'react';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: 'Montserrat';
+`;
+
+const StyledWrapper = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const StyledLabel = styled.label`
+  width: 25.5rem;
+  text-align: left;
+  font-size: 1.2rem;
+  padding: 1rem 0;
+`;
+
+const StyledInput = styled.input`
+  width: 24rem;
+  font-size: 1rem;
+  background-color: hsla(204, 26%, 96%, 1);
+  padding: 15px 20px;
+  border: none;
+  outline: none;
+  margin-bottom: 1rem;
+
+  :placeholder {
+    letter-spacing: 1px;
+    color: hsla(0, 0%, 33%, 0.5);
+  }
+`;
+
+const StyledButtonsWrapper = styled.div`
+  width: 25.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 4rem;
+`;
+
+const StyledButton = styled.button`
+  color: #fff;
+  font-size: 1.1rem;
+  background-color: #ffbb4a;
+  width: 100%;
+  height: 3rem;
+  padding: 0.5rem;
+  border: none;
+`;
+
+const AddCreator = () => {
+  return (
+    <StyledForm>
+      <StyledWrapper>
+        <StyledLabel htmlFor="photo">Zdjęcie</StyledLabel>
+        <StyledInput
+          placeholder="https://adres-zdjecia.png"
+          id="photo"
+          type="text"
+          name="photo"
+          required
+        />
+      </StyledWrapper>
+      <StyledWrapper>
+        <StyledLabel htmlFor="name">Nazwa</StyledLabel>
+        <StyledInput placeholder="Olaf Sulich" id="name" type="text" name="name" required />
+      </StyledWrapper>
+      <StyledWrapper>
+        <StyledLabel htmlFor="website">Strona internetowa</StyledLabel>
+        <StyledInput
+          placeholder="https://www.frontlive.pl/"
+          id="website"
+          type="text"
+          name="website"
+          required
+        />
+      </StyledWrapper>
+      <StyledButtonsWrapper>
+        <StyledButton type="submit" name="dodaj">
+          dodaj
+        </StyledButton>
+      </StyledButtonsWrapper>
+    </StyledForm>
+  );
+};
+
+export default AddCreator;
+```
+
+## Zarządzanie statem za pomocą useReducer
+
+Do zarządzania stanem wykorzystamy, znanego z pierwszego wpisu, hooka [useReducer](https://pl.reactjs.org/docs/hooks-reference.html#usereducer).
+
+Tworzymy hooka, a w nim podajemy wartości: photo, name, website:
+
+```js
+const [inputsContent, setInputsContent] = useReducer(
+  (state, newState) => ({ ...state, ...newState }),
+  {
+    photo: '',
+    name: '',
+    website: '',
+  },
+);
+const { photo, name, website } = inputsContent;
+```
+
+Użyjemy [destrukturyzacji](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Operatory/Destructuring_assignment), żeby je wyciągnąć.
+
+### Uaktualnianie stanu
+
+Do uaktualniania stanu potrzebujemy prostej funkcji, przypisuje ona **name** do **value**, sam zobacz:
+
+```js
+const handleInputChange = (e) => {
+  setInputsContent({
+    [e.target.name]: e.target.value,
+  });
+};
+```
+
+## Dodawanie danych
+
+W komponencie `App,js`, stwórzmy funkcję, która jako argument przyjmie objekt.
+
+`creatorsCollection`, jak możesz kojarzyć z poprzedniego wpisu, to odwołanie do naszej kolekcji w `Firestore`.
+
+Za pomocą metody [add](https://firebase.google.com/docs/firestore/manage-data/add-data) dodajmy naszego nowego twórce.
+
+Na koniec ustawiamy w hooku `setCreators` tabilcę do której przekazujemy nowego twórcę i za pomocą [spread operator](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Operatory/Spread_operator) rozsmarowujemy pozostałych twórców(jakkolwiek to brzmi ( ͡° ͜ʖ ͡°)).
+
+```js
+const handleCreate = (creatorToAdd) => {
+  creatorsCollection.add(creatorToAdd);
+  setCreators([creatorToAdd, ...creators]);
+};
+```
+
+Okej, przechodzimy do komponentu `AddCreator` i piszemy funkcję `handleSubmit`.
+
+Tworzymy objekt `newCreator`, a w nim korzystamy z wartości naszego stanu.
+
+Wykorzystujemy funkcję `handleCreate` z **App.js** i podajemy do niej objekt `newCreator`.
+
+Na koniec, możemy wyczyścić wartości pól.
+
+```js
+const handleSubmit = (e) => {
+  e.preventDefault();
+  const newCreator = {
+    photo,
+    name,
+    website,
+  };
+  handleCreate(newCreator);
+  setInputsContent({
+    photo: '',
+    name: '',
+    website: '',
+  });
+};
+```
+
+> Nie zapomnij o przypisaniu **value** i funkcji **handleChange** do swoich inputów oraz o zaciągnięciu z propsów **handleCreate**
+
+## Sortowanie listy
+
+Jeśli udało Ci się dodać swojego ulubionego twórce, to **super**!
+
+Został nam ostatni krok, posortować alfabetycznie listę twórców.
+
+Przechodzimy o `App.js` i do naszej subskrybcji dodajemy metodę [orderBy](https://firebase.google.com/docs/firestore/query-data/order-limit-data)
+
+Możesz sortować wyniki po każdym polu w dokumencie, podając nazwę pola jako pierwszy argument [orderBy](https://firebase.google.com/docs/firestore/query-data/order-limit-data), drugi argument to typ sortowania `desc` lub `asc`, my użyjemy `asc`.
+
+**orderBy** posiada jeszcze parę innych ficzerów, jeśli chcesz się dowiedzieć więcej kilknij [tutaj](https://firebase.google.com/docs/firestore/query-data/order-limit-data).
+
+Komponent `App.js`:
+
+```js
+ ...
+useEffect(() => {
+    const subscribe = creatorsCollection
+      .orderBy("name", "asc")
+      .onSnapshot(snapshot => {
+        const dataFromCollection = snapshot.docs.map(documentsCollection);
+        setCreators(dataFromCollection);
+      });
+    return () => subscribe;
+  }, []);
+ ...
+```
+
+## Voilà! 👌
+
+Dzięki za wytrwanie do końca!
+
+Mam nadzieję, że po dzisiejszym wpisie `Firestore` dla Ciebie to już bułka z masłem!
+
+Możesz teraz dodać **swoich ulubionych twórców** ⭐️.
+
+Cały kod znajdziesz [tutaj](https://codesandbox.io/s/boring-saha-o98h7), pamiętaj tylko o podmienieniu danych konfiguracyjnych w pliku `firebase.js`.
+
+Do usłyszenia!

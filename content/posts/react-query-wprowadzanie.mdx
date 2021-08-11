@@ -1,0 +1,168 @@
+---
+title: 'React Query - czy zastąpi Reduxa?'
+category: 'React'
+publishedAt: '23-10-2020'
+isPublished: true
+popular: false
+image: '/images/react-query-wprowadzenie/react-query.png'
+excerpt: 'Czy to kolejna biblioteka do zarządzania stanem pokroju Reduxa, Recoila, Zustanda i wielu innych? Nie! Mamy tutaj do czynienia z czymś kompletnie innym, a cała biblioteka skupia się na akcjach asynchronicznych i cachowaniu danych'
+---
+
+Deweloperzy niejednokrotnie chcieli, aby jakaś technologia **zastąpiła** Reduxa, dlaczego? Problemem numer jeden był spory _boilerplate_ i **złożoność** całego procesu, dla początkujących ogarnięcie tego jak działa Redux było sporym **problemem**. Jakiś czas temu pojawił się [Redux Toolkit](https://redux-toolkit.js.org/), który częściowo rozwiązuje te problemy, ale czy wystarczająco?
+
+Trudności pojawiają się szczególnie gdy mamy spory projekt lub musimy przejąć pracę po kimś, ciężko się połapać w setkach akcji, dziesiątkach reducerów...
+
+## React Query na ratunek?
+
+Czy to kolejna biblioteka do zarządzania stanem pokroju Reduxa, Recoila, Zustanda i wielu innych? **Nie**.
+
+Mamy tutaj do czynienia z czymś kompletnie innym, a cała biblioteka skupia się na akcjach **asynchronicznych**
+i **cachowaniu** danych. Nie ogranicza nas ona w żaden sposób, możemy korzystać z axiosa, fetcha, obsługiwać zapytania graphQL, pisać w TypeScripcie.
+
+Dzięki niej możemy przerywać zapytania, łatwo wykonywać paginację, _odzyskiwać_ dane z pamięci, a to tylko **wierzchołek góry lodowej**, zaciekawieni? Sprawdźmy jak to działa!
+
+## Instalacja
+
+Zacznijmy od instalacji paczki:
+
+```bash
+ npm i react-query
+```
+
+Co ciekawe, możemy zainstalować również do niej dedykowane [devtoolsy](https://react-query.tanstack.com/docs/devtools):
+
+```bash
+ npm i react-query-devtools
+```
+
+## Zapytania
+
+Zajmijmy się najważniejszym - zapytaniami. Spójrzmy na przykład:
+
+```js
+import React from 'react';
+import { useQuery } from 'react-query';
+
+const App = () => {
+  const { isLoading, error, data } = useQuery('users', async () => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/users');
+    return res.json();
+  });
+
+  if (isLoading) {
+    return <h1>Ładowanie...</h1>;
+  }
+
+  if (error) {
+    return <h1>Wystąpił błąd: {error.message}</h1>;
+  }
+
+  return (
+    <ul>
+      {data.map(({ name }) => (
+        <li key={name}>
+          <p>{name}</p>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default App;
+```
+
+Wykorzystujemy tutaj hooka **useQuery**, do którego podajemy **unikalny** klucz i funkcję, która będzie pobierała dane. W odpowiedzi dostajemy wspomniane dane oraz stan dla ładowania i ewentualnego błędu.
+
+Możemy wynieść asynchroniczną funkcję poza hooka i wtedy będzie wyglądało to tak:
+
+```js
+import React from 'react';
+import { useQuery } from 'react-query';
+
+const getUsers = async (key) => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  return res.json();
+};
+
+const App = () => {
+  const { isLoading, error, data } = useQuery('users', getUsers);
+};
+```
+
+Parametrem `key` nie musimy się przejmować, jest on potrzebny samej bibliotece do identyfikacji zapytań.
+
+## Mutacje i cache
+
+Zanim przejdziemy do mutacji, skonfigurujmy **cache** dla naszej aplikacji, będziemy potrzebowali do tego specjalnego providera `ReactQueryCacheProvider`:
+
+```jsx
+import React from "react";
+import { ReactQueryCacheProvider,QueryCache } from "react-query";
+
+const queryCache = new QueryCache();
+
+const App = () => {
+  return (
+    <ReactQueryCacheProvider queryCache={queryCache}>
+      {...}
+    </ReactQueryCacheProvider>
+  );
+};
+```
+
+Cache skonfigurowany więc zajmijmy się mutacjami, użyjemy **axiosa**, ale możesz zrobić to samo używając fetcha.
+Do mutacji, czyli wysyłania/uaktualniania/usuwania danych służy hook **useMutation**.
+Nie chce marnować Twojego czasu, dlatego skorzystamy tutaj z wpisanych na sztywno danych.
+
+```jsx
+import React from 'react';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+
+const User = () => {
+  const [mutate] = useMutation((values) =>
+    axios.post('https://jsonplaceholder.typicode.com/users', values),
+  );
+
+  return <button onClick={() => mutate({ name: 'John Doe' })}>Dodaj użytkownika</button>;
+};
+```
+
+Wydawałoby się, że wszystko gotowe, ale gdy spróbujesz odpalić taki kod, możesz zaobserwować, że przygotowana wcześniej lista użytkowników jest **nieaktualna**. Dzieje się tak przez cache, przy mutacji musimy go jeszcze _unieważnić_(ang. invalidate).
+
+```jsx
+import React from 'react';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+
+const User = () => {
+  const cache = useQueryCache();
+
+  const [mutate] = useMutation(
+    (values) => axios.post('https://jsonplaceholder.typicode.com/users', values),
+    {
+      onSuccess: () => {
+        cache.invalidateQueries('users');
+      },
+    },
+  );
+
+  return <button onClick={() => mutate({ name: 'John Doe' })}>Dodaj użytkownika</button>;
+};
+```
+
+Do naszej mutacji dodajemy obiekt z opcjami, a w nim metodę **onSuccess**. To tutaj _unieważniamy_ cache dla zapytań, zwróć uwagę, że podajemy klucz, który wskazuje na zapytania, to ten sam klucz, który występuje w useQuery.
+
+## Czy React Query zastąpi Reduxa?
+
+Ta biblioteka pomaga nam przy asynchronicznych akcjach, ale nie spełnia funkcji globalnego stanu po stronie klienta. **Czyli jednak Redux?** A może połączenie tych dwóch technologii?
+
+W czasach hooków, contextu i właśnie react-query mamy możliwość **rozdzielić logikę** odpowiadającą za zapytania, mutacje, od tej, która jest odpowiedzialna za stan UI. Dlatego bez problemu możemy się **pozbyć Reduxa** z naszych projektów, co nie znaczy, że nie warto go znać... Przez te lata, zostało napisanych wiele projektów, które wykorzystują Reduxa, miej to na uwadze.
+
+## Podsumowanie
+
+React Query jest zdecydowanie **świetną technologią**, ja pokazałem Ci tylko jej podstawy, a sama technologia oferuje znacznie więcej niż mogłoby nam się na początku wydawać. Warto dać jej szanse i spojrzeć na bardzo dobrą [dokumentacje](https://react-query.tanstack.com/docs) i dołączone do niej [przykłady](https://react-query.tanstack.com/docs/examples/).
+
+Daj znać, co o tym myślisz :)
+
+Do usłyszenia!

@@ -1,0 +1,164 @@
+---
+title: 'Dostępność - projektowanie i semantyczny HTML'
+category: 'Dostępność'
+publishedAt: '18-09-2020'
+isPublished: true
+popular: true
+image: '/images/dostepnosc-semantyczny-html/dostepnosc-semantyczny-html.png'
+excerpt: 'Na co zwrócić uwagę tworząc design nie tylko pod względem interfejsu, ale też ze strony user experience? Zamienimy brzydki kod w ładny używając do tego odpowiednich znaczników HTML, a na sam koniec dowiesz się czym jest drzewko dostępności 🌳'
+---
+
+Myślenie o _dostępnych_ rozwiązaniach zaczyna się na etapie **projektowania**, a kończy na pisaniu **kodu wraz z testami** dostępności. Dziś pokażę Ci na co zwrócić uwagę tworząc **design** nie tylko pod względem interfejsu, ale też ze strony user experience. Zamienimy _brzydki_ kod w ładny używając do tego **odpowiednich znaczników HTML**, a na sam koniec dowiesz się czym jest drzewko dostępności 🌳
+
+Bez zbędnego gadania, zaczynamy!
+
+## Kontrast i kolory
+
+Zacznijmy od **kontrastu**, jest to bardzo ważny aspekt, często pomijany.
+[Wymogi odnośnie kontrastu opisuje WCAG](https://www.w3.org/TR/WCAG21/#contrast-minimum), które przedstawia dwa _poziomy_ dostępności **kontrastu kolorów** - AA i AAA. Nie chce się tutaj zagłębiać w całą specyfikację, skupię się na problemie.
+
+Chcemy ułatwić korzystanie z naszej strony **wszystkim użytkownikom**. Świetnym narzędziem do testowania kontrastu jest strona [whocanuse.com](https://whocanuse.com/). Nie sprawdza ona jedynie czy dobrane przez nas kolory mają odpowiedni kontrast pod względem WCAG. Po podaniu kolorów dostajemy gotową metrykę, pokazuje ona **dla kogo nasza strona jest dostępna**. Możesz tutaj sprawdzić np. czy osoby z wykrytą protanomalią będą mogły **swobodnie** odczytać tekst. Pamiętasz jak mówiłem o **tymczasowej niepełnosprawności**? Whocanuse pozwala nam sprawdzić kontrast kolorów w pełnym słońcu!
+
+<Image src="/images/dostepnosc-semantyczny-html/whocanuse.png" alt="" />
+
+Słyszałem opinie projektantów, którzy uważali, że nie da się stworzyć **ładnej** strony z odpowiednim kontrastem. Nie jest to oczywiście prawda, a lenistwo, czy też niedopatrzenie/niewiedza mówiących tak osób. Steve Schoger, twórca świetnej książki o designie [RefactoringUI](https://refactoringui.com/book/) utwierdził mnie w tym przekonaniu. Jakiś czas temu przedstawił on na twitterze [przykład źle i dobrze dobranego kontrastu](https://twitter.com/steveschoger/status/1045371124274483200), wersja zgodna ze sztuką **wygląda jeszcze lepiej**!
+
+<Image
+  src="/images/dostepnosc-semantyczny-html/color-contrast.png"
+  alt="Porównanie źle dobranego kontrastu z dobrym, źródło - www.refactoringui.com"
+/>
+
+## User experience
+
+Praca designera powinna być ściśle **powiązana z dostępnością**. Dobranie odpowiedniego kontrastu to tylko jedno z zagadnień.
+
+O co jeszcze powinieneś zadbać?
+
+- Umieść tekst w logicznych odstępach, poukładany w **odpowiedniej kolejności**. Tekst nie powinien być za mały, a sama linia tekstu za długa, tak jest to ważne **nie tylko pod względem samego wyglądu**.
+
+- Linki **powinny się różnić** od zwykłego tekstu, przyjętą konwencją jest dodanie podkreślenia. Jeśli nie chcemy zostawiać domyślnego zarysu(ang. outline) to zapewnijmy **alternatywny design**. Zostając w temacie linków, powinny one zawierać jakiś sens, czyli zamiast _kliknij tutaj_ zastosuj bardziej wymowny link np. _Artykuł odnośnie dostępności..._. Szewc bez butów chodzi, na tym blogu znajdziesz przykłady źle zrobionych linków 🙈
+
+- Dostępnościowi ninja używają jeszcze linków `Skip to main content`. Przykład takiego rozwiązania znajdziesz na [blogu Scotta O'Harry
+  ](https://www.scottohara.me/), nie bijcie za odmianę.
+
+- Nie używaj wyłącznie kolorów do prezentacji czegokolwiek, niektórzy **użytkownicy mogą ich nie rozróżniać**.
+
+- Dodajesz wideo? **Zapewnij napisy**!
+
+- Pozwól użytkownikom korzystać ze strony **tylko za pomocą klawiatury**. Projektuj produkty pod tym względem, przykład? Często stosowane okienko, modal, dodaj przycisk do jego zamykania, nie każdy korzysta z myszki i może kliknąć poza jego obszar w celu jego zamknięcia.
+
+## Dostępność a HTML
+
+Tytuł tego artykułu zawiera fragment - **semantyczny HTML**, w gwoli ścisłości, nie ma czegoś takiego jak niesemantyczny HTML. Każdy ze znaczników jest semantyczny, nawet `div`, czy `span`. Ważne jest, żeby wybierać **odpowiednie** znaczniki.
+Więcej o _semantyce_ HTML możesz przeczytać w artykule Tomasza Jakuta - [O semantyce słów kilka](https://blog.comandeer.pl/o-semantyce-slow-kilka.html).
+
+Wiele osób uważa, że dostępność stron to ścisłe trzymanie się wytycznych WCAG, spełnienie **każdego wymogu, bez wyjątku**. Do tego wszystkiego dochodzi [ARIA](https://www.w3.org/WAI/standards-guidelines/aria/), no i jak się w tym wszystkim połapać i nie oszaleć?
+
+W wielu przypadkach, aby stworzyć dostępne rozwiązanie, nie musimy nic robić, wystarczy użyć **odpowiednich znaczników HTML**. Dlatego tak ważne jest stosowanie się tych wszystkich _reguł_. Wykorzystujmy takie znaczniki jak `main`, `header` czy `article`. Nie opierajmy całej naszej strony na _divach_ i _spanach_.
+
+Spójrzmy na przykład:
+
+```html
+<div id="header">
+  <h3>Tytuł</h3>
+  <h2>Podtytuł</h2>
+</div>
+
+<div id="#main">
+  <div>
+    <h4>Karty</h4>
+    <p>opis</p>
+    <div>
+      <span class="card-heading">Karta 1</span>
+      <p>Treść</p>
+      <div>
+        Kliknij mnie
+        <i class="fal fa-adjust"></i>
+      </div>
+    </div>
+    <div>
+      <span class="card-heading">Karta 2</span>
+      <p>Treść</p>
+      <div>
+        Kliknij mnie
+        <i class="fal fa-adjust"></i>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+Dużo się tutaj dzieję, mamy jakiś **kontener** z id _header_, potem występuje kolejny, tym razem z id _main_. W środku jakiś heading, jakieś powtarzalne karty i pseudo przyciski wraz z ikonkami. Co jest tutaj nie tak?
+
+- Diva z id _header_ na spokojnie moglibyśmy zastąpić po prostu znacznikiem `<header>`.
+- [Podtytułów nie powinieneś robić na nagłówkach](https://www.w3.org/TR/html52/common-idioms-without-dedicated-elements.html#subheadings-subtitles-alternative-titles-and-taglines), ważne jest również zachowanie hierarchii nagłówków, powinny one następować po sobie o odpowiedniej kolejności, czyli od `<h1>` do `<h6>`.
+- Div z id _main_ mógłby być na spokojnie znacznikiem `<main>`, a jego dziecko `<section>`.
+- Divy w naszej sekcji mogłyby być znacznikami `<article>`, a umieszczony w nich `<span>` nagłówkiem.
+- No i został nam ten nieszczęsny przycisk, nie dość, że jest divem, to wykorzystuje ikonkę w znaczniku `<i>`.
+
+Poprawmy nasz przykład:
+
+```html
+<header>
+  <h1>Tytuł</h1>
+  <p>Podtytuł</p>
+</header>
+
+<main>
+  <section>
+    <h2>Karty</h2>
+    <p>opis</p>
+    <article>
+      <h3>Karta 1</h3>
+      <p>Treść</p>
+      <button>
+        Kliknij mnie
+        <span class="fal fa-adjust" aria-hidden="true"></span>
+        <span class="visuallyhidden">Adjust</span>
+      </button>
+    </article>
+    <article>
+      <h3>Karta 2</h3>
+      <p>Treść</p>
+      <button>
+        Kliknij mnie
+        <span class="fal fa-adjust" aria-hidden="true"></span>
+        <span class="visuallyhidden">Adjust</span>
+      </button>
+    </article>
+  </section>
+</main>
+```
+
+No i pięknie, wszystko **poprawione**, ale zanim zacznę Ci wyjaśniać co i czemu się tutaj stało, dodam, że powinieneś oczywiście **zmienić nazwy tekstów**, ponieważ te użyte są wyłącznie w celach **prezentacyjnych**(chodzi o zmienienie np. nagłówka _Karty_ na taki, który bardziej opisuje co się tam znajduje).
+
+Zmieniliśmy tutaj dużo, weszły wspomniane wcześniej **znaczniki**, jakieś podwójne spany, **aria**, jak w tym się połapać? Jak wspomniałem, dodawanie ikonki w tagu `<i>` **jest błędem**. Zastąpiłem `<i>` spanem i ukryłem go dla czytników ekranowych używając `[aria-hidden=true]`, dlaczego tak? Niektóre czytniki ekranowe czytają Unicode, a tego byśmy nie chcieli. Użycie `[aria-hidden=true]` w tym przypadku jest jak najbardziej uzasadnione, dzięki temu _schowamy_ ikonkę przed czytnikami ekranowymi. Więcej o zastosowanym przeze mnie rozwiązaniu i ogólnie o ikonkach znajdziesz na wspomniany już wcześniej blogu Tomka Jakuta, tym razem w poście - [O ikonkach słów kilka](https://blog.comandeer.pl/o-ikonkach-slow-kilka.html).
+
+### Dlaczego odpowiednie znaczniki są tak ważne?
+
+Świetnie, wprowadziliśmy te zmiany i co? Moja strona wygląda tak samo, **nic się nie zmieniło**!
+
+Użycie tych znaczników jest niezwykle ważne dla osób korzystających z czytników ekranowych. Tacy użytkownicy często **nawigują po stronie za pomocą nagłówków** i również **wchodzą w interakcje** z naszą witryną. Pamiętaj, chcemy zapewnić jak najlepsze doświadczenie dla użytkownika.
+
+Powodów jest jeszcze wiele, chociażby korzystanie z tzw. _landmarków_, o których powiem Ci w następnych wpisach.
+
+## Drzewko dostępności
+
+Na pewno większość z was kojarzy drzewko **DOM**, niektórzy mogą znać też jego _CSSowy_ odpowiednik, czyli CSSOM. Sprawa wygląda bardzo podobnie jeśli chodzi o dostępność, przeglądarki dają nam do dyspozycji tzw. Accessibility tree, czyli **drzewko dostępności**. Opisuje ono budowę strony pod względem dostępności.
+
+<Image src="/images/dostepnosc-semantyczny-html/accessibility-tree.jpg" alt="Drzewko dostępności" />
+
+Jak wejść do drzewa dostępności? Jakże epicko to brzmi, ale po prostu kliknąć w odpowiednią zakładkę w _dev toolsach_. Jak już to zrobimy będziemy mogli wybrać dany element i np. **sprawdzić jaką posiada rolę**. Opcji jest oczywiście **znacznie więcej**, bo mamy dostęp jeszcze do wartości danego elementu, np. inputa. Jeśli już mowa o inpucie to możemy sprawdzić czy jest on np. focusowalny, jakie posiada atrybuty aria itp. Opcji jest bardzo dużo i zachęcam Cie do przetestowania tego samodzielnie. Jeśli sprawdzisz drzewko dostępności dla pierwszego przykładu i jego poprawionej wersji zobaczysz znaczącą różnice.
+
+## Podsumowanie
+
+To już tylę na dzisiaj, dostępność jest bardzo **szerokim tematem** i nie da się wszystkiego zawrzeć w jednym artykule. Dlatego _widzimy się_ za tydzień w piątek i kontynuujemy przygodę z dostępnością.
+
+Do usłyszenia!
+
+### Źródła
+
+- [O nagłówkach słów kilka](https://blog.comandeer.pl/o-naglowkach-slow-kilka.html)
+- [O ikonkach słów kilka](https://blog.comandeer.pl/o-ikonkach-slow-kilka.html)
+- [Web Accessibility for Designers](https://webaim.org/resources/designers/)
+- [The Accessibility Tree](https://developers.google.com/web/fundamentals/accessibility/semantics-builtin/the-accessibility-tree)

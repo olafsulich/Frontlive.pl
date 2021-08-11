@@ -1,0 +1,103 @@
+---
+title: 'Testowanie JS - podstawy'
+category: 'Inne'
+publishedAt: '25-01-2021'
+isPublished: true
+popular: false
+image: '/images/podstawy-testowania/podstawy-testowania.png'
+excerpt: 'Testowanie kodu jest bardzo pożądaną umiejętnością u każdego programisty... Ale zacznijmy od początku. Dlaczego tak właściwie potrzebujemy testów? Jakie są ich rodzaje?'
+---
+
+Jakiś czas temu wysłałem do osób, które są zapisane do [newslettera](#footerNewsletter), krótką ankietę. Zawierała ona jedno, kluczowe pytanie - _Czego chcesz się nauczyć?_ Mogliście wybrać proponowane przeze mnie tematy lub napisać coś od siebie. Ku mojemu zaskoczeniu, dużą przewagą, wygrało <Sparkles>Testowanie!</Sparkles>
+
+Bez zbędnego gadania, zaczynajmy!
+
+## Dlaczego warto?
+
+Już kilka razy w życiu słyszałem coś w stylu:
+
+> Testy? A komu to potrzebne?
+>
+> Piszę super czysty kod w nowoczesnych frameworkach, niepotrzebne mi testy. Działa? **Działa**.
+
+Lub jeszcze inny przypadek:
+
+> Testy? **Nie mamy na to czasu**, deadline już za chwilę, a mamy do zrobienia jeszcze masę funkcjonalności.
+>
+> Przeklikaj się przez stronę to będą testy e2e.
+
+A więc to wszystko prawda? Czy testy to _starta czasu?_
+
+Podczas tworzenia aplikacji bardzo często trafiamy na najróżniejsze błędy. Najlepiej by było łapać je **jak najwcześniej**, żeby przypadkowo nie wypłynęły na produkcję.
+
+Największą zaletą testów jest właśnie **pewność**, że nasz kod będzie działać tak, jak tego oczekujemy. Oczywiście nie mamy nigdy 100% pewności, że coś się nagle nie wysypię, ale otestowany kod to zawsze pewniejszy kod.
+
+Czy to już wszystko? Nie! Testy to również lepsze **zrozumienie problemu**, obsłużenie wielu różnych przypadków związanych z logiką biznesową. Pomagają nam one tworzyć **lepszy kod** - łatwiej otestować dobrze rozłożone komponenty niż wielki kombajn. I na sam koniec, testy pozwalają nam lepiej zrozumieć kod i dostarczają warstwę **dokumentacji**.
+
+## Rodzaje testów
+
+Przez wiele lat uznawana była tzw. [piramida testów](https://martinfowler.com/articles/practical-test-pyramid.html). Była, no właśnie, aż do czasu pojawienia się _The Testing Trophy_, zaprezentowanego przez [Kent C. Doddsa](https://kentcdodds.com/).
+
+Wspomniane trofeum skupia się, w przeciwieństwie do piramidy, na testach **integracyjnych**. Przyjrzyjmy się trochę bliżej rodzajom testów i ich rozłożeniu.
+
+<Image src="/images/podstawy-testowania/testing-trophy.png" alt="Trofeum testów" />
+
+### Statyczne
+
+Ze statycznym testowaniem mogłeś/aś się już spotkać wcześniej w swoim kodzie. Do tej grupy testów możemy zaliczyć takie narzędzia jak np. **ESlint**. Pozwala nam on, podczas developmentu, wyłapać najróżniejsze błędy aplikacji. Bez niego ciężko sobie wyobrazić pisanie kodu.
+
+Kolejnym narzędziem, a właściwie językiem, jest uwielbiany przeze mnie **TypeScript**. Pozwala Ci on na statyczne typowanie, które nie jest dostępne w czystym JS. To właśnie dzięki niemu oszczędzamy sobie wielu godzin na debugowaniu głupich błędów. Założeniem TypeScripta jest to, o czym wcześniej wspominałem, czyli **pewność**, w tym przypadku typów.
+
+### Jednostkowe
+
+Testy jednostkowe zaliczamy do tych _najprostszych_. Skupiają się one na testowaniu **pojedynczej jednostki kodu**, na przykład jakieś funkcji. Można by powiedzieć, że są one wyizolowane, tak, aby przetestowany kod działał w każdym kontekście.
+
+Najłatwiejszym przykładem może być funkcja `add()`, która przyjmuje dwie liczby, dodaje je i po prostu zwraca. W naszym teście jednostkowym chcemy, aby po podaniu argumentów `2` i `3` funkcja zwracała wynik `5`.
+
+Przykład technologii: [Jest](https://jestjs.io/)
+
+### Integracyjne
+
+Załóżmy, że mamy kilka pomniejszych funkcji, które wcześniej przetestowaliśmy używając testów jednostkowych. Wszystko jest świetnie, nasze testy przechodzą, aż do czasu gdy te funkcje będziemy chcieli wykorzystać w jakieś większej jednostce kodu, możemy ją nazwać _komponentem_.
+
+Testy integracyjne odpowiadają za to, żeby nasze funkcje **współpracowały** ze sobą w odpowiedni sposób, tak aby nasz komponent zadziałał.
+
+Przykład technologii: [React Testing Library](https://testing-library.com/docs/react-testing-library/intr)
+
+### End to End
+
+Te testy są na samej górzej naszego trofeum, wspominałem Ci o nich już na początku - _Przeklikaj się przez stronę to będą testy e2e._
+
+Testy End to End, zwane również e2e, skupiają się **użytkowniku** naszej aplikacji, bo na sam koniec to tylko on się liczy. Oczywiście nie robimy ich sami tak jak w przykładzie, pomaga nam taki _robot_, który stara się odwzorować kolejne ruchy użytkownika na stronie.
+
+Jak może wyglądać taki test? Załóżmy, że mamy jakiś formularz logowania. W testach e2e nasz robot musi odpowiednio wprowadzić dane do inputów, a następnie zatwierdzić je przycisk _Zaloguj się_. Po zalogowaniu powinniśmy zobaczyć tekst _Zalogowano_.
+
+Przykład technologii: [Cypress](https://www.cypress.io/)
+
+## Kompromisy
+
+Po poznaniu rodzajów testów możesz mieć wrażenie, że testy e2e są najlepsze i tylko je powinniśmy pisać, w końcu na samym końcu jest użytkownik.
+To prawda, na samym końcu jest użytkownik, ale to nie znaczy, że powinniśmy pisać tylko i wyłącznie te testy.
+
+Podczas testowania musimy iść na kompromis pomiędzy _kosztem_ testów a wspominaną już _pewnością_. Im wyżej jesteśmy w trofeum, tym **większa jest nasza pewność**, ale wiążą się z tym pewne bolączki. Testy im wyżej w hierarchii tym są **droższe** w utrzymaniu i **wolniejsze** w działaniu.
+
+Wszystko zależy od tego, co chcemy testować. Korzystając z testów jednostkowych, niekoniecznie chcemy sprawdzać typ parametru, robi to za nas TypeScript. Tak samo w drugą stronę, w testach e2e nie będziemy testować czy dropdown się odpowiednio wyświetlił, będziemy się w nich skupiać na szczególnie ważnej logice biznesowej.
+
+Jak to wszystko ma się do naszego trofeum testów?
+
+Kompromisem pomiędzy _kosztem_ a _pewnością_ wydają się testy integracyjne, których będziemy pisać najwięcej.
+
+> Write tests. Not too many. **Mostly integration**.
+>
+> ~ Guillermo Rauch.
+
+## Podsumowanie
+
+Przez następne tygodnie, na tym blogu, pokażę Ci **jak testować kod** za pomocą wspomnianych dziś rodzajów testów. Zaczniemy od Jest, następnie przejdziemy do React Testing Library, a skończymy na testach e2e w Cypressie.
+
+Dzisiejszy artykuł to takie wprowadzenie w świat testów (i do tej serii), bazuje na ideologii wspomnianego Kenta, gorąco polecam sprawdzić jego bloga!
+
+### Źródła
+
+- [Write tests. Not too many. Mostly integration.](https://kentcdodds.com/blog/write-tests)
+- [Static vs Unit vs Integration vs E2E Testing for Frontend Apps](https://kentcdodds.com/blog/unit-vs-integration-vs-e2e-tests)

@@ -1,0 +1,432 @@
+---
+title: 'Nowoczesny CSS - CSS Variables'
+category: 'CSS'
+publishedAt: '28-12-2020'
+isPublished: true
+popular: false
+image: '/images/css-variables/css-variables.png'
+excerpt: 'Chociaż CSS nie jest językiem programowania to posiada swoje zmienne. Czym są i jak się ich używa? Do jakich celów możesz je wykorzystać?'
+---
+
+Chociaż CSS nie jest językiem programowania, to posiada swoje zmienne. Czym są i jak się ich używa? Do jakich celów możesz je wykorzystać?
+
+Zmienne _CSSowe_ to, tak samo, jak w językach programowania, takie pudełka, do których możemy wpisać daną wartość/jednostkę. Następnie taką zmienną wykorzystujemy w **wielu miejscach** w naszym kodzie, unikając tym samym niepotrzebnych powtórzeń.
+
+## Spis treści
+
+- [Jak to działa?](#jak-to-działa)
+  - [Zasięg i dziedziczenie](#zasięg-i-dziedziczenie)
+- [Zmienne w praktyce!](#zmienne-w-praktyce)
+  - [Stan elementu](#stan-elementu)
+  - [Palety kolorów i gradienty](#palety-kolorów-i-gradienty)
+  - [Dark mode](#dark-mode)
+  - [Media queries](#media-queries)
+- [Fallback](#fallback)
+- [Integracja z JS](#integracja-z-js)
+- [CSS vs Sass Variables](#css-vs-sass-variables)
+- [Styled Components i zmienne](#styled-components-i-zmienne)
+- [Ciekawostki](#ciekawostki)
+  - [Wartości URLa](#wartości-urla)
+  - [Wiele wartości](#wiele-wartości)
+  - [Animacje](#animacje)
+  - [Wykorzystanie z clamp()](#wykorzystanie-z-clamp)
+- [DevToolsy](#devtoolsy)
+- [Wsparcie przeglądarek](#wsparcie-przeglądarek)
+- [Podsumowanie](#podsumowanie)
+
+## Jak to działa?
+
+Każda zmienna musi zaczynać się od dwóch myślników. Podobnie jak z innymi właściwościami, po dwukropku podajemy jej wartość:
+
+```css
+.box {
+  --primary-color: purple;
+}
+```
+
+<Image src="/images/css-variables/css-var-1.png" alt="" />
+
+Taką zmienną możemy później wykorzystać za pomocą `var()`:
+
+```css
+.box {
+  --primary-color: purple;
+  background-color: var(--primary-color);
+}
+```
+
+<Image src="/images/css-variables/css-var-2.png" alt="" />
+
+### Zasięg i dziedziczenie
+
+Zmienne w CSSie, tak samo jak te w JavaScripcie, posiadają swój zasięg. Spójrzmy na przykład:
+
+```css
+:root {
+  --primary-color: pink;
+}
+
+.box {
+  --primary-color: blue;
+  background-color: var(--primary-color);
+}
+```
+
+Skorzystaliśmy tutaj z [pseudoklasy root](https://developer.mozilla.org/pl/docs/Web/CSS/:root) i w niej zadeklarowaliśmy zmienną o takiej samej nazwie jak w klasie `.box`. Jaki będzie wynik? Tło naszego _boxa_ będzie miało kolor <Sparkles>niebieski!</Sparkles>
+
+<Image src="/images/css-variables/css-var-3.png" alt="" />
+
+Zobaczmy na bardziej zaawansowany przykład. Stwórzmy trzy _boxsy_, gdzie `box-1` i `box-2` będą rodzeństwem, a `box-3` będzie dzieckiem tego pierwszego:
+
+```html
+<div class="box-1">
+  <div class="box-3"></div>
+</div>
+<div class="box-2"></div>
+```
+
+W `:root` nadajemy naszej zmiennej kolor **różowy**, zmienna o tej samej nazwie posiada kolor **niebieski**. Wszystkim divom ustawiamy kolor tła odpowiadający zmiennej `--primary-color`.
+
+```css
+:root {
+  --primary-color: pink;
+}
+
+.box-1 {
+  --primary-color: blue;
+}
+
+.box-1,
+.box-2,
+.box-3 {
+  background-color: var(--primary-color);
+}
+```
+
+Jaki będzie wynik tym razem? Div z klasą `box-1` będzie koloru niebieskiego, tutaj sytuacja wygląda dokładnie tak samo, jak poprzednio. Przez to, że `box-3` jest dzieckiem wspomnianego `box-1`, to dostanie również kolor **niebieski**. Nasz drugi box **nie może** dostać koloru niebieskiego, więc patrzy wyżej i tutaj znajduję `:root`, z którego _zaciąga_ zmienną z kolorem **różowym**.
+
+<Image src="/images/css-variables/css-var-4.png" alt="" />
+
+## Zmienne w praktyce!
+
+### Stan elementu
+
+Świetnym przykładem wykorzystania zmiennych jest zwykły _hover_ na przycisku.
+
+```css
+.button {
+  --primary-color: blue;
+  background-color: var(--primary-color);
+}
+
+.button:hover {
+  --primary-color: green;
+}
+```
+
+Dzięki CSS Variables nie musimy już nigdy więcej powtarzać się w naszym kodzie, po prostu zmieniamy wartość zmiennej i całość <Sparkles>magicznie działa</Sparkles>, tło buttona zmieniło swój kolor!
+
+<Image src="/images/css-variables/css-var-5.png" alt="" />
+
+### Palety kolorów i gradienty
+
+Podczas tworzenia [nowej odsłony Frontlive](https://frontlive.pl/blog/nowy-frontlive) miałem bardzo ciekawy problem do rozwiązania. Karty kategorii na blogu mają różne warianty kolorystyczne, ale wszystkie posiadają **wspólne wartości** takie jak kąt nachylenia. CSS Variables na ratunek!
+
+```css
+:root {
+  --gradient-angle: 120deg;
+  --gradient-primary-color-percent: 99.6%;
+  --gradient-secondary-color-percent: 13.5%;
+  --purple-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--purple-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--purple) var(--gradient-primary-color-percent)
+  );
+  --yellow-gradient: linear-gradient(
+    var(--gradient-angle),
+    var(--yellow-gradient-accent) var(--gradient-secondary-color-percent),
+    var(--orange) var(--gradient-primary-color-percent)
+  );
+}
+```
+
+Jak widzisz, do zmiennych CSSowych możemy podawać **najróżniejsze jednostki**! Tutaj tylko raz zadeklarowałem wartości dla nachylenia i procentów odpowiednich kolorów, tylko po to, aby je użyć ponownie we wielu wariantach karty.
+
+<Image src="/images/css-variables/css-var-6.png" alt="" />
+
+### Dark mode
+
+Najbardziej znany przypadek wykorzystania zmiennych, nie ma co się dziwić to idealny _case_ dla nich! Pomijając całą logikę po stronie JavaScripu, stworzenie ciemnego motywu to łatwizna!
+
+```css
+:root {
+  --background-color: white;
+  --text-color: black;
+}
+
+[data-theme='dark'] {
+  --background-color: black;
+  --text-color: white;
+}
+```
+
+<Image src="/images/css-variables/css-var-7.png" alt="" />
+
+### Media queries
+
+CSS Variables świetne sprawdzają się, jeśli chodzi o **responsywne style**. Tutaj bardzo podobnie jak przy _hoverze_, by zmienić margines dla nagłówka wystarczy, że zmienimy wartość zmiennej.
+
+```css
+.heading {
+  --heading-margin: 2rem;
+  margin: var(--heading-margin);
+}
+
+@media screen and (min-width: 800px) {
+  .heading {
+    --heading-margin: 5rem;
+  }
+}
+```
+
+<Image src="/images/css-variables/css-var-8.png" alt="" />
+
+## Fallback
+
+Co się stanie, gdy podana przez nas zmienna **nie istnieje**? Po prostu nie zobaczymy pożądanego przez nas efektu. Może się tak zdarzyć, że będziemy chcieli zapewnić sobie 100% pewność i sprawić, że otrzymamy dokładnie to, co chcemy, nawet gdy dana zmienna nie istnieje.
+
+Do wcześniej wspomnianego `var()` możemy przekazać również tzw. _fallback_, w przypadku, gdy zmienna nie istnieje, zostanie on wykorzystany.
+
+```css
+.box {
+  background-color: var(--primary-color, var(--secondary-color, black));
+}
+```
+
+Na powyższym przykładzie, możesz zobaczyć, że możemy również **zagnieżdżać** zmienne i tworzyć kolejne poziomy abstrakcji nawet dla samego _fallbacku_.
+
+## Integracja z JS
+
+Jedną z największych zalet, jak nie największą, jest możliwość **pobierania i zmieniania** zmiennych w <Sparkles>JavaScripcie!</Sparkles>
+
+Do pobrania zmiennej wykorzystujemy metodę obiektu globalnego window `getComputedStyle`. Naszym argumentem będzie `document.documentElement`, który zwraca element będący bezpośrednim dzieckiem dokumentu. No i na sam koniec wykorzystujemy metodę `getPropertyValue`, do której podajemy **nazwę naszej zmiennej**.
+
+```css
+:root {
+  --primary-color: blue;
+}
+```
+
+```js
+// blue
+const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+```
+
+Znacznie ciekawiej wygląda modyfikowanie zmiennej. Tutaj, naprawdę, <Sparkles>ogranicza nas tylko nasz kreatywność.</Sparkles> Tym razem również korzystamy z `document.documentElement`, ale trochę w innym kontekście. Tutaj dostajemy się do obiektu style, a w nim do metody `setProperty`, w której możemy modyfikować naszą zmienną.
+
+Spójrzmy na przykład. W JavaScripcie nasłuchujemy na zdarzenie `mousemove`, następnie pobieramy `clientX` i `clientY` i ustawiamy je jako wartości dla wcześniej przygotowanych zmiennych. Dzięki temu nasz _box_ będzie podążał za kursorem myszki.
+
+```css
+:root {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+}
+
+.box {
+  left: var(--mouse-x);
+  top: var(--mouse-y);
+}
+```
+
+```js
+const root = document.documentElement;
+
+root.addEventListener('mousemove', ({ clientX, clientY }) => {
+  root.style.setProperty('--mouse-x', `${clientX}px`);
+  root.style.setProperty('--mouse-y', `${clientY}px`);
+});
+```
+
+## CSS vs Sass Variables
+
+Możliwe, że kojarzysz zmienne dostępne w preprocesorach takich jak Sass. Te zmienne **przegrywają** jednak z tymi, o których dzisiaj mowa, praktycznie na _każdym polu_.
+
+CSS Variables nie wymagają od nas użycia żadnego preprocesora, są _kaskadowe_, możemy z nich korzystać w devtoolsach. I najważniejsze, mamy do nich **dostęp z poziomu JavaScriptu**. Zmienne w Sassie, są zamieniane na _normalne_ podczas kompilacji, nie zostaje po nich żaden ślad.
+
+Zmienne w CSSie są lepsze praktycznie pod każdym względem i można by tutaj pewnie jeszcze wymieniać i wymieniać zalety z nich płynące. Musisz zapamiętać jedną rzecz - wybieraj **zawsze CSS Variables**, chyba, że wspierasz wymierające przeglądarki (Internet Explorer...).
+
+## Styled Components i zmienne
+
+Osoby, które piszą w React.js, na pewno kojarzą rozwiązania typu CSS-in-JS, np. **Styled Components**. Takie rozwiązania posiadają tzw. [theme](https://styled-components.com/docs/advanced#theming), dla uproszczenia powiedzmy, że to taki odpowiednik naszego `:root`. To tutaj trzymamy nasze kolory i inne zmienne, które później z łatwością możemy wykorzystać. Theme oparty jest o [Reaktowy Context](https://pl.reactjs.org/docs/context.html).
+
+Może rodzić się pytanie, co lepsze? CSS Variables czy Theme z Styled Components? Jakiś czas temu **Kent C. Dodds** napisał [artykuł na ten temat](https://epicreact.dev/css-variables).
+
+Okazuję się, że theme **bardzo słabo** wypada, jeśli chodzi o **performance**, w porównaniu do CSS Variables. Kolejna wygrana po stronie naszego, natywnego rozwiązania.
+
+<Image
+  src="/images/css-variables/css-var-vs-theme-1.png"
+  alt="Przedstawienie wyników wydajności, w profilerze, w dev toolsach, dla rozwiązania typu Theme w CSS-in-JS."
+/>
+
+<Image
+  src="/images/css-variables/css-var-vs-theme-2.png"
+  alt="Przedstawienie wyników wydajności, w profilerze, w dev toolsach, dla CSS Variables"
+/>
+
+## Ciekawostki
+
+### Wartości URLa
+
+W zmiennych możemy przechowywać najróżniejsze wartości, okazuję się, że nawet sam **adres URL**!
+
+```css
+.box {
+  --background-image: 'https://frontlive.pl/';
+  background-image: url(var(--background-image));
+}
+```
+
+Nie zadziała to jednak, gdy do zmiennej podamy adres wraz z samym `url()`.
+
+### Wiele wartości
+
+Wydawałoby się, że do zmiennej możemy podać tylko jedna wartość, cóż bardziej mylnego! Jeżeli wartości są poprawne, to możemy **podać ich kilka**! Dość trywialnym, ale pokazującym możliwości, jest przykład z podaniem wartości dla koloru w formacie _rgba_:
+
+```css
+.text {
+  --text-color: 255, 0, 92;
+  color: rgb(var(--text-color));
+}
+```
+
+<Image src="/images/css-variables/css-var-9.png" alt="" />
+
+### Animacje
+
+Przytoczę tutaj kolejny przykład _z życia wzięty_. Musiałem zaimplementować animację strzałki, przy najechaniu. Sama strzałka była oczywiście _SVG_ i posiadała dwie linie. Każda z nich potrzebowała zostać _zaanimowana_ podczas _hovera_. CSS Variables ponownie nie zawiodły!
+
+```css
+.arrow {
+  --arrow-hover-transition: 150ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  --arrow-hover-offset: translateX(3px);
+  position: relative;
+  top: 1px;
+  margin-left: 8px;
+  stroke-width: 2;
+  fill: none;
+  stroke: currentColor;
+
+  &-line-path {
+    opacity: 0;
+    transition: opacity var(--arrow-hover-offset, var(--arrow-hover-transition));
+  }
+
+  &-tip-path {
+    transition: transform var(--arrow-hover-offset, var(--arrow-hover-transition));
+  }
+}
+```
+
+Sprawa wygląda niestety znacznie inaczej, jeśli chodzi o animacje za pomocą **keyframes**. Zmienne CSSowe, na tą chwilę, po prostu nie mogą być do tego wykorzystane.
+
+```css
+// ❌ nie zadziała
+
+.box {
+  width: 50px;
+  height: 50px;
+  --offset: 0;
+  transform: translateX(var(--offset));
+  animation: moveBox 1s infinite alternate;
+}
+
+@keyframes moveBox {
+  0% {
+    --offset: 0;
+  }
+  50% {
+    --offset: 50px;
+  }
+  100% {
+    --offset: 100px;
+  }
+}
+```
+
+Jako ciekawostkę ciekawostki dodam, że jest to możliwe, ale z wykorzystaniem [CSS Houdini](https://frontlive.pl/blog/css-houdini), a przykład wykorzystania możecie znaleźć [na codepenie](https://codepen.io/dannievinther/pen/pobogKd).
+
+```css
+// ✅ wszystko okej
+
+@property --offset {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  transform: translateX(var(--offset));
+  animation: moveBox 1s infinite alternate;
+}
+
+@keyframes moveBox {
+  0% {
+    --offset: 0;
+  }
+  50% {
+    --offset: 50px;
+  }
+  100% {
+    --offset: 100px;
+  }
+}
+```
+
+### Wykorzystanie z clamp()
+
+[W poprzednim wpisie z tej serii](https://frontlive.pl/blog/css-fluid-typography) pisałem o funkcjach logicznych w CSSie, jedna z nich to `clamp()`. Daje ona naprawdę spore możliwości, jeśli chodzi o tworzenie **responsywnych styli** i tzw. _fluid typography_. CSS Variables ponownie spisują się **świetnie**! Możemy zdefiniować zmienne dla minimalnej i maksymalnej wartości, następnie stworzyć zmienną z samym `clamp()` i całość zaserwować jako `font-size`.
+
+```css
+.heading {
+  --min: 3rem;
+  --max: 8rem;
+  --clamped-font-size: clamp(var(--min), 2.5vw, var(--max));
+  font-size: var(--clamped-font-size);
+}
+```
+
+## DevToolsy
+
+CSS Variables świetne współpracują z narzędziami developerskimi w przeglądarce! To naprawdę świetny _feature_, który przydał mi się nieraz podczas tworzenia projektu.
+
+<Image
+  src="/images/css-variables/css-var-10.jpg"
+  alt="Ukazanie podglądu dla CSS Variables na różnych przeglądarkach(Chrome, Edge, Firefox i Safari)"
+/>
+
+## Wsparcie przeglądarek
+
+Wsparcie przeglądarek dla zmiennych CSSowych jest **bardzo dobre**. Nie muszę wspominać, że **nie warto** się przejmować przeglądarkami typu IE (chyba że naprawdę musimy...).
+
+<Image
+  src="https://caniuse.bitsofco.de/static/v1/css-variables-1608350613528.jpg"
+  alt="Wykres ze strony caniuse pokazujący wsparcie przeglądarek dla CSS Variables"
+/>
+
+## Podsumowanie
+
+CSS Variables to jedna z moich ulubionych rzeczy w całym CSSie. Zmienne dają nam naprawdę **ogromne** możliwości i warto z nich korzystać, gdzie tylko się da.
+
+Na sam koniec zostawiam Cię z małym [demem na codepenie](https://codepen.io/olafsulich/pen/VwKWxQJ), gdzie możesz przetestować opisywane dziś zagadnienia.
+
+> W przykładach, dla ułatwienia, kolory zostały podane jako nazwy, w prawdziwym zastosowaniu zalecałbym skorzystanie z innych formatów (hex,rgba,hsl).
+
+Do usłyszenia!
+
+### Źródła
+
+- [MDN](https://developer.mozilla.org/en-US/)
+- [Epic React - CSS Variables](https://epicreact.dev/css-variables)
+- [CSS Variables 101](https://ishadeed.com/article/css-vars-101/)

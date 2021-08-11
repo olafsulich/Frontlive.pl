@@ -1,0 +1,546 @@
+---
+title: 'Jest - mock functions'
+category: 'Jest'
+publishedAt: '08-03-2021'
+isPublished: true
+popular: false
+image: '/images/jest-mockowanie/mock-functions.png'
+excerpt: 'Czym jest mockowanie? Jak działają mock functions? Kiedy powinniśmy z nich korzystać i dlaczego są tak przydatne podczas testowania kodu za pomocą Jest?'
+---
+
+Czym jest mockowanie? Jak działają mock functions? Kiedy powinniśmy z nich korzystać i dlaczego są tak przydatne podczas testowania kodu za pomocą Jest?
+
+## Co to jest mock?
+
+Zacznijmy od tego zdania:
+
+> In object-oriented programming, mock objects are simulated objects that mimic the behavior of real objects in controlled ways, most often as part of a software testing initiative.
+
+Mocki to właśnie takie **atrapy**, z których korzystamy w testach. Podczas testowania chcemy mieć **pełną kontrolę** nad testowanym kodem, często nie mamy takiej możliwości, właśnie wtedy mocki okazują się być przydatne.
+
+Z drugiej strony, testy jednostkowe powinny działać w **izolacji**. Załóżmy, że komunikujemy się z jakimś API, w naszych testach nie chcemy wykonywać prawdziwych zapytań. Po pierwsze nie chcemy czekać aż zapytanie się zrealizuje, o ile w pojedynczym przypadku nie byłoby to aż tak kosztowne, to zazwyczaj w aplikacji wykonujemy wiele zapytań. Pewnego dnia API może się zmienić, bez mockowania nasze testy byłyby spisane na straty...
+
+## Spis treści
+
+- [Jest.fn()](#jestfn)
+- [Jest.spyOn()](#jestspyon)
+- [External mock](#external-mock)
+- [Inline mock](#inline-mock)
+- [Manual mock](#manual-mock)
+- [Czyszczenie mocków](#czyszczenie-mocków)
+  - [MockFn.mockClear()](#mockfnmockclear)
+  - [MockFn.mockReset()](#mockfnmockreset)
+  - [MockFn.mockRestore()](#mockfnmockrestore)
+- [Class mock](#class-mock)
+  - [BeforeAll](#beforeall)
+- [Timer mock](#timer-mock)
+- [Podsumowanie](#podsumowanie)
+
+## Jest.fn()
+
+Wróćmy do meczu koszykówki z [poprzedniego wpisu](https://frontlive.pl/blog/jest-pierwszy-test). Stwórzmy funkcję, która będzie brała pulę zdobytych punktów, a następnie ją w jakiś sposób przekształcała. Drugim argumentem jest callback, nie wiemy co dokładnie robi, wiemy tylko, że odpowiada on za modyfikację puntku:
+
+```ts
+export function multiplyPoints(points: number[], callback: (points: number) => number) {
+  return points.map((point) => callback(point));
+}
+```
+
+Przejdźmy do samego testu. Wykorzystujemy tutaj funkcję `jest.fn()`. Jak widzisz, w jej środku podajemy implementacje naszego callbacka. To tutaj _symulujemy_ działanie całej funkcji.
+
+```ts
+import * as match from '../match';
+
+it('multiplies points', () => {
+  const mockedCallback = jest.fn((point: number) => point * 2);
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([2, 4, 6]);
+});
+```
+
+Dzięki _zamockowaniu_ naszego callbacka mamy pewność, że funkcja zadziała tak, jak tego oczekujemy, a nasz test zaświeci się na zielono. Od teraz nasz `mockedCallback` jest tzw. _mock function_. Co nam to daje? Możemy na przykład zobaczyć, z jakimi argumentami został wywołany lub jaki był jego rezultat:
+
+```ts
+console.log(mockedCallback.mock.calls);
+
+//  [ [ 1 ], [ 2 ], [ 3 ] ]
+
+---
+
+console.log(mockedCallback.mock.results);
+
+// [
+//  { type: 'return', value: 2 },
+//  { type: 'return', value: 4 },
+//  { type: 'return', value: 6 },
+//];
+```
+
+Implementacja w funkcji `jest.fn()` jest opcjonalna, możemy ją zastąpić metodą `mockImplementation()`:
+
+```ts
+it('multiplies points', () => {
+  const mockedCallback = jest.fn().mockImplementation((point: number) => point * 2);
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([2, 4, 6]);
+});
+```
+
+## Jest.spyOn()
+
+Stawiamy obok siebie dwóch najlepszych zawodników obu drużyn. Chcemy wyznaczyć tego lepszego gracza:
+
+```ts
+export function getBetterPlayer(player1: Player, player2: Player) {
+  if (player1.points + boost() > player2.points) {
+    return player1;
+  }
+  return player2;
+}
+```
+
+Zawodnik pierwszej drużyny, z niewiadomych nam przyczyn, otrzymał _boosta_ dla swoich zdobytych punktów. Nie wiemy jednak ile dodatkowych punktów dostaje szczęśliwy zawodnik, a chcemy przetestować napisaną funkcję.
+
+Tutaj znowu sprawdzą się mocki! Tym razem skorzystamy z tzw. _szpiega_, który jest bardzo podobny do `jest.fn()`:
+
+```ts
+import * as match from '../match';
+import { player1, player2 } from '../../data/teams';
+
+it('returns better player', () => {
+  const getBetterPlayerSpy = jest
+    .spyOn(match, 'getBetterPlayer')
+    .mockImplementation((player1, player2) => player1);
+
+  expect(match.getBetterPlayer(player1, player2)).toEqual(player1);
+  expect(getBetterPlayerSpy).toHaveBeenCalled();
+});
+```
+
+W pierwszej kolejności podajemy do funkcji obiekt, a następnie metodę, później już tylko tworzymy jej implementację za pomocą `.mockImplementation()`. O `spyOn` należy myśleć w takim kontkeście - bierzemy metodę obiektu, zamieniamy ją w szpiega, który pozwala szpiewgować jej wywołania i zmieniać oryginalną implementację.
+
+Zasadniczą różnicą pomiędzy `jest.fn()`, a szpiegiem, jest to, że naszego mocka możemy przywrócić do jego oryginalnej implementacji, korzystając z metody `.mockRestore()`. W naszym przypadku nie ma to sensu, ale warto, żebyś o tym wiedział/a:
+
+```ts
+import * as match from '../match';
+import { player1, player2 } from '../../data/teams';
+
+it('returns better player', () => {
+  const getBetterPlayerSpy = jest
+    .spyOn(match, 'getBetterPlayer')
+    .mockImplementation((player1, player2) => player1);
+
+  expect(match.getBetterPlayer(player1, player2)).toEqual(player1);
+  expect(getBetterPlayerSpy).toHaveBeenCalled();
+
+  getBetterPlayerSpy.mockRestore();
+
+  expect(match.getBetterPlayer(player, player2)).toEqual(/?/);
+});
+```
+
+## External mock
+
+Wróćmy teraz do tego, o czym mówiłem na samym początku - zapytań do API. Na potrzeby tego artykułu stworzyłem małego [jsonbina](https://jsonbin.io/), który będzie zwracał wszystkich graczy z naszego meczu.
+
+```ts
+export async function getAllPlayers() {
+  try {
+    const res = await axios.get<Players>('https://api.jsonbin.io/b/60392b8e81087a6a8b917da0');
+    return res;
+  } catch {
+    throw new Error('Something went wrong...');
+  }
+}
+```
+
+Tym razem, zamiast korzystać ze szpiega, czy też z `jest.fn()`, skorzystamy z `jest.mock()`, w którym zamockujemy moduł axiosa:
+
+```ts
+import axios from 'axios';
+import { mocked } from 'ts-jest/utils';
+import * as match from '../match';
+import { allPlayers } from '../../data/teams';
+
+jest.mock('axios');
+const mockedAxios = mocked(axios, true); // axios as jest.Mocked<typeof axios>;
+
+describe('getAllPlayers', () => {
+  it('returns list of players', async () => {
+    // mockedAxios.get.mockImplementation(() => Promise.resolve(allPlayers));
+    // mockedAxios.get.mockReturnValue(Promise.resolve(allPlayers);
+    mockedAxios.get.mockResolvedValue(allPlayers);
+
+    const players = await match.getAllPlayers();
+
+    expect(mockedAxios.get).toBeCalledTimes(1);
+    expect(players).toEqual(allPlayers);
+  });
+});
+```
+
+W pierwszej kolejności mockujemy axiosa za pomocą specjalnej funkcji `jest.mock()`. Z `mocked()`, korzystamy tylko dlatego, że piszemy w TypeScripcie, dzięki temu nasz mock będzie odpowiedniego typu. Następnie wykonujemy mocka na metodzie `get` z axiosa. Możemy tutaj skorzystać z wielu metod, np. `mockImplementation`, `mockReturnValue` czy `mockResolvedValue`.
+
+Po udanym zamockowaniu wywołujemy `getAllPlayers` i sprawdzamy, czy nasz mock zostaw wyłowałany, korzystamy tutaj z _matchera_ `.toBeCalledTimes`. Na samym końcu sprawdzamy, czy nasze asercje są sobie równe.
+
+Obsłużyliśmy tzw. _happy path_, ale warto również napisać testy dla scenariusza, w którym nasza funkcja zakończy się niepowodzeniem:
+
+```ts
+import axios from 'axios';
+import { mocked } from 'ts-jest/utils';
+import * as match from '../match';
+import { allPlayers } from '../../data/teams';
+
+jest.mock('axios');
+const mockedAxios = mocked(axios, true); // axios as jest.Mocked<typeof axios>;
+
+describe('getAllPlayers', () => {
+  it('returns list of players', async () => {
+    // mockedAxios.get.mockImplementation(() => Promise.resolve(allPlayers));
+    // mockedAxios.get.mockReturnValue(Promise.resolve(allPlayers);
+    mockedAxios.get.mockResolvedValue(allPlayers);
+    const players = await match.getAllPlayers();
+
+    expect(mockedAxios.get).toBeCalledTimes(1);
+    expect(players).toEqual(allPlayers);
+  });
+
+  it('trows an error', async () => {
+    // mockedAxios.get.mockImplementation(() => Promise.reject(allPlayers));
+    // mockedAxios.get.mockReturnValue(Promise.reject(allPlayers);
+    mockedAxios.get.mockRejectedValue(allPlayers);
+
+    expect(() => match.getAllPlayers()).rejects.toThrow('Something went wrong...');
+  });
+});
+```
+
+Tutaj analogicznie, na początku mockujemy metodę get, tym razem chcemy odrzucić zapytanie. Na samymy końcu, tak jak w [poprzednim wpisie](https://frontlive.pl/blog/jest-pierwszy-test) sprawdzamy, czy funkcja wyrzuciła błąd z odpowiednim komunikatem.
+
+## Inline mock
+
+Mockować moduł możemy również w _sposób inlinowy_. W tym sposobie przekazujemy callback do `jest.mock()`, w którym zwracamy obiekt z metodą `get()` z axiosa:
+
+```ts
+import axios from 'axios';
+import * as match from '../match';
+import { allPlayers } from '../../data/teams';
+import { mocked } from 'ts-jest/utils';
+
+jest.mock('axios', () => {
+  return {
+    get: jest.fn().mockImplementation(() => Promise.resolve(allPlayers)),
+  };
+});
+
+const mockedAxios = axios as jest.Mocked<typeof axios>; // mocked(axios,true);
+
+it('returns list of players', async () => {
+  const players = await match.getAllPlayers();
+
+  expect(mockedAxios.get).toBeCalledTimes(1);
+  expect(players).toEqual(allPlayers);
+});
+```
+
+> Jeśli piszesz w TypeScripcie, alternatywą dla `mocked()` z paczki ts-jest, może być zastosowanie typu generycznego `jest.Mocked<>`
+
+## Manual mock
+
+Ostatnim sposobem na mockowanie modułów, jaki chciałem Ci dziś przedstawić, jest tzw. _manual mock_. Żeby skorzystać z takiego mocka, musimy stworzyć nowy folder w katalogu `src/` o nazwie `__mocks__`. Tworzymy w nim nowy plik, o takiej samej nazwie jak plik z naszych faktycznym kodem:
+
+```ts
+module.exports = {
+  getBetterPlayer: jest.fn((player1, player2) => player1),
+};
+```
+
+Z pliku exportujemy obiekt z wybraną przez nas metodą. W naszych testach korzystamy z niego w następujący sposób:
+
+```ts
+import * as match from '../match';
+import { player1, player2 } from '../../data/teams';
+
+jest.mock('../match');
+
+it('returns better player', () => {
+  expect(match.getBetterPlayer(player1, player2)).toEqual(player2);
+});
+```
+
+Nie musimy tutaj nic więcej ustawiać, Jest domyśli się, że chodzi nam właśnie o ten mock. Manualne mocki sprawdzą się świetnie w sytuacji, w której korzystamy z tego samo mocka w wielu plikach z testami.
+
+## Czyszczenie mocków
+
+Czasem może zdarzyć się tak, że będziemy chcieli w pewien sposób _wyczyścić_ nasze mocki, na przykład przed kolejnymi asercjami. Wtedy przydają się funkcje czyszczące:
+
+### MockFn.mockClear()
+
+Dzięki `.mockClear()` czyścimy informacje znajdujące się w `mockFn.mock.calls` oraz w [mockFn.mock.instances](https://jestjs.io/docs/en/mock-function-api#mockfnmockinstances).
+
+```ts
+it('multiplies points', () => {
+  const mockedCallback = jest.fn((point: number) => point * 2);
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([2, 4, 6]);
+
+  console.log(mockedCallback.mock.calls); // [ [ 1 ], [ 2 ], [ 3 ] ]
+
+  mockedCallback.mockClear();
+
+  console.log(mockedCallback.mock.calls); // []
+});
+```
+
+### MockFn.mockReset()
+
+`.mockReset()` umożliwia nam wszystko to co `.mockClear()`, z taką różnicą, że w tym przypadku **resetujemy** również implementację danej funkcji mockującej.
+
+```ts
+import * as match from '../match';
+
+it('multiplies points', () => {
+  const mockedCallback = jest.fn((point: number) => point * 2).mockName('multiplyPointsCallback');
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([2, 4, 6]);
+
+  mockedCallback.mockReset();
+
+  console.log(mockedCallback.mock.calls); // []
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([
+    undefined,
+    undefined,
+    undefined,
+  ]);
+});
+```
+
+### MockFn.mockRestore()
+
+Metodę `.mockRestore()` ponaliśmy już wcześniej, korzystając z `.spyOn`. Jest ona bardzo podobna do `.mockRestore()`, z tym że korzystamy z niej tylko i wyłącznie z wykorzystaniem szpiega:
+
+```ts
+import * as match from '../match';
+import { player1, player2 } from '../../data/teams';
+
+it('returns better player', () => {
+  const getBetterPlayerSpy = jest
+    .spyOn(match, 'getBetterPlayer')
+    .mockImplementation((player1, player2) => player1);
+
+  expect(match.getBetterPlayer(player1, player2)).toEqual(player1);
+  expect(getBetterPlayerSpy).toHaveBeenCalled();
+
+  getBetterPlayerSpy.mockRestore();
+
+  expect(match.getBetterPlayer(player, player2)).toEqual(/?/);
+});
+```
+
+## Class mock
+
+Przekształćmy nasz poprzedni przykład w taką **poglądową** klasę `MatchClass`:
+
+```ts
+import { BoostClass } from './boost';
+import type { Player } from './match';
+
+export class MatchClass {
+  boost: () => number;
+
+  constructor() {
+    this.boost = new BoostClass().boost;
+  }
+
+  public getBetterPlayer(player1: Player, player2: Player) {
+    if (player1.points + this.boost() > player2.points) {
+      return player1;
+    }
+    return player2;
+  }
+}
+```
+
+W tym przypadku będziemy chcieli zamockować klasę `BoostClass`, żeby skorzystać z metody `boost()`. Tutaj sprawa wygląda nieco inaczej niż poprzednio. Tym razem zwracamy obiekt z metodą o takiej samej nazwie jak importowana przez nas klasa, a następnie określamy jej implementację oraz metody w niej zawarte:
+
+```ts
+import { BoostClass } from '../boost';
+
+const mockedBoost = jest.fn().mockReturnValue(3);
+
+jest.mock('../boost', () => {
+  return {
+    BoostClass: jest.fn().mockImplementation(() => {
+      return {
+        boost: mockedBoost,
+      };
+    }),
+  };
+});
+```
+
+Napiszmy sobie dwa identyczne testy, będą one sprawdzały, czy konstruktor i metody naszej klasy działają tak, jak tego oczekujemy:
+
+```ts
+import { mocked } from 'ts-jest/utils';
+import { MatchClass } from '../match-class';
+import { BoostClass } from '../boost';
+import { player1, player2 } from '../../data/teams';
+
+const mockedBoost = jest.fn().mockReturnValue(3);
+
+jest.mock('../boost', () => {
+  return {
+    BoostClass: jest.fn().mockImplementation(() => {
+      return {
+        boost: mockedBoost,
+      };
+    }),
+  };
+});
+
+const MockedBoostClass = mocked(BoostClass, true);
+
+describe('MatchClass', () => {
+  it('should work correctly with BoostClass', () => {
+    const match = new MatchClass();
+
+    expect(BoostClass).toHaveBeenCalledTimes(1);
+
+    match.getBetterPlayer(player1, player2);
+
+    expect(mockedBoost).toHaveBeenCalledTimes(1);
+  });
+
+  it('should work correctly with BoostClass', () => {
+    const match = new MatchClass();
+
+    expect(BoostClass).toHaveBeenCalledTimes(1);
+
+    match.getBetterPlayer(player1, player2);
+
+    expect(mockedBoost).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+Bang! Dostajemy błąd, jest on spowodowany tym, że nie wyczyściliśmy naszych mocków. Moglibyśmy to robić w każdym bloku `it()`, ale da się zrobić to lepiej! W Jest mamy do dyspozycji kilka globalnych, pomocnych funkcji. W naszym przypadku świetnie się sprawdzi funkcja `beforeEach`:
+
+```ts
+beforeEach(() => {
+  MockedBoostClass.mockClear();
+  mockedBoost.mockClear();
+});
+```
+
+Dzięki temu, przed każdym naszym blokiem z testami, mocki zostaną wyczyszczone, a nasze testy zaświecą się na zielono.
+
+## BeforeAll
+
+Alternatywnym rozwiązaniem do przedstawionego, może być sposób, w którym korzystamy z globalnej funkcji `beforeAll()`:
+
+```ts
+import { mocked } from 'ts-jest/utils';
+import { MatchClass } from '../match-class';
+import { BoostClass } from '../boost';
+import { player1, player2 } from '../../data/teams';
+
+jest.mock('../boost');
+
+const MockedBoostClass = BoostClass as jest.Mock;
+const mockedBoost = jest.fn().mockReturnValue(3);
+
+describe('MatchClass', () => {
+  beforeAll(() => {
+    MockedBoostClass.mockImplementation(() => {
+      return {
+        boost: mockedBoost,
+      };
+    });
+  });
+
+  beforeEach(() => {
+    MockedBoostClass.mockClear();
+    mockedBoost.mockClear();
+  });
+
+  it('should work correctly with BoostClass', () => {
+    const match = new MatchClass();
+    expect(match).toBeTruthy();
+    expect(BoostClass).toHaveBeenCalledTimes(1);
+
+    match.getBetterPlayer(player1, player2);
+
+    expect(mockedBoost).toHaveBeenCalledTimes(1);
+  });
+
+  it('should work correctly with BoostClass', () => {
+    const match = new MatchClass();
+    expect(match).toBeTruthy();
+    expect(BoostClass).toHaveBeenCalledTimes(1);
+
+    match.getBetterPlayer(player1, player2);
+
+    expect(mockedBoost).toHaveBeenCalledTimes(1);
+  });
+});
+```
+
+W tym sposobie na samym początku, w `jest.mock()`, mockujemy interesujący nas moduł, a dopiero później, w funckji `beforeAll()`, uzupełniamy jego implementację.
+
+Analogicznie do funckji `beforeEach()` i `beforeAll()`, istnieją funckje `afterEach()` i `afterAll()`.
+
+## Timer mock
+
+Na koniec zajmiemy się startem naszej gry w kosza, tworzymy prostą funkcję, która zacznie naszą rozgrywkę:
+
+```ts
+export function startGame() {
+  setTimeout(() => {
+    console.log('Ready? 3...2...1...Go!');
+  }, 1000);
+}
+```
+
+Testowanie funkcji, które używają różnych timerów (np. `setTimeout`), mogłoby się wydawać trudne. Nie chcemy, w naszych testach, czekać aż dany timer się wykona. Z pomocą przychodzi metoda `jest.useFakeTimers()`:
+
+```ts
+import * as match from '../match';
+
+jest.useFakeTimers();
+
+it('starts a game', () => {
+  match.startGame();
+  expect(setTimeout).toHaveBeenCalledTimes(1);
+  expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
+});
+```
+
+Tutaj tak naprawdę nie testujemy działania samej funkcji, sprawdzamy, czy nasz timer odpowiednio się wykonał i tak właśnie się dzieje.
+
+Nowością tutaj dla Ciebie może być zapis `expect.any(Function)`. Pozwala nam on sprawdzić, czy np. mock został wywołany z jakąś liczbą. Taką sytuację moglibyśmy sprawdzić w przykładzie z funkcją `multiplyPoints()`:
+
+```ts
+import * as match from '../match';
+
+it('multiplies points', () => {
+  const mockedCallback = jest.fn((point: number) => point * 2).mockName('multiplyPointsCallback');
+
+  expect(match.multiplyPoints([1, 2, 3], mockedCallback)).toEqual([2, 4, 6]);
+
+  expect(mockedCallback).toBeCalledWith(expect.any(Number));
+});
+```
+
+## Podsumowanie
+
+To by było na tyle na dzisiaj :)
+
+Omówiliśmy wiele metod na mockowanie funkcji, klas i zewnętrznych modułów. Cały kod wraz ze wszystkimi przykładami znajdziesz w [repozytorium na GitHubie](https://github.com/olafsulich/jest-workshop).
+
+Do usłyszenia!
+
+### Źródła
+
+- [Jest docs](https://jestjs.io/docs)

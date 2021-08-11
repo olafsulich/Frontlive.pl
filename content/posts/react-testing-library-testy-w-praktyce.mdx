@@ -1,0 +1,265 @@
+---
+title: 'React Testing Library - testy w praktyce'
+category: 'React'
+publishedAt: '12-04-2021'
+isPublished: true
+popular: false
+image: '/images/react-testing-library-praktyka/rtl-praktyka.png'
+excerpt: 'Po ostatnim wprowadzającym wpisie przyszedł czas na przykłady z życia wzięte. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebasach. Przez jednych lubiany, przez drugich znienawidzony - formularz...'
+---
+
+Po ostatnim wprowadzającym wpisie przyszedł czas na <Sparkles>przykłady z życia wzięte</Sparkles>. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebase'ach. Przez jednych lubiany, przez drugich znienawidzony - **formularz**. To jeden z tych kawałków kodu, który teoretycznie jest łatwy do zaimplementowania, ale w prakce _bywa różnie_. Skopać możemy go zaczynając od etapu projektowania, a kończąc na wdrażaniu dostępnych rozwiązań. A jak wygląda sprawa z testami? Sprawdźmy to!
+
+## Komponent
+
+Do stworzenia formularza wykorzystamy oczywiście TypeScripta. Oprócz tego weźmy na tapet popularną bibliotekę [React Hook Form](https://react-hook-form.com/) oraz dodajmy niestandardową walidację za pomocą [Yup](https://github.com/jquense/yup). Całość uzupełniłem pomocnymi atrybutami `aria-*`.
+
+```tsx
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { errorMessages } from '../../utils/errorsMessages';
+
+const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+const MIN_USERNAME_LENGTH = 5;
+
+const loginSchema = Yup.object().shape({
+  username: Yup.string()
+    .required(errorMessages.username.required)
+    .min(MIN_USERNAME_LENGTH, errorMessages.username.pattern),
+  password: Yup.string()
+    .required(errorMessages.password.required)
+    .matches(PASSWORD_PATTERN, errorMessages.password.pattern),
+});
+
+export type LoginType = Pick<Yup.InferType<typeof loginSchema>, 'username' | 'password'>;
+
+type LoginFormProps = {
+  login: (user: LoginType) => Promise<LoginType>;
+};
+
+export const LoginForm = ({ login }: LoginFormProps) => {
+  const { register, handleSubmit, formState } = useForm<LoginType>({
+    resolver: yupResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginType) => {
+    await login(data);
+  };
+
+  const { errors } = formState;
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h1>Login</h1>
+      <div>
+        <label>
+          Username
+          <input
+            type="text"
+            {...register('username')}
+            aria-invalid={errors.username ? true : false}
+            autoComplete="username"
+            aria-describedby="password-constraints"
+            required
+          />
+        </label>
+        <p id="username-constraints">Username should be at least five characters long</p>
+        {errors.username ? <span role="alert">{errors.username.message}</span> : null}
+      </div>
+      <div>
+        <label>
+          Password
+          <input
+            type="password"
+            {...register('password')}
+            aria-invalid={errors.password ? true : false}
+            aria-describedby="password-constraints"
+            autoComplete="current-password"
+            required
+          />
+        </label>
+        <button type="button">
+          <span className="visually-hidden">Show password as a normal text</span>
+        </button>
+        <p id="password-constraints">
+          Password needs to be minimum of eight characters, it must contain at least one letter and
+          one number
+        </p>
+        {errors.password ? <span role="alert">{errors.password.message}</span> : null}
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+```
+
+## Planowanie testów
+
+Chociaż nasz komponent nie jest nadzwyczaj zaawansowany, to warto zaplanować sobie _następne scenariusze_, które musimy przetestować:
+
+1. Brak danych - wyświetlamy komunikat o tym, że pola są wymagane
+2. Niepoprawne dane - wyświetlamy komunikat o kryteriach danych
+3. Wszystko okej - logowanie
+
+> Pamiętaj o tym, żeby nie skupiać się przy planowaniu na szczegółach implementacyjnych. Planuj swoje testy z **perspektywy użytkownika**.
+
+## Testy
+
+Przejdźmy do właściwych testów. Na samym początku importujemy wszystkie potrzebne paczki oraz nasz komponent.
+
+Bardzo ważną rzeczą, przed przystąpieniem do właściwych testów, jest stworzenie mocka dla funkcji `login`, którą przekazujemy do formularza.
+
+```tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm, LoginType } from './LoginForm';
+import { errorMessages } from '../../utils/errorsMessages';
+
+const loginMock = jest.fn((user: LoginType) => {
+  return Promise.resolve(user);
+});
+
+describe('LoginForm', () => {});
+```
+
+Jeśli jeszcze nie poznałeś/aś mocków, to zapraszam Cię do sprawdzenia [artykułu na ten temat](https://frontlive.pl/blog/jest-mockowanie).
+
+### Wymagane pola
+
+Na samym początku pobieramy przycisk submit za pomocą zapytania `getByRole`, następnie symulujemy potwierdzenie formularza korzystając z `userEvent`.
+
+```tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm, LoginType } from './LoginForm';
+import { errorMessages } from '../../utils/errorsMessages';
+
+const loginMock = jest.fn((user: LoginType) => {
+  return Promise.resolve(user);
+});
+
+describe('LoginForm', () => {
+  it('displays required errors when the values are invalid', async () => {
+    render(<LoginForm login={loginMock} />);
+
+    const submitButton = screen.getByRole('button', { name: /Submit/ });
+
+    userEvent.click(submitButton);
+
+    const usernameRequiredErrorMessage = await screen.findByText(errorMessages.username.required);
+    const passwordRequiredErrorMessage = await screen.findByText(errorMessages.password.required);
+
+    expect(loginMock).not.toBeCalled();
+    expect(usernameRequiredErrorMessage).toBeInTheDocument();
+    expect(passwordRequiredErrorMessage).toBeInTheDocument();
+  });
+});
+```
+
+Oczywiście, w tym przypadku, dzięki naszej walidacji, próba zalogowania powinna zakończyć się niepowodzeniem.
+
+Dodatkowo chcemy wyświetlić odpowiednie komunikaty użytkownikowi, niestety, ale nie pojawiają się one natychmiastowo. Powoduję to, że nie możemy skorzystać z zapytań typu `getBy*`.
+
+Z pomocą przychodzą zapytania `findBy*`. Są one przyadne, gdy oczekujemy elementu, ale zmiany w DOM nie są natychmiastowe. Warto wiedzieć, że `findBy*` to niejako połączenie zapytań `getBy` i funkcji [waitFor](https://testing-library.com/docs/dom-testing-library/api-async/#waitfor), do której za chwilę przejdziemy. Po pobraniu elementów przystępujemy do odpowiednich asercji.
+
+## Poprawność pól
+
+Uff... Pierwszy use case za nami, teraz pora sprawdzić, czy pola po wypełnieniu spełniają podane przez nas kryteria.
+
+Na początku, jak zawsze, pobieramy poszczególne elementy DOM. Tym razem, poza samym przyciskiem, musimy również skorzystać z zapytań `getByLabelText` do zaciągnięcia pól formularza. Następnie wykonujemy akcję wprowadzenia wcześniej przygotowanych danych oraz potwierdzenia.
+
+```tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm, LoginType } from './LoginForm';
+import { errorMessages } from '../../utils/errorsMessages';
+
+const loginMock = jest.fn((user: LoginType) => {
+  return Promise.resolve(user);
+});
+
+describe('LoginForm', () => {
+  it('displays matching errors when the values are invalid', async () => {
+    render(<LoginForm login={loginMock} />);
+
+    const submitButton = screen.getByRole('button', { name: /Submit/ });
+    const usernameInput = screen.getByLabelText('Username');
+    const passwordInput = screen.getByLabelText('Password');
+    const username = 'test';
+    const password = 'test';
+
+    userEvent.type(usernameInput, username);
+    userEvent.type(passwordInput, password);
+    userEvent.click(submitButton);
+
+    const usernamePatternErrorMessage = await screen.findByText(errorMessages.username.pattern);
+    const passwordPatternErrorMessage = await screen.findByText(errorMessages.password.pattern);
+
+    expect(loginMock).not.toBeCalled();
+    expect(usernamePatternErrorMessage).toBeInTheDocument();
+    expect(passwordPatternErrorMessage).toBeInTheDocument();
+  });
+});
+```
+
+Na sam koniec pobieramy elementy, które zawierają wiadomości błędów oraz sprawdzamy, czy pojawiły się w drzewie DOM. Ponownie możemy również sprawdzić, czy nasza funkcja `login`, pod postacią `loginMock`, została wykonana.
+
+## Happy path
+
+Przyszła pora na to, na co wszyscy czekali, czyli nasz pozytywny scenariusz. Gdy nasz użytkownik wypełni formularz z odpowiednimi danymi chcemy:
+
+1. Sprawdzić, czy nie dostaje żadnych komunikatów o błędach
+2. Mieć pewność, że funkcja logująca się wykonała
+
+W naszym teście skorzystamy zapytania `queryBy*`. W [poprzednim wpisie](https://frontlive.pl/blog/react-testing-library-podstawy) wspominałem Ci, że zapytania te idealnie sprawdzą się, gdy chcemy sprawdzić, czy danego elementu **nie ma w drzewie DOM**, nie inaczej jest w tym przypadku. Tutaj, zamiast pobierać poszczególne elementy, możemy skorzystać z zapytania `queryAllByRole`, które zwróci nam ich tablicę.
+
+```tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { LoginForm, LoginType } from './LoginForm';
+import { errorMessages } from '../../utils/errorsMessages';
+
+const loginMock = jest.fn((user: LoginType) => {
+  return Promise.resolve(user);
+});
+
+describe('LoginForm', () => {
+  it('successfully submit the form with correct data', async () => {
+    render(<LoginForm login={loginMock} />);
+
+    const submitButton = screen.getByRole('button', { name: /Submit/ });
+    const usernameInput = screen.getByLabelText('Username');
+    const passwordInput = screen.getByLabelText('Password');
+
+    const username = 'test user';
+    const password = 'Passwd12';
+
+    userEvent.type(usernameInput, username);
+    userEvent.type(passwordInput, password);
+    userEvent.click(submitButton);
+
+    const alerts = screen.queryAllByRole('alert');
+
+    expect(alerts).toHaveLength(0);
+
+    await waitFor(() => {
+      expect(loginMock).toHaveBeenCalledWith({ password, username });
+    });
+  });
+});
+```
+
+Pozostało jeszcze wcześniej wspomniane `waitFor`. Jest to specjalna funkcja, która, jak sama nazwa mówi, pozwala nam na coś zaczekać. Przydaję się szczególnie przy asynchronicznych mockach, czyli idealny case dla nas.
+
+Czekamy na wykonanie mocka `loginMock` i sprawdźmy czy została wywołana z odpowiednimi argumentami.
+
+## Podsumowanie
+
+Jak już testy w praktyce to polecam Ci wykorzystać zdobytą dziś wiedzę i potrenować pisanie testów. W tym celu może Ci pomóc przygotowane przeze mnie [repozytorium](https://github.com/olafsulich/react-testing-library-workshop/tree/main/2-formularz), w którym znajdziesz pliki startowe i cały kod z dzisiejszego artykułu.
+
+Do usłyszenia!
+
+### Źródła
+
+- [Testing Library Docs](https://testing-library.com/docs/react-testing-library/intro)

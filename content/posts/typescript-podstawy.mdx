@@ -1,0 +1,434 @@
+---
+title: 'TypeScript - podstawy'
+category: 'TypeScript'
+publishedAt: '08-05-2020'
+isPublished: true
+popular: false
+image: '/images/typescript-podstawy/typescript-podstawy.png'
+excerpt: 'TypeScript jest statycznie typowanym językiem od Microsoftu, bazuje on na JS. Uwierz mi, jak już go poznasz, nie będziesz chciał się wracać do czystego JavaScriptu '
+---
+
+## Wprowadzenie
+
+Czymże jest **TypeScript**? TypeScript jest to **statycznie typowany** język od Microsoftu, bazuje on na JavaScripcie, do którego jest kompilowany. Jest to nieoficjalny **superset js**, uwierz mi, jak już go poznasz, **nie będziesz chciał się wracać** do _czystego_ JavaScriptu!
+
+## O czym jest i o czym nie jest ten wpis?
+
+Dzisiejszy materiał jest dość solidnym wprowadzeniem w **czysto techniczne** aspekty TypeScripta, samo mięso. Zapoznamy się dzisiaj z **podstawowymi typami**, **funkcjami** i **interfejsami**. Czeka na Ciebie jeszcze parę niespodzianek, ale nie będę spojlerował 🤐.
+
+Nie poruszałem tutaj **konfiguracji całego środowiska**. Zrobił już to Marcin z Algosmart jakiś czas temu. Tutaj link do jego materiału wideo: [https://www.youtube.com/watch?v=3E1lu88NPWY](https://www.youtube.com/watch?v=3E1lu88NPWY). Pssst! Chłopaki z [Przeprogramowanych](https://www.youtube.com/channel/UCb2Y3vMeD6N4WDt5Acw7Arw) mają również super serię o Pair Programmingu w TS, polecam! Nie zagłębiałem się też za specjalnie w to, **jakie korzyści** daje nam TypeScript, zrobił to za to, bardzo dobrze zresztą, Michał na blogu [Typeofweb](https://typeofweb.com/typescript-na-serwerze/).
+
+Reszta, bardziej zaawansowanych tematów, u mnie, **za tydzień!**
+
+## Co powinieneś wiedzieć?
+
+Przed nauką TS, powinieneś **poznać JavaScript**. Dlatego bez podstawowej znajomości js i składni ES6+ ani rusz!
+
+## Podstawowe typy
+
+- string
+- number
+- boolean
+- array
+- object & Object
+- enum
+- any
+- void
+- null i undefined
+- never
+- tuple
+- BigInt
+- unknown
+- symbol & unique symbol
+
+Prawdopodobnie kojarzysz większość z nich, obce mogę być Ci typy: `enum`,`any`,`void`, `tuple` i `never`. Zajmiemy się nimi za chwilę. Typami `BigInt`, `unknow` oraz `symbol` i `unique symbol` zajmniemy się w następnym wpisie.
+
+Spójrzmy na przykładach:
+
+```ts
+const userName: string = 'Kuba';
+const userAge: number = 23;
+const isUserAdult: boolean = true;
+const userInfo: object = {};
+const userFavoriteFood: [] = [];
+```
+
+Załóżmy, że nasza tablica `userFavoriteFood` zawiera ulubione jedzenie Kuby, wartości będą typu `string`.
+Jak to otypowoać? Wystarczy, że przed tablicą dasz znać typescriptowi jakiego typu będą jej wartości.
+
+```ts
+const userFavoriteFood: string[] = ['chocolate 🍫', 'hamburger 🍔', 'chips 🍟'];
+```
+
+### Enum
+
+Z definicji służą do grupowania numerycznych wartości, jest to pewnego rodzaju zbiór. Elementy enuma(tak, wiem, jak to brzmi), numerowane są od zera. Spójrzmy na przykładzie:
+
+```ts
+enum FirstSecond {
+  1,
+  2,
+}
+console.log(FirstSecond.1); // 0
+console.log(FirstSecond.2); // 1
+```
+
+Możemy jednak to zmienić:
+
+```ts
+enum FirstSecond {
+  First = 1,
+  Second,
+}
+console.log(FirstSecond.First); // 1
+console.log(FirstSecond.Second); // 2
+```
+
+Enumy są często wykorzystywane na bazie strigów.
+
+```ts
+enum FirstSecond {
+  First = 'First',
+  Second = 'Second',
+}
+console.log(FirstSecond.First); // "First"
+console.log(FirstSecond.Second); // "Second"
+```
+
+### Any
+
+Oznacza każdy typ, jeśli to możliwe, **unikaj** wrzucania `any` tam, gdzie nie ma ono zastosowania.
+
+```ts
+let anyValue: any = 4;
+anyValue = '4';
+anyValue = false;
+
+const anyArray: any[] = ['🌶️', 0, true, {}];
+```
+
+### Void
+
+W pewnym sensie przeciwieństwo `any`, jest to typ **"brak typu"**. Najczęściej używany przy funkcjach, jako oznaczenie, że dana funkcja nic nie zwraca:
+
+```ts
+function printInfo(): void {
+  console.log('Some information!');
+}
+```
+
+### Tuple
+
+Typ **tuple** pozwala zadeklarować tablicę z wartościami o różnych typach. Nie muszą być one takie same, jeśli znamy typy wartości, możemy zamiast `any`, podać typ `tuple`.
+
+```ts
+const tupleArray: [string, number, boolean, object] = ['🌶️', 0, true, {}];
+```
+
+### Never
+
+Typ never reprezentuje typ, który nigdy nie przemija. Może być sub typem każdego typu (oprócz samego siebie).
+Pewnie niewiele Ci to mówi, spójrzmy na przykładzie. Funkcja, która zwraca never, musi mieć tzw [unreachable end point](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Stmt_after_return).
+
+```ts
+function error(message: string): never {
+  throw new Error(message);
+}
+
+function infiniteLoop(): never {
+  while (true) {}
+}
+```
+
+### Asercja Typów
+
+Powiedzmy, że zadeklarowałeś w pewnym momencie zmieną typu `any`. Po jakimś czasie wiesz, że ta zmienna powinna być typu string. Za pomocą asercji typów możesz oznajmić TypeScriptowi, że wiesz, co robisz. Nie wpływa ona na runtime, jest używana tylko w procesie kompilacji. Asercję możemy zapisać na dwa sposoby.
+
+### Opcja nr. 1
+
+Tej opcji nie możemy użyć w Reactcie. Dozwolona jest jedynie ta druga.
+
+```ts
+let someValue: any = 'this is a string';
+
+let strLength: number = (<string>someValue).length;
+```
+
+### Opcja nr. 2
+
+```ts
+let someValue: any = 'this is a string';
+
+let strLength: number = (someValue as string).length;
+```
+
+Powyższe stwierdzenia działają w ten sam sposób, kwestia preferencji... No chyba, że piszesz w Reactcie.
+
+## Tablice
+
+Zagłębmy się na chwile w wątku tablic. W TS dzielą się one na dwa rodzaje.
+
+- lista - wszystkie elementy mają ten sam typ.
+- tuple - elementy niekoniecznie muszą mieć ten sam typ.
+
+### Lista
+
+I tutaj znowu mamy dwa podejścia - użycie **Type literals** lub globalnych **Interfejsów**, a dokładniej **Generics**. Na obecną chwilę, nie przejmuj się terminologią, to wszystko, o czym teraz wspominam, poznasz w dalszej części tej serii.
+
+```ts
+// Type literals
+const myClassMates: string[] = ['Kuba', 'Wiktor', 'Kamil'];
+
+// Globalne Interfejsy(Generics)
+const myClassMates: Array<string> = ['Kuba', 'Wiktor', 'Kamil'];
+```
+
+> Powyższe przykłady działają na tej samej zasadzie.
+
+### Tuple array
+
+Jeżeli zapoznałeś się z podstawowymi typami, to nie będzie to dla Ciebie zaskoczenie.
+
+```ts
+const tupleArray: [string, number, boolean, object] = ['🌶️', 0, true, {}];
+```
+
+## Funkcje
+
+Okej, pora na funckję, jak wyglądają one w przypadku TypeScripta?
+
+```ts
+function addNumbers = (a: number, b: number): number {
+    return a + b;
+}
+```
+
+Wyjaśnijmy sobie powyższy przykład. Każdy parametr funkcji ma własny typ, definiujemy go **dwukropkiem**.
+Po nawiasach `()`, podajemy typ, jaki będzie miała zwracana wartość z funkcji.
+Taka sama konstrukcja tyczy się **funkcji strzałkowych**.
+
+```ts
+const addNumbers = (a: number, b: number): number => a + b;
+```
+
+### Parametry
+
+Jak już wiesz parametry funkcji typujemy po dwukropku.
+
+```ts
+const getUserName = (userName: string) => {...}
+```
+
+#### Opcjonalne parametry
+
+Defaultowo wszystkie parametry są wymagane, możemy to jednak zmienić stawiając znak zapytania przed dwukropkiem.
+
+```ts
+function makeUserMoreCool(userName?: string): string {
+  if (userName === undefined) {
+    return '';
+  }
+  return userName.concat(' is cool');
+}
+```
+
+#### Defaultowe parametry
+
+Możemy podać domyślną wartość dla parametru funkcji, gdy to zrobimy, typescript domyśli się jaki jest typ naszej wartości.
+
+```ts
+function makeUserMoreCool(userName = ""): string {...}
+```
+
+Jeśli chcesz, możesz nadal otypowoać dany parametr:
+
+```ts
+function makeUserMoreCool(userName: string = ""): string {...}
+```
+
+#### Parametry rest
+
+`Rest`, jak pewnie wiesz z JavaScriptu, _zbiera_ pozostałe parametry z tablicy. Jak to otypować?
+Sprawdźmy!
+
+```ts
+function getUserInfo(userName: string, ...remainingInfo: string[]) {...}
+```
+
+W przypadku `rest` fajnie sprawdza się `tuple`:
+
+```ts
+function getUserInfo(...[userName, age]: [string, number]): string {...}
+```
+
+#### Named parameters + destrukturyzacja
+
+Jak pewnie wiesz, w JavaScripcie możesz destrukturyzować parametry funkcji, dzięki temu mamy dostęp do symulowanych, ale jednak Named parameters. Możemy otypować taką konstrukcję w następujący sposób:
+
+```ts
+function getUserInfo({userName,favouriteFood,age = 22}: {userName:string, favouriteFood: string[], age: number}): string {...}
+
+```
+
+## Interface
+
+Napiszmy funkcję, która przyjmuje zdestrukturyzowaną wartość `userName` z obiektu user jako parametr.
+
+```ts
+const getUserName = (user:{userName: string}) => {...}
+```
+
+Taka konstrukcja jest zrozumiała, ale gdy byśmy chcieli zdestrukturyzować jeszcze 2 lub 3 wartości całość staje się mało czytelna i powstaje bałagan.
+
+A co gdybyśmy chcieli stworzyć następną funkcję z dokładnie takimi samymi typami?
+
+Wtedy pojawiają się one - **Interfejsy**.
+
+Dzięki nim możemy definiować **strukturę** objektu. Są one niezmiernie przydatne w klasach, ale o tym w kolejnym wpisie.
+
+Stwórzmy nasz pierwszy **Interface**:
+
+```ts
+interface User {
+  userName: string;
+}
+
+const getUserName = (user: User) => {...}
+```
+
+### Opcjonalne typy
+
+Defaultowo, podobnie jak w funkcjach, wszystkie wartości w interfejsach są wymagane, możemy jednak to zmienić, dodając znak zapytania przed dwukropkiem. Wtedy dany parametr stanie się opcjonalny.
+
+```ts
+interface User {
+  age?: number;
+  userName: string;
+}
+
+const getUserName = (user: User): string => {...}
+```
+
+### Interfejsy i funkcję 
+
+Użyjmy interfejsa do otypowania funkcji:
+
+```ts
+interface GetUserNameFunc {
+  (userName: string): string;
+}
+
+let getUserName: GetUserNameFunc;
+getUserName = function(name: string){...};
+```
+
+### Readonly
+
+Jeśli chcesz, aby dana wartość była tylko do odczytu i żebyś nie mógł jej modyfikować, powinieneś skorzystać z `readonly`.
+
+```ts
+interface User {
+  age?: number;
+  readonly userName: string;
+}
+let user: User = {
+  userName: 'Mateusz',
+};
+
+user.userName = 'Paweł'; // error
+```
+
+### Rozszerzanie interfejsów
+
+Możemy rozszerzać interfejsy używając słowa `extends`. Stwórzmy dwa interfejsy - Dog i Animal.
+
+```ts
+interface Animal {
+  readonly name: string;
+  age: number;
+}
+
+interface Dog {
+  breed: string;
+}
+```
+
+Chcemy, aby interface Dog posiadał również name i age, dokładnie tak jak ma Animal.
+
+```ts
+interface Animal {
+  readonly name: string;
+  age: number;
+}
+
+interface Dog extends Animal {
+  breed: string;
+}
+```
+
+### Indeksowalne typy
+
+Tak samo jak możemy typować funkcję, możemy również użyc interfejsów z tzw. indeksowalnymi typami.
+
+```ts
+interface Animal {
+  [index: number]: string;
+}
+const animalsArray: Animal = ['Zebra', 'Dog'];
+const zebra = animalsArray[0]; // Zebra - string
+```
+
+W powyższym przykładzie stworzymliśmy **interface Animal**, który bierze `index` typu number i zwraca string.
+
+## Const assertions
+
+Jest to coś podobnego do asercji typów, tylko, że w tym wypadku używamy `const`. Co daje taka asercja?
+
+- Literały objektów dostają właściwość `readonly`
+- Tablice zamieniają się w **tuplesy** `readonly`
+
+```ts
+// Typ 'readonly [1, 2, 3, 4]'
+let values = [1, 2, 3, 4] as const;
+
+// Typ '{readonly userName: "Piotr" }'
+let user = { userName: 'Piotr' } as const;
+```
+
+## Type Casting
+
+Załóżmy, że chcemy pobrać inupta z naszego html. Spróbujmy dwóch sposobów. Pierwszy, za pomocą getElementById, drugi przy pomocy querySelectora.
+
+```ts
+const input1 = document.getElementById('my-input');
+const input2 = document.querySelector('input');
+```
+
+Co dostaniemy w odpowiedzi? Input1 jest typu `HTMLElement | null`, input2 za to ma typ `HTMLInputElement | null`. I co to nam daje? Jeśli będziemy chcieli wyświetlić wartość z pierwszego inputa to dostaniemy informację, że value nie występuje w typie `HTMLElement | null`.
+
+```ts
+const printInputValue = () => input?.value; // error
+```
+
+> Zapis ze znakiem zapytania, to optional chaining, występuje on również w JavaScripcie. Jeśli chcesz się dowiedzieć więcej, zerknij do poprzedniego posta.
+
+Jak możemy to zmienić? Zastosujmy asercję typów.
+
+```ts
+const input1 = document.getElementById('input') as HTMLInputElement;
+const printInputValue = () => console.log(input.value);
+```
+
+W przypadku querySelectora, typescript sam wie jakiego typu powinien użyć, więc wszystko będzie działało, jak należy.
+
+## Podsumowanie
+
+Uff... To by było wszystko na dzisiaj. Początki są **najtrudniejsze**!
+Pamiętaj, najlepiej przećwiczysz zdobytą dziś wiedzę **w praktyce**.
+
+Do usłyszenia w następnym wpisie o **TypeScripcie** 💙!
+
+### Źródła
+
+- [TypeScriptLang](https://www.typescriptlang.org/docs/home.html)
+- [2ality](https://2ality.com/index.html)

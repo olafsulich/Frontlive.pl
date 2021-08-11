@@ -1,0 +1,136 @@
+---
+title: 'Frontend 2021'
+category: 'Inne'
+publishedAt: '11-01-2021'
+isPublished: true
+popular: false
+image: '/images/frontend-2021/frontend-2021.png'
+excerpt: 'Co przyniesie nowy rok? Jakie technologie będą na topie i na jakie warto zwracać uwagę?'
+---
+
+Rok 2020 dobiegł końca, specjalnie nie robiłem podsumowania, bo już w marcu Frontlive obchodzi swoją <Sparkles>pierwszą rocznicę</Sparkles> 🥳
+
+Do rzeczy, czego możemy się spodziewać w tym nowy, mam nadzieję, że **lepszym**, 2021 roku? Przygotowałem małe, **subiektywne**, zestawienie technologii, które według mnie będą _na topie_ i na które warto zwrócić uwagę. Jedziemy!
+
+## Języki
+
+W naszym frontendowym świecie od zawsze królował jeden język - **JavaScript**. Oczywiście w 2021 to się nie zmieni, jednak coraz częściej słyszy się o jeszcze jednym bardzo potrzebnym języku.
+
+[TypeScript](https://www.typescriptlang.org/) to taki JavaScript na sterydach. Pozwala nam on na statycznie typowanie, które nie jest dostępne w JS. Dzięki temu unikamy masy błędów w naszych aplikacjach, zamiast marnować na nie czas, skupiamy się na istotnych rzeczach takich jak logika biznesowa aplikacji.
+
+W TypeScripcie piszę prawie rok i korzystam z niego we **wszystkich** moich projektach. Jakbym miał wskazać Ci jedną technologię, której warto się uczyć w tym roku, to z pewnością byłby to właśnie TS.
+
+Zapotrzebowanie na ten język widać również w **ogłoszeniach o pracę**, nawet w tych dla juniorów. Jeśli chcesz się nauczyć TypeScripta, zajrzyj do [mojej serii artykułów](https://frontlive.pl/kategorie/typescript).
+
+## Frameworki
+
+Przez ostatnie lata rynek _frameworkowy_ w JavaScripcie się trochę uspokoił i na podium pozostało trzech konkurentów - Vue, React i Angular.
+
+React jest tutaj **najpopularniejszym** wyborem, jest w nim również **najwięcej** ofert pracy. Posiada on też największe _community_. To znaczy, że wszyscy powinniśmy się uczyć Reakta? Z pragmatycznego punktu widzenia najłatwiej w nim dostać pracę, jednak konkurencja jest również duża.
+
+Osoby piszące we Vue są zazwyczaj **bardzo zadowolone** z niego. Ten framework, według wielu, ma **niższy** próg wejścia od wspomnianego Reakta. Ofert pracy we Vue z miesiąca na miesiąc **przybywa** i ta liczba będzie tylko rosła. Największa bolączka Vue? Za tym frameworkiem nie stoi żadna duża korporacja jak w przypadku pozostałej dwójki.
+
+Angular przez ostatnie lata zszedł trochę na **dalszy plan**. Nie jest on już tak często wybierany na pierwszy framework. Dlaczego? Jednym z powodów może być jego **złożoność**, ma on bowiem **najwyższy** próg wejścia z całej trójki. Jego popularności również, na przestrzeni lat, spadała. To znaczy, że Angular na dobre umarł? Nie, wiele aplikacji, szczególnie takich większych, jest w nim napisana i utrzymywana do dziś. Dopóki Google go nie uśmierci, to nadal warto mieć go na uwadze.
+
+Jak będzie wyglądała sytuacja w 2021? Według mnie **React nadal będzie królował**, tutaj raczej nie będzie zaskoczenia. Na drugim miejscu zdecydowanie widziałbym Vue, które bardzo fajnie się rozwija.
+
+### React
+
+Skupię się na Reakcie, w którym na co dzień piszę. Co się zmieni w 2021?
+
+Mam nadzieję, że w końcu wyjdzie stabilna wersja _Concurrent mode_. Jest to naprawdę świetna technologia, jeśli chcesz się dowiedzieć o niej więcej, to kiedyś poświęciłem jej cały artykuł - [React - Suspense & Concurrent mode](https://frontlive.pl/blog/react-suspense).
+
+Ostatnio _team Reakta_ zaprezentował [React Server Components](https://reactjs.org/blog/2020/12/21/data-fetching-with-react-server-components.html), które również wyglądają bardzo ciekawie, mam nadzieję, że usłyszymy o nich coś więcej w tym roku.
+
+#### Next.js
+
+A co z frameworkami opartymi na _Reakcie_? Mamy ich znowu, kilka na rynku. Next.js, Gatsby, Blitz czy Remix to tylko niektóre z nich, który więc wybrać? W 2020 bardzo mocno wystrzelił Next.js, bijąc na głowę swoja konkurencję.
+
+Next jest frameworkiem opartym o Reakta, który pozwala nam jednocześnie na SSG i SSR. Jest on bardzo intuicyjny i nie narzuca nam niczego, łatwo się w nim połapać. Ma on przede wszystkim świetne community, twórcy Nexta często go aktualizują, dodając nowe, przydatne, _ficzery_. Myślę, że będzie on <Sparkles>numerem jeden</Sparkles>, jeśli chodzi wybór frameworka w 2021.
+
+> **SSG** - Static Site Generation
+>
+> **SSR** - Server Side Rendering
+
+#### React Query
+
+W 2021, moim zdaniem, zmienimy trochę podejście do _fetchowania_ danych. Najczęściej mieszaliśmy dwa stany naszych aplikacjach - stan UI i tzw. _server state_. Te dwa stany różnią się znacząco od siebie, a nadal wpychamy je do tego samego wora. Wiele osób, w tym autor React Query, sądzą, że powinniśmy je **rozdzielić** - tak powstała wspomniana biblioteka.
+
+[React Query](https://react-query.tanstack.com/) udostępnia nam szereg przydatnych _hooków_, dzięki którym obsługujemy _server state_, niejako oddzielając go od stanu UI. Dzięki tej bibliotece w łatwy sposób obsłużymy cachowanie, paginację, prefetching, infinite scroll i wiele, wiele więcej.
+
+## Performance
+
+Teraz już nie ma zmiłuj, w 2021 Google będzie brał pod uwagę _performance_ naszych stron, jeśli chodzi o SEO i wyniki wyszukiwania.
+
+<Image src="/images/frontend-2021/core-web-vitals.png" alt="" />
+
+Szczególnie trzeba zadbać o tzw. [Core Web Vitals](https://web.dev/vitals/). Przedstawiają one trzy główne metryki:
+
+- **LCP** - odpowiada za szybkość ładowania strony, nie powinna ona przekraczać 2.5s
+- **FID** - mierzy czas do interaktywności, nie powinien on być większy niż 100ms
+- **CLS** - odpowiada za tzw. _visual stability_, jej wartość nie powinna przekraczać 0.1
+
+Oczywiście _zagadnień z performancem_ jest znacznie więcej, warto chociażby zadbać o właściwe ładowanie fontów i obrazków.
+
+W tym roku na pewno będę chciał poruszyć ten temat na blogu, ale do tego czasu polecam Ci odwiedzić [kanał Bartka - Web Dev Insider](https://www.youtube.com/channel/UCsWwyd-yB4qTToTiuLCOuJQ).
+
+## Dostępność
+
+Od tego roku już wszystkie (internetowe i mobile) aplikacje podmiotów publicznych muszą być dostępne. Za niedostosowanie się do wymogów grożą kary pieniężne.
+
+Dostępność jest tematem, o którym praktycznie się nie mówi. Nie jest to bowiem tak _cool_, jak nowoczesne frameworki. Jednak jest to niezwykle ważny temat, pomijając już nawet wspomniane wymogi, powinniśmy się starać o to, żeby nasze produkty były <Sparkles>dostępne dla każdego.</Sparkles>
+
+Jeśli chcesz się dowiedzieć więcej o dostępności, sprawdź [artykuły z tej serii](https://frontlive.pl/kategorie/dostepnosc).
+
+## CSS
+
+Na podstawie [State of CSS](https://2020.stateofcss.com/), w 2020, jeśli chodzi o _preprocesory_, królował Sass, według mnie w tym roku to się nie zmieni.
+
+Sprawa wygląda znacznie ciekawiej, jeśli chodzi o frameworki, **największym** zainteresowaniem cieszy się [Tailwind](https://tailwindcss.com/). Wiele osób nie jest przekonana do tej technologii, ale **warto dać jej szanse**. Sam nigdy nie przepadałem za frameworkami do CSSa, ale po spróbowaniu Tailwinda, śmiało mogę powiedzieć, że korzysta się z tego naprawdę przyjemnie.
+
+W świecie CSS-in-JS prym wiodą Styled Components i CSS Modules. Tutaj kwestia sporna, osobiście preferuję tą drugą opcję, ale wybór pozostawiam Tobie.
+
+## No-code/low-code
+
+Wszelkiego rodzaju rozwiazania no-code/low-code stają się coraz popularniejsze. Jeśli połączymy je z różnymi automatyzacjami, możemy **oszczędzić masę czasu**.
+
+Czy to źle dla nas, developerów? Odpowiedź jest prosta - **nie**. Takie narzędzia mogą tylko pomóc nam w naszej codziennej pracy, ale jej nie zabiorą. Sam dopiero wchodzę w ten temat, jak na razie korzystałem tylko z MailChimpa, który jakby nie patrzeć oferuje rozwiązania typu no-code.
+
+Jeśli chcesz się dowiedzieć więcej o tym temacie, z całego serca polecam Ci [instagram Adama Gospodarczyka - Overmenta](https://www.instagram.com/_overment/).
+
+## WebAssembly
+
+W ostatnich latach słyszeliśmy dużo o tzw. WASM, inaczej WebAssembly. WASM jest **odpowiedzią na zapotrzebowanie** na duże, funkcjonalne i szybkie aplikacje webowe. Przez swoją naturę, w niektórych przypadkach, JavaScript nie był najlepszym wyjściem na ten problem.
+
+Czy WebAssembly zdeklasuje w 2021 JavaScript? W żadnym wypadku, wspomniana technologia **nie jest konkurencją** dla naszego kochanego JSa. Może ona być wykorzystywana w _specyficznych_ przypadkach, takich jak gry, czy porty aplikacji desktopowych. Świetnym przykładem tego jest [Figma](https://www.figma.com/).
+
+W 2021 obserwowałbym tą technologię, ale nie napalałbym się na jakąś webową rewolucję, zobaczymy, co czas pokażę.
+
+## Backend w JS
+
+Chociaż nie jest to temat tego artykułu i nie jestem również _backendowcem_, to dorzucę swoje trzy grosze w kwestii JavaScriptu działającego po stronie serwera.
+
+W 2020 wyszło [Deno](https://deno.land/), czyli środowisko uruchomieniowe dla JS, inne niż już znany Node.js. **Hype był dość spory**, ale tylko na samym początku. Po kilku miesiącach wszystko ucichło, chociaż technologia się rozwija. Czy Deno w 2021 zawładnie naszymi maszynami? **Moim zdanie nie**, nie spisuję go na straty, ale jego czas nie jest jeszcze w tym roku.
+
+### Nest
+
+Nest jest frameworkiem opartym o znanego już Expressa, natrafiłem na niego jakiś czas temu, chociaż nie jest to nowość. Świetnie **współpracuję on z TypeScriptem** i wykorzystuje ciekawe rozwiazania/wzroce, z którymi wcześniej nie miałem do czynienia (np. Dependency Injection).
+
+Bardzo **przyjemnie** się go uczy i coraz częściej pojawia się w ofertach pracy.
+Nie jest on najpopularniejszym rozwiązaniem (nadal króluje Express), ale zdecydowanie **warto mu się przyjrzeć**.
+
+### Prisma
+
+To jedna z tych technologii, w których można się zakochać. Prisma jest tzw. ORMem, jest to coś podobnego do [TypeORM](https://typeorm.io/#/) czy [Sequelize](https://sequelize.org/), jednak oferuję ona znacznie więcej.
+
+Czemu jest taka super? Jest stworzona z myślą o **TypeScripcie**, posiada bardzo fajną dokumentację i wizualne odzwierciedlenie naszej bazy danych. Praca z Prismą, nawet dla _backendowego nooba_, to **przyjemność**.
+
+Dodatkowo **świetnie** współpracuję z wcześniej wspomnianym Nextem i Nestem.
+
+## Podsumowanie
+
+Uff, sporo tego. Proszę, nie traktuj tej listy jako jakieś roadmapy na 2021 rok, **nie musisz** wiedzieć wszystkiego, to tylko moje luźne przemyślenia.
+
+Podsumowując, myślę, że najważniejszy w tym _zestawieniu_ jest <Sparkles>TypeScript</Sparkles>, którego zdecydowanie warto się uczyć.
+
+Do usłyszenia!

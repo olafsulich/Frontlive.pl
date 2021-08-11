@@ -1,0 +1,479 @@
+---
+title: 'Svelte - nie tylko React, Vue i Angular'
+category: 'Svelte'
+publishedAt: '08-07-2020'
+isPublished: true
+popular: false
+image: '/images/svelte-podstawy/svelte-podstawy.png'
+excerpt: 'Obecnie w środowisku frontendowym mamy świętą trójcę jeśli chodzi o frameworki/biblioteki UI. Jest to jak zapewne wiecie React, Vue i Angular. Warto jednak wyrwać się na chwilę z tej bańki i poznać coś innego. Pora na Svelte!'
+---
+
+Cześć 👋
+
+Obecnie w środowisku frontendowym mamy _świętą trójcę_ jeśli chodzi o frameworki/biblioteki UI. Jest to jak zapewne wiecie React, Vue i Angular. Warto jednak wyrwać się na chwilę z tej bańki i **poznać coś innego**. Dokładnie tak było w moim przypadku, chciałem **czegoś nowego** i natrafiłem na **Svelte**. W tym wpisie chciałbym się podzieli **moimi przemyśleniami**, wprowadzają was jednocześnie w świat Svelte, zaczynajmy!
+
+## Wprowadzenie
+
+Svelte jest **frameworkiem**, trochę podobnym do Reakta, trochę do Vue, takie to dziwne, ale **przyjemne połączenie**. Główną różnicą pomiędzy popularnymi frameworkami a Svelte, jest to, że Svelte nie korzysta z [Virtual DOM](https://svelte.dev/blog/virtual-dom-is-pure-overhead), a zamiast niego pracuje na zwykłym [DOMie](https://developer.mozilla.org/pl/docs/DOM_i_JavaScript). Twórcy reklamują Svelte jako rozwiązanie, które nie posiada za dużo niepotrzebnego boilerplatu.
+
+Czy tak jest na prawdę? **Sprawdźmy!**
+
+> Nie traktuj tego wpisu jako poradnika/kursu Svelte, jest to luźne wprowadzenie, pokazujące główne koncepty tego frameworka
+
+Ten sam komponent napisany w Reakcie, Vue i Svelte:
+
+**React:**
+
+```jsx
+import React, { useState } from "react";
+
+export default const App = () => {
+  const [a, setA] = useState(1);
+  const [b, setB] = useState(2);
+
+  function handleChangeA(event) {
+    setA(+event.target.value);
+  }
+
+  function handleChangeB(event) {
+    setB(+event.target.value);
+  }
+
+  return (
+    <div>
+      <input type="number" value={a} onChange={handleChangeA} />
+      <input type="number" value={b} onChange={handleChangeB} />
+
+      <p>
+        {a} + {b} = {a + b}
+      </p>
+    </div>
+  );
+};
+```
+
+**Vue:**
+
+```html
+<template>
+  <div>
+    <input type="number" v-model.number="a" />
+    <input type="number" v-model.number="b" />
+
+    <p>{{a}} + {{b}} = {{a + b}}</p>
+  </div>
+</template>
+
+<script>
+  export default {
+    data: function () {
+      return {
+        a: 1,
+        b: 2,
+      };
+    },
+  };
+</script>
+```
+
+**Svelte:**
+
+```html
+<script>
+  let a = 1;
+  let b = 2;
+</script>
+
+<input type="number" bind:value="{a}" />
+<input type="number" bind:value="{b}" />
+
+<p>{a} + {b} = {a + b}</p>
+```
+
+Wygląda zachęcająco? **No to zaczynajmy!**
+
+## Początek
+
+Zacznijmy od początku, zainstalujmy Svelte:
+
+```bash
+npx degit sveltejs/template my-svelte-project
+
+```
+
+W Svelte nasz komponent ma końcówkę `.svelte` i składa się z trzech części: logiki, stylów i treści.
+
+```html
+<script>
+  import SomeComponent from './SomeComponent.svelte';
+
+  const name = 'John';
+</script>
+
+<style>
+  .name {
+    color: #213454;
+  }
+</style>
+
+<p class="name">Hello, my name is {name}</p>
+<SomeComponent />
+```
+
+Nasza logika będzie umieszczana w tagu `<script>`, style w `<style>`, a sama treść *luźno* wrzucona pod nimi. Dla kogoś kto miał już do czynienia z innym frameworkiem, nie będzie tutaj zaskoczenia. Tworzymy zmienna, a następnie podajemy ją w tzw. **wąsach**. Style działają **w zakresie pliku**.
+
+## Logika i Propsy
+
+Znamy już podstawy, teraz przyszedł czas na wprowadzenie jakieś **logiki**, **propsów**.
+
+Zacznijmy od tych drugich, propsy przekazujemy:
+
+**Component.svelte:**
+
+```html
+<script>
+  export let name;
+</script>
+
+<p>My name is {name}</p>
+```
+
+Tak _pobieramy_ propsy od naszego rodzica, trochę dziwne, przecież w zwykłym JavaScripcie `export` działa w inny sposób 🤔
+
+Nie martw się to dopiero początek Sveltowych **dziwactw**.
+
+A tak przekazujemy propsy:
+
+**App.svelte:**
+
+```html
+<script>
+  import Component from './Component.svelte';
+
+  let name = 'Olaf';
+</script>
+
+<Component name="{name}" />
+```
+
+Propsy możemy również [spreadować](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Operatory/Spread_operator) i podawać im defaultową wartość - `export let name = "Kuba"`.
+
+Przejdźmy do logiki i bloków `if/else`. Tutaj pojawia się rzecz, której na prawdę **nie lubię** w Svelte. Wydaję mi się to mało czytelne i lepszym rozwiązaniem byłoby klasyczne podejście, zobaczmy jak to wygląda:
+
+```js
+<script>
+  let isOn = false;
+
+  function toggle() {
+    isOn = !isOn;
+  }
+</script>
+
+<button on:click="{toggle}">
+  Toggle me
+</button>
+
+{#if isOn}
+	<span>
+    👋
+  <span>
+{:else}
+	<span>
+    ❌
+  <span>
+{/if}
+```
+
+Blok otwieramy znakiem `#` a zamykamy `/`, możemy w środku wyrażenia, dodać jakaś _kontynuację_, czyli w tym przypadku `:else` i ta _kontynuacja_ musi być poprzedzona `:`.
+
+> Możesz tutaj zauważyć zdarzenie `on:click`, ale o tym za chwilę!
+
+Kolejnym elementem logiki będzie **iterowanie** i zwracanie jakiś **danych** z tablicy, coś co często robimy chociażby w **Reakcie**.
+
+```js
+<script>
+  let animals = [
+    { name: "Cat", emoji: "🐱" },
+    { name: "Dog", emoji: "🐶" },
+    { name: "Panda", emoji: "🐼" },
+  ];
+</script>
+
+<ul>
+  {#each animals as animal}
+  <li>
+    <h2>{animal.name}</h2>
+    <span>{animal.emoji}</span>
+  </li>
+  {/each}
+</ul>
+```
+
+Tym razem zamiast `if` używamy bloku `each`, który **przeiteruje** po naszych zwierzętach i **zwróci nam potrzebne dane**.
+
+> Możemy użyć tutaj **destrukturyzacji**, podać po przecinku `index` jak w mapie, a nawet przekazać klucz, dzięki któremu będziemy mogli wykonywać specjalne akcje `{#each animals as animal (animals.name)}`
+
+## Zdarzenia
+
+Tutaj nie ma większego zaskoczenia, zdarzenia podajemy z początkiem `on:` i **nazwą danego eventu**.
+
+```html
+<button on:click="{e => console.log(e.target)}">Hi there 👋</button>
+```
+
+Ciekawą są za to **modyfikatory**, dzięki którym możemy wpływać na działanie samego zdarzenia, na przykład wywołać je tylko raz:
+
+```html
+<button on:click|once="{e => console.log(e.target)}">Hi there 👋</button>
+```
+
+Przydatne będzie na pewno użycie **modyfikatora** `preventDefault`. W łatwy sposób możemy również **dispachować** zdarzenia korzystając ze specjalnej funkcji `createEventDispatcher()`.
+
+**Component.svelte**
+
+```html
+<script>
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  function sayHello() {
+    dispatch('say-hello', {
+      message: 'Hello!',
+    });
+  }
+</script>
+
+<button on:click="{sayHello}">Hi there 👋</button>
+```
+
+**App.svelte**
+
+```html
+<script>
+  import Component from './Component.svelte';
+
+  function handleSayHello(e) {
+    console.log(e.detail.message);
+  }
+</script>
+
+<Component on:say-hello="{handleSayHello}" />
+```
+
+## Reaktywność i Binding
+
+Dzięki reaktywności w Svelte, pewne dane mogą być zależne od siebie i tworzyć tzw. **reaktywne deklaracje**, takim przykładem jest `doubled`, który jest po prostu dwukrotnością `count`.
+
+```html
+<script>
+  let count = 0;
+  $: doubled = count * 2;
+
+  function handleClick() {
+    count += 1;
+  }
+</script>
+
+<button on:click="{handleClick}">Clicked {count} {count === 1 ? 'time' : 'times'}</button>
+
+<p>{count} doubled is {doubled}</p>
+```
+
+> Reaktywność w Svelte to nie tylko deklaracje, możemy również korzystać ze statementów, przykład takiego wykorzystania znajdziesz [w oficjalnym poradniku Svelte](https://svelte.dev/tutorial/reactive-statements)
+
+**Bindingi** ułatwiają nam pracę, odciążając nas trochę z **niepotrzebnego boilerplatu**.
+
+Weźmy przykładowe zdarzenie `on:input`, stwórzmy funkcję `onChange`, która będzie uaktualniała naszą zmienną `name`, całość wyświetlimy w tagu `h1`.
+
+```html
+<script>
+  let name = 'world';
+
+  function onChange(e) {
+    name = e.target.value;
+  }
+</script>
+
+<input on:input="{onChange}" />
+
+<h1>Hello {name}!</h1>
+```
+
+Nie ma tutaj za dużo tego niepotrzebnego kodu, moglibyśmy to trochę skrócić, wstawiając funkcję inlinowo do zdarzenia, ale to trochę **psuję czytelność**.
+
+Na ratunek przychodzą właśnie **bindingi**!
+
+```html
+<script>
+  let name = 'world';
+</script>
+
+<input bind:value="{name}" />
+
+<h1>Hello {name}!</h1>
+```
+
+Bindować możemy różne wartości, zaczynając od zwykłego **tekstu** po wartości `boolean`, `this` i kończąc np. na **wymiarach elementu**(tutaj wartości typu `number`):
+
+```html
+<script>
+  let w;
+  let h;
+  let size = 42;
+  let text = 'edit me';
+</script>
+
+<style>
+  input {
+    display: block;
+  }
+  div {
+    display: inline-block;
+  }
+  span {
+    word-break: break-all;
+  }
+</style>
+
+<input type="range" bind:value="{size}" />
+<input bind:value="{text}" />
+
+<p>size: {w}px x {h}px</p>
+
+<div bind:clientWidth="{w}" bind:clientHeight="{h}">
+  <span style="font-size: {size}px">{text}</span>
+</div>
+```
+
+## Metody cyklu życia komponentu
+
+Każdy komponent w Svelte, ma własne **metody cyklu życia**, są to, jak możecie się domyślać, **specjalne funkcję**, które pozwalają uruchomić jakiś kod w danym **momencie tego cyklu**.
+
+Pierwszą z nich jest `onMount`, działa ona na podobnej zasadzie jak metoda `componentDidMount` w React. Ta metoda wywoływana jest wtedy, gdy komponent pierwszy raz **wyrenderuje** się w [DOM](https://developer.mozilla.org/pl/docs/DOM_i_JavaScript). Tutaj powinny odbywać się wszystkie zapytania do API:
+
+```html
+<script>
+  import { onMount } from 'svelte';
+
+  let user = [];
+
+  onMount(async () => {
+    const res = await fetch(`https://randomuser.me/api/`);
+    user = await res.json();
+  });
+</script>
+```
+
+Kolejną metodą jest `onDestroy`, odpala się ona gdy komponent zostaje _zniszczony_, czy też ładniej mówiąc zostaję _odmontowany_. Tutaj **czyścimy** wszelkiego rodzaju subskrypcje z `onMount`, czy też timery:
+
+```html
+<script>
+  import { onDestroy } from 'svelte';
+
+  let seconds = 0;
+
+  function onInterval(callback, milliseconds) {
+    const interval = setInterval(callback, milliseconds);
+
+    onDestroy(() => {
+      clearInterval(interval);
+    });
+  }
+
+  onInterval(() => (seconds += 1), 1000);
+</script>
+
+<p>The page has been open for {seconds} {seconds === 1 ? 'second' : 'seconds'}</p>
+```
+
+Oprócz tych dwóch podstawowych mamy jeszcze metody `beforeUpdate` i `afterUpdate`. Odpalają się one odpowiednio **przed** i **po zaktualizowaniu** [DOM](https://developer.mozilla.org/pl/docs/DOM_i_JavaScript).
+
+## Store
+
+W Svelte możemy stworzyć tzw. `store`, będzie to taki globalny stan naszej aplikacji, z którego będziemy mogli korzystać w **niezależnych** od siebie komponentach. Dzięki temu możemy **uniknąć** ciągłego przekazywania propsów w dół naszego drzewka. Tutaj dla przykładu, stworzyliśmy store i wszystkie komponenty w jednym pliku, jednak dobrą praktyką było **rozdzielenie** ich na osobne komponenty, wtedy `store` staję się użyteczny.
+
+Store to po prostu obiekt, który posiada metody: `set`, `update` i `subscribe`. Subscribe nie będzie nam tutaj przydatny, ponieważ, nie musimy subskrybować do danej wartości i później czyścić tą subskrypcje, wystarczy, że **przed** nazwą stora dodamy `$`, dzięki temu dostaniemy jego **wartość**.
+
+```html
+<script>
+  import { writable } from 'svelte/store';
+
+  const store = writable(0);
+
+  function reset() {
+    store.set(0);
+  }
+
+  function increment() {
+    store.update((n) => n + 1);
+  }
+
+  function decrement() {
+    store.update((n) => n - 1);
+  }
+</script>
+
+<h1>The count is {$store}</h1>
+
+<button on:click="{increment}">+</button>
+<button on:click="{decrement}">-</button>
+<button on:click="{reset}">reset</button>
+```
+
+## Slots
+
+Są to specjalne komponenty, które mogą przyjmować **dzieci**. Slota definiujemy jak normalny tag html `<slot></slot>`, możemy mu nadać **nazwę** i odpowiedni **defaultowy content**, w przypadku gdy nie zostanie on podany. Ten **fallback**, czyli początkowy kontent, podajemy w środku slota, dzięki nazwie za to, mamy **większą kontrolę** nad `slotami` i możemy definiować to, w **jaki sposób** będą _przetwarzane_ dane z nich.
+
+**Animal.svelte**
+
+```html
+<style>
+  .box {
+    width: 300px;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1em;
+    margin: 0 0 1em 0;
+  }
+</style>
+
+<div class="box">
+  <slot name="animal-name">
+    <h1>Panda</h1>
+  </slot>
+  <slot name="animal-emoji">
+    <span>🐼</span>
+  </slot>
+</div>
+```
+
+**App.svelte**
+
+```html
+<script>
+  import Animal from './Animal.svelte';
+</script>
+
+<Animal>
+  <h2 slot="animal-name">Dog</h2>
+  <p slot="animal-emoji">🐶</p>
+</Animal>
+```
+
+Do `slotów` możemy przekazywać również [propsy](https://svelte.dev/tutorial/slot-props).
+
+## Podsumowanie
+
+To by było na tyle w tym krótkim wstępie do Svelte, zostało jeszcze **dużo rzeczy** do nauczenia, których nie poruszyłem tutaj. Szczególnie fajne wydają się [animację](https://svelte.dev/tutorial/transition), warto sprawdzić!
+
+Svelte ma świetny [tutorial](https://svelte.dev/tutorial/basics), z którego korzystałem w tym wpisie. Dostępne są również gotowe przykłady które znajdziesz [tutaj](https://svelte.dev/examples).
+
+Svelte wydaję się bardzo fajnym, **szybkim** i **lekkim** rozwiązaniem, które na pewno **redukuję** dużo niepotrzebnego boilerplatu, część rzeczy mi się w nim podoba, część nie, ale **nie ma rozwiązań idealnych**. Myślę jednak, że warto zainteresować się nim i dać mu szansę, chociażby dla czystej zabawy!
+
+Do usłyszenia!
+
+## Źródła
+
+- [Svelte Docs](https://svelte.dev/tutorial/basics)

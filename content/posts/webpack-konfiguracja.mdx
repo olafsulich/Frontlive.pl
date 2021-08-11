@@ -1,0 +1,255 @@
+---
+title: 'Webpack 4 - loadery, pluginy i niestandardowa konfiguracja'
+category: 'Webpack'
+publishedAt: '19-06-2020'
+isPublished: true
+popular: false
+image: '/images/webpack-konfiguracja/webpack-w-praktyce.png'
+excerpt: 'W poprzednim wpisie poznałeś podstawy Webpacka, dzisiaj wykorzystamy tą wiedzę w praktycę i stworzymy pełnoprawną konfigurację projektu.'
+---
+
+Cześć 👋
+
+W poprzednim wpisie poznałeś podstawy **Webpacka**, dzisiaj wykorzystamy tą wiedzę w praktycę i stworzymy **konfigurację projektu**.
+
+## Instalacja
+
+Nie traćmy czasu na instalację, sklonujmy repo, które utworzyłem w poprzednim wpisie:
+
+```bash
+git clone https://github.com/Frontlive/webpack-pierwsze-kroki.git
+```
+
+## Wstępna konfiguracja
+
+Stwórzmy teraz plik `webpack.config.js`:
+
+```bash
+touch webpack.config.js
+```
+
+Plik konfiguracyjny Webpacka to w ostateczności kod JavaScriptu, więc nic nie stoi nam na przeszkodzie, żeby zrobić w nim funkcję.
+
+```js
+module.exports = ({ mode }) => ({
+  mode,
+});
+```
+
+Pamiętacie jak podawaliśmy `mode` w poprzednim wpisie do package.json? Możemy, w tym samym pliku, utworzyć zmienną i **w zależności od trybu** np. ładować odpowiednie konfiguracje, ale do tego przejdźiemy za moment.
+
+```json
+"scripts": {
+    "webpack": "webpack",
+    "dev": "npm run webpack -- --env.mode development --watch",
+    "prod": "npm run webpack -- --env.mode production"
+  },
+```
+
+## Konfiguracja serwera
+
+Zacznijmy od zainstalowania pluginu `html-webpack-plugin`.
+
+```bash
+npm install --save-dev html-webpack-plugin
+```
+
+Importujemy go w naszym pliku konfiguracyjnym, używając składni CommonJS, jako szablon dla wygenerowanego pliku dajemy przykładowy plik `index.html` znajdujący się w katalogu `src/`:
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = ({ mode }) => ({
+  mode,
+  output: {
+    filename: 'bundle.js',
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+    }),
+  ],
+});
+```
+
+Zainstalujmy teraz serwer deweloperski i dodajmy odpowiedni skrypt do `package.json`:
+
+```bash
+npm install --save-dev webpack-dev-server
+```
+
+```json
+"scripts": {
+    "webpack-dev-server": "webpack-dev-server",
+    "webpack": "webpack",
+    "dev": "npm run webpack-dev-server -- --env.mode development --watch",
+    "prod": "npm run webpack -- --env.mode production"
+  },
+```
+
+Zbudujmy teraz nasz bundle i odpalmy serwer:
+
+```bash
+ npm run prod && npm run dev
+```
+
+## Rozdzielenie trybów
+
+Może zdarzyć się tak, że będziesz potrzebował **osobnej konfiguracji** dla trybu `prod` i `dev`, w takim przypadku przychodzi nam z pomocą wtyczka `webpack-merge`:
+
+```bash
+npm install --save-dev webpack-merge
+```
+
+Po zainstalowaniu stwórz folder w katalogu głównym o nazwie `build-utils`, a w nim `webpack.production.js` i `webpack.development.js`. Tutaj znajdą się nasze Webpackowe konfiguracje.
+
+```js
+// webpack.production.js & webpack.development.js
+module.exports = () => ({});
+
+// webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpackMerge = require('webpack-merge');
+
+const modeConfig = (env) => require(`./build-utils/webpack.${env}`)(env);
+
+module.exports = ({ mode } = { mode: 'production' }) =>
+  webpackMerge(
+    {
+      mode,
+      output: {
+        filename: 'bundle.js',
+      },
+      plugins: [new HtmlWebpackPlugin()],
+    },
+    modeConfig(mode),
+  );
+```
+
+Importujemy samą paczkę, tworzymy funkcję, która będzie zaciągała nasz plik na podstawie `mode`.
+
+> Używamy tutaj destrukturyzacji i początkowych wartości parametrów
+
+Wykorzystajmy te możliwości i nadajmy inny `output` do trybu produkcyjnego.
+
+```js
+module.exports = () => ({
+  output: {
+    filename: '[chunkhash].js',
+  },
+});
+```
+
+Stworzyliśmy customową hashowaną ścieżkę dla pliku wyjściowego.
+
+## Sass
+
+Jak możemy wykorzystać Webpacka z Sassem? Użyć loaderów!
+
+Instalacja:
+
+```bash
+npm install sass-loader sass style-loader css-loader mini-css-extract-plugin --save-dev
+```
+
+Stwórzmy teraz podstawowy plik z rozszerzeniem `.scss`:
+
+```bash
+cd src && touch main.scss
+```
+
+Dodajmy style:
+
+```scss
+$body-color: #f2ff2a;
+
+body {
+  background-color: $body-color;
+}
+```
+
+Do naszego `webpack.development.js` dopisujemy odpowiednie loadery:
+
+```js
+module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+    ],
+  },
+```
+
+Teraz jeśli spróbujesz odpalić cokolwiek, prawdopodobnie zobaczysz błąd. Musimy jeszcze zaimportować plik css w naszym `entry point`, czyli w naszym przypadku w `index.js`. Dzieje się to dlatego, że Webpack każdy nasz plik traktuje jako **moduł**.
+
+```js
+// index.js
+import hello from './welcome';
+import { multiplyByTwo } from './multiply';
+import './main.scss';
+console.log(hello, multiplyByTwo(2));
+```
+
+Okej, ale to nie będzie działać na produkcji, chcemy aby nasze moduły css trafiały nie do zbundlowanego pliku `.js`, lecz do osobnego pliku `.css`. Dodajmy więc odpowiedni plugin:
+
+```bash
+npm install mini-css-extract-plugin --save-dev
+```
+
+_Na produkcji_ potrzebujemy dodać nasz plugin i zmienić `style-loader` na `MiniCssExtractPlugin.loader`:
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+module.exports = () => ({
+  output: {
+    filename: '[chunkhash].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
+});
+```
+
+Jeśli wszystko poszło po naszej myśli, powinieneś zobaczyć swój plik css w folderze `dist/`.
+
+## Babel
+
+Na sam koniec, zainstalujmy [Babela](https://babeljs.io/), który kompiluje współczesny JavaScript do starszych wersji.
+
+```bash
+npm install babel-loader @babel/core @babel/preset-env --save-dev
+```
+
+Dodajmy odpowiednie reguły do `webpack.production.js`:
+
+```js
+  {
+        test: /\.m?js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+          },
+        },
+      },
+```
+
+Za pomocą wyrażeń regularnych sprawdzamy rozszerzenie pliku, dzięki `exclude` wykluczamy `node_modules`. Następnie załadowujemy odpowiedni **loader** i dodatkowe opcje.
+
+## Podsumowanie
+
+Dzięki za wytrwanie do końca, to była podstawowa konfiguracja w moim wykonaniu, cały kod możecie znaleźć na [githubie](https://github.com/Frontlive/webpack-projekt). Zachęcam do dalszego zgłębiania Webpacka, jest masa **super pluginów**, które możecie znaleźć w [dokumentacji](https://webpack.js.org/plugins/) i dodać do **swojego projektu**.
+
+Do usłyszenia!
+
+### Źródła
+
+- [Webpack docs](https://webpack.js.org/)

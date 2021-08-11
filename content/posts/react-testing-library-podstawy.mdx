@@ -1,0 +1,218 @@
+---
+title: 'React Testing Library - podstawy'
+category: 'React'
+publishedAt: '22-03-2021'
+isPublished: true
+popular: false
+image: '/images/react-testing-library-podstawy/rtl-podstawy.png'
+excerpt: 'React Testing Library to najpopularniejsza biblioteka do testowania kodu napisanego w React. Wchodzi ona w skład większej całości - DOM Testing Library...'
+---
+
+React Testing Library to najpopularniejsza biblioteka do testowania kodu napisanego w React. Wchodzi ona w skład większej całości - **DOM Testing Library**. Jest ona tak naprawdę tylko jednym z portów, podobne rozwiązania do niej możemy znaleźć chociażby we [Vue](https://testing-library.com/docs/vue-testing-library/intro#!) i w [Angularze](https://testing-library.com/docs/angular-testing-library/intro).
+
+RTL\*, w przeciwieństwie do jej poprzedników, podchodzi do testowania z <Sparkles>perspektywy użytkownika</Sparkles>. Nie testujemy w niej tzw. [implementation details](https://kentcdodds.com/blog/testing-implementation-details), to znaczy, że np. nie sprawdzamy, czy nasz stan się zmienił. Zamiast tego oczekujemy, że np. nasz użytkownik zobaczył odpowiedni komunikat na ekranie.
+
+> \*React Testing Library. Na potrzeby tego materiału będę używał tego skrótu na przemian wraz z pełną nazwą biblioteki.
+
+## Podstawy
+
+RTL nie jest _samodzielną_ biblioteką, jak już wspominałem, jest ona tylko nakładką na [DOM Testing Library](https://testing-library.com/docs/dom-testing-library/intro), ale poza tym, w naszych testach, będziemy korzystać jeszcze z [Jest](https://jestjs.io/docs/en/getting-started), w tym przypadku w roli tzw. test runnera.
+
+> Jeśli jeszcze nie znasz Jest, to zachęcam Cię do zapoznania się z [serią poświęconej tej technologii](https://frontlive.pl/kategorie/jest). Ta wiedza będzie Ci niezbędna, by zacząć przygodę z testowaniem aplikacji Reaktowych
+
+## Konfiguracja projektu
+
+Jeśli chcesz pominąć konfigurację projektu, to możesz skorzystać z przygotowanego [startera na GitHubie](https://github.com/olafsulich/react-testing-library-workshop/tree/main/1-podstawy/start).
+
+Zacznijmy od stworzenia aplikacji za pomocą [Create React App](https://create-react-app.dev/):
+
+```bash
+npx create-react-app my-app --template typescript
+```
+
+Potrzebujemy również zainstalować potrzebne paczki:
+
+```bash
+npm install --save-dev @testing-library/jest-dom @testing-library/react @testing-library/user-event ts-jest
+```
+
+### Eslint
+
+Poza Twoją standardową konfiguracja warto dodać dwa pluginy, które ułatwią nam pracę z testami:
+
+```bash
+npm install --save-dev eslint-plugin-jest-dom eslint-plugin-testing-library
+```
+
+```json
+{
+  "plugins": ["jest-dom", "testing-library", ...]
+}
+```
+
+### Jest
+
+Konfigurację Jest zamieścimy w pliku `jest.config.js` w katalogu głównym projektu. To, co nas tutaj najbardziej interesuję to podanie ścieżki do pliku `setupTests.ts`, do którego za chwilę wrócimy.
+
+```js
+module.exports = {
+  preset: 'ts-jest',
+  roots: ['<rootDir>'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
+  collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts', '!**/node_modules/**'],
+  transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  moduleNameMapper: {
+    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+  },
+};
+```
+
+## Testy w praktyce
+
+W ramach naszego pierwszego testu przetestujemy sobie prosty komponent licznika:
+
+```tsx
+import { useState } from 'react';
+
+export const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((prevState) => prevState + 1);
+  };
+
+  const decrement = () => {
+    setCount((prevState) => prevState - 1);
+  };
+
+  return (
+    <>
+      <button onClick={increment}>increment</button>
+      <button onClick={decrement}>decrement</button>
+      <span>count: {count}</span>
+    </>
+  );
+};
+```
+
+Będziemy chcieli tutaj przetestować, czy `count` zmienia swoją wartości po wciśnięciu odpowiedniego przycisku. Obok naszego komponentu stwórzmy plik `Counter.spec.ts`, w którym będą znajdowały się testy.
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import { Counter } from './Counter';
+
+describe('Counter', () => {
+  it('increments the count', () => {
+    render(<Counter />);
+
+    screen.debug();
+  });
+});
+```
+
+Funkcji `render()` używamy do wyrenderowania komponentu. Po wyrenderowaniu mamy dostęp do specjalnego obiektu `screen`, który posiada metodę `debug()`. Dzięki niej będziemy mogli podejrzeć aktualną strukturę komponentu:
+
+<Image
+  src="/images/react-testing-library-podstawy/screen-debug.png"
+  alt="Struktura komponentu licznika"
+/>
+
+### Zapytania
+
+Następnym naszym krokiem będzie pobranie przycisku, który jest elementem DOM w komponencie `Counter`. Do pobierania wspomnianych elementów służą następujące metody obiektu `screen`:
+
+- getBy\* - zwraca pasujący element lub rzuca wyjątkiem.
+
+- queryBy\* - zwraca pasujący element lub `null`.
+
+- findBy\* - zwraca `Promise`, który rozwiązuję się po znalezieniu elementu. Jeśli nie znaleziono elementu, to `Promise` zostaje odrzucony po 1 sekundzie.
+
+Każda z tych opcji posiada wiele sposobów na pobranie elementu. Mamy np. zapytania `getByRole`, `getByLabelText`, `getByText`, `getByTestId` itp. Analogicznie, są one dostępne również dla `queryBy*` i `findBy*`.
+
+Zapytania typu `queryBy` przydadzą się, gdy chcemy skorzystać z asercji i sprawdzić, czy np. danego elementu nie ma w drzewie DOM:
+
+```tsx
+const button = screen.queryByRole('button');
+expect(button).not.toBeInTheDocument();
+```
+
+`findBy*` za to przydadzą się przy pracy z asynchronicznym kodem, do którego jeszcze wrócimy.
+
+W naszym przypadku będziemy korzystać ze zwykłych zapytań `getBy*`. **Dobrą praktyką** jest używanie w większości przypadków `getByRole`. Dzięki `getByRole` możemy pobierać elementy, które znajdują się w [drzewku dostępności](https://developer.mozilla.org/en-US/docs/Glossary/AOM). Drugim argumentem zapytania jest obiekt z opcjami, w którym możemy podać tzw. [ accessibility name](https://www.w3.org/TR/accname-1.1/).
+
+Powinniśmy unikać za to zapytań z pomocą `getByTestId`, nie wspisują się one w myśl zasady RTL o testowaniu przez pryzmat użytkownika.
+
+Wróćmy do naszego testu, za pomocą zapytań typu `getBy*` pobieramy dwa elementy DOM, podajemy w nich nazwę w formie wyrażenia regularnego. Następnie sprawdzamy, czy `count` posiada odpowiedni tekst.
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import { Counter } from './Counter';
+import '@testing-library/jest-dom/extend-expect';
+
+describe('Counter', () => {
+  it('increments the count', () => {
+    render(<Counter />);
+
+    screen.debug();
+
+    const button = screen.getByRole('button', { name: /increment/ });
+
+    const count = screen.getByText(/count/);
+
+    expect(count).toHaveTextContent('count: 0');
+  });
+});
+```
+
+Zwroć uwagę na ostatni _import_. To dzięki niemu mamy dostęp do macherów typu `toHaveTextContent`, `toHaveFocus`, `toBeInTheDocument` itp. Pamiętasz jak mówiliśmy o pliku `setupTests.ts`? Jeśli zaimportujesz do niego `@testing-library/jest-dom`, to nie będziesz musiał/a robić tego w każdym pliku z testami!
+
+### Zdarzenia
+
+W React Testing Library mamy do dyspozycji dwie opcje symulowania eventów - `fireEvent` i `userEvent`. My będziemy korzystać z tej drugiej metody, jest ona rekomendowana przez twórców oraz oddaje bardziej zachowania prawdziwego użytkownika.
+
+W naszym przypadku musimy skorzystać z metody `click()`, do której przekazujemy wcześniej pobrany przycisk:
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Counter } from './Counter';
+
+describe('Counter', () => {
+  it('increments the count', () => {
+    render(<Counter />);
+
+    screen.debug();
+
+    const button = screen.getByRole('button', { name: /increment/ });
+
+    const count = screen.getByText(/count/);
+
+    expect(count).toHaveTextContent('count: 0');
+
+    userEvent.click(button);
+
+    expect(count).toHaveTextContent('count: 1');
+  });
+});
+```
+
+Po wykonaniu zdarzenia ponownie sprawdzamy poprawność tekstu.
+
+Pozostało nam jeszcze sprawdzić działanie drugiego scenariusza, wtedy gdy będziemy zmniejszać licznik, ale to już pozostawiam Ci w ramach ćwiczeń :)
+
+## Podsumowanie
+
+Cały kod z dzisiejszego artykułu możesz znaleźć w [repozytorium na GitHubie](https://github.com/olafsulich/react-testing-library-workshop).
+
+Jeśli chcesz przećwiczyć testy w praktyce, to zachęcam Cię do sprawdzenia [Testing Playground](https://testing-playground.com/).
+
+Do usłyszenia!
+
+### Źródła
+
+- [Testing Library](https://testing-library.com/docs/)
+- [Testing implementation details](https://kentcdodds.com/blog/testing-implementation-details)

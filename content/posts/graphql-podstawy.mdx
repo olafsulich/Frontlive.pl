@@ -1,0 +1,135 @@
+---
+title: 'GraphQL - podstawy'
+category: 'GraphQL'
+publishedAt: '23-07-2020'
+isPublished: true
+popular: false
+image: '/images/graphql-podstawy/graphql-podstawy.png'
+excerpt: 'GraphQL jest językiem zapytań, który stanowi alternatywę do standardowego RESTa. Jest bardziej elastyczny, precyzyjny i przede wszystkim wygodniejszy.'
+---
+
+GraphQL jest **językiem zapytań**, który stanowi alternatywę do standardowego RESTa. Jest bardziej elastyczny, precyzyjny i przede wszystkim **wygodniejszy**. Chociaż gości on już jakiś czas na rynku, **zyskuje** bardzo na popularności. Korzystają z niego takie giganty jak **Facebook**, PayPal i Twitter.
+
+## Dlaczego GraphQL?
+
+Wspomniałem wcześniej o tym, że GraphQL jest bardziej elastyczny, precyzyjny i wygodniejszy, ale żeby nie być gołosłownym spójrzmy na przykład. Mamy tu API, które zwraca tam **informacje o postaciach**. Załóżmy, że w wersji desktopowej będziemy potrzebowali wszystkich informacji, natomiast w wersji mobilnej, **tylko tych niezbędnych**. W przypadku standardowego REST albo pobieramy wszystkie dane a następnie je filtrujemy, co nie jest oczywiście dobrym rozwiązaniem, albo tworzymy dwa endpointy.
+
+<Image src="/images/graphql-podstawy/GraphQLvsRest.png" alt="" />
+
+Tak wyglądają dane, które chcemy dostać w **wersji desktopowej**. Pobieramy tutaj nazwę, id, status i pochodzenie.
+
+```
+GET /characters/result/1
+[
+   {
+     "name": "Rick Sanchez",
+     "id": "1",
+     "status": "Alive",
+     "origin": {
+        "name": "Earth (C-137)"
+     }
+   }
+]
+```
+
+Powiedzmy, że w w **wersji mobilnej** będziemy potrzebować **tylko id i nazwy** danej postaci, wtedy nasz endpoint będzie wyglądał tak:
+
+```
+GET /characters/result/1?fields=name,id
+[
+   {
+     "name": "Rick Sanchez",
+     "id": "1",
+   }
+]
+```
+
+W GraphQLu nie mamy takich problemów, korzystamy **tylko z jednego endpointa** i wybieramy jakie dane chcemy pobierać.
+
+```graphql
+{
+  characters {
+    results {
+      name
+      id
+      status
+      origin {
+        name
+      }
+    }
+  }
+}
+```
+
+## GraphQL w praktyce
+
+Żeby zrozumieć jak działa GraphQL najlepiej jest się nim pobawić, dlatego skorzystamy z [The Rick and Morty API](https://rickandmortyapi.com/), które udostępnia nam informacje ze świetnego serialu **Rick and Morty**, jeśli jeszcze nie widziałeś, koniecznie musisz go nadrobić 😎
+
+Po przejściu na stronę [https://rickandmortyapi.com/graphql/](https://rickandmortyapi.com/graphql/), zobaczymy playground, w którym możemy się pobawić i sprawdzić jakie dane są dostępne.
+
+<Image src="/images/graphql-podstawy/grapqhl-playground-blank.png" alt="" />
+
+Jeśli wciśniesz teraz _play_, zobaczysz po prawej stronie zwykłego JSONa, takie właśnie dane dostaniemy w odpowiedzi.
+
+Za pomocą `Shift + Spacja` możesz podejrzeć, jakie dane są jeszcze dostępne.
+
+Po prawej stronie mamy jeszcze dwa przyciski `DOCS` i `SCHEMA`. W `DOCS` znajdziesz informacje o dostępnych danych, typach, argumentach do zapytań, mutacjach i tak na prawdę wszystkim czego potrzebujesz. `SCHEMA` za to, przedstawia, jak sama nazwa mówi, schemat naszych danych, jest on napisany w **schema definition language**. GraphQL jest **silnie typowany**, w schemie znajdziesz typy swoich danych.
+
+Musimy pamiętać, że GraphQL możemy wykorzystać na backendzie, jak i na froncie, my skupimy się oczywiście na stronie frontendowej.
+
+## Query
+
+Są to zapytania, dokładnie takie jakie przed chwilą mogłeś zobaczyć w playgroundzie. Możemy tutaj tworzyć aliasy, podawać argumenty i filtrować nasze dane. Zapytanie poprzedza specjalne słowo `query`.
+
+```
+query {
+  characters {
+    results {
+      name
+      id
+    }
+  }
+}
+```
+
+## Mutation
+
+Przeciwieństwo zapytań, zamiast pobierać dane, wysyłamy je na serwer. Do tworzenia mutacji używamy słowa `mutation`.
+
+```
+mutation {
+  addCharacter(id: 1, name: "Olaf") {
+    name
+  }
+}
+```
+
+## Schema
+
+W schematach opisujemy i typujemy nasze dane za pomocą **SDL**(schema definition language).
+
+```
+type Character {
+  id: ID
+  name: String
+  status: String
+  origin: Location
+}
+```
+
+## Resolvers
+
+Resolvery są ściśle powiązane z schematami, są one funkcjami, które zwracają wartość dla danego typu/pola.
+
+## Podsumowanie
+
+Dzięki za obecność, tym wpisem **zaczynamy mini serię** o GraphQLu!
+
+Za tydzień omówimy szczegółowo dane koncepty 🤓
+
+Do usłyszenia!
+
+### Źródła
+
+- [GraphQL Docs](https://graphql.org/)
+- [The Rick and Morty API](https://rickandmortyapi.com/)

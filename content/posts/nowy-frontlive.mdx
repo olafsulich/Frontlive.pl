@@ -1,0 +1,136 @@
+---
+title: 'Nowy rok, nowy Frontlive!'
+category: 'Inne'
+publishedAt: '14-12-2020'
+isPublished: true
+popular: false
+image: '/images/main.png'
+excerpt: 'Kulisy powstawania nowej odsłony Frontlive - mojego bloga i jednocześnie strony portfolio. Jak dobrałem technologię do projektu? Z jakimi wyzwaniami się mierzyłem?'
+---
+
+Już jest, nowy <Sparkles>Frontlive!</Sparkles> Od teraz to zarówno mój blog, jak i strona portfolio. Co się zmieniło? Jak dobrałem technologię do projektu? Z jakimi wyzwaniami się mierzyłem?
+
+## Kiedyś to było
+
+[Oryginalna, stara odsłona bloga](https://web.archive.org/web/20201101102314/https://www.frontlive.pl/) była tworzona w okresie, gdy miałem za sobą już pierwsze kroki w Reakcie, stworzyłem w nim kilka projektów i pomyślałem _Co dalej?_ Postanowiłem, że założę własnego bloga, bo czemu nie? Krążyły wtedy mity, że tylko _doświadczeni programiści_ mogą nauczać innych. Jak widać, to bzdura ;)
+
+Na samym początku, tak jak robię przy każdym moim projekcie, zacząłem tworzyć design strony. Następnym krokiem było wybranie odpowiedniej technologii, padło na Gatsbiego, którego już w tamtym momencie trochę liznąłem. Gatsby posiada wiele szablonów, postanowiłem z takiego skorzystać i zacząłem szukać!
+
+Znalazłem odpowiedni template(później przestał być templatem), dostosowałem go do siebie i gotowe! Blog był minimalistyczny i prosty. Do każdego postu była przypisana ikonka z technologią, o której pisałem w artykule(co było problematyczne przy trybie ciemnym).
+
+<Image
+  src="/images/nowy-frontlive/stary-frontlive.png"
+  alt="Strona główna poprzedniej odsłony Frontlive.pl"
+/>
+
+Byłem bardzo zadowolony ze strony, artykuły tworzyło się przyjemnie dzięki [Markdownowi](https://pl.wikipedia.org/wiki/Markdown), a całość działała naprawdę szybko.
+
+## Po co ta zmiana?
+
+Głównym powodem, dla którego stworzyłem nową stronę była potrzeba zrobienia portfolio. Za parę miesięcy, z upływem tego roku szkolnego, będę szukał swojej pierwszej **pracy** w pełnym wymiarze.
+
+Miałem kilka opcji, stworzyć osobną stronę domową, skorzystać z [GitHub Profile Readme](/blog/github-profile-readme) lub po prostu jej nie robić. Trzecia odpada z oczywistych przyczyn. Nie chciałem oddzielać mojej działalności na tym blog i strony portfolio, trudniej mnie wtedy znaleźć w sieci, a taki podział może być mylący.
+A co z [GitHub Profile Readme](/blog/github-profile-readme)? To naprawdę spoko opcja, możemy trzymać nasze portfolio w jednym miejscu, razem z kodem. Dla mnie było to jednak niewystarczające, just it.
+
+Z czasem sama strona coraz mniej mi się podobała, pomyślałem, że fajnie by ją trochę *odświeżyć*. [Stary Frontlive](https://web.archive.org/web/20201101102314/https://www.frontlive.pl/) nie zadowalał mnie też w kontekście dostępności. Jest to dla mnie ważny temat, więc musiałem to zmienić.
+
+Na sam koniec - utrzymanie kodu. Poprzedni szablon był tworzony, zanim pojawiły się [Reaktowe Hooki](https://pl.reactjs.org/docs/hooks-intro.html), cały CSS był wepchnięty do kilku plików, a komponenty dawały dużo do życzenia, jeśli chodzi o rozbudowę/zmianę. Dodanie nowych _klocków_ do całości nie należało do najprzyjemniejszych.
+
+## Jak jest teraz?
+
+Nowa strona to zdecydowanie powiew świeżości, przede wszystkim jest więcej **kolorów**, a całość jest znacznie większa. Nie zabrakło tutaj _fancy_ nagłówków i gradientów. Pomimo tych wszystkich zmian, widać kilka nawiązań do starej wersji.
+
+<Image
+  src="/images/nowy-frontlive/nowy-frontlive-strona-glowna.png"
+  alt="Strona główna obecnego Frontlive.pl"
+/>
+
+Newsletter jest na sameje górze, czyli tam, gdzie powinien być od początku. Gorąco <Sparkles>zachęcam do zapisania się!</Sparkles> W Newsletterze poruszam dodatkowe tematy, wysyłam Wam ciekawe linki i organizuję konkursy z nagrodami, niedługo następny. Nie ma mowy o żadnym spamie!
+
+Reszty strony Ci nie zdradzam, musisz ją odkryć na własną rękę 🙈
+
+## Stack technologiczny
+
+Jak już wcześniej wspominałem, stara strona została oparta na Gatsbym. Gatsby to bardzo fajna technologia, napisałem w niej kilka stron i aplikacji, stworzyłem nawet o niej [kurs we współpracy z Przeprogramowanymi](https://przeprogramowani.pl/darmowy-kurs-gatsby)!
+
+### Język i framework
+
+Obecna strona zrobiona jest w całości w **Next.js** i **TypeScripcie**. Czemu tak? TypeScript jest dla mnie oczywisty, obecnie, bez niego, trudno mi sobie wyobrazić pracę nad projektem. Typy to świetna sprawa, dzięki nim oszczędzamy sobie **dużo** nerwów i problemów z kodem.
+
+A co z Next.js? Next to **świetny**, Reaktowy framework, który rozwija się w naprawdę szybkim tempie. Od dłuższego czasu obserwuję tą technologię i bardzo **przyjemnie** mi się w niej pracuję. W poprzedniej wersji strony przytłoczyła mnie trochę liczba pluginów, z których korzystałem. Pluginy to jednocześnie jedna z największych zalet, ale również wad Gatsbiego.
+
+Next daję mi **większe możliwości**, jeśli chodzi o rozbudowę strony, jednak większość rzeczy implementujemy tutaj na własną rękę. To też nie jest tak, że w Next.js nie mamy żadnych pluginów, czy starterów, to wszystko jest na swoim miejscu, ale nie są one podstawą tego frameworka. Next ma również, w mojej opinii, trochę **przejrzystsze** API, całość jest bardziej intuicyjna, ale próg wejścia może(chociaż tutaj sprawa nie jest taka prosta) wyższy. W żaden sposób nie dyskredytuję tutaj Gatsbiego, nadal go uwielbiam, po prostu, ja używam tych frameworków do trochę innych celów. Tym razem postanowiłem postawić na Nexta i nie żałuję.
+
+Może pora na jakieś większe porównanie, **co Ty na to?**
+
+### CMS
+
+A gdzie trzymane są posty? Podobnie jak poprzednio, lokalnie w repozytorium. Wcześniej tworzyłem posty w [Markdownie](https://pl.wikipedia.org/wiki/Markdown), tym razem postawiłem na coś, co daje mi większą swobodę i supermoce! [MDX](https://mdxjs.com/) to taki Markdown na sterydach, w którym możemy umieszczać **Reaktowe komponenty**. Daję to naprawdę duże możliwości, w każdym momencie mogę stworzyć jakiś *customowy* komponent i wrzuć go do pliku z artykułem.
+
+Nie wspominam już o interaktywnej artykułach, będzie ciekawie ;)
+
+### Stylowanie
+
+Tutaj pojawia się znowu wiele opcji. Miałem do wyboru Scss, CSS Modules, rozwiązania CSS-in-JS typu Styled Components czy Emotion, mogłem też skorzystać z jakiegoś gotowego rozwiązania np. Tailwinda czy Chakra UI.
+
+Odrzuciłem gotowe rozwiązania, jest tu dużo _customowych_ rzeczy, wprowadzenie gotowca mogłoby utrudnić sprawę. Nie chciałem również robić globalnych styli jak poprzednio, skalowalność takiego rozwiązania jest bardzo słaba. Zostały więc rozwiązania typu CSS-in-JS i CSS Modules.
+
+Pamiętam jak na początku swojej przygody z Reaktem mega zajawiłem się Styled Components. Napisałem parę projektów z wykorzystaniem tej technologii i mam pewne przemyślenia. Największą zaletą **SC** jest to, że możemy na podstawie propsów nadawać style dla komponentu. Przydaję się to, gdy mamy jego różne wersje. Poza tą zaletą ciężko mi znaleźć jakieś inne. Styled Components to dodatkowy _narzut_, musimy tworzyć gdzieś te komponenty, rodzi się pytanie: _Ale gdzie?_ Najlepiej poza samym plikiem z komponentem. Są jeszcze problemy z nazewnictwem, nazywać jak komponent, z dopiskiem `Styled`, czy jeszcze jakoś inaczej? I jedna z potencjalnych zalet, Theme Provider, też nie jest najlepszą opcją, jeśli chodzi o performance, wspominał o tym [Kent C. Dodds w swoim artykule o CSS Variables](https://epicreact.dev/css-variables).
+
+Postawiłem na złoty środek - <Sparkles>CSS Modules</Sparkles>. Tutaj piszemy style dla danego komponentu, możemy korzystać z Scss, tak też zrobiłem. Wszystkie kolory trzymam w zmiennych CSSowych. Do manipulacji klasami przydaje się prosta libka [classnames](https://github.com/JedWatson/classnames), której jeszcze lżejszą alternatywą jest [clsx](https://github.com/lukeed/clsx).
+
+## Performance
+
+Tworząc tą stronę kładłem duży nacisk na performance. Zależało mi bardzo na tym, żeby strona była szybka, jak wyszło? Sami oceńcie!
+
+Wyniki z [LightHouse](https://developers.google.com/web/tools/lighthouse) oscylują w granicach 90-100 punktów.
+
+<Image src="/images/nowy-frontlive/nowy-frontlive-lighthouse.png" alt="" />
+
+Nowe narzędzie [Next Analytics](https://nextjs.org/analytics) wskazuję _realny wynik_ 100/100 punktów. Mierzony jest on na bazie rzeczywistych odczuć użytkownika i wykorzystuję [Web Vitals](https://web.dev/vitals/).
+
+<Image src="/images/nowy-frontlive/nowy-frontlive-next-analytics.png" alt="" />
+
+### Obrazki
+
+Wszystkie obrazki są zminifikowane i serwowane w nowoczesnym formanie [WebP](https://pl.wikipedia.org/wiki/WebP). Do minifikacji korzystam z [TinyPNG](https://tinypng.com/), a konwersję i optymalizację obsługuję plugin do Next.js - [Next Optimized Images](https://github.com/cyrilwanner/next-optimized-images).
+
+### Optymalizacja fontów
+
+Na stronie korzystam z dwóch fontów - [Inter](https://fonts.google.com/specimen/Inter) i [Criteria](https://www.fontspring.com/fonts/connary-fagen-type-design/criteria-cf). Ten pierwszy ładuję za pomocą Google Fonts, tutaj niewiele mogłem zrobić, skorzystałem tylko z **preloadu** fontów i **preconecta** dla samego Google Fonts:
+
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link
+  rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap"
+  as="stylesheet"
+/>
+```
+
+Sprawa wygląda znacznie ciekawiej, jeśli chodzi o lokalne fonty. Dostępne opcje opisuję [artykuł Zaha Leathermana](https://www.zachleat.com/web/comprehensive-webfonts/) o właściwym ładowaniu fontów. Ja skorzystałem z tego, które według autora jest najlepsze, jeśli chodzi o performance - [Critical FOFT with preload](https://www.zachleat.com/web/comprehensive-webfonts/#critical-foft-preload).
+
+## Dostępność
+
+Cała strona została przetestowana za pomocą czytnika ekranowego(**VoiceOver**) oraz **klawiatury**. Kontrast, w więszkości przypadków, jest na okej poziomie, nie jest idealnie, ale praktycznie zawsze łapię się w _standardy WCAG_.
+
+Zdarzają się wyjątki, są to teksty na kartach z kategoriami i theme dla bloków kodu. Karty mają tło stworzone za pomocą różnych gradientów, dlatego ciężko dopasować odpowiedni kontrast dla tekstu. Bloki kodu, zupełnie inaczej niż poprzednio, posiadają jasny motyw, ciemny po prostu nie pasował do stylistyki strony. W tym przypadku występują problemy z kontrastem podświetlanego kodu, spędziłem sporo czasu na poszukiwaniach jakiegoś gotowego, jasnego motywu, który wygląda sensownie i posiada odpowiedni kontrast. Niestety, **nie udało mi się** takiego znaleźć.
+
+## Coś jest, a czegoś nie ma
+
+Kilka rzeczy ubyło. Przede wszystkim nie ma ciemnego motywu. Jak wspominałem wcześniej, przy ciemnym motywie, na starej wersji strony, niektóre ikonki technologii wyglądały źle albo po prostu były niewidoczne. Tym razem nie ma ikonek technologii, więc problem by nie występował. Bardzo możliwe, że dark theme będzie dodany w przyszłości.
+
+Kolejną rzeczą, która nie znalazła się na stronie jest **wyszukiwarka** i możliwość dodawania **komentarzy**. Popularnego _szukajki_ nie implementowałem z jednego, prostego względu. Wszystkie artykuły pogrupowane są w **kategorie**, dlatego myślę, że nie będziesz miał/a problemów ze znalezieniem interesujących Cię artykułów. Jeśli brakuję Ci tej opcji, daj mi znać, na pewno stworzę taką dla Ciebie(no sarcasm). Komentarzy nie dodawałem, ponieważ średnio pasowały mi do wyglądu strony. Rzadko ktoś komentował posty bezpośrednio na stronie, myślę, że nie będzie to wielki cios.
+
+Doszła nowa sekcja pod każdym postem! Możesz teraz w łatwy sposób <Sparkles>udostępnić</Sparkles> dany artykuł na Twitterze i Facebooku. Jeśli Ci się podobało, udostępnij, pozwoli mi to dotrzeć do większej liczby odbiorców, dzięki :)
+
+No i na sam koniec - [Frontlive na Facebooku](https://www.facebook.com/Frontlivepl-104804118165557)! Zapraszam do obserwowania!
+
+## Open Source
+
+Cała strona jest dostępna [na moim GitHubie](https://github.com/olafsulich/Frontlive.pl). Cały kod, jak i artykuły są dostępne jako open source. Jeśli widzisz w jakimś artykule błąd, literówkę - daj mi znać! Będzie super jak założyć [issue](https://github.com/olafsulich/Frontlive.pl/issues), możesz też [napisać mi maila](mailto:olafsulich@gmail.com).
+
+## Podsumowanie
+
+Na sam koniec najważniejsze - <Sparkles>Twoja opinia!</Sparkles> Jak Ci się podoba nowy Frontlive? Daj znać pod postem w mediach społecznościowych lub [napisz mi maila](mailto:olafsulich@gmail.com). Będzie mi bardzo miło jak wyrazisz swoją opinię, pomaga mi to tworzyć lepsze treści dla Ciebie.
+Chciałbym Cię jeszcze poprosić o wypełnienie szybkiej ankiety. Dotyczy ona tematów, które Cię interesują, o czym chciał/a byś usłyszeć, obiecuję, nie zajmie to więcej niż minutę. Dzięki! Link do ankiety: [https://bit.ly/3qHMnqP](https://bit.ly/3qHMnqP)

@@ -1,0 +1,204 @@
+---
+title: 'JavaScript - ES6 to już przeżytek, nastała era ES2019!'
+category: 'JavaScript'
+publishedAt: '05-05-2020'
+isPublished: true
+popular: false
+image: '/images/javascript-es2019/javascript-es2019.png'
+excerpt: 'JavaScript cały czas się zmienia, kilka lat temu powstała specyfikacja ES6, która po dziś dzień, jest uważana, przez niektórych, za nowość. Niestety programistyczny świat i technologię rozwijają się bardzo szybko i co roku wychodzą nowe ficzery.'
+---
+
+**Cześć** 👋
+
+JavaScript cały czas się zmienia, kilka lat temu powstała specyfikacja **ES6**, która po dziś dzień, jest uważana, przez niektórych, za nowość. Niestety programistyczny świat i technologię **rozwijają się bardzo szybko** i co roku wychodzą nowe ficzery.
+
+Dziś poznasz kilka **najnowszych** ficzerów **ES2019**!
+
+Czego się dzisiaj dowiesz?
+
+- [Array.flat()](#arrayflat)
+- [Array.flatMap()](#arrayflatmap)
+- [Array.sort()](#arraysort)
+- [Optional Catch Binding](#optionalcatchbinding)
+- [Object.fromEntries()](#objectfromentries)
+- [String.trimStart & String.trimEnd](#stringtrimstart--stringtrimend)
+- [BigInt](#bigint)
+- [Dynamiczne importy](#dynamiczne-importy)
+
+Zaczynajmy!
+
+> Nazwy nagłówków nie są w 100% poprawne, brakuje im chociażby **prototype**, zostały one uproszczone :)
+
+## Array.flat()
+
+Rozpoczynamy z grubej rury i bierzemy się za **tablice**.
+
+Metoda `flat()` spłaszcza zagnieżdżone w sobie tablice. Możemy _regulować_ poziom spłaszczenia podając
+do niej parametr `depth`.
+
+```js
+let numbers = [1, 2, 3, [4, 5], 6, 7, [8, [9, 10]]];
+
+numbers.flat(); // [1, 2, 3, 4, 5, 6, 7, 8, [9, 10]] - pierwszy poziom spłaszczenia
+
+numbers.flat(2); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] - drugi poziom spłaszczenia
+```
+
+Jeżeli nie jesteśmy pewni jaki powinniśmy podać _poziom spłaszczenia_, możemy skorzystać z `Infinity`.
+
+```js
+let numbers = [1, [2, [3, [4, [5, [6, [7]]]]]]];
+
+number.flat(Infinity); // [1, 2, 3, 4, 5, 6, 7]
+```
+
+## Array.flatMap()
+
+Brzmi jak połączenie `map()` i `flat()`? Dokładnie tym jest! Pozwala nam **mapować** po tablicy, jednocześnie **spłaszczając** zagnieżdżone wartości.
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6, 7];
+
+const multiplyByTwo = () => numbers.flatMap((number) => [number, ' 👀 ']);
+// [1, 👀 , 2, 👀 , 3, 👀 , 4, 👀 , 5, 👀 , 6, 👀 , 7, 👀 ]
+```
+
+## Array.sort()
+
+Możliwe, że paru z was słyszało już o `sort()`, a może go nawet używało. Mogła być to jednak **niestabilna** wersja **V8**, dziś zajmiemy się tą stabilną.
+
+Jak sama nazwa mówi, `sort()` zwraca nam posortowane wartości tablicy.
+Algorytm sortowania, by default, sortuje nam elementy **rosnąco**, zanim jednak to zrobi, konwertuje je na stringi i porównuje z wartości [unicode UTF-16](https://pl.wikipedia.org/wiki/UTF-16).
+
+```js
+const players = [
+  { name: 'Michał', level: 12 },
+  { name: 'Kuba', level: 7 },
+  { name: 'Bartek', level: 1 },
+  { name: 'Adam', level: 30 },
+];
+
+const sortingAlgorithm = (first, second) => first.name - second.name;
+
+const sortedPlayers = players.sort(sortingAlgorithm);
+```
+
+Nasz _algorytm_ sortujący posortował graczy, w **odwrotnej kolejności**, po imionach.
+
+## Optional Catch Binding
+
+Sama nazwa, może wydawać się skomplikowana, ale tak jak poprzednio, opisuje dokładnie to, co zostało wprowadzone. Pamiętacie parametr `error` w `catch`? No to możecie o nim zapomnieć(joke), w ES10 jest on opcjonalny i **nie musimy go podawać**.
+
+```js
+// stare :c
+
+try {
+  //...
+} catch (e) {
+  //...
+}
+
+// nowe :)
+
+try {
+  //...
+} catch {
+  //...
+}
+```
+
+## Object.fromEntries()
+
+Przekształca listę kluczy i wartości na **obiekt**. Ta _lista_ musi należeć do grupy [iterowalnych](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol), np. **Map** i **Array**.
+
+```js
+const player = [
+  ['name', 'Wojtek'],
+  ['age', 28],
+];
+
+Object.fromEntries(player); // { name: 'Wojtek', age: 28 }
+```
+
+## String.trimStart & String.trimEnd
+
+Metody `trimStart` i `trimEnd` usuwają odpowiednio odstępy z początku i końca **stringu**.
+
+```js
+const greeting = '   Hello friend!   ';
+
+greeting.trimStart(); // "Hello friend!   "
+
+greeting.trimEnd(); // // "   Hello friend!"
+```
+
+## BigInt
+
+**BigInt** jest nowym prymitywnym typem, który wspiera **DUŻE** liczby całkowite. Możemy teraz
+przedstawiać takie liczby jak `2^53`, tak wiem, pewnie korzystacie z tego w codziennej pracy.
+
+**BigInt** dołącza do naszej liczby całkowitej literkę `n`. Możemy go wykorzystać zarówno na liczbach, jak i na stringach.
+
+```js
+const superHugeNumber = BigInt(9007199254740991); // 9007199254740991n
+
+const superHugeString = BigInt('9007199254740991'); // 9007199254740991n
+```
+
+BigInt może Ci przypominać typ `Number`, jednak nim nie jest. Nie możemy łączyć _zwykłych_ liczb z BigIntem, nie możemy również użyć na nim takich metod jak `Math`, porównywać możemy go tylko do **samego siebie**.
+
+Do czego to może Ci się przydać?
+
+Nie mam pojęcia, może akurat będziesz aplikować do **NASA** 😅
+
+## Dynamiczne importy
+
+To jedna z moich ulubionych **nowości**! Tak jak importowaliśmy moduły na początku danego pliku, tak teraz możemy to zrobić **gdziekolwiek** chcemy, np. w **funkcji asynchronicznej**.
+
+`import(...)` ładuje moduł i zwracam nam **obietnicę**(promise), który resolvuje się i daje nam dostęp do obiektu przechowującego **wszystkie exporty**.
+
+```js
+// userInfo.js
+
+const printPlayerName = () => "Kuba";
+const printPlayerAge = () => 20;
+
+export { printPlayerName, printPlayerAge };
+
+
+// app.js
+
+const = async () => {
+  const {printPlayerName, printPlayerAge} = await import("./userInfo.js");
+  printPlayerName();
+  printPlayerAge();
+}
+```
+
+A co z defaultowymi exportami?
+
+```js
+// userScore.js
+
+const printScore = () => 122;
+
+export default printScore;
+
+// app.js
+
+const = async () => {
+  const score = await import("./userScore.js");
+  score.default();
+}
+```
+
+## Podsumowanie
+
+To wszystko na dziś, **jak wam się podobają** nowości w JS?
+
+Dajcie znać w komentarzach!
+
+### Źródła
+
+- [MDN](https://developer.mozilla.org/en-US/)
+- [JavaScript.info](https://javascript.info/)

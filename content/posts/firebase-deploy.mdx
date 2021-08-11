@@ -1,0 +1,286 @@
+---
+title: 'Firebase - reguły zabezpieczeń, cloud functions i deploy'
+category: 'Firebase'
+publishedAt: '10-04-2020'
+isPublished: true
+popular: false
+image: '/images/firebase-deploy/firebase-deploy.png'
+excerpt: 'Zabezpiecz swoją aplikację za pomocą reguł bezpieczeństwa, wykonaj funkcję po stronie serwera i wypuść kod na produkcję!'
+---
+
+## Ostatnia prosta!
+
+W ostatnich trzech wpisach zapoznałeś się z podstawami firebase, dziś kończymy mini serię związaną z tą technologią.
+
+**Czego się dowiesz?**
+
+- Jak zabezpieczyć swoje dane za pomocą reguł bezpieczeństwa.
+- Poznasz podstawy firebasowych funkcji.
+- Dowiesz się, w jaki sposób wydeplowoać swoją firebasową aplikcję.
+
+Do dzieła!
+
+## Co powinieneś wiedzieć?
+
+Żeby wyciągnąć z tego artykułu 100%, powinieneś swobodnie poruszać się po Reactcie.
+
+- Mieć w małym palcu [HTML & CSS](https://tutorials.comandeer.pl/html5-blog.html).
+- Być obeznanym ze standardami [ES6+](https://www.youtube.com/watch?v=eA2YRceiDwk).
+- Rozumieć [Reactowe Hooki](https://reactjs.org/docs/hooks-intro.html)
+- Posiadać podstawową wiedzę ze [Styled Components](https://styled-components.com/)
+- Zaznajomić się z poprzednimi wpisami o Firebase.
+
+> Jeśli te zagadnienia są Ci obce, nie martw się! Firebase możesz również wykorzystać bez znajomości Reacta.
+
+## Reguły zabezpieczeń
+
+Żeby zadeklarować reguły zabezpieczeń, przejdź do zakładki **Reguły** w database.
+
+Poniżej możesz zobaczyć ich podstawową strukturę.
+
+```
+ rules_version = '2';
+ service cloud.firestore {
+  match /databases/{database}/documents {
+    match /<some_path>/ {
+      allow read;
+      allow write: if <some_condition>;
+    }
+  }
+}
+```
+
+Okej, ale o co w tym wszystkim chodzi? `rules_version` to po prostu wersja reguł, nie musisz się tym przejmować. `match` to określenie, za pomocą którego wskazujemy ścieżkę do kolekcji w bazie danych. Za pomocą roli `allow` wskazujemy, na co chcemy pozwolić, np. allow read pozwala nam odczytywać wszystkie dokumenty.
+
+Na co możemy pozwalać?
+
+- Odczyt (**read**)
+- Zapis (**write**)
+
+Rola `read` może być rozbita na **get** oraz **list**, natomiast rola `write` na **update**, **create** i **delete**.
+
+Na początku może być to dla Ciebie trochę niezrozumiałe, dlatego weźmy przykład z prawdziwego zdarzenia.
+
+Załóżmy, że posiadasz bazę danych o swoich ulubionych twórcach, chcesz dodać twórcę, tylko wtedy, gdy pole **creatorName** nie będzie puste.
+
+Możesz to zrobić w następujący sposób:
+
+```
+ rules_version = '2';
+ service cloud.firestore {
+  match /databases/{database}/documents {
+    match /creators/{creatorId} {
+      allow read;
+      allow write: if request.resource.data.creatorName != '';
+    }
+  }
+}
+```
+
+> resource.data zwraca nam mapę wszystkich pól i wartości dokumentów w kolekcji
+
+Stwierdziłeś, że możesz uaktualniać dane o twórcy, **wyłącznie wtedy, kiedy jesteś zalogowany**, co w takim wypadku?
+
+Dodajmy odpowiednie reguly bezpieczeństwa:
+
+```
+ rules_version = '2';
+ service cloud.firestore {
+  match /databases/{database}/documents {
+    match /creators/{creatorId} {
+      allow read;
+      allow create: if request.resource.data.creatorName != '';
+      allow update: if request.auth.uid != null;
+    }
+  }
+}
+```
+
+## Podkolekcję
+
+Dodajmy do naszej kolekcji `creators` podkolekcję `activity`.
+
+Chcemy napisać dla niej regułę, która pozwoli nam odczytywać i zapisywać wszystkie dokumenty.
+
+Struktura reguł bezpieczeństwa będzie wyglądała tak:
+
+```
+ rules_version = '2';
+ service cloud.firestore {
+  match /databases/{database}/documents {
+    match /creators/{creatorId} {
+      allow read;
+      allow create: if request.resource.data.creatorName != '';
+      allow update: if request.auth.uid != null;
+
+      match /activity/{activity}{
+          allow read,write;
+      }
+    }
+  }
+}
+```
+
+## Funkcję
+
+W regułach bezpieczeństwa możesz również pisać funkcję, stwórzmy funkcję, która sprawdza czy użytkownik jest zalogowany.
+
+```
+ rules_version = '2';
+ service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isLoggedIn() {
+      return request.auth.uid != null;
+    }
+
+    match /creators/{creatorId} {
+      allow read;
+      allow create: if request.resource.data.creatorName != '';
+      allow update: if isLoggedIn();
+
+      match /activity/{activity}{
+          allow read,write;
+      }
+    }
+  }
+}
+```
+
+## Deploy
+
+Zacznijmy od zalogowania się do **Firebase**.
+
+```bash
+$ fireabse login
+```
+
+Zainicjujmy aplikację:
+
+```bash
+ $ fireabse init
+```
+
+Do wyboru mamy następujące opcję:
+
+- Database
+- **Firestore**
+- **Functions**
+- **Hosting**
+- Storage
+
+**Firestore** skopiuje nasze `reguły zabezpieczeń` i zapisze lokalnie w projekcie. Dzięki temu, możemy twórzyć reguły w naszym edytorze.
+**Functions** tworzy plik konfiguracyjnyc cloud functions, niezbędna opcja, jeżeli chcemy korzystać z `Cloud Functions`, o których później.
+**Hosting** pozwala nam użyć firebase jako hostingu dla naszej aplikacji.
+
+Po odznaczeniu powyższych opcji, wybieramy interesujący nas projekt.
+
+Następnie mamy opcję wybrania języka dla `Cloud Functions`, możemy wybrać Javascript lub Typescript.
+
+Jeśli odznaczyłeś opcję **Hosting**, będziesz musiał wybrać jeszcze folder, z którego twoja aplikacja będzie hostowana.
+
+## Cloud Functions
+
+Żeby zacząć pracować z firebasowymi funkcjami, potrzebujesz wydeployować swoją aplikację ☝️.
+
+Instalacja:
+
+```bash
+ npm install firebase-functions@latest firebase-admin@latest firebase-tools@latest
+```
+
+Przejdz do folderu functions a w nim do `index.js`.
+
+Dodajmy niezbędne pakiety i zainicjujmy aplikację.
+
+```js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp(functions.config().firebase);
+```
+
+#### Piszemy pierwszą funkcję!
+
+Napiszmy funkcję, dzięki której będziemy otrzymywać notyfikację o nowo dodanym twórcy.
+
+Do **firestore** odwołujemy się w następujący sposób:
+
+```js
+const firestore = admin.firestore();
+```
+
+Funkcja:
+
+```js
+const notificationTime = admin.firestore.FieldValue.serverTimestamp();
+
+exports.newCreator = functions.firestore.document('creators/{creatorId}').onCreate((doc) => {
+  const id = doc.id;
+  const { photo, name, website } = doc.data();
+  const notification = {
+    name,
+    photo,
+    website,
+    createdAt: notificationTime,
+    id,
+  };
+});
+```
+
+Eksportujemy funkcję używając `exports.<nazwa_funkcji>`, metoda `onCreate`, jak sama nazwa mówi wywoła się, wtedy, gdy utworzymy nowego twórcę.
+
+Stworzyliśmy notyfikację, ale musimy ją jeszcze zapisać w naszym **firestore**.
+
+Przygotujmy funkcję:
+
+```js
+const createNotification = (notification) =>
+  firestore.collection('notifications').add(notification);
+```
+
+Twój kod powinien wyglądać mniej więcej tak:
+
+```js
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
+admin.initializeApp(functions.config().firebase);
+
+const firestore = admin.firestore();
+const notificationTime = admin.firestore.FieldValue.serverTimestamp();
+
+const createNotification = (notification) =>
+  firestore.collection('notifications').add(notification);
+
+exports.newCreator = functions.firestore.document('creators/{creatorId}').onCreate((doc) => {
+  const id = doc.id;
+  const { photo, name, website } = doc.data();
+  const notification = {
+    name,
+    photo,
+    website,
+    createdAt: notificationTime,
+    id,
+  };
+  return createNotification(notification);
+});
+```
+
+Aby wydeployować funkcję, musimy użyć komendy:
+
+```bash
+$ firebase deploy --only functions
+```
+
+Więcej o firebesowych funkcjach dowiesz się [tutaj](https://firebase.google.com/docs/functions).
+
+## Podsumowanie
+
+To już ostatni artykuł z serii **React + Firebase**, mam nadzieję, że chociaż w małym stopniu przybliżyłem Ci narzędzie od Google, jakim jest Firebase.
+
+Jeśli chciałbyś dowiedzieć się więcej - kliknij [tutaj](https://firebase.google.com/docs).
+
+Dzięki za wytrwanie do końca!
+
+Do usłyszenia!

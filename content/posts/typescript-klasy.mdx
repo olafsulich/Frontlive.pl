@@ -1,0 +1,605 @@
+---
+title: 'TypeScript - Generics, klasy i zaawansowane typy'
+category: 'TypeScript'
+publishedAt: '15-05-2020'
+isPublished: true
+popular: false
+image: '/images/typescript-klasy/typescript-generics.png'
+excerpt: 'Zagłębiamy się w TypeScripta. W tym wpisie poznasz typy genereczyne, typy zaawansowane, a i dla fanów OOP coś się również znajdzie!'
+---
+
+## Wprowadzenie
+
+W poprzednim wpisie poznałeś podstawy TypeScriptu, mam nadzieję, że przećwiczyłeś je w praktyce!
+Dziś coś dla fanów OOP, ale nie tylko! Poznamy również **Generics** i zaawansowane typy.
+
+## Klasy
+
+Jeśli nie poznałeś jeszcze klas w JavaScripcie, zachęcem Cię do sprawdzenia [tego materiału](http://kursjs.pl/kurs/es6/class.php). Nie będziemy bowiem tutaj się zagłębiać w to czym są klasy, jak działają, tylko po to, żeby nie tracić Twojego czasu.
+
+### Public
+
+`public` w TypeScripcie działają tak jak \*normalne właściwości, nie musisz ich oznaczać.
+
+```ts
+class Person {
+  public name: string;
+
+  public constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+```
+
+> \*Public znajduje swoje zastosowanie w parametrach konstruktora, o których za chwilkę.
+
+### Private
+
+Każdą właściwość możemy zmienić na prywatną, poprzedzając ją słowem `private`.
+Taka właściwość nie będzie dostępna poza klasą, w której się znajduje.
+
+```ts
+class Person {
+  private name: string;
+
+  constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+
+const employer = new Person('Jakub');
+employer.name; // error
+```
+
+> Ciekawostka: Prywatne właściwości nie są chronione podczas runtime'u
+
+### Protected
+
+Podobne do `private`, różnią się tym, że `protected` możemy użyć podczas **dziedziczenia**.
+
+```ts
+class Person {
+  protected name: string;
+
+  constructor(personName: string) {
+    this.name = personName;
+  }
+
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+
+class Employee extends Person {
+  private company: string;
+
+  constructor(name: string, company: string) {
+    super(name);
+    this.company = company;
+  }
+
+  public printEmployeeInfo() {
+    return `Hi, I'm ${name} and I work for ${this.company}`;
+  }
+}
+
+const jakub = new Employee('Jakub', 'Firma_Krzak');
+jakub.printEmployeeInfo(); // Hi, I'm Jakub and I work for Firma_Krzak
+jakub.name; // error
+```
+
+Zauważ, że nie możemy użyć `name` poza klasą, a jedynie w klasie dziedziczącej, lub w niej samej.
+
+#### Protected Constructor
+
+Wykorzystajmy nabytą wiedzę i użyjmy `protected` przy konstruktorze. Co daje nam taki zabieg? Dzięki temu będziemy mogli **tylko** dziedziczyć daną klasę, a nie ją instancjonować.
+
+```ts
+class Person {
+  protected constructor(protected personName: string) {}
+}
+
+class Employee extends Person {
+  private company: string;
+  constructor(name: string, company: string) {
+    super(name);
+    this.company = company;
+  }
+
+  public printEmployeeInfo() {
+    return `Hi, I'm ${name} and I work for ${this.company}`;
+  }
+}
+
+const jakub = new Employee('Jakub', 'Firma_Krzak'); // Wszystko ok
+const bartek = new Person('Bartek'); // error
+```
+
+### Readonly
+
+Znane Ci już `readonly` możemy użyć również w klasach:
+
+```ts
+class Person {
+  protected readonly name: string;
+  constructor(personName: string) {
+    this.name = personName;
+  }
+  changeName() {
+    this.name = 'Marek'; // error
+  }
+}
+```
+
+### Parametry konstruktora
+
+Mamy możliwość, by użyć powyższych parametrów w naszym konstruktorze! Tutaj `public` może nam się przydać. Co daje nam, w tym przypadku, TypeScript?
+
+- Deklaruje **instancje** właściwości **o tej samej nazwie**
+- Przypisuje dany **parametr** do tej **instancji**
+
+Poniższe klasy działają na takiej samej zasadzie.
+
+```ts
+// Wersja pierwsza
+class Person {
+  name: string;
+  protected age: number;
+  private readonly isMarried: boolean;
+  constructor(name: string, age: number, isMarried: boolean) {
+    this.name = name;
+    this.age = age;
+    this.isMarried = isMarried;
+  }
+}
+
+// Parametry konsturktora
+
+class Person {
+  constructor(public name: string, protected age: number, private readonly isMarried: boolean) {}
+}
+```
+
+### Interfejsy w klasach
+
+Mam nadzieję, że kojarzysz podstawowe założenia idące za **Interfejsami**. Jeśli nie, zachęcam Cię do sprawdzenia [poprzedniego wpisu](https://www.frontlive.pl/typescript-podstawy/).
+
+Interfejsy wykorzystujemy w klasach, używając słowa `implements`.
+Możemy ich podać kilka, mogą również być one rozszerzane.
+
+```ts
+interface PersonAge {
+  getPersonAge(personAge: number): void;
+}
+
+class Person implements PersonAge {
+  protected name: string;
+  constructor(personName: string) {
+    this.name = personName;
+  }
+  public getPersonAge(personAge: number) {
+    console.log(`${this.name} is ${personAge} years old`);
+  }
+}
+```
+
+### Klasy abstrakcyjne
+
+Klas abstrakcyjnych **nie możemy** instancjonować. **Tylko klasy dziedziczne** mogą to robić, no chyba, że są również abstrakcyjne. Abstrakcyjne klasy mogą również posiadać abstrakcyjne **metody**, nie mogą być one implementowane, posiadają tylko tzw. _sygnaturę typów_. Do oznaczania abstrakcyjnych klas i ich metod używamy słowa `abstract`.
+
+```ts
+abstract class Person {
+  constructor(readonly name: string) {}
+  abstract getPersonAge(personAge: number): void;
+}
+
+const jakub = new Person('Jakub'); // error
+```
+
+Przypominają one Intefejsy, ale nimi nie są. Abstrakcyjne klasy mogą zawierać również metody z jakąś implementacją (metody bez `abstract`), interfejsy tego nie robią.
+
+> Ciekawostka: _Abstrakcyjne_ klasy występują tylko w procesie kompilacji, podczas runtime'u zachowują się jak normalne klasy.
+
+## Typy generyczne(Generics)
+
+Pozwalają nam one nadawać **dynamicznie typy**. Wyznaczają, w pewnym sensie, kolejny poziom _abstrakcji_. Mają zastosowanie w funkcjach, interfejsach i klasach.
+
+### Funkcje
+
+Spójrzmy na przykład (to jeszcze nie jest typ generyczny):
+
+```ts
+function identity(arg: number): number {
+  return arg;
+}
+```
+
+Mamy tutaj funkcję, która przyjmuje parametr typu `number` i po prostu go zwraca. Jest parę problemów z tą funkcją. Po pierwsze, ciężko by nam było ją w jakimś stopniu **rozbudować**, a poza tym mamy tutaj na sztywno wklepany typ `number`, dla argumentu i zwracanej wartości. Pierwsza myśl, która mogłaby Ci przyjść do głowy, to użycie `any`. **Nie jest** to jednak dobry sposób, tracimy wtedy całą kontrolę nad typami.
+
+Przekształćmy teraz naszą funkcję na funkcję generyczną.
+
+```ts
+function someFunc<T>(arg: T): T {
+  return arg;
+}
+
+someFunc<string>('Awesome!'); // Awesome
+```
+
+Po nazwie funkcji podajemy `<T>`, to samo jeśli chodzi o typ parametru i zwracany typ, tylko że bez nawiasów. Jeśli mamy jeden argument, często spotykaną praktyką jest użycie właśnie literki **T**, drugi argument za to może być jako **U**.
+Przekształćmy teraz funkcje tak, aby zwracała tuple medali olimpijskich.
+
+```ts
+function getOlympicMedals<T, U>(arg1: T, arg2: U): [T, U] {
+  return [arg1, arg2];
+}
+
+getOlympicMedals<string, string>('1st 🥇', '2nd 🥈'); // ["1st 🥇","2nd 🥈"]
+```
+
+### Klasy
+
+Typów generycznych, jak już wcześniej wspominałem, możemy użyć również z klasami:
+
+```ts
+class Animal<T> {
+  constructor(public name: T) {}
+
+  getAnimalName(name: T) {
+    console.log(name);
+  }
+}
+const giraffe = new Animal<string>('Skittles');
+giraffe.getAnimalName('Skittles');
+```
+
+### Interfejsy
+
+Przyszedł czas na _generyczne interfejsy_, tutaj podobna sytuacja.
+
+```ts
+interface Person<V, W> {
+  userName: V;
+  hobbies: W[];
+}
+
+function getUserInfo<T, U>(userName: T, hobbies: U[]): Person<T, U> {
+  const user: Person<T, U> = {
+    userName,
+    hobbies,
+  };
+  return user;
+}
+getUserInfo<string, string>('Przemek', ['programming', 'boxing', 'windsurfing']);
+```
+
+### Generic Constraints
+
+Jest to pewne nadawanie restrykcji dla generycznych typów. W tym celu używamy słowa `extends`.
+Mamy tutaj interfejs `User`, którego wartość **age** jest typu `number`. W funkcji rozszerzamy typ U typem `User[]`.
+
+```ts
+interface User {
+  age: number;
+}
+
+function combineUserInfo<T extends object, U extends User[]>(a: T, b: U) {
+  return Object.assign(a, b);
+}
+combineUserInfo({ name: 'Bob' }, [{ age: 23 }]);
+```
+
+#### Użycie typu parametru
+
+Możesz zadeklarować typ, który jest wymuszony przez inny typ parametru. Dla przykładu weźmy wartość obiektu, podając jej nazwę. Skorzystamy tutaj z `keyof`.
+
+```ts
+function getUserLocation<T extends object>(obj: T, key: keyof T) {
+  return obj[key];
+}
+
+let user = { userName: 'Maciej', age: 22 };
+
+getUserLocation(user, 'userName'); // wszystko ok
+getUserLocation(user, 'location'); // error: Argument o typie "location" nie jest przypisywalny do  'userName' lub "age".
+```
+
+## Zaawansowane typy
+
+### Unknown
+
+W poprzednim wpisie przekazałem Ci, że `any`, może być przydatne przy zaciąganiu jakiś zewnętrznych danych (API), jest to najpopularniejsza metoda, ale nie najlepsza. TypeScript od pewnego czasu daje nam lepszy sposób.
+
+Przedstawiam Ci typ `unknown`, to właśnie on może być skuteczny przy danych z API. Jest on bardzo podobny do `any`, bo tak jak `any` może przyjąć każdy typ. Samo `unknown` nie jest jednak przypisywalne do innej wartości niż `any` lub `unknown`, bez aktywnej asercji typów. Dlaczego `unknown` jest lepszym wyborem od `any`? Daje nam on podobną _swobodę_, ale pilnuje nas, przed nieświadomym przypisaniem do poprawnie otypowej zmiennej.
+
+```ts
+const userName: any = 'Kamil';
+const userAge: unknown = 23;
+
+const newName: string = userName; // wszystko okej
+const newAge: number = userAge; // typ unknown nie jest przypisywalny do typu number
+```
+
+### Aliasy typów
+
+Pozwala na zdefiniowanie **aliasu** danego typu. Często w przykładach wykorzystywaliśmy typ `string` dla userName. Jeśli zdefiniujemy sobie taki alias, będziemy mogli go używać w wielu miejscach.
+
+```ts
+type UserName = string;
+
+function getUserName(userName: UserName): UserName {
+  return userName;
+}
+
+const newUserName: UserName = 'Tomek';
+```
+
+### Intersection Types
+
+Połączenie dwóch typów w jeden:
+
+```ts
+type Animal = {
+  name: string;
+  breed: string;
+};
+
+type Human = {
+  name: string;
+  origin: string;
+};
+
+type Wolverin = Animal & Human;
+```
+
+Wykorzystywany często z interfejsami:
+
+```ts
+interface Animal {
+  name: string;
+  breed: string;
+}
+
+interface Human {
+  name: string;
+  origin: string;
+}
+
+function transformToWolf(character: Animal & Human){...};
+```
+
+Wykorzystanie z operatorem OR:
+
+```ts
+type ArrayOrObject = [] | {};
+type ArrayOrNull = [] | null;
+
+type UniversalType = ArrayOrObject & ArrayOrNull; // []
+```
+
+### Union Types i Type guard
+
+Pozwala opisać typ jeden z dwóch (lub wielu). Możemy go fajnie użyć z tzw. **Type guardem**.
+Co to jest type guard? Type guard pozwala nam sprawdzić np. Czy dana zależność znajduje się w obiekcie. `in` to zależność JavaScriptowa, nie TS'owa.
+Type guardem może być również [typeof](https://www.typescriptlang.org/docs/handbook/advanced-types.html#typeof-type-guards) czy też [instanceof](https://www.typescriptlang.org/docs/handbook/advanced-types.html#instanceof-type-guards), metod na type guardy jest wiele.
+
+```ts
+interface Animal {
+  name: string;
+  breed: string;
+}
+
+interface Human {
+  name: string;
+  origin: string;
+}
+
+type Wolverin = Animal | Human;
+
+const printBreed = (character: Wolverin): void | null => {
+  if ('breed' in character) {
+    console.log(`Breed: ${character.breed}`);
+  }
+  return null;
+};
+
+const character = {
+  name: 'Wolverine',
+  breed: '🐈',
+};
+
+printBreed(character);
+```
+
+### String/Numeric literals types
+
+String literals to taka kombinacja `union types`,`type guards` i aliasów. Powiedzmy, że zamiast po prostu typu string, potrzebujemy sprawdzać konkretne wartości. To samo tyczy się Numeric literals type.
+
+```ts
+type WolverineEnemies = 'Daken' | 'Sabretooth' | 'Lady Deathstrike';
+
+class WolverineFight {
+  fightWithEnemie(health: number, enemy: WolverineEnemies) {
+    if (enemy === 'Daken') {
+      // ..
+    } else if (enemy === 'Sabretooth') {
+      //...
+    } else if (enemy === 'Lady Deathstrike') {
+      //...
+    } else {
+      // błąd!
+    }
+  }
+}
+
+let firstFight = new WolverineFight();
+firstFight.fightWithEnemie(50, 'Sabretooth');
+```
+
+### Discriminated Unions
+
+Możesz łączyć samodzielne typy, union types, type guardsy, aliasy typów i stworzyć zaawansowany patern zwany **Discriminated Union**.
+
+Przykład wykorzystanie z interfejsami dość jasno przedstawia dokumentacja:
+
+```ts
+interface Square {
+  kind: 'square';
+  size: number;
+}
+interface Rectangle {
+  kind: 'rectangle';
+  width: number;
+  height: number;
+}
+interface Circle {
+  kind: 'circle';
+  radius: number;
+}
+
+type Shape = Square | Rectangle | Circle;
+
+function area(s: Shape) {
+  switch (s.kind) {
+    case 'square':
+      return s.size * s.size;
+    case 'rectangle':
+      return s.height * s.width;
+    case 'circle':
+      return Math.PI * s.radius ** 2;
+  }
+}
+```
+
+Więcej zaawansowanych typów możesz znaleźć w [dokumentacji](https://www.typescriptlang.org/docs/handbook/advanced-types.html). Nie wspomniałem tutaj, chociażby o [mapped types](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types), [polimorficznym this](https://www.typescriptlang.org/docs/handbook/advanced-types.html#polymorphic-this-types) i kilku innych.
+
+## Utility Types
+
+Są to globalne typy pomocnicze. Przydają się, jeśli mamy kilka typów, które są np. `readonly` lub `optional`. Mają podobną składnię do [typów generycznych](www.frontlive.pl/typescript-średniozaawansowy/#generyki).
+
+### Partial
+
+_Transformuje_ wszystkie typy do typów oznaczonych jako opcjonalne.
+
+```ts
+interface Todo {
+  title: string;
+  description: string;
+}
+
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {...}
+```
+
+### Readonly
+
+_Przekształca_ wszystkie typy do typów `readonly`
+
+```ts
+interface Todo {
+  title: string;
+}
+
+const todo: Readonly<Todo> = {
+  title: 'Napisać nowy wpis na Frontlive.pl',
+};
+
+todo.title = 'TypeScript jest super!'; // błąd!
+```
+
+Mamy dostęp do aż 16 utility types, znajdziesz je wszystkie [tutaj](https://www.typescriptlang.org/docs/handbook/utility-types.html).
+
+## Object & object
+
+W TypeScriptcie mamy dwa sposoby na typowanie obiektów. `Object` jest typem dla instancji klasy Object, natomiast `object` jest typem dla wszystkich, nieprymitywnych wartości. Różnica w nazewnictwie dość subtelna, ale są to dwie zupełnie inne rzeczy. Zobaczmy, jak to działa w praktyce.
+
+```ts
+const getUserName = (userName: Object) => {...}
+getUserName('Kamil'); // Wszystko okej
+
+const getUserFullName = (fullName: object) => {...}
+getUserFullName('Kamil Kowalski'); // error, prymitywna wartość
+```
+
+Załóżmy, że chcielibyśmy mieć obiekt z metodą `toString()`, jeśli nadajmy typ obiektowi - `Object` to dostaniemy błąd o niekompatybilności typów, jeśli typ naszego obiektu będzie `objekt`, wszystko powinno być okej.
+
+```ts
+
+const user: Object = {
+  toString() {...} // błąd!
+};
+
+const anotherUser: object = {
+  toString(){...}
+}
+```
+
+## Type vs Interface
+
+Poznaliśmy już **aliasy typów** i **interfesjy**, pewnie wielu z was zastanawia się, jakie różnice są pomiędzy nimi.
+
+Tak, jak już Ci pokazywałem w poprzednim wpisie, ale nie podając jeszcze tej nazwy, **object type literals** możemy wpisywać inlinowo, czego nie da się zrobić z **interfesjami**.
+
+```ts
+// Object type literals
+const getUserName = (user: {userName: string}) => {...}
+
+// Interfejsy
+interface User {
+  age: number;
+}
+
+const getUserAge = (user: User) => {...}
+```
+
+Typów aliasów nie możemy duplikować, jeśli zduplikujemy interfejs, to _złączy_ on się w jeden, praktyka znana jako **Declaration merging**.
+
+```ts
+// błąd!
+type User = {
+  userName: string;
+};
+
+// błąd!
+type User = {
+  age: number;
+};
+
+interface Dog {
+  name: string;
+}
+
+interface Dog {
+  age: number;
+}
+```
+
+<Image src="/images/typescript-klasy/InterfacevsType.jpeg" alt="" />
+
+Różnic jest jeszcze kilka, czy to skrócony zapis, wygoda, [mapowane typy](https://www.typescriptlang.org/docs/handbook/advanced-types.html#mapped-types) czy też [polimorficzny this](https://www.typescriptlang.org/docs/handbook/advanced-types.html#polymorphic-this-types). Jeśli chcesz dowiedzieć się więcej, polecam Ci [to issue](https://github.com/peerigon/eslint-config-peerigon/issues/64) na githubie.
+
+## Podsumowanie
+
+To tyle na dziś. Chciałem dorzucić jeszcze tutaj kilka tematów, ale i tak wpis wyszedł trochę długi, **więcej za tydzień!**.
+
+Przedstawiłem Ci tutaj tylko **wąskie spojrzenie** na cały temat, jeśli będziesz zainteresowany, zawsze możesz spojrzeć do dokumentacji i **odkrywać nowe rzeczy**, nie da się bowiem w jednym artykule rozwinąć każdego tematu w 100%. Jeśli zainteresował Cię TypeScript i nie chcesz czytać dokumentacji, ale chciałbyś zagłębić się jeszcze bardziej w ten świat, to zachęcam do przeczytania jakieś **dobrej książki** o TypeScripcie, na przykład tej: [TypeScript na poważnie - Michał Miszczyszyn](https://typescriptnapowaznie.pl/).
+
+Jeśli dotrwałeś do końca, to przyjąłeś konkretną dawkę wiedzy i pewnie Twój mózg, tak samo jak mój, gdy tego wszystkiego się uczyłem (wciąż uczę), **eksplodował** 🤯.
+
+Pamiętaj, żeby **przećwiczyć** zdobytą dziś wiedzę, możesz popróbować i **rozbudować** powyższe przykłady lub pobawić się w [TypeScriptowym playgroudzie!](https://www.typescriptlang.org/play/index.html)
+
+Do usłyszenia za tydzień!
+
+### Źródła
+
+- [Typescriptlang](https://www.typescriptlang.org/index.html).
+- [2ality](https://2ality.com/index.html).
+- [Johannes Ewald - TypeScript: types vs. interfaces ](https://github.com/peerigon/eslint-config-peerigon/issues/64)
+- [Types vs. interfaces in TypeScript 🔭 - Karol Majewski](https://twitter.com/karoljmajewski/status/1082413696075382785)

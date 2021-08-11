@@ -1,0 +1,587 @@
+---
+title: 'GraphQL - zapytania, mutacje i schema'
+category: 'GraphQL'
+publishedAt: '31-07-2020'
+isPublished: true
+popular: false
+image: '/images/graphql-sredniozaawansowany/graphql-zapytania-i-mutacje.png'
+excerpt: 'Kontynuujemy przygodę ze światem GraphQLa i zabieramy się za realne zagadnienia 🥳 Dziś poznasz zapytania, mutacje, scheme, typy i wiele więcej, a w następnym wpisie, ze zdobytą dziś wiedzą podbijamy Reakta!'
+---
+
+Kontynuujemy przygodę ze światem **GraphQLa** i zabieramy się za **realne zagadnienia** 🥳 Dziś poznasz _zapytania_, _mutacje_, _scheme_, _typy_ i wiele więcej, a za tydzień, ze zdobytą dziś wiedzą **podbijamy Reakta**!
+
+Poniżej, jak zawsze, mały _spis treści_ 📖
+
+## Spis treści
+
+- [Zapytania](#zapytania)
+  - [Argumenty](#argumenty)
+  - [Aliasy](#aliasy)
+  - [Imienne query](#imienne-query)
+  - [Zmienne](#zmienne)
+  - [Fragmenty](#fragmenty)
+    - [Inlinowe fragmenty](#inlinowe-fragmenty)
+  - [Meta fields](#meta-fields)
+  - [Dyrektywy](#dyrektywy)
+- [Mutacje](#mutacje)
+- [Schema i typy](#schema-i-typy)
+  - [Typy skalarne](#typy-skalarne)
+  - [Object types](#object-types)
+  - [Typy zapytań i mutacji](#typy-zapytan-i-mutacji)
+  - [Enumy](#enumy)
+  - [Interfejsy](#interfejsy)
+  - [Union types](#union-types)
+  - [Input types](#input-types)
+- [Podsumowanie](#podsumowanie)
+  - [Źródła](#zródła)
+
+<br />
+
+Zanim zaczniemy, będziemy dziś korzystać z [The Rick and Morty API](https://rickandmortyapi.com/) o którym wspominałem w [poprzednim wpisie](https://www.frontlive.pl/graphql-podstawy/) oraz ze [SWAPI](https://swapi.graph.cool/), które udostępnia tam Star Warsowe API.
+
+## Zapytania
+
+Jeśli jeszcze nie słyszałeś o **zapytaniach** (en. _query_) zajrzyj do [poprzedniego wpisu](https://www.frontlive.pl/graphql-podstawy/). Spójrzmy na podstawowe zapytanie:
+
+```graphql
+{
+  characters {
+    results {
+      name
+      id
+      status
+      origin {
+        name
+      }
+    }
+  }
+}
+```
+
+Wyciągamy tutaj poszczególne **pola** i zostają nam one zwrócone w formie JSONa.
+
+```json
+{
+  "data": {
+    "characters": {
+      "results": [
+        {
+          "name": "Rick Sanchez",
+          "id": "1",
+          "status": "Alive",
+          "origin": {
+            "name": "Earth (C-137)"
+          }
+        }
+        // ...
+      ]
+    }
+  }
+}
+```
+
+Dostajemy w odpowiedzi **wszystkie** postacie, które posiadają imię, id czy pochodzenie.
+
+### Argumenty
+
+Tak jak wspomniałem wyciągamy **wszystkie** postacie, załóżmy, że chcielibyśmy pobrać dane tylko o konkretnej postaci, w tym przypadku o **Ricku Sanchezie**. Do tego idealnie sprawdzają się argumenty:
+
+```graphql
+{
+  character(id: 1) {
+    name
+  }
+}
+```
+
+W odpowiedzi dostaniemy:
+
+```json
+{
+  "data": {
+    "character": {
+      "name": "Rick Sanchez"
+    }
+  }
+}
+```
+
+Argumenty mogą być **różnych typów**, mogą być też różne, może być to np. _name_ czy _unit_ ale to wszystko zależy od Twojego API. W takim razie **jak sprawdzić** czy możemy podać jakiś argument do zapytania?
+
+Wystarczy kliknąć w `DOCS` po prawej stronie, następnie wybieramy odpowiednie zapytanie i otrzymujemy informacje o **argumentach** i ich **typach**.
+
+<Image src="/images/graphql-sredniozaawansowany/alias-gql.png" alt="" />
+
+## Aliasy
+
+Skorzystajmy teraz z [SWAPI](https://swapi.graph.cool/), możemy tutaj zapytać daną **planetę**, podajemy do _query_ argument _name_, dzięki temu możemy zapytać o **tytuł filmu**, w którym dana planeta się pojawiła.
+
+Problem pojawia się gdy chcemy pobrać dwie **różniące się planety**, wtedy pojawiają się **aliasy**. Nadajemy im nazwy i po dwukropku wykonujemy zapytanie:
+
+```graphql
+{
+  filmsWithHoth: Planet(name: "Hoth") {
+    films {
+      title
+    }
+  }
+  filmsWithTatooine: Planet(name: "Tatooine") {
+    films {
+      title
+    }
+  }
+}
+```
+
+W odpowiedzi dostajemy następujące dane:
+
+```json
+{
+  "data": {
+    "filmsWithHoth": {
+      "films": [
+        {
+          "title": "A New Hope"
+        }
+        // ...
+      ]
+    },
+    "filmsWithTatooine": {
+      "films": [
+        {
+          "title": "The Phantom Menace"
+        }
+        // ...
+      ]
+    }
+  }
+}
+```
+
+### Imienne query
+
+Wcześniej tworzyliśmy _anonimowe_ zapytania, ale **w praktyce** i w realnej aplikacji, używamy **nazw** dla zapytań i mutacji:
+
+```graphql
+query CharacterName {
+  character(id: 1) {
+    name
+  }
+}
+```
+
+Są one niezbędne przy korzystaniu ze zmiennych 👇
+
+### Zmienne
+
+Do tej pory wszystkie wartości podawaliśmy jako stringi / numbery, były to **wartości statyczne**. Najczęściej jednak będziemy chcieli **dynamicznie** zaciągnąć dane na podstawie jakieś **zmiennej**.
+
+```graphql
+query StarshipClass($name: String) {
+  Starship(name: $name) {
+    class
+  }
+}
+```
+
+Podobnie jak argumenty, zmienne podajemy **w nawiasach** przy nazwie naszej operacji poprzedzając ją `$`. Następnie możemy wykorzystać tą zmienną gdzie tylko chcemy. Przy nazwie zmiennej możesz jeszcze zauważyć `String`, jest to typ zmiennej w **schema definition language**.
+
+Ta zmienna jest opcjonalna, jeśli dodamy na końcu typu `!` stanie się ona wymagana. Do zmiennych możemy również przypisywać **defaultowe** wartości:
+
+```graphql
+query StarshipClass($name: String = "Death Star") {
+  Starship(name: $name) {
+    class
+  }
+}
+```
+
+### Fragmenty
+
+Stwórzmy nowe query, jednocześnie praktykując wykorzystanie aliasów:
+
+```graphql
+query MainCharacters {
+  rick: character(id: 1) {
+    name
+    id
+    status
+    origin {
+      name
+      dimension
+    }
+  }
+
+  morty: character(id: 2) {
+    name
+    id
+    status
+    origin {
+      name
+      dimension
+    }
+  }
+}
+```
+
+Widzicie pewną zależność? **Powtarzające się pola**, takich powtórzeń może być przecież znacznie więcej... Takim sposobem tworzymy brzydki, powtarzalny kod, a tego **nie chcemy**.
+
+Fragmenty na ratunek! 🧩
+
+```graphql
+fragment characterFields on Character {
+  name
+  id
+  status
+  origin {
+    name
+    dimension
+  }
+}
+```
+
+Zacznijmy od początku fragment jest **reużywalnym** kawałkiem kodu, definiujemy go nazwą i poprzedzamy słowem `fragment`. Po `on` podajemy **typ**, w tym przypadku jest to `Character`. A co w środku? Pola, które chcemy ponownie wykorzystać!
+
+```graphql
+query MainCharacters {
+  rick: character(id: 1) {
+    ...characterFields
+  }
+
+  morty: character(id: 2) {
+    ...characterFields
+  }
+}
+```
+
+Wygląda to o wiele schludniej. Najlepsze jest to, że we fragmentach możemy również korzystać ze **zmiennych**! Daje nam to na prawdę dużą **elastyczność**.
+
+#### Inlinowe fragmenty
+
+Fragmenty mają jeszcze jedno **świetne** zastosowanie. Abstrahując już od naszego API, załóżmy, że posiadamy pole **character**, które może być typu `Rick` lub `Morty`. Dla każdego typu mamy inne _pola specjalne_. I w zależności od zmiennej chcemy te pola pobrać.
+
+```graphql
+query MainCharacter($character: Character) {
+  character(character: $character) {
+    name
+    id
+    ... on Rick {
+      iq
+    }
+    ... on Morty {
+      tshirtColor
+    }
+  }
+}
+```
+
+Niezależnie od typu postaci pobieramy imię i `id`, jeśli naszą postacią będzie `Rick` pobieramy dodatkowo `iq`, natomiast, jeśli będzie to `Morty` pobieramy `tshirtColor`.
+
+### Meta fields
+
+Rozbudujmy nasz poprzedni przykład i dodajmy nowe postaci `Summer` i `Jerrego`. Tym razem nie będziemy wybierać konkretnych pól w zależności od typu, ale pobierzemy id danej postaci gdy to będzie posiadało w sobie `er`.
+
+```graphql
+query searchCharacters {
+  search(include: "er") {
+    ... on Summer {
+      id
+    }
+    ... on Rick {
+      id
+    }
+    ... on Jerry {
+      id
+    }
+    ... on Morty {
+      id
+    }
+  }
+}
+```
+
+W odpowiedzi dostaniemy następujące dane:
+
+```json
+{
+  "data": {
+    "search": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      }
+    ]
+  }
+}
+```
+
+Tutaj pojawia się **problem**, skąd mamy wiedzieć jakie `id` przynależy do danej postaci? Z pomocą przychodzą _meta fields_ i `__typename`.
+
+```graphql
+query searchCharacters {
+  search(include: "er") {
+    __typename
+    ... on Summer {
+      id
+    }
+    ... on Rick {
+      id
+    }
+    ... on Jerry {
+      id
+    }
+    ... on Morty {
+      id
+    }
+  }
+}
+```
+
+Gdy dodamy pole `__typename` na początku naszego zapytania, w odpowiedzi dostaniemy nazwę z danego typu.
+
+```json
+{
+  "data": {
+    "search": [
+      {
+        "__typename": "Summer",
+        "id": "2"
+      },
+      {
+        "__typename": "Jerry",
+        "id": "3"
+      }
+    ]
+  }
+}
+```
+
+### Dyrektywy
+
+Dodawaliśmy zmienne, żeby mieć większą kontrolę nad naszym zapytaniem. Krokiem dalej jest zaimplementowanie **dyrektyw**, które pozwalają nam **dynamicznie** zmieniać zapytanie.
+
+Dyrektywę dodajemy ze znakiem `@`, w _podstawowym_ GraphQLu mamy dwie dyrektywy:
+
+- `@include(if: Boolean)`
+- `@skip(if: Boolean)`
+
+Ta pierwsza akceptuje pola gdy wartość if jest `true`, `@skip` omija dane pola gdy wartość jest `true`.
+
+```graphql
+query RickFields($desktop: Boolean!) {
+  rick: character(id: 1) {
+    name
+    id
+    status
+    origin @include(if: $desktop) {
+      name
+      dimension
+    }
+  }
+}
+```
+
+Mamy tutaj zapytanie `RickFields` i zmienną `$desktop`, **na podstawie tej zmiennej** będziemy zaciągać pochodzenie Ricka. Jeżeli `$desktop` będzie `false` pochodzenie postaci nie zostanie pobrane.
+
+## Mutacje
+
+Dotychczas rozmawialiśmy tylko o pobieraniu danych, ale przecież chcemy je też **modyfikować**!
+
+Mutację tworzymy bardzo **podobnie** jak zapytania, także nie ma się czego bać, zamiast słówka `query` podajemy `mutation`.
+
+```graphql
+mutation CreateCharacterForEpisode($ep: Episode!, $character: Character!) {
+  createCharacter(episode: $ep, character: $character) {
+    name
+    id
+  }
+}
+```
+
+Podajemy tutaj zmienne i wykorzystujemy je przy argumentach, `character` nie jest tzw. typem skalarnym, a czymś w rodzaju obiektu, ten _obiekt_ nosi nazwę _input object type_, ale o tym za chwilkę.
+
+Tak wyglądają nasze **zmienne**:
+
+```
+{
+  "ep": "Auto Erotic Assimilation",
+  "character": {
+    "name": "Pickle Rick",
+    "id": 55
+  }
+}
+```
+
+A te **dane** zostaną zmienione na serwerze:
+
+```graphql
+{
+  "data": {
+    "createCharacter": {
+     "name": "Pickle Rick",
+     "id": 55
+    }
+  }
+}
+```
+
+Mutacji możemy _na raz_ wysyłać **wiele**, działa to podobnie jak z **zapytaniami**, z jednym wyjątkiem, mutacje muszą _poczekać_ na siebie, żeby zapobiec tzw. _race conditions_.
+
+## Schema i typy
+
+Jeśli mieliście już do czynienia z jakimś silnie typowanym językiem np. **TypeScriptem**, to będzie czuli się **jak w domu**, no prawie. Jeśli nie, nie martw się przejdziemy przez wszystkie zagadnienia.
+
+Scheme w GraphQLu kojarzymy bardziej z backendem niż z frontendem, jednak nauczenie się jej **może Ci się przydać**, zaufaj mi. W następnym wpisie będziemy definiować scheme **po stronie klienta**.
+
+Więc czym jest ta magiczna schema i jak korzystać z typów w GraphQLu?
+
+Z typów już korzystaliśmy, pisząc zapytanie korzystające ze zmiennej:
+
+```graphql
+query StarshipClass($name: String) {
+  Starship(name: $name) {
+    class
+  }
+}
+```
+
+### Typy skalarne
+
+Zacznijmy od podstawowych typów, czyli typów skalarnych. W pakiecie od GraphQLa dostajemy:
+
+- `String` - ciąg znaków np. **'Rick'**
+- `Int` - liczba całkowita, np. **6**
+- `Float` - liczba zmiennoprzecinkowa, np. **Math.random()**
+- `Boolean` - **true/false**
+- `ID` - jest to specjalny, unikalny typ, bardzo ważny przy **cachowaniu** danych
+
+### Object types
+
+_Object types_ to typy złożone z typów skalarnych.
+
+```graphql
+type Character {
+  name: String!
+  status: String
+  episode: [Episode]
+  origin: Location
+  height(unit: Unit): Float
+}
+```
+
+Typ definiujemy przy użyciu `type`, jednocześnie podając jego **nazwę**, w tym przypadku jest to `Character`. Jeśli chodzi o `!` na końcu danego typu, dajemy znać GraphQLowi, że ten tym **nie może być** `nullem`. Konstrukcja `[Episode]` opisuje **tablicę** obiektów o typie `Episode`.
+
+Pamiętacie **argumenty**? Trzeba je jakoś otypować, tak samo jak w zapytaniach, w nawiasach podajemy **wartość** i przypisujemy do niej typ, po dwukropku definiujemy jakiego typu ma być **zwracana wartość**.
+
+### Typy zapytań i mutacji
+
+Oprócz standardowych _object types_ i _typów skalaranych_ mamy również do wykorzystania dwa bardzo ważne typy `Query` i `Mutation`. Definiują one tzw. _entry point_ naszych zapytań. Wyglądają one dokładnie tak jak _object types_:
+
+```graphql
+type Query {
+  character(id: ID): Character
+}
+
+type Mutation {
+  createCharacter(name: String!): Character
+}
+```
+
+### Enumy
+
+**Enumy** w GraphQLu są specjalnymi **typami skalarnymi**, gdzie nasz typ jest **ograniczony** do konkretnych wartość.
+
+```ts
+enum Planet {
+  Hoth
+  Dagobah
+  Tatooine
+}
+
+type Episode {
+    planets: Planet
+}
+```
+
+Jeżeli podamy, w naszej schemie typ `Planet`, GraphQL będzie spodziewał się `Hoth`, `Dagobah` lub `Tatooine`.
+
+### Interfejsy
+
+Pamiętacie [Inlinowe fragmenty](#inlinowe-fragmenty)? Implementowaliśmy tam `Ricka` i `Mortiego`, każdy z nich miał specjalne pola, jednak oboje mieli kilka wspólnych. Możemy stworzyć, dla tych **wspólnych pól**, interfejs, który potem zaimplementujemy w danym typie.
+
+Zaimplementowanie interfejsu w typie, mówi nam, że każdy typ, który implementuje dany interfejs **musi opisywać dane pola**.
+
+```graphql
+interface Character {
+  name: String!
+  id: ID!
+}
+
+type Rick implements Character {
+  name: String!
+  id: ID!
+  iq: Int
+}
+
+type Morty implements Character {
+  name: String!
+  id: ID!
+  tshirtColor: String
+}
+```
+
+### Union types
+
+Unie oznaczają typ _jeden z_. Możemy np. utworzyć typ, który będzie typu `Location` lub `Planet`.
+
+```graphql
+type Location {
+  name: String
+}
+
+type Planet {
+  name: String
+}
+
+union WhereAreYou = Location | Planet
+```
+
+### Input types
+
+Przy tworzeniu **mutacji** podawaliśmy typ `$character`:
+
+```graphql
+mutation CreateCharacterForEpisode($ep: Episode!, $character: Character!) {
+  createCharacter(episode: $ep, character: $character) {
+    name
+    id
+  }
+}
+```
+
+Wspominałem, że do tego wrócimy, więc dotrzymuję słowa 🤞
+
+Ten typ ma **taką samą** konstrukcję jak _object types_, z dwiema różnicami. Zamiast `type` podajemy `input` i nie musimy podawać typów do poszczególnych pól, zamiast tego wrzucamy `input type object`, a GraphQL zajmie się resztą.
+
+```graphql
+input Character {
+  name: String
+  id: ID!
+}
+```
+
+## Podsumowanie
+
+To wszystko na dziś, dzięki za obecność!
+
+Zachęcam Cię do pobawienia się GraphQLem w [SWAPI](https://swapi.graph.cool/) i [The Rick and Morty API](https://rickandmortyapi.com/).
+
+Do usłyszenia!
+
+### Źródła
+
+- [GraphQL Docs](https://graphql.org/)
+- [The Rick and Morty API](https://rickandmortyapi.com/)
+- [SWAPI](https://swapi.graph.cool/)
