@@ -9,6 +9,7 @@ import { Grid } from '../components/shared/components/grid/Grid';
 import { PostsListing } from '../components/blog/postsListing/PostsListing';
 import { Heading } from '../components/shared/components/heading/Heading';
 import { Categories } from '../components/categories/Categories';
+import { NewsletterForm } from '../components/shared/components/newsletterForm/NewsletterForm';
 
 const postsArr: any[] = [
   {
@@ -60,6 +61,12 @@ export default function Index({ posts }: any) {
               Kategorie
             </Heading>
             <Categories categories={categoriesArr} />
+          </Grid.Item>
+          <Grid.Item>
+            <Heading tag="h2" variant="secondary">
+              Newsletter
+            </Heading>
+            <NewsletterForm id="" />
           </Grid.Item>
         </Grid.Item>
       </Grid>

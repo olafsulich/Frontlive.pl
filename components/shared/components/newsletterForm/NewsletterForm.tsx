@@ -4,11 +4,7 @@ import cn from 'classnames';
 import { Loader } from './loader/Loader';
 import { subscribeToNewsletter } from './utils/api';
 
-type NewsletterFormProps = {
-  id: string;
-};
-
-export const NewsletterForm = memo<NewsletterFormProps>(({ id = 'email' }) => {
+export const NewsletterForm = memo(() => {
   const [inputValue, setInputValue] = useState('');
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
@@ -42,26 +38,22 @@ export const NewsletterForm = memo<NewsletterFormProps>(({ id = 'email' }) => {
 
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit}>
-      <div className={styles.inputLabelWrapper}>
+      <label className={styles.inputLabelWrapper}>
         <input
           type="email"
           required
           autoComplete="email"
-          id={id}
           value={inputValue}
           className={styles.input}
           onChange={handleInputChange}
           aria-invalid={status === 'error'}
+          placeholder="Email"
         />
-        <label htmlFor={id} className={styles.label}>
-          Adres email
-        </label>
-      </div>
-      <div className={styles.buttonWrapper}>
-        <button disabled={isLoading} className={cn(styles.button, styles[status])}>
-          {isLoading ? <Loader /> : <span>{title}</span>}
-        </button>
-      </div>
+        <span className="visually-hidden">Email</span>
+      </label>
+      <button disabled={isLoading} className={cn(styles.button, styles[status])}>
+        {isLoading ? <Loader /> : <span>{title}</span>}
+      </button>
     </form>
   );
 });
