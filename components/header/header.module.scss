@@ -1,0 +1,20 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.wave {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: -10rem;
+  left: 0;
+  z-index: -2;
+  display: none;
+
+  @include mediaquery('xl') {
+    display: block;
+  }
+}

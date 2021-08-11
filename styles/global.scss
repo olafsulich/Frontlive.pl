@@ -1,0 +1,56 @@
+@import 'common';
+
+* {
+  box-sizing: border-box;
+  scroll-margin-top: 4rem;
+  ::selection {
+    background-color: var(--yellow);
+    color: var(--black);
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #101821;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+[data-whatintent='mouse'] *:focus {
+  outline: none;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+.error {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 8rem 0;
+
+  h1 {
+    text-align: center;
+  }
+}

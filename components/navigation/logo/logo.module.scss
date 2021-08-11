@@ -1,0 +1,20 @@
+@import 'common';
+
+.logo {
+  width: 100%;
+  height: 100%;
+}
+
+.logoSmall {
+  @include mediaquery('xl') {
+    display: none;
+  }
+}
+
+.logoBig {
+  display: none;
+
+  @include mediaquery('xl') {
+    display: block;
+  }
+}

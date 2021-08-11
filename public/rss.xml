@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[Frontlive.pl by Olaf Sulich]]></title>
+        <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
+        <link>https://frontlive.pl</link>
+        <generator>RSS for Node</generator>
+        <lastBuildDate>Wed, 11 Aug 2021 16:58:32 GMT</lastBuildDate>
+        <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
+        <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
+        <language><![CDATA[pl]]></language>
+        <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
+        <webMaster><![CDATA[Olaf Sulich]]></webMaster>
+        <item>
+            <title><![CDATA[React Testing Library - Mock Service Worker]]></title>
+            <description><![CDATA[MSW to narzędzie nowej geneneracji, które umożliwia łatwiejszą i przyjemniejszą pracę z mockami...]]></description>
+            <link>https://frontlive.pl/blog/react-testing-library-msw</link>
+            <guid isPermaLink="false">react-testing-library-msw</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 27 Jun 2021 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React Testing Library - testy w praktyce]]></title>
+            <description><![CDATA[Po ostatnim wprowadzającym wpisie przyszedł czas na przykłady z życia wzięte. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebasach. Przez jednych lubiany, przez drugich znienawidzony - formularz...]]></description>
+            <link>https://frontlive.pl/blog/react-testing-library-testy-w-praktyce</link>
+            <guid isPermaLink="false">react-testing-library-testy-w-praktyce</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 11 Apr 2021 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React Testing Library - podstawy]]></title>
+            <description><![CDATA[React Testing Library to najpopularniejsza biblioteka do testowania kodu napisanego w React. Wchodzi ona w skład większej całości - DOM Testing Library...]]></description>
+            <link>https://frontlive.pl/blog/react-testing-library-podstawy</link>
+            <guid isPermaLink="false">react-testing-library-podstawy</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 21 Mar 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Urodziny Frontlive 🎉]]></title>
+            <description><![CDATA[Dokładnie rok temu na tym blogu pojawił się pierwszy wpis. Pomyślałem, że warto podsumować sobie ten rok i przedstawić Ci plany na przyszłość!]]></description>
+            <link>https://frontlive.pl/blog/pierwsze-urodziny</link>
+            <guid isPermaLink="false">pierwsze-urodziny</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Wed, 17 Mar 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Jest - mock functions]]></title>
+            <description><![CDATA[Czym jest mockowanie? Jak działają mock functions? Kiedy powinniśmy z nich korzystać i dlaczego są tak przydatne podczas testowania kodu za pomocą Jest?]]></description>
+            <link>https://frontlive.pl/blog/jest-mockowanie</link>
+            <guid isPermaLink="false">jest-mockowanie</guid>
+            <category><![CDATA[Jest]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 07 Mar 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Jest - pierwszy test]]></title>
+            <description><![CDATA[Poznaj najpopularnieszy framework do testowania kodu JavaScript!]]></description>
+            <link>https://frontlive.pl/blog/jest-pierwszy-test</link>
+            <guid isPermaLink="false">jest-pierwszy-test</guid>
+            <category><![CDATA[Jest]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 14 Feb 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Testowanie JS - podstawy]]></title>
+            <description><![CDATA[Testowanie kodu jest bardzo pożądaną umiejętnością u każdego programisty... Ale zacznijmy od początku. Dlaczego tak właściwie potrzebujemy testów? Jakie są ich rodzaje?]]></description>
+            <link>https://frontlive.pl/blog/podstawy-testowania</link>
+            <guid isPermaLink="false">podstawy-testowania</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 24 Jan 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Frontend 2021]]></title>
+            <description><![CDATA[Co przyniesie nowy rok? Jakie technologie będą na topie i na jakie warto zwracać uwagę?]]></description>
+            <link>https://frontlive.pl/blog/frontend-2021</link>
+            <guid isPermaLink="false">frontend-2021</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 10 Jan 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Nowoczesny CSS - CSS Variables]]></title>
+            <description><![CDATA[Chociaż CSS nie jest językiem programowania to posiada swoje zmienne. Czym są i jak się ich używa? Do jakich celów możesz je wykorzystać?]]></description>
+            <link>https://frontlive.pl/blog/css-variables</link>
+            <guid isPermaLink="false">css-variables</guid>
+            <category><![CDATA[CSS]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 27 Dec 2020 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Nowy rok, nowy Frontlive!]]></title>
+            <description><![CDATA[Kulisy powstawania nowej odsłony Frontlive - mojego bloga i jednocześnie strony portfolio. Jak dobrałem technologię do projektu? Z jakimi wyzwaniami się mierzyłem?]]></description>
+            <link>https://frontlive.pl/blog/nowy-frontlive</link>
+            <guid isPermaLink="false">nowy-frontlive</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 13 Dec 2020 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Nowoczesny CSS - min(), max() i clamp()]]></title>
+            <description><![CDATA[Znasz ten ból posiadania wielu media-queries w swoich projektach? A co jeśli bym Ci powiedział, że można to zmienić? Zobacz jak działają funkcje logiczne w CSS i jak pomagają nam tworzyć responsywne layouty.]]></description>
+            <link>https://frontlive.pl/blog/css-fluid-typography</link>
+            <guid isPermaLink="false">css-fluid-typography</guid>
+            <category><![CDATA[CSS]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 29 Oct 2020 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React Query - czy zastąpi Reduxa?]]></title>
+            <description><![CDATA[Czy to kolejna biblioteka do zarządzania stanem pokroju Reduxa, Recoila, Zustanda i wielu innych? Nie! Mamy tutaj do czynienia z czymś kompletnie innym, a cała biblioteka skupia się na akcjach asynchronicznych i cachowaniu danych]]></description>
+            <link>https://frontlive.pl/blog/react-query-wprowadzanie</link>
+            <guid isPermaLink="false">react-query-wprowadzanie</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 22 Oct 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Dostępność - czytniki ekranowe i testowanie]]></title>
+            <description><![CDATA[W poprzednich artykułach pisałem o dobrych praktykach, błędach i filozofii inkluzywności. Dziś pomówimy o czytnikach ekranowych i narzędziach do testowania dostępności.]]></description>
+            <link>https://frontlive.pl/blog/dostepnosc-czytniki-ekranowe</link>
+            <guid isPermaLink="false">dostepnosc-czytniki-ekranowe</guid>
+            <category><![CDATA[Dostępność]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 01 Oct 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Dostępność - top 10 najczęściej popełnianych błędów]]></title>
+            <description><![CDATA[Często gdy robię code review napotykam na te same błędy dostępności, powtarzają się one tak często, że postanowiłem zrobić listę najczęściej popełnianych błędów dostępności. Przy każdym błędzie postaram Ci się wytłumaczyć dlaczego to jest błąd i jak go naprawić.]]></description>
+            <link>https://frontlive.pl/blog/dostepnosc-popularne-bledy</link>
+            <guid isPermaLink="false">dostepnosc-popularne-bledy</guid>
+            <category><![CDATA[Dostępność]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 24 Sep 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Dostępność - projektowanie i semantyczny HTML]]></title>
+            <description><![CDATA[Na co zwrócić uwagę tworząc design nie tylko pod względem interfejsu, ale też ze strony user experience? Zamienimy brzydki kod w ładny używając do tego odpowiednich znaczników HTML, a na sam koniec dowiesz się czym jest drzewko dostępności 🌳]]></description>
+            <link>https://frontlive.pl/blog/dostepnosc-semantyczny-html</link>
+            <guid isPermaLink="false">dostepnosc-semantyczny-html</guid>
+            <category><![CDATA[Dostępność]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 17 Sep 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Dostępność - to nie tylko niepełnosprawni]]></title>
+            <description><![CDATA[Każdy z nas, a przynajmniej większość, kiedyś słyszała o dostępności, mniej lub bardziej. Wiadomo są jakieś tam osoby z pewnymi niepełnosprawnościami, jakiś tam mały odsetek, ale pewnie nie będą korzystać z naszej strony, co nie?]]></description>
+            <link>https://frontlive.pl/blog/dostepnosc-dla-każdego</link>
+            <guid isPermaLink="false">dostepnosc-dla-każdego</guid>
+            <category><![CDATA[Dostępność]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 10 Sep 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Recenzja - TypeScript na poważnie]]></title>
+            <description><![CDATA[Ostatnio trafiła w moje ręce książka o TypeScripcie Michała Miszczyszyna - popularnego blogera z naszego świata webdevelopmentu. Czy jest tak dobra jak mówią? Sprawdźmy to!]]></description>
+            <link>https://frontlive.pl/blog/recenzja-typescript-na-powaznie</link>
+            <guid isPermaLink="false">recenzja-typescript-na-powaznie</guid>
+            <category><![CDATA[Recenzje]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 03 Sep 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[GraphQL + TypeScript - wygeneruj sobie typy!]]></title>
+            <description><![CDATA[Lubimy zaoszczędzać czas, a jednocześnie zrobić coś dobrze. Tak samo jest w przypadku programowania. Poznaj GraphQL Code Generator - narzędzie, które zaoszczędza czas i zapewnia TypeScriptowe typy!]]></description>
+            <link>https://frontlive.pl/blog/graphql-generator</link>
+            <guid isPermaLink="false">graphql-generator</guid>
+            <category><![CDATA[GraphQL]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 27 Aug 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[GraphQL + React - apollo, hooki i paginacja]]></title>
+            <description><![CDATA[Jak połączyć GraphQL i React? Skorzystać z Apollo! Wybierzmy się na tą misję i stawmy czoła realnej aplikacji!]]></description>
+            <link>https://frontlive.pl/blog/graphql-apollo</link>
+            <guid isPermaLink="false">graphql-apollo</guid>
+            <category><![CDATA[GraphQL]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 06 Aug 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[GraphQL - zapytania, mutacje i schema]]></title>
+            <description><![CDATA[Kontynuujemy przygodę ze światem GraphQLa i zabieramy się za realne zagadnienia 🥳 Dziś poznasz zapytania, mutacje, scheme, typy i wiele więcej, a w następnym wpisie, ze zdobytą dziś wiedzą podbijamy Reakta!]]></description>
+            <link>https://frontlive.pl/blog/graphql-sredniozaawansowany</link>
+            <guid isPermaLink="false">graphql-sredniozaawansowany</guid>
+            <category><![CDATA[GraphQL]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 30 Jul 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[GraphQL - podstawy]]></title>
+            <description><![CDATA[GraphQL jest językiem zapytań, który stanowi alternatywę do standardowego RESTa. Jest bardziej elastyczny, precyzyjny i przede wszystkim wygodniejszy.]]></description>
+            <link>https://frontlive.pl/blog/graphql-podstawy</link>
+            <guid isPermaLink="false">graphql-podstawy</guid>
+            <category><![CDATA[GraphQL]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Wed, 22 Jul 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Portfolio programisty z GitHub Profile README]]></title>
+            <description><![CDATA[Ostatnio na GitHubie pojawiła się bardzo ciekawa nowość, a mianowicie, zostało wprowadzone GitHub Profile README. Zobacz czym jest i dlaczego powinieneś zrobić swój własny profil README!]]></description>
+            <link>https://frontlive.pl/blog/github-profile-readme</link>
+            <guid isPermaLink="false">github-profile-readme</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Wed, 15 Jul 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Svelte - nie tylko React, Vue i Angular]]></title>
+            <description><![CDATA[Obecnie w środowisku frontendowym mamy świętą trójcę jeśli chodzi o frameworki/biblioteki UI. Jest to jak zapewne wiecie React, Vue i Angular. Warto jednak wyrwać się na chwilę z tej bańki i poznać coś innego. Pora na Svelte!]]></description>
+            <link>https://frontlive.pl/blog/svelte-podstawy</link>
+            <guid isPermaLink="false">svelte-podstawy</guid>
+            <category><![CDATA[Svelte]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Tue, 07 Jul 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[CSS Houdini - przyszłość CSSa czy niepotrzebna nowość?]]></title>
+            <description><![CDATA[CSS Houdini to zbiór API, udostępnionych przez przeglądarkę, dzięki którym, mamy bezpośredni dostęp do drzewka CSSOM.]]></description>
+            <link>https://frontlive.pl/blog/css-houdini</link>
+            <guid isPermaLink="false">css-houdini</guid>
+            <category><![CDATA[CSS]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 02 Jul 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React - Suspense & Concurrent mode]]></title>
+            <description><![CDATA[Concurrent mode to zestaw nowych funkcjonalności, obecnie w fazie eksperymentalnej. Całą filozofia concurrent mode opiera się na nieblokowaniu renderowania elementu.]]></description>
+            <link>https://frontlive.pl/blog/react-suspense</link>
+            <guid isPermaLink="false">react-suspense</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 25 Jun 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Webpack 4 - loadery, pluginy i niestandardowa konfiguracja]]></title>
+            <description><![CDATA[W poprzednim wpisie poznałeś podstawy Webpacka, dzisiaj wykorzystamy tą wiedzę w praktycę i stworzymy pełnoprawną konfigurację projektu.]]></description>
+            <link>https://frontlive.pl/blog/webpack-konfiguracja</link>
+            <guid isPermaLink="false">webpack-konfiguracja</guid>
+            <category><![CDATA[Webpack]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 18 Jun 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Webpack 4 - pierwsze kroki z module bundlerem]]></title>
+            <description><![CDATA[Webpack to tzw. module bundler, pozwala nam na budowanie drzewa zależności, które ma na celu połączenie wielu modułów naszej aplikacji w jeden pakiet.]]></description>
+            <link>https://frontlive.pl/blog/webpack-podstawy</link>
+            <guid isPermaLink="false">webpack-podstawy</guid>
+            <category><![CDATA[Webpack]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 11 Jun 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Atomic Design - myśl atomami i klockami LEGO!]]></title>
+            <description><![CDATA[Jak dobrze zorganizować strukturę katalogów, w naszej aplikacji, tak, aby całość nawet przy większych rozmiarach była czytelna i łatwa w utrzymaniu? Atomic Design na ratunek!]]></description>
+            <link>https://frontlive.pl/blog/atomic-design</link>
+            <guid isPermaLink="false">atomic-design</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 28 May 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[TypeScript - React, Redux i Styled Components]]></title>
+            <description><![CDATA[Moje ulubione połączenie - React + TypeScript! Sprawdź jak typować aplikację, która korzysta z Reakta, Reduxa i Styled Components - kompletny poradnik!]]></description>
+            <link>https://frontlive.pl/blog/typescript-react</link>
+            <guid isPermaLink="false">typescript-react</guid>
+            <category><![CDATA[TypeScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 21 May 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[TypeScript - Generics, klasy i zaawansowane typy]]></title>
+            <description><![CDATA[Zagłębiamy się w TypeScripta. W tym wpisie poznasz typy genereczyne, typy zaawansowane, a i dla fanów OOP coś się również znajdzie!]]></description>
+            <link>https://frontlive.pl/blog/typescript-klasy</link>
+            <guid isPermaLink="false">typescript-klasy</guid>
+            <category><![CDATA[TypeScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 14 May 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[TypeScript - podstawy]]></title>
+            <description><![CDATA[TypeScript jest statycznie typowanym językiem od Microsoftu, bazuje on na JS. Uwierz mi, jak już go poznasz, nie będziesz chciał się wracać do czystego JavaScriptu ]]></description>
+            <link>https://frontlive.pl/blog/typescript-podstawy</link>
+            <guid isPermaLink="false">typescript-podstawy</guid>
+            <category><![CDATA[TypeScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 07 May 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[JavaScript - ES6 to już przeżytek, nastała era ES2019!]]></title>
+            <description><![CDATA[JavaScript cały czas się zmienia, kilka lat temu powstała specyfikacja ES6, która po dziś dzień, jest uważana, przez niektórych, za nowość. Niestety programistyczny świat i technologię rozwijają się bardzo szybko i co roku wychodzą nowe ficzery.]]></description>
+            <link>https://frontlive.pl/blog/javascript-es2019</link>
+            <guid isPermaLink="false">javascript-es2019</guid>
+            <category><![CDATA[JavaScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Mon, 04 May 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[JavaScript - Nullish coalescing & Optional chaining]]></title>
+            <description><![CDATA[Specyfikacja ECMAScript cały czas się rozwija, powstają nowe ciekawe featury. Jakiś czas temu, zostały zaproponowane dwa nowe: nullish coalescing i optional chaining]]></description>
+            <link>https://frontlive.pl/blog/javascript-nullish-coalescing</link>
+            <guid isPermaLink="false">javascript-nullish-coalescing</guid>
+            <category><![CDATA[JavaScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 30 Apr 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[CircleCi + Netlify - Continuous Integration & Deployment]]></title>
+            <description><![CDATA[Na pewno każdy z Was słyszał o magicznym CI/CD, ale co to takiego, z czym się to je i dlaczego zaoszczędzi Ci to mnóstwo czasu?]]></description>
+            <link>https://frontlive.pl/blog/continous-integration-z-netlify-i-circleci</link>
+            <guid isPermaLink="false">continous-integration-z-netlify-i-circleci</guid>
+            <category><![CDATA[DevOps]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 23 Apr 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[README na GitHubie - robisz to źle!]]></title>
+            <description><![CDATA[Bardzo często spotykam się ze źle zrobionym README w autorskich projekach na GitHubie. Wiele osób zaznacza tylko tytuł projektu i pozostawia plik pustym.]]></description>
+            <link>https://frontlive.pl/blog/readme-na-githubie-robisz-to-zle</link>
+            <guid isPermaLink="false">readme-na-githubie-robisz-to-zle</guid>
+            <category><![CDATA[Inne]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 16 Apr 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Firebase - reguły zabezpieczeń, cloud functions i deploy]]></title>
+            <description><![CDATA[Zabezpiecz swoją aplikację za pomocą reguł bezpieczeństwa, wykonaj funkcję po stronie serwera i wypuść kod na produkcję!]]></description>
+            <link>https://frontlive.pl/blog/firebase-deploy</link>
+            <guid isPermaLink="false">firebase-deploy</guid>
+            <category><![CDATA[Firebase]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Thu, 09 Apr 2020 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Firebase - dodawanie danych do Firestore]]></title>
+            <description><![CDATA[Poznaj techniki obsługi Firestore, stwórzmy aplikację z naszymi ulubionymi twórcami!]]></description>
+            <link>https://frontlive.pl/blog/firebase-dodawania-danych-do-firestore</link>
+            <guid isPermaLink="false">firebase-dodawania-danych-do-firestore</guid>
+            <category><![CDATA[Firebase]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sat, 28 Mar 2020 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Firebase - pobieranie danych z Firestore]]></title>
+            <description><![CDATA[Wnieś swoją wiedzę na temat Firebase na wyższy poziom, poznaj Firestore - bazę danych Firebase.]]></description>
+            <link>https://frontlive.pl/blog/firebase-pobieranie-danych-z-firestore</link>
+            <guid isPermaLink="false">firebase-pobieranie-danych-z-firestore</guid>
+            <category><![CDATA[Firebase]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Wed, 25 Mar 2020 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Firebase - autoryzacja w 10 minut? To mozliwe!]]></title>
+            <description><![CDATA[Potrzebujesz autoryzacji użytkowników wraz z prostym formularzem logowania i rejestracji. Firebase sprawdzi się idealnie!]]></description>
+            <link>https://frontlive.pl/blog/firebase-autoryzacja</link>
+            <guid isPermaLink="false">firebase-autoryzacja</guid>
+            <category><![CDATA[Firebase]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Tue, 17 Mar 2020 23:00:00 GMT</pubDate>
+        </item>
+    </channel>
+</rss>

@@ -1,13 +1,9 @@
 type CSSOMString = string;
-type FontFaceLoadStatus = "unloaded" | "loading" | "loaded" | "error";
-type FontFaceSetStatus = "loading" | "loaded";
+type FontFaceLoadStatus = 'unloaded' | 'loading' | 'loaded' | 'error';
+type FontFaceSetStatus = 'loading' | 'loaded';
 
 interface FontFace extends FontFaceDescriptors {
-  new (
-    family: string,
-    source: string | ArrayBuffer,
-    descriptors?: FontFaceDescriptors
-  ): FontFace;
+  new (family: string, source: string | ArrayBuffer, descriptors?: FontFaceDescriptors): FontFace;
   readonly status: FontFaceLoadStatus;
   readonly loaded: Promise<FontFace>;
   variationSettings: CSSOMString;
@@ -44,18 +40,19 @@ declare global {
 }
 
 export function loadFonts() {
-  if (typeof window !== "undefined" || process.browser) {
-    if ("fonts" in document) {
+  if (typeof window !== 'undefined') {
+    if ('fonts' in document) {
       if (window.sessionStorage.fontsLoaded) {
-        document.documentElement.classList.add("fonts-loaded-criteria");
+        document.documentElement.classList.add('fonts-loaded-criteria');
+        document.documentElement.classList.add('fonts-loaded-greycliff');
         return;
       }
 
-      document.fonts.load("Criteria").then(() => {
-        document.documentElement.classList.add("fonts-loaded-criteria");
+      document.fonts.load('oblique bold 1em Criteria').then(() => {
+        document.documentElement.classList.add('fonts-loaded-criteria');
 
-        document.fonts.load("GreyCliff").then(() => {
-          document.documentElement.classList.add("fonts-loaded-greycliff");
+        document.fonts.load('normal normal 1em GreyCliff').then(() => {
+          document.documentElement.classList.add('fonts-loaded-greycliff');
 
           // Optimization for Repeat Views
           window.sessionStorage.fontsLoaded = true;

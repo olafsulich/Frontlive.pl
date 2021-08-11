@@ -1,0 +1,68 @@
+@import 'common';
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: clamp(12rem, 22vw, 20rem);
+}
+
+.heroImage {
+  object-fit: cover;
+  display: block;
+}
+
+.name {
+  font-family: 'Criteria';
+  font-weight: bold;
+  font-style: oblique;
+  font-size: clamp(10rem, 28vw, 31rem);
+  color: #112f47;
+  text-transform: uppercase;
+  position: absolute;
+  z-index: -1;
+
+  @include mediaquery('sm') {
+    font-size: clamp(10rem, 23vw, 31rem);
+  }
+
+  @include mediaquery('lg') {
+    font-size: clamp(10rem, 20vw, 31rem);
+  }
+}
+
+.namePrimary {
+  top: -30%;
+  left: -20%;
+
+  @include mediaquery('sm') {
+    top: -35%;
+  }
+
+  @include mediaquery('lg') {
+    top: -40%;
+  }
+}
+
+.nameSecondary {
+  bottom: -30%;
+  right: -30%;
+
+  @include mediaquery('sm') {
+    bottom: -35%;
+    right: -25%;
+  }
+
+  @include mediaquery('lg') {
+    bottom: -40%;
+  }
+
+  @include mediaquery('xl') {
+    bottom: -50%;
+  }
+}

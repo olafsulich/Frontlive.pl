@@ -1,0 +1,35 @@
+@keyframes bouncing {
+  to {
+    opacity: 0.5;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.loader,
+.wrapper:before,
+.wrapper:after {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--white);
+  margin-bottom: -5px;
+  border-radius: 50%;
+  animation: bouncing 0.6s infinite alternate;
+}
+
+.loader,
+.wrapper:before,
+.wrapper:after {
+  content: '';
+}
+
+.loader {
+  margin: 0 5px;
+  animation-delay: 0.2s;
+}
+
+.wrapper {
+  &:after {
+    animation-delay: 0.4s;
+  }
+}

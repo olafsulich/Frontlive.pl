@@ -1,0 +1,45 @@
+@import 'common';
+
+.item {
+  margin-bottom: 4.5rem;
+  display: flex;
+  justify-content: center;
+
+  @include mediaquery('sm') {
+    margin-bottom: 5.5rem;
+  }
+
+  @include mediaquery('lg') {
+    margin-bottom: 6.5rem;
+  }
+
+  @include mediaquery('xl') {
+    margin-bottom: 0;
+    margin-right: 4rem;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.link {
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  position: relative;
+
+  @include mediaquery('sm') {
+    font-size: 2.8rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 3rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+}

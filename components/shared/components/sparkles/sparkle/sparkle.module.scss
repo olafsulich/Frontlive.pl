@@ -1,0 +1,36 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes comeInOut {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.wrapper {
+  position: absolute;
+  display: block;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: comeInOut 700ms forwards;
+  }
+}
+
+.icon {
+  display: block;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: spin 700ms forwards;
+  }
+}

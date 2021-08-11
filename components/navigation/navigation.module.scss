@@ -1,0 +1,36 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 0;
+  margin: 0 auto;
+  border-radius: 1.2rem;
+  position: relative;
+
+  @include mediaquery('sm') {
+    padding: 2rem 2.5rem;
+  }
+
+  @include mediaquery('lg') {
+    height: 8rem;
+    padding: 2rem 4rem;
+  }
+}
+
+.wave {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: -6rem;
+  right: 4.5rem;
+  z-index: -2;
+  display: none;
+
+  @include mediaquery('xl') {
+    display: block;
+  }
+}
