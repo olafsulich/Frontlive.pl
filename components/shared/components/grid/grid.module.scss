@@ -2,17 +2,20 @@
 
 .grid {
   width: 100%;
-  margin-top: 30rem;
+  margin-top: 15rem;
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
   align-items: center;
-  row-gap: 3rem;
+
+  @include mediaquery('lg') {
+    margin-top: 20rem;
+  }
 
   @include mediaquery('xl') {
-    // grid-template-columns: repeat(auto-fit, minmax(48.5rem, 1fr));
     grid-template-columns: 2fr 1fr;
     grid-template-rows: auto 1fr;
+    margin-top: 30rem;
     column-gap: 3rem;
     justify-items: space-between;
     align-content: center;

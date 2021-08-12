@@ -1,3 +1,5 @@
+@import 'common';
+
 .category {
   font-size: 1.8rem;
   background-color: #182431;
@@ -8,6 +10,11 @@
   display: inline-block;
   margin-right: 3rem;
   margin-bottom: 2.4rem;
+  width: 100%;
+
+  @include mediaquery('sm') {
+    width: auto;
+  }
 
   &:hover {
     transition: transform 0.2s;
