@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { SocialLinks } from '../shared/components/socialLinks/SocialLinks';
+import { SocialLinks } from './socialLinks/SocialLinks';
 import styles from './author.module.scss';
 
 export const Author = () => {

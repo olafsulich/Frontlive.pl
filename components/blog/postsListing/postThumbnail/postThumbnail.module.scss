@@ -77,7 +77,7 @@
 }
 
 .primary {
-  background: var(--gray-700);
+  background: #182431;
   height: 26rem;
   display: flex;
   align-items: flex-start;
@@ -89,7 +89,7 @@
   margin-bottom: 0;
 
   @include mediaquery('lg') {
-    height: 28rem;
+    height: 26rem;
     padding: 3rem 3rem 0 3rem;
     border-radius: 10px;
   }
@@ -105,7 +105,7 @@
     &:hover,
     &:focus {
       .heading {
-        color: var(--red);
+        color: var(--blue-300);
       }
     }
   }

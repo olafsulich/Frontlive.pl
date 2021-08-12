@@ -21,12 +21,26 @@
   }
 }
 
-.wave {
+.waveLine {
   width: auto;
   height: auto;
   position: absolute;
   top: -6rem;
   right: 4.5rem;
+  z-index: -2;
+  display: none;
+
+  @include mediaquery('xl') {
+    display: block;
+  }
+}
+
+.wave {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: -10rem;
+  left: 0;
   z-index: -2;
   display: none;
 

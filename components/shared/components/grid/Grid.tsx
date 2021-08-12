@@ -7,7 +7,7 @@ type GridProps = {
 };
 
 export const Grid = ({ children }: GridProps) => {
-  return <div className={styles.grid}>{children}</div>;
+  return <main className={styles.grid}>{children}</main>;
 };
 
 Grid.Item = GridItem;

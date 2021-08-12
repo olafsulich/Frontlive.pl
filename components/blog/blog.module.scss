@@ -1,37 +1,18 @@
 @import 'common';
 
 .wrapper {
-  margin-top: 3rem;
+  margin: 3rem 0;
 
   @include mediaquery('sm') {
-    margin-top: 8rem;
+    margin: 8rem 0;
   }
 
   @include mediaquery('lg') {
-    margin-top: 10rem;
+    margin: 10rem 0;
   }
 
   @include mediaquery('xl') {
-    margin-top: 12rem;
-  }
-}
-
-.heading {
-  font-size: 4rem;
-  margin-bottom: 4rem;
-
-  @include mediaquery('xs') {
-    font-size: 5rem;
-  }
-
-  @include mediaquery('lg') {
-    font-size: 7rem;
-    margin-bottom: 6rem;
-  }
-
-  @include mediaquery('xl') {
-    font-size: 8rem;
-    margin-bottom: 8rem;
+    margin: 12rem 0;
   }
 }
 
@@ -42,21 +23,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-}
-
-.heading {
-  font-size: 2.6rem;
-  font-family: 'Criteria Demi';
-  color: var(--red);
-  margin-bottom: 5rem;
-
-  @include mediaquery('lg') {
-    font-size: 2.8rem;
-  }
-
-  @include mediaquery('xl') {
-    font-size: 3rem;
-  }
 }
 
 .postsWrapper {
@@ -76,5 +42,14 @@
   @include mediaquery('lg') {
     grid-gap: 6rem;
     grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+  }
+
+  @include mediaquery('xl') {
+    grid-gap: 10rem;
+    grid-template-columns: repeat(auto-fill, minmax(50rem, 1fr));
+  }
+
+  @include mediaquery('xl') {
+    grid-template-columns: repeat(auto-fill, minmax(60rem, 1fr));
   }
 }

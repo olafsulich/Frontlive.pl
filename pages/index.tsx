@@ -13,6 +13,7 @@ import { NewsletterForm } from '../components/shared/components/newsletterForm/N
 import { Author } from '../components/autor/Autor';
 import { Navigation } from '../components/navigation/Navigation';
 import { Community } from '../components/community/Community';
+import { Footer } from '../components/footer/Footer';
 
 const postsArr: any[] = [
   {
@@ -75,8 +76,6 @@ export default function Index({ posts }: any) {
           </Grid.Item>
         </Grid.Item>
       </Grid>
-      <Author />
-      <Community />
     </Layout>
   );
 }

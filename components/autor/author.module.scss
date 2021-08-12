@@ -50,6 +50,7 @@
   font-size: 1.8rem;
   line-height: 1.5;
   color: #fff;
+  text-align: center;
 
   @include mediaquery('xs') {
     font-size: 2rem;
@@ -57,6 +58,7 @@
 
   @include mediaquery('lg') {
     font-size: 2.2rem;
+    text-align: left;
   }
 
   @include mediaquery('xl') {

@@ -40,6 +40,6 @@
 
   @include mediaquery('lg') {
     grid-gap: 6rem;
-    grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(71rem, 1fr));
   }
 }

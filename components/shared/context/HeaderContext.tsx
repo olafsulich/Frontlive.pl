@@ -4,6 +4,7 @@ import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'bo
 type State = {
   isMenuVisible: boolean;
   toggleMenu: () => void;
+  closeMenu: () => void;
 };
 
 type HeaderProviderProps = { children: ReactNode };
@@ -15,18 +16,33 @@ export const HeaderProvider = ({ children }: HeaderProviderProps) => {
 
   const toggleMenu = useCallback(() => {
     setIsMenuVisible((prevIsMenuVisible) => {
-      const navigation = document.querySelector('#navigation') as HTMLElement;
-      if (!prevIsMenuVisible) {
-        disableBodyScroll(navigation);
-      } else {
-        enableBodyScroll(navigation);
+      if (typeof window !== 'undefined') {
+        const navigation = document.querySelector('#navigation') as HTMLElement;
+
+        if (!prevIsMenuVisible) {
+          disableBodyScroll(navigation);
+        } else {
+          enableBodyScroll(navigation);
+        }
       }
+
       return !prevIsMenuVisible;
     });
   }, []);
 
+  const closeMenu = useCallback(() => {
+    setIsMenuVisible(() => {
+      if (typeof window !== 'undefined') {
+        const navigation = document.querySelector('#navigation') as HTMLElement;
+
+        enableBodyScroll(navigation);
+      }
+      return false;
+    });
+  }, []);
+
   return (
-    <HeaderStateContext.Provider value={{ isMenuVisible, toggleMenu }}>
+    <HeaderStateContext.Provider value={{ isMenuVisible, toggleMenu, closeMenu }}>
       {children}
     </HeaderStateContext.Provider>
   );
