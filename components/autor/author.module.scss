@@ -26,10 +26,13 @@
   flex-shrink: 0;
   position: relative;
 
+  @include mediaquery('lg') {
+    margin-right: 4rem;
+  }
+
   @include mediaquery('xl') {
     width: 18rem;
     height: 18rem;
-    margin-right: 4rem;
   }
 
   @include mediaquery('xxl') {
