@@ -10,6 +10,8 @@ import { PostsListing } from '../components/blog/postsListing/PostsListing';
 import { Heading } from '../components/shared/components/heading/Heading';
 import { Categories } from '../components/categories/Categories';
 import { NewsletterForm } from '../components/shared/components/newsletterForm/NewsletterForm';
+import { Author } from '../components/autor/Autor';
+import { Navigation } from '../components/navigation/Navigation';
 
 const postsArr: any[] = [
   {
@@ -47,7 +49,9 @@ const categoriesArr = [
 export default function Index({ posts }: any) {
   return (
     <Layout>
-      <Header />
+      <Header>
+        <Navigation />
+      </Header>
       <Grid>
         <Grid.Item>
           <Heading tag="h2" variant="secondary">
@@ -66,10 +70,11 @@ export default function Index({ posts }: any) {
             <Heading tag="h2" variant="secondary">
               Newsletter
             </Heading>
-            <NewsletterForm id="" />
+            <NewsletterForm />
           </Grid.Item>
         </Grid.Item>
       </Grid>
+      <Author />
     </Layout>
   );
 }

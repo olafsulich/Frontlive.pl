@@ -12,7 +12,7 @@
   margin-bottom: 2.4rem;
   width: 100%;
 
-  @include mediaquery('sm') {
+  @include mediaquery('xs') {
     width: auto;
   }
 

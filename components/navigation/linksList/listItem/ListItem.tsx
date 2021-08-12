@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ActiveLink } from '../../activeLink/ActiveLink';
+import Link from 'next/link';
 import styles from './listItem.module.scss';
 
 type ListItemProps = {
@@ -9,9 +9,9 @@ type ListItemProps = {
 
 export const ListItem = memo<ListItemProps>(({ title, href }) => (
   <li className={styles.item}>
-    <ActiveLink href={href} activeClassName={styles.activeLink}>
+    <Link href={href}>
       <a className={styles.link}>{title}</a>
-    </ActiveLink>
+    </Link>
   </li>
 ));
 

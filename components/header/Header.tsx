@@ -4,11 +4,15 @@ import styles from './header.module.scss';
 import Wave from '../../public/icons/wave-1.svg';
 import { Navigation } from '../navigation/Navigation';
 
-export const Header = memo(() => {
+type HeaderProps = {
+  children: ReactNode;
+};
+
+export const Header = memo(({ children }) => {
   return (
     <header className={styles.wrapper}>
       <Wave className={styles.wave} />
-      <Navigation />
+      {children}
       <Hero />
     </header>
   );

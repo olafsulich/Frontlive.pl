@@ -1,10 +1,10 @@
 @mixin mediaquery($query) {
   $breakpoints: (
-    "xs": "(min-width: 500px)",
-    "sm": "(min-width: 639px)",
-    "lg": "(min-width: 800px)",
-    "xl": "(min-width: 1050px)",
-    "xxl": "(min-width: 1250px)",
+    'xs': '(min-width: 500px)',
+    'sm': '(min-width: 639px)',
+    'lg': '(min-width: 800px)',
+    'xl': '(min-width: 1150px)',
+    'xxl': '(min-width: 1450px)',
   );
 
   @if map-has-key($breakpoints, $query) {

@@ -11,7 +11,7 @@ export const Categories = memo(({ categories }: CategoriesProps) => {
   return (
     <div className={styles.categories}>
       {categories.map(({ title, path }) => (
-        <Category title={title} path={path} />
+        <Category key={title} title={title} path={path} />
       ))}
     </div>
   );
