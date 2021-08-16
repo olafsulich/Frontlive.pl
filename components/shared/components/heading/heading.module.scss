@@ -57,22 +57,58 @@
 }
 
 .secondary {
-  font-size: 1.6rem;
-  font-family: 'GreyCliff';
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--red);
-  margin-bottom: 3rem;
+  font-family: 'GreyCliff' !important;
+  font-weight: bold;
+  font-style: normal !important;
+  color: var(--white);
+  font-size: 5rem;
+  max-width: 100%;
+  opacity: 1;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-bottom: 6rem;
 
-  @include mediaquery('lg') {
-    font-size: 1.8rem;
-    margin-bottom: 4rem;
+  @include mediaquery('xs') {
+    font-size: 6rem;
+    margin-bottom: 8rem;
+  }
+
+  @include mediaquery('sm') {
+    font-size: 8rem;
+    margin-bottom: 9rem;
   }
 
   @include mediaquery('xl') {
-    font-size: 2rem;
-    margin-bottom: 4.5rem;
+    font-size: 6.4rem;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    margin-bottom: 10rem;
+  }
+
+  &::before {
+    content: attr(data-before-content);
+    font-family: 'Criteria';
+    font-weight: bold;
+    font-style: oblique;
+    font-size: clamp(10rem, 28vw, 31rem);
+    color: #112f47;
+    text-transform: uppercase;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @include mediaquery('sm') {
+      font-size: clamp(10rem, 23vw, 31rem);
+    }
+
+    @include mediaquery('lg') {
+      font-size: clamp(10rem, 20vw, 31rem);
+    }
   }
 }
 

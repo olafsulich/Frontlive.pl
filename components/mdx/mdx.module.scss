@@ -1,11 +1,20 @@
 @import 'common';
 
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .wrapper {
   width: 100%;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   margin: 1rem 0;
+  padding: 0 4rem;
 
   @include mediaquery('sm') {
     margin-top: 4rem;
@@ -23,6 +32,7 @@
   text-align: center;
   margin-bottom: 3rem;
   text-align: center;
+  z-index: -1;
 
   @include mediaquery('xs') {
     font-size: 3.6rem;
@@ -51,17 +61,23 @@
   text-decoration: none;
   text-align: center;
   font-size: 1.6rem;
+  font-weight: bold;
   color: var(--red);
   padding: 2rem 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-
+  transform: translateY(120%);
+  z-index: 2;
   @include mediaquery('sm') {
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
   }
 
   @include mediaquery('lg') {
-    margin-bottom: 3rem;
+    font-size: 2rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2.4rem;
   }
 }
 

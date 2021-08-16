@@ -10,15 +10,21 @@ type HeadingProps = {
   tag: HeadingTag;
   variant: Variant;
   className?: string;
+  beforeContent?: string;
 };
 
-export const Heading = memo(({ children, tag: Tag = 'h1', variant, className }: HeadingProps) => {
-  return (
-    <Tag data-before-content={children} className={cn(className, styles[variant])}>
-      {children}
-      {/* {variant === 'primary' && <span className={styles.primaryBigHeading}>{children}</span>} */}
-    </Tag>
-  );
-});
+export const Heading = memo(
+  ({ children, tag: Tag = 'h1', variant, className, beforeContent }: HeadingProps) => {
+    return (
+      <Tag
+        data-before-content={beforeContent || children}
+        className={cn(className, styles[variant])}
+      >
+        {children}
+        {/* {variant === 'primary' && <span className={styles.primaryBigHeading}>{children}</span>} */}
+      </Tag>
+    );
+  },
+);
 
 Heading.displayName = 'Heading';

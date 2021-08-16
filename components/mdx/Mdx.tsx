@@ -23,20 +23,23 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
   const { title } = frontmatter;
   return (
     <article className={styles.wrapper}>
-      <div className={cn(styles.content, 'content')}>
-        <header className={styles.header} id="main">
-          <Link href={`/kategorie/${slugify(frontmatter.category, { lower: true })}`}>
-            <a className={cn(styles.category, 'categoryLink')}>
-              <span className="visually-hidden">Kategoria:</span>
-              <span>{frontmatter.category}</span>
-            </a>
-          </Link>
-          <Heading tag="h1" variant="secondary" className={styles.heading}>
-            {title}
-          </Heading>
-        </header>
-        {children}
-      </div>
+      <header className={styles.header} id="main">
+        <Link href={`/kategorie/${slugify(frontmatter.category, { lower: true })}`}>
+          <a className={cn(styles.category, 'categoryLink')}>
+            <span className="visually-hidden">Kategoria:</span>
+            <span>{frontmatter.category}</span>
+          </a>
+        </Link>
+        <Heading
+          beforeContent={frontmatter.category}
+          tag="h1"
+          variant="secondary"
+          className={styles.heading}
+        >
+          {title}
+        </Heading>
+      </header>
+      <div className={cn(styles.content, 'content')}>{children}</div>
     </article>
   );
 });
