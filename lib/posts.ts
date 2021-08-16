@@ -1,30 +1,25 @@
-import path from "path";
-import slugify from "slugify";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import {
-  getResourcesPaths,
-  getResourceBySlug,
-  getAllResources,
-} from "./resource";
-import type { Post } from "../types/types";
+import path from 'path';
+import slugify from 'slugify';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { getResourcesPaths, getResourceBySlug, getAllResources } from './resource';
+import type { Post } from '../types/types';
 
 dayjs.extend(customParseFormat);
 
-const POSTS_PATH = path.join(process.cwd(), "content/posts");
+const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 
 export const getPostBySlug = async (slug: string) => {
   const post = await getResourceBySlug(slug, POSTS_PATH);
   return post;
 };
 
-const filterUnpublishedPosts = (posts: Post[]) =>
-  posts.filter((post) => post.isPublished);
+const filterUnpublishedPosts = (posts: Post[]) => posts.filter((post) => post.isPublished);
 
 export const sortPostsByNewest = (posts: Post[]) => {
   return posts.sort((a, b) => {
-    const dateA = dayjs(a.publishedAt, "DD-MM-YYYY");
-    const dateB = dayjs(b.publishedAt, "DD-MM-YYYY");
+    const dateA = dayjs(a.publishedAt, 'DD-MM-YYYY');
+    const dateB = dayjs(b.publishedAt, 'DD-MM-YYYY');
     if (dateA.isBefore(dateB)) {
       return 1;
     }
@@ -46,13 +41,13 @@ export const getAllPosts = () => {
 
 export const getNewestPosts = () => {
   const posts = getAllPosts();
-  return posts.slice(0, 4);
+  return posts.slice(0, 3);
 };
 
 export const getPostsByCategory = (postCategory: string) => {
   const posts = getAllPosts();
   const filteredPosts = posts.filter(
-    ({ category }) => slugify(category, { lower: true }) === postCategory
+    ({ category }) => slugify(category, { lower: true }) === postCategory,
   );
 
   return filteredPosts;

@@ -116,10 +116,12 @@
   font-size: 1.8rem;
   line-height: 2.6rem;
   font-family: 'GreyCliff';
-  font-weight: bold;
-  color: var(--dark-100);
+  font-size: 500;
+  color: var(--red);
   margin: 0;
   margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 
   @include mediaquery('lg') {
     font-size: 2rem;

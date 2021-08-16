@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import matter from 'gray-matter';
@@ -10,6 +11,9 @@ import { Navigation } from '../../components/navigation/Navigation';
 import { Image } from '../../components/mdx/image/Image';
 import { Sparkles } from '../../components/shared/components/sparkles/Sparkles';
 import { Mdx } from '../../components/mdx/Mdx';
+import { useCallback, useMemo } from 'react';
+import { Heading } from '../../components/mdx/heading/Heading';
+import slugify from 'slugify';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -135,55 +139,3 @@ const BlogPost = ({
 };
 
 export default BlogPost;
-
-// import dynamic from 'next/dynamic';
-// import { MDXRemote } from 'next-mdx-remote';
-// import { serialize } from 'next-mdx-remote/serialize';
-// import { Sparkles } from '../../components/shared/components/sparkles/Sparkles';
-import { useCallback, useMemo } from 'react';
-import { Heading } from '../../components/mdx/heading/Heading';
-import { slugify } from 'slugify';
-
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   const slug = params!.slug as string;
-//   const { transformedMdx, frontmatter } = await getPostBySlug(slug);
-
-//   return {
-//     props: {
-//       transformedMdx,
-//       frontmatter: {
-//         slug,
-//         ...frontmatter,
-//       },
-//     },
-//     revalidate: 1,
-//   };
-// };
-
-// export const getStaticPaths = async () => {
-//   const paths = getPostsPaths();
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
-
-// const customMdxComponents = {
-//   Sparkles,
-//   Image,
-// };
-
-// export default function PostPage({
-//   transformedMdx,
-//   frontmatter,
-// }: InferGetStaticPropsType<typeof getStaticProps>) {
-//   return (
-//     <Layout>
-//       <Navigation />
-//       <main>
-//         <MDXRemote {...transformedMdx} components={customMdxComponents} />
-//       </main>
-//     </Layout>
-//   );
-// }

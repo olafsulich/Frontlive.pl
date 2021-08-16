@@ -1,8 +1,4 @@
-import fs from 'fs';
-import matter from 'gray-matter';
-import Link from 'next/link';
-import path from 'path';
-import { postFilePaths, POSTS_PATH } from '../utils/mdxUtils';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { Header } from '../components/header/Header';
 import { Layout } from '../components/layout/Layout';
 import { Grid } from '../components/shared/components/grid/Grid';
@@ -14,24 +10,7 @@ import { Author } from '../components/autor/Autor';
 import { Navigation } from '../components/navigation/Navigation';
 import { Community } from '../components/community/Community';
 import { Footer } from '../components/footer/Footer';
-
-const postsArr: any[] = [
-  {
-    title: 'Nowoczesny CSS - min(), max() i clamp()',
-    excerpt:
-      'Po ostatnim wprowadzającym wpisie przyszedł czas na przykłady z życia wzięte. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebasach. Przez jednych lubiany, przez drugich znienawidzony - formularz...',
-  },
-  {
-    title: 'TypeScript - React, Redux i Styled Components',
-    excerpt:
-      'Dokładnie rok temu na tym blogu pojawił się pierwszy wpis. Pomyślałem, że warto podsumować sobie ten rok i przedstawić Ci plany na przyszłość!',
-  },
-  {
-    title: 'Dostępność - czytniki ekranowe i testowanie',
-    excerpt:
-      'React Testing Library to najpopularniejsza biblioteka do testowania kodu napisanego w React. Wchodzi ona w skład większej całości - DOM Testing Library...',
-  },
-];
+import { getNewestPosts } from '../lib/posts';
 
 const categoriesArr = [
   { title: 'TypeScript', path: '' },
@@ -48,7 +27,18 @@ const categoriesArr = [
   { title: 'Webpack', path: '' },
 ];
 
-export default function Index({ posts }: any) {
+export const getStaticProps: GetStaticProps = async () => {
+  const newestPosts = getNewestPosts();
+
+  return {
+    props: {
+      posts: newestPosts,
+    },
+    revalidate: 1,
+  };
+};
+
+export default function Index({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <Layout>
       <Header>
@@ -56,20 +46,20 @@ export default function Index({ posts }: any) {
       </Header>
       <Grid>
         <Grid.Item>
-          <Heading tag="h2" variant="secondary">
+          <Heading tag="h2" variant="tertiary">
             Najnowsze
           </Heading>
-          <PostsListing posts={postsArr} />
+          <PostsListing posts={posts} />
         </Grid.Item>
         <Grid.Item tag="div">
           <Grid.Item>
-            <Heading tag="h2" variant="secondary">
+            <Heading tag="h2" variant="tertiary">
               Kategorie
             </Heading>
             <Categories categories={categoriesArr} />
           </Grid.Item>
           <Grid.Item>
-            <Heading tag="h2" variant="secondary">
+            <Heading tag="h2" variant="tertiary">
               Newsletter
             </Heading>
             <NewsletterForm />
