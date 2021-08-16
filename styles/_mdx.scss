@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 .mdx-marker {
   background: var(--gray-100);
@@ -14,7 +14,7 @@
 
 video,
 iframe {
-  @include mediaquery("lg") {
+  @include mediaquery('lg') {
     border-radius: 10px !important;
   }
 }
@@ -32,7 +32,7 @@ iframe {
     }
   }
 
-  pre[class*="language-"],
+  pre[class*='language-'],
   pre {
     margin: 4rem 0;
     font-size: 1.7rem;
@@ -61,7 +61,7 @@ iframe {
     align-items: center;
     justify-content: flex-start;
 
-    @include mediaquery("lg") {
+    @include mediaquery('lg') {
       border-radius: 1.8rem;
       height: auto;
       padding: 3.2rem;
@@ -71,12 +71,12 @@ iframe {
   }
 
   code {
-    font-family: "LeagueMono";
+    font-family: 'LeagueMono';
     font-weight: 500;
     overflow: auto;
     display: block;
 
-    @include mediaquery("lg") {
+    @include mediaquery('lg') {
       &::-webkit-scrollbar {
         height: 8px;
       }
@@ -101,37 +101,29 @@ iframe {
     font-size: 1.6rem;
     display: inline;
 
-    @include mediaquery("lg") {
+    @include mediaquery('lg') {
       font-size: 1.7rem;
     }
   }
 
   em {
-    font-family: "Criteria Demi";
     color: var(--red);
   }
 
   a:not(.categoryLink) {
     text-decoration: none;
-    border-bottom: 2px solid var(--gray-100);
+    border-bottom: 2px solid #112f47;
     color: var(--blue-600);
     font-weight: 600;
     font-size: 1.8rem;
     line-height: 3.6rem;
 
-    &:hover,
-    &:active,
-    &:focus {
-      background: var(--gray-100);
-      border-bottom: 2px solid var(--blue-600);
-    }
-
-    @include mediaquery("lg") {
+    @include mediaquery('lg') {
       font-size: 1.9rem;
       line-height: 3.7rem;
     }
 
-    @include mediaquery("xl") {
+    @include mediaquery('xl') {
       font-size: 2rem;
       line-height: 3.8rem;
     }
@@ -147,18 +139,18 @@ iframe {
       position: relative;
       counter-increment: item;
 
-      @include mediaquery("lg") {
+      @include mediaquery('lg') {
         font-size: 1.9rem;
         line-height: 3.7rem;
       }
 
-      @include mediaquery("xl") {
+      @include mediaquery('xl') {
         font-size: 2rem;
         line-height: 3.8rem;
       }
 
       &::before {
-        content: counter(item) ". ";
+        content: counter(item) '. ';
         position: absolute;
         width: 1.6rem;
         height: 1.6rem;
@@ -180,22 +172,22 @@ iframe {
       line-height: 3.6rem;
       position: relative;
 
-      @include mediaquery("lg") {
+      @include mediaquery('lg') {
         font-size: 1.9rem;
         line-height: 3.7rem;
       }
 
-      @include mediaquery("xl") {
+      @include mediaquery('xl') {
         font-size: 2rem;
         line-height: 3.8rem;
       }
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         width: 1.6rem;
         height: 1.6rem;
-        background: url("/icons/arrow-right.svg");
+        background: url('/icons/arrow-right.svg');
         background-repeat: no-repeat;
         top: 1.6rem;
         left: -2.2rem;
@@ -207,14 +199,14 @@ iframe {
   p {
     font-size: 1.8rem;
     line-height: 3.6rem;
-    color: var(--dark-200);
+    color: var(--white);
 
-    @include mediaquery("lg") {
+    @include mediaquery('lg') {
       font-size: 1.9rem;
       line-height: 3.7rem;
     }
 
-    @include mediaquery("xl") {
+    @include mediaquery('xl') {
       font-size: 2rem;
       line-height: 3.8rem;
     }

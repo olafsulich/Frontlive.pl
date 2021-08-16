@@ -12,7 +12,7 @@ export const LinksList = memo(() => {
       <ListItem title="Strona główna" href="/" />
       <ListItem title="Artykuły" href="/blog" />
       <ListItem title="Książki" href="/portfolio" />
-      <ListItem title="Współpraca" href="/portfolio" />
+      {/* <ListItem title="Współpraca" href="/portfolio" /> */}
       <ListItem title="O mnie" href="/o-mnie" />
       <ListItem title="Newsletter" href="/newsletter" />
     </ul>

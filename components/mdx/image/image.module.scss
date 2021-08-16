@@ -1,0 +1,19 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+}
+
+.nextImage {
+  width: auto;
+  height: 100%;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+
+  @include mediaquery('lg') {
+    border-radius: 10px;
+  }
+}

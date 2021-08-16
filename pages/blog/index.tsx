@@ -22,6 +22,31 @@ const postsArr: any[] = [
     excerpt:
       'React Testing Library to najpopularniejsza biblioteka do testowania kodu napisanego w React. Wchodzi ona w skład większej całości - DOM Testing Library...',
   },
+  {
+    title: 'React Testing Library - testy accessibility',
+    excerpt:
+      'Testować accessibility możemy różnymi narzędziami i na różne sposoby... Warto wspomnieć o świetnych pluginach do ESlinta i Cypressa. Dzisiaj jednak na tapet bierzemy testy dostępności skupione na zakresie komponentu z pomocą biblioteki jest-axe.',
+  },
+  {
+    title: 'React Testing Library - Mock Service Worker',
+    excerpt:
+      'Pogadajmy przez chwilę o mockowaniu, a szczególnie o mockowaniu fetcha/axiosa przy testowaniu komponentów, które pobierają nasze dane np. z zewnętrznego API.',
+  },
+  {
+    title: 'React Testing Library - testy w praktyce',
+    excerpt:
+      'Po ostatnim wprowadzającym wpisie przyszedł czas na przykłady z życia wzięte. Dzisiaj przetestujemy sobie komponent, który bardzo często znajduję się w naszych codebaseach.',
+  },
+  {
+    title: 'Testowanie JS - podstawy',
+    excerpt:
+      'Jakiś czas temu wysłałem do osób, które są zapisane do newslettera, krótką ankietę. Zawierała ona jedno, kluczowe pytanie - Czego chcesz się nauczyć? Mogliście wybrać proponowane przeze mnie tematy lub napisać coś od siebie. Ku mojemu zaskoczeniu, dużą przewagą, wygrało Testowanie!',
+  },
+  {
+    title: 'Nowoczesny CSS - CSS Variables',
+    excerpt:
+      'Chociaż CSS nie jest językiem programowania, to posiada swoje zmienne. Czym są i jak się ich używa? Do jakich celów możesz je wykorzystać?',
+  },
 ];
 
 const categoriesArr = [

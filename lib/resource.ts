@@ -1,8 +1,12 @@
-import fs from "fs";
-import path from "path";
-import { transformMdx } from "./mdx";
-import matter from "gray-matter";
-import type { PostFrontmatter, Post } from "../types/types";
+import fs from 'fs';
+import path from 'path';
+import { transformMdx } from './mdx';
+import matter from 'gray-matter';
+import type { PostFrontmatter, Post } from '../types/types';
+import { serialize } from 'next-mdx-remote/serialize';
+import remarkSlug from 'remark-slug';
+import remarkCodeTitles from 'remark-code-titles';
+import mdxPrism from 'mdx-prism';
 
 type ResourceFrontmatter = PostFrontmatter;
 type Resource = Post;
@@ -20,9 +24,9 @@ export const getResourceFrontmatter = <T extends Resource>({
   readonly filename: string;
   readonly resourcePath: string;
 }): T => {
-  const slug = filename.replace(MDX_PATTERN, "");
+  const slug = filename.replace(MDX_PATTERN, '');
   const fullPath = path.join(resourcePath, filename);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data } = matter(fileContents);
   const frontmatter: unknown = { ...data, slug };
   return frontmatter as T;
@@ -46,17 +50,21 @@ export const getResourceBySlug = async (slug: string, resourcePath: string) => {
   const source = fs.readFileSync(postFilePath);
   const { content, data } = matter(source);
   const frontmatter = data as ResourceFrontmatter;
-  //   const transformedMdx = await transformMdx(
-  //     content,
-  //     frontmatter as ResourceFrontmatter
-  //   );
-  //   return { transformedMdx, frontmatter };
+  const transformedMdx = await serialize(content, {
+    // Optionally pass remark/rehype plugins
+    mdxOptions: {
+      remarkPlugins: [remarkCodeTitles],
+      rehypePlugins: [mdxPrism],
+    },
+    scope: data,
+  });
+  return { transformedMdx, frontmatter };
 };
 
 export const getResourcesPaths = (resourcePath: string) => {
   const resourcesSlugs = getResourcesSlugs(resourcePath);
   const resourcesPaths = resourcesSlugs
-    .map((path) => path.replace(MDX_PATTERN, ""))
+    .map((path) => path.replace(MDX_PATTERN, ''))
     .map((slug) => ({ params: { slug } }));
   return resourcesPaths;
 };
