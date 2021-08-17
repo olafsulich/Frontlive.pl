@@ -64,41 +64,34 @@ const BlogPost = ({
     };
   }, []);
 
-  const customMdxComponents = useMemo(
-    () => ({
-      h2: (props: HeadingComponentProps) => (
-        <Heading headingTag="h2" {...getHeadingProps(props)}></Heading>
-      ),
-      h3: (props: HeadingComponentProps) => (
-        <Heading headingTag="h3" {...getHeadingProps(props)}></Heading>
-      ),
-      h4: (props: HeadingComponentProps) => (
-        <Heading headingTag="h4" {...getHeadingProps(props)}></Heading>
-      ),
-      h5: (props: HeadingComponentProps) => (
-        <Heading headingTag="h5" {...getHeadingProps(props)}></Heading>
-      ),
-      h6: (props: HeadingComponentProps) => (
-        <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
-      ),
-      img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
-      Sparkles,
-      Image,
-    }),
-    [],
-  );
+    const customMdxComponents = useMemo(
+      () => ({
+        h2: (props: HeadingComponentProps) => (
+          <Heading headingTag="h2" {...getHeadingProps(props)}></Heading>
+        ),
+        h3: (props: HeadingComponentProps) => (
+          <Heading headingTag="h3" {...getHeadingProps(props)}></Heading>
+        ),
+        h4: (props: HeadingComponentProps) => (
+          <Heading headingTag="h4" {...getHeadingProps(props)}></Heading>
+        ),
+        h5: (props: HeadingComponentProps) => (
+          <Heading headingTag="h5" {...getHeadingProps(props)}></Heading>
+        ),
+        h6: (props: HeadingComponentProps) => (
+          <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
+        ),
+        img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
+        Sparkles,
+        Image,
+      }),
+      [],
+    );
 
- const router = useRouter();
+    useEffect(() => {
+      window.history.scrollRestoration = 'manual';
+    }, []);
 
- useEffect(() => {
-   const scroll = () => setTimeout(() => window.scroll({ top: 0, left: 0 }), 0);
-
-   router.events.on('routeChangeComplete', scroll);
-
-   return () => {
-     router.events.off('routeChangeComplete', scroll);
-   };
- }, [router]);
 
   return (
     <>
@@ -138,6 +131,7 @@ const BlogPost = ({
       <Layout>
         <Navigation />
         <main>
+
           <Mdx frontmatter={frontmatter}>
             <MDXRemote {...transformedMdx} components={customMdxComponents} />
           </Mdx>

@@ -62,21 +62,22 @@ config.images = {
   deviceSizes: [320, 375, 640, 750, 768, 1024, 1280, 1920],
   imageSizes: [320, 640, 768, 1200, 1536],
 };
-// config.experimental = true;
-// config.optimizeFonts = true;
-// config.webpack5 = true;
-// config.httpAgentOptions = { keepAlive: true };
-// config.reactStrictMode = true;
-// config.compress = true;
-// config.productionBrowserSourceMaps = true;
-// config.generateEtags = true;
-// config.poweredByHeader = false;
-// config.experimental.optimizeImages = true;
-// config.experimental.workerThreads = true;
-// config.experimental.scrollRestoration = false;
-// config.experimental.esmExternals = true;
-// config.experimental.gzipSize = true;
-// config.excludeDefaultMomentLocales = true;
+
+config.experimental = true;
+config.optimizeFonts = true;
+config.webpack5 = true;
+config.httpAgentOptions = { keepAlive: true };
+config.reactStrictMode = true;
+config.compress = true;
+config.productionBrowserSourceMaps = true;
+config.generateEtags = true;
+config.poweredByHeader = false;
+config.experimental.optimizeImages = true;
+config.experimental.workerThreads = true;
+config.experimental.scrollRestoration = false;
+config.experimental.esmExternals = true;
+config.experimental.gzipSize = true;
+config.excludeDefaultMomentLocales = true;
 
 config.redirects = () => {
   return [

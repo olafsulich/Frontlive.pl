@@ -33,16 +33,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   //     };
   //   }, []);
 
-  useEffect(() => {
-    const scroll = () => setTimeout(() => window.scroll({ top: 0, left: 0 }), 0);
-    console.log('scrolllllllllXDDD');
+  //   useEffect(() => {
+  //     const scroll = () => setTimeout(() => window.scroll({ top: 0, left: 0 }), 0);
+  //     console.log('scrolllllllllXDDD');
 
-    Router.events.on('routeChangeComplete', scroll);
+  //     Router.events.on('routeChangeComplete', scroll);
 
-    return () => {
-      Router.events.off('routeChangeComplete', scroll);
-    };
-  }, []);
+  //     return () => {
+  //       Router.events.off('routeChangeComplete', scroll);
+  //     };
+  //   }, []);
 
   return (
     <>
