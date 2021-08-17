@@ -6,17 +6,10 @@ import cn from 'classnames';
 import type { PostFrontmatter } from '../../types/types';
 import styles from './mdx.module.scss';
 import { Heading } from '../shared/components/heading/Heading';
-import { Sparkles } from '../shared/components/sparkles/Sparkles';
-import { Image } from './image/Image';
 
 type MdxProps = {
   readonly frontmatter: PostFrontmatter;
   readonly children: ReactNode;
-};
-
-export const customMdxComponents = {
-  Sparkles,
-  Image,
 };
 
 export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {

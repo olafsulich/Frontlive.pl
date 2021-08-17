@@ -12,7 +12,19 @@ const EXTERNAL_IMAGE_PATTERN = /\http/;
 export const Image = memo(({ src, alt }: ImageProps) => {
   return (
     <div className={styles.wrapper}>
-      <NextImage className={styles.image} src={src} alt={alt} width={1000} height={562.5} />
+      {EXTERNAL_IMAGE_PATTERN.test(src) ? (
+        <img
+          className={styles.image}
+          src={src}
+          alt={alt}
+          width={1000}
+          height={562.5}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <NextImage className={styles.image} src={src} alt={alt} width={1000} height={562.5} />
+      )}
     </div>
   );
 });

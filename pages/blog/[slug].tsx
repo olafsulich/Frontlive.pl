@@ -1,10 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
-import matter from 'gray-matter';
 import { MDXRemote } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
-import dayjs from 'dayjs';
 import { getPostBySlug, getPostsPaths } from '../../lib/posts';
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
@@ -13,8 +10,7 @@ import Sparkles from '../../components/shared/components/sparkles/Sparkles';
 import { Mdx } from '../../components/mdx/Mdx';
 import { useCallback, useMemo } from 'react';
 import { Heading } from '../../components/mdx/heading/Heading';
-import slugify from 'slugify';
-import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -86,15 +82,23 @@ const BlogPost = ({
         <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
       ),
       img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
+      Sparkles,
+      Image,
     }),
     [],
   );
 
-  const components = {
-    Sparkles,
-    Image,
-    ...customMdxComponents,
-  };
+ const router = useRouter();
+
+ useEffect(() => {
+   const scroll = () => setTimeout(() => window.scroll({ top: 0, left: 0 }), 0);
+
+   router.events.on('routeChangeComplete', scroll);
+
+   return () => {
+     router.events.off('routeChangeComplete', scroll);
+   };
+ }, [router]);
 
   return (
     <>
@@ -135,7 +139,7 @@ const BlogPost = ({
         <Navigation />
         <main>
           <Mdx frontmatter={frontmatter}>
-            <MDXRemote {...transformedMdx} components={components} />
+            <MDXRemote {...transformedMdx} components={customMdxComponents} />
           </Mdx>
         </main>
       </Layout>

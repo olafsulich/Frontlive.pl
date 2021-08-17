@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { PostThumbnail } from './postThumbnail/PostThumbnail';
 import type { Heading, Post } from '../../../types/types';
 import styles from './postsListing.module.scss';
+import slugify from 'slugify';
 
 type PostsListingProps = {
   readonly posts: Post[];

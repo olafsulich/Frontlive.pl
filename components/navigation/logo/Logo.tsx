@@ -5,7 +5,7 @@ import styles from './logo.module.scss';
 
 export const Logo = () => {
   return (
-    <Link href="/">
+    <Link href="/" passHref>
       <a className={styles.link}>
         <div className={cn(styles.logo, styles.logoBig)}>
           <Image src="/images/logo-big.png" alt="" width={222} height={39} />

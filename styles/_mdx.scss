@@ -28,9 +28,11 @@ iframe {
     border-radius: 4px;
     color: var(--green);
 
-    p {
+    p,
+    a,
+    code {
       margin: 0;
-      color: var(--green);
+      color: var(--green) !important;
     }
   }
 
@@ -53,7 +55,7 @@ iframe {
   pre[class*='language-'],
   pre {
     margin: 4rem 0;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     line-height: 1.7;
     width: 100%;
     height: 100%;
@@ -62,11 +64,11 @@ iframe {
     align-self: center;
     justify-self: center;
     grid-column: 1 / 4 !important;
-    padding: 0 3.2rem;
+    padding: 2rem 3.2rem;
     // background: var(--dark-100);
     // color: var(--white-100);
-    background: #0f2036;
-    color: #f8f8f2;
+    background: #0b2437;
+    color: #bdddff;
     border: none;
     tab-size: 2;
     hyphens: none;
@@ -94,6 +96,7 @@ iframe {
     font-weight: 500;
     overflow: auto;
     display: block;
+    color: #bdddff;
 
     @include mediaquery('lg') {
       &::-webkit-scrollbar {

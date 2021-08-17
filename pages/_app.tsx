@@ -21,14 +21,26 @@ if (!isProduction && isBrowser) {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   loadFonts();
+  //   const router = useRouter();
+
+  //   useEffect(() => {
+  //     const handleRouteChange = (url: string) => {
+  //       gtag.reportPageView(url);
+  //     };
+  //     router.events.on('routeChangeComplete', handleRouteChange);
+  //     return () => {
+  //       router.events.off('routeChangeComplete', handleRouteChange);
+  //     };
+  //   }, []);
 
   useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      gtag.reportPageView(url);
-    };
-    Router.events.on('routeChangeComplete', handleRouteChange);
+    const scroll = () => setTimeout(() => window.scroll({ top: 0, left: 0 }), 0);
+    console.log('scrolllllllllXDDD');
+
+    Router.events.on('routeChangeComplete', scroll);
+
     return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange);
+      Router.events.off('routeChangeComplete', scroll);
     };
   }, []);
 
