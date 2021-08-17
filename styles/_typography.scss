@@ -76,21 +76,3 @@ body {
   position: relative;
   height: 100%;
 }
-
-.content {
-  p {
-    font-size: 1.8rem;
-    line-height: 3.6rem;
-    color: var(--dark-200);
-
-    @include mediaquery('lg') {
-      font-size: 1.9rem;
-      line-height: 3.7rem;
-    }
-
-    @include mediaquery('xl') {
-      font-size: 2rem;
-      line-height: 3.8rem;
-    }
-  }
-}

@@ -9,11 +9,12 @@ import { getPostBySlug, getPostsPaths } from '../../lib/posts';
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Image } from '../../components/mdx/image/Image';
-import { Sparkles } from '../../components/shared/components/sparkles/Sparkles';
+import Sparkles from '../../components/shared/components/sparkles/Sparkles';
 import { Mdx } from '../../components/mdx/Mdx';
 import { useCallback, useMemo } from 'react';
 import { Heading } from '../../components/mdx/heading/Heading';
 import slugify from 'slugify';
+import dynamic from 'next/dynamic';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -85,11 +86,15 @@ const BlogPost = ({
         <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
       ),
       img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
-      Sparkles,
-      Image,
     }),
     [],
   );
+
+  const components = {
+    Sparkles,
+    Image,
+    ...customMdxComponents,
+  };
 
   return (
     <>
@@ -130,7 +135,7 @@ const BlogPost = ({
         <Navigation />
         <main>
           <Mdx frontmatter={frontmatter}>
-            <MDXRemote {...transformedMdx} components={customMdxComponents} />
+            <MDXRemote {...transformedMdx} components={components} />
           </Mdx>
         </main>
       </Layout>

@@ -61,7 +61,7 @@
   font-weight: bold;
   font-style: normal !important;
   color: var(--white);
-  font-size: 5rem;
+  font-size: 3rem;
   max-width: 100%;
   opacity: 1;
   margin: 0;
@@ -71,12 +71,17 @@
   margin-bottom: 6rem;
 
   @include mediaquery('xs') {
-    font-size: 6rem;
+    font-size: 3.4rem;
     margin-bottom: 8rem;
   }
 
   @include mediaquery('sm') {
-    font-size: 8rem;
+    font-size: 4rem;
+    margin-bottom: 9rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 5rem;
     margin-bottom: 9rem;
   }
 

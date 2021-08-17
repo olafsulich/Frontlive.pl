@@ -14,26 +14,33 @@ export const useRandomInterval = (
   });
 
   useEffect(() => {
-    if (typeof minDelay === 'number' && typeof maxDelay === 'number') {
-      const handleTick = () => {
-        const nextTickAt = randomNumber(minDelay, maxDelay);
-        timeoutId.current = window.setTimeout(() => {
-          savedCallback.current();
-          handleTick();
-        }, nextTickAt);
-      };
-      handleTick();
+    if (typeof window !== 'undefined') {
+      if (typeof minDelay === 'number' && typeof maxDelay === 'number') {
+        const handleTick = () => {
+          const nextTickAt = randomNumber(minDelay, maxDelay);
+          timeoutId.current = window.setTimeout(() => {
+            savedCallback.current();
+            handleTick();
+          }, nextTickAt);
+        };
+        handleTick();
+      }
     }
+
     return () => {
-      if (typeof timeoutId.current === 'number') {
-        window.clearTimeout(timeoutId.current);
+      if (typeof window !== undefined) {
+        if (typeof timeoutId.current === 'number') {
+          window.clearTimeout(timeoutId.current);
+        }
       }
     };
   }, [minDelay, maxDelay]);
 
   const cancel = useCallback(() => {
-    if (typeof timeoutId.current === 'number') {
-      window.clearTimeout(timeoutId.current);
+    if (typeof window !== 'undefined') {
+      if (typeof timeoutId.current === 'number') {
+        window.clearTimeout(timeoutId.current);
+      }
     }
   }, []);
 

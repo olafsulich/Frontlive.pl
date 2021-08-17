@@ -14,7 +14,6 @@ const MAX_RANDOM_LEFT_POSITION = 100;
 export const generateSparkle = () => {
   return {
     id: String(randomNumber(MIN_RANDOM_ID_RANGE, MAX_RANDOM_ID_RANGE)),
-    createdAt: Date.now(),
     color: sparkleColor,
     size: randomNumber(MIN_RANDOM_SIZE_RANGE, MAX_RANDOM_SIZE_RANGE),
     style: {
