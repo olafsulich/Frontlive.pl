@@ -11,6 +11,7 @@ import { Mdx } from '../../components/mdx/Mdx';
 import { useCallback, useMemo } from 'react';
 import { Heading } from '../../components/mdx/heading/Heading';
 import { useRouter } from 'next/router';
+import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -64,34 +65,34 @@ const BlogPost = ({
     };
   }, []);
 
-    const customMdxComponents = useMemo(
-      () => ({
-        h2: (props: HeadingComponentProps) => (
-          <Heading headingTag="h2" {...getHeadingProps(props)}></Heading>
-        ),
-        h3: (props: HeadingComponentProps) => (
-          <Heading headingTag="h3" {...getHeadingProps(props)}></Heading>
-        ),
-        h4: (props: HeadingComponentProps) => (
-          <Heading headingTag="h4" {...getHeadingProps(props)}></Heading>
-        ),
-        h5: (props: HeadingComponentProps) => (
-          <Heading headingTag="h5" {...getHeadingProps(props)}></Heading>
-        ),
-        h6: (props: HeadingComponentProps) => (
-          <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
-        ),
-        img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
-        Sparkles,
-        Image,
-      }),
-      [],
-    );
+  const customMdxComponents = useMemo(
+    () => ({
+      h2: (props: HeadingComponentProps) => (
+        <Heading headingTag="h2" {...getHeadingProps(props)}></Heading>
+      ),
+      h3: (props: HeadingComponentProps) => (
+        <Heading headingTag="h3" {...getHeadingProps(props)}></Heading>
+      ),
+      h4: (props: HeadingComponentProps) => (
+        <Heading headingTag="h4" {...getHeadingProps(props)}></Heading>
+      ),
+      h5: (props: HeadingComponentProps) => (
+        <Heading headingTag="h5" {...getHeadingProps(props)}></Heading>
+      ),
+      h6: (props: HeadingComponentProps) => (
+        <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
+      ),
+      img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
+      Sparkles,
+      Image,
+      Newsletter,
+    }),
+    [],
+  );
 
-    useEffect(() => {
-      window.history.scrollRestoration = 'manual';
-    }, []);
-
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+  }, []);
 
   return (
     <>
@@ -131,7 +132,6 @@ const BlogPost = ({
       <Layout>
         <Navigation />
         <main>
-
           <Mdx frontmatter={frontmatter}>
             <MDXRemote {...transformedMdx} components={customMdxComponents} />
           </Mdx>

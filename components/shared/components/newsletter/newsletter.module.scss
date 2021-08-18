@@ -1,0 +1,91 @@
+@import 'common';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8rem;
+  margin: 18rem 0 8rem 0;
+  background: #0b2437;
+  position: relative;
+  width: 100%;
+  grid-column: 1 / 4 !important;
+  padding: 6rem 3rem 2rem 3rem;
+
+  @include mediaquery('lg') {
+    padding: 1rem 5rem;
+    margin: 14rem 0;
+    border-radius: 1.8rem;
+    align-items: flex-start;
+  }
+
+  form {
+    margin: 0;
+  }
+}
+
+.content {
+  width: 100%;
+
+  @include mediaquery('lg') {
+    width: 85%;
+  }
+
+  @include mediaquery('xl') {
+    width: 80%;
+  }
+}
+
+.text {
+  color: var(--white);
+  margin-bottom: 2rem;
+
+  @include mediaquery('lg') {
+    margin-bottom: 4rem;
+    font-size: 2rem !important;
+  }
+
+  @include mediaquery('xl') {
+    margin-bottom: 6rem;
+  }
+}
+
+.regulations {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  color: var(--white);
+
+  @include mediaquery('xs') {
+    font-size: 1.2rem !important;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 1.4rem !important;
+  }
+}
+
+.image {
+  position: absolute;
+  top: -12rem;
+  width: 18rem;
+
+  @include mediaquery('lg') {
+    width: 20rem;
+    top: -8rem;
+    right: -5rem;
+    transform: rotate(10deg);
+  }
+
+  @include mediaquery('xl') {
+    width: 23rem;
+    top: -10rem;
+  }
+
+  @include mediaquery('xxl') {
+    width: 25rem;
+    width: auto;
+    top: -12rem;
+    right: -10rem;
+  }
+}

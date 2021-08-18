@@ -89,6 +89,8 @@ const server = setupServer(
 
 Z poziomu callbacku mamy dostęp do obiektu [żądania](https://mswjs.io/docs/api/request), [odpowiedzi](https://mswjs.io/docs/api/response) i tzw. [contextu](https://mswjs.io/docs/api/context). W środku zwracamy odpowiedź i korzystamy z metody `ctx.json()`, która ustawia `body` odpowiedzi wraz z nagłówkiem `Content-Type: application/json`.
 
+<Newsletter />
+
 Jedźmy dalej, naszym następnym krokiem będzie stworzenie prostego _wrappera_ na funkcje `render` z React Testing Library. Dlaczego tak? To wszystko przez wcześniej wspominane React Query, jeśli nie korzystasz z tej biblioteki, to możesz na spokojnie pominąć ten krok.
 
 ```tsx

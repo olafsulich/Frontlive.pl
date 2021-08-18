@@ -58,10 +58,10 @@ config.sassOptions = {
   includePaths: [path.join(__dirname, 'styles')],
 };
 
-config.images = {
-  deviceSizes: [320, 375, 640, 750, 768, 1024, 1280, 1920],
-  imageSizes: [320, 640, 768, 1200, 1536],
-};
+// config.images = {
+//   deviceSizes: [320, 375, 640, 750, 768, 1024, 1280, 1920],
+//   imageSizes: [320, 640, 768, 1200, 1536],
+// };
 
 config.redirects = () => {
   return [

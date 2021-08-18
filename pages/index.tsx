@@ -5,7 +5,7 @@ import { Grid } from '../components/shared/components/grid/Grid';
 import { PostsListing } from '../components/blog/postsListing/PostsListing';
 import { Heading } from '../components/shared/components/heading/Heading';
 import { Categories } from '../components/categories/Categories';
-import { NewsletterForm } from '../components/shared/components/newsletterForm/NewsletterForm';
+import { NewsletterForm } from '../components/shared/components/newsletter/newsletterForm/NewsletterForm';
 import { Author } from '../components/autor/Autor';
 import { Navigation } from '../components/navigation/Navigation';
 import { Community } from '../components/community/Community';

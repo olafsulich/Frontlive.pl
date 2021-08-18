@@ -18,6 +18,9 @@
 
   @include mediaquery('xl') {
     flex-direction: row;
+    padding-right: 6rem;
+    padding-left: 6rem;
+
     justify-content: space-between;
   }
 }

@@ -8,10 +8,10 @@ export const Logo = () => {
     <Link href="/" passHref>
       <a className={styles.link}>
         <div className={cn(styles.logo, styles.logoBig)}>
-          <Image src="/images/logo-big.png" alt="" width={222} height={39} />
+          <Image src="/images/logo-big.png" alt="" width={222} height={39} priority />
         </div>
         <div className={cn(styles.logo, styles.logoSmall)}>
-          <Image src="/images/logo-small.png" alt="" width={170} height={35} />
+          <Image src="/images/logo-small.png" alt="" width={170} height={35} priority />
         </div>
         <span className="visually-hidden">Frontlive.pl by Olaf Sulich</span>
       </a>
