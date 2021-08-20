@@ -11,6 +11,7 @@ import { Navigation } from '../components/navigation/Navigation';
 import { Community } from '../components/community/Community';
 import { Footer } from '../components/footer/Footer';
 import { getNewestPosts } from '../lib/posts';
+import { NextSeo } from 'next-seo';
 
 const categoriesArr = [
   { title: 'TypeScript', path: '' },
@@ -40,32 +41,35 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function Index({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <Layout>
-      <Header>
-        <Navigation />
-      </Header>
-      <Grid>
-        <Grid.Item>
-          <Heading tag="h2" variant="tertiary">
-            Najnowsze
-          </Heading>
-          <PostsListing posts={posts} />
-        </Grid.Item>
-        <Grid.Item tag="div">
+    <>
+      <NextSeo />
+      <Layout>
+        <Header>
+          <Navigation />
+        </Header>
+        <Grid>
           <Grid.Item>
             <Heading tag="h2" variant="tertiary">
-              Kategorie
+              Najnowsze
             </Heading>
-            <CategoriesList categories={categoriesArr} />
+            <PostsListing posts={posts} />
           </Grid.Item>
-          <Grid.Item>
-            <Heading tag="h2" variant="tertiary">
-              Newsletter
-            </Heading>
-            <NewsletterForm />
+          <Grid.Item tag="div">
+            <Grid.Item>
+              <Heading tag="h2" variant="tertiary">
+                Kategorie
+              </Heading>
+              <CategoriesList categories={categoriesArr} />
+            </Grid.Item>
+            <Grid.Item>
+              <Heading tag="h2" variant="tertiary">
+                Newsletter
+              </Heading>
+              <NewsletterForm />
+            </Grid.Item>
           </Grid.Item>
-        </Grid.Item>
-      </Grid>
-    </Layout>
+        </Grid>
+      </Layout>
+    </>
   );
 }
