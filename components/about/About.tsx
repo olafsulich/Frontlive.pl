@@ -49,6 +49,7 @@ export const About = () => {
             src="/images/olaf-about.png"
             width={517}
             height={718}
+            priority
             alt="Olaf na family day'u w siedzibie AppUnite w Poznaniu."
           />
         </div>

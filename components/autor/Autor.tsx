@@ -12,7 +12,6 @@ export const Author = () => {
           alt="Olaf Sulich"
           width={200}
           height={200}
-          priority
           quality={100}
         />
       </div>

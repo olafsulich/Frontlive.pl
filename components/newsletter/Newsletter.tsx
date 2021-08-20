@@ -28,25 +28,26 @@ export const Newsletter = () => {
                 width={50}
                 height={50}
                 alt=""
+                priority
               />
             </div>
           </li>
           <li className={styles.listItem}>
             <span className={styles.listItemText}>Nowości ze świata Frontendu</span>
             <div className={styles.icon}>
-              <Image src="/images/icon-sparkle.png" width={50} height={50} alt="" />
+              <Image src="/images/icon-sparkle.png" width={50} height={50} alt="" priority />
             </div>
           </li>
           <li className={styles.listItem}>
             <span className={styles.listItemText}>Dodatkowe materiały</span>
             <div className={styles.icon}>
-              <Image src="/images/icon-fire.png" width={50} height={50} alt="" />
+              <Image src="/images/icon-fire.png" width={50} height={50} alt="" priority />
             </div>
           </li>
           <li className={styles.listItem}>
             <span className={styles.listItemText}>Zero spamu</span>
             <div className={styles.icon}>
-              <Image src="/images/icon-stop.png" width={50} height={50} alt="" />
+              <Image src="/images/icon-stop.png" width={50} height={50} alt="" priority />
             </div>
           </li>
         </ul>
