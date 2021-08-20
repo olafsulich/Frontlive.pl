@@ -12,21 +12,7 @@ import { Community } from '../components/community/Community';
 import { Footer } from '../components/footer/Footer';
 import { getNewestPosts } from '../lib/posts';
 import { NextSeo } from 'next-seo';
-
-const categoriesArr = [
-  { title: 'TypeScript', path: '' },
-  { title: 'Jest', path: '' },
-  { title: 'JavaScript', path: '' },
-  { title: 'Dostępność', path: '' },
-  { title: 'React', path: '' },
-  { title: 'CSS', path: '' },
-  { title: 'Svelte', path: '' },
-  { title: 'GraphQL', path: '' },
-  { title: 'Firebase', path: '' },
-  { title: 'Inne', path: '' },
-  { title: 'DevOps', path: '' },
-  { title: 'Webpack', path: '' },
-];
+import { categoriesArr } from '../data/categories';
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();
