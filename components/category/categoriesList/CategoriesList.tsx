@@ -1,10 +1,10 @@
 import { memo, ReactNode } from 'react';
+import { Category } from '../../../types/types';
 import styles from './categoriesList.module.scss';
-import { Category as CategoryType } from '../../../types/types';
 import { CategoryCard } from './categoryCard/CategoryCard';
 
 type CategoriesProps = {
-  readonly categories: CategoryType[];
+  readonly categories: Category[];
 };
 
 export const CategoriesList = memo(({ categories }: CategoriesProps) => {
