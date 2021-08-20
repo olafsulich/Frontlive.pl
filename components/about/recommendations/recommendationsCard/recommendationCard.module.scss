@@ -1,0 +1,77 @@
+@import 'common';
+
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  position: relative;
+  margin: 0 0 8rem 0;
+
+  //   @include mediaquery('xl') {
+  //     margin: 0 6rem 8rem 2.2rem;
+  //   }
+
+  //   @include mediaquery('xxl') {
+  //     margin: 0 8rem 10rem 2.2rem;
+  //   }
+}
+
+.quote {
+  width: 10rem;
+  height: 8rem;
+  position: absolute;
+  top: -0.5rem;
+  z-index: -1;
+  left: -1rem;
+
+  @include mediaquery('xs') {
+    left: -2.2rem;
+  }
+}
+
+.text {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: var(--white);
+  // padding-right: 1rem;
+
+  @include mediaquery('lg') {
+    font-size: 1.8rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2rem;
+    line-height: 1.8;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.authorImage {
+  width: 5rem;
+  height: 5rem;
+  margin-right: 2rem;
+  border-radius: 100%;
+}
+
+.authorName {
+  font-size: 1.5rem;
+  font-style: normal;
+  color: #bdddff;
+}
+
+.authorCompany {
+  font-size: 1.5rem;
+  margin: 0;
+  margin-top: 0.7rem;
+  color: #bdddff;
+}
+
+.textWrapper {
+  padding: 0.5rem 0;
+}

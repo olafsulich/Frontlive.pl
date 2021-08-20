@@ -6,14 +6,15 @@ import { Community } from '../community/Community';
 
 type LayoutProps = {
   readonly children: ReactNode;
+  readonly isAutor?: boolean;
 };
 
-export const Layout = memo<LayoutProps>(({ children }) => {
+export const Layout = memo<LayoutProps>(({ children, isAutor = true }) => {
   return (
     <>
       <div className={styles.wrapper}>
         {children}
-        <Author />
+        {isAutor && <Author />}
         <Community />
       </div>
       <Footer />
