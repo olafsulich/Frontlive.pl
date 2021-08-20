@@ -1,22 +1,6 @@
 @import 'common';
 
 .container {
-  margin: 3rem 0;
-
-  @include mediaquery('sm') {
-    margin: 8rem 0;
-  }
-
-  @include mediaquery('lg') {
-    margin: 10rem 0;
-  }
-
-  @include mediaquery('xl') {
-    margin: 12rem 0;
-  }
-}
-
-.container {
   margin-top: 6rem;
   width: 100%;
 }
@@ -60,7 +44,7 @@
 
   @include mediaquery('xl') {
     padding-right: 6rem;
-    max-width: 85%;
+    max-width: 90%;
   }
 }
 

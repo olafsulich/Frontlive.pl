@@ -35,7 +35,11 @@ export const About = () => {
           </p>
           <p className={styles.text}>
             Zainteresowana/y współpracą? Lubię rozmawiać z biznesem i osobami z branży, nie krępuj
-            się i napisz do mnie. Let's make something great together!
+            się i{' '}
+            <a className={styles.link} href="mailto:olafsulich@gmail.com">
+              napisz do mnie
+            </a>
+            . Let's make something great together!
           </p>
           <p className={styles.text}>Psst, nie zapomnij wpaść na moje sociale 👇</p>
           <SocialLinks />
