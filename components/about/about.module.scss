@@ -76,3 +76,15 @@
   font-size: 1.8rem;
   line-height: 3.6rem;
 }
+
+.faces {
+  width: 100%;
+  margin-top: 20rem;
+  display: none;
+
+  @include mediaquery('lg') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

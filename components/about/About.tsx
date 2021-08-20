@@ -41,8 +41,16 @@ export const About = () => {
           <SocialLinks />
         </div>
         <div className={styles.image}>
-          <Image src="/images/olaf-about.png" width={517} height={718} />
+          <Image
+            src="/images/olaf-about.png"
+            width={517}
+            height={718}
+            alt="Olaf na family day'u w siedzibie AppUnite w Poznaniu."
+          />
         </div>
+      </div>
+      <div className={styles.faces}>
+        <Image src="/images/olaf-faces.png" alt="" width={870} height={133} />
       </div>
       <Recommendations />
     </main>
