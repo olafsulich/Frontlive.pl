@@ -1,22 +1,20 @@
 import { memo } from 'react';
 import cn from 'classnames';
-import { PostsListing } from './postsListing/PostsListing';
 import { Heading } from '../shared/components/heading/Heading';
-import type { Category, Post } from '../../types/types';
-import styles from './blog.module.scss';
-import { CategoriesList } from '../category/categoriesList/CategoriesList';
+import type { Post } from '../../types/types';
+import styles from './category.module.scss';
+import { PostsListing } from '../blog/postsListing/PostsListing';
 
-type BlogProps = {
+type CategoryProps = {
   readonly posts: Post[];
-  readonly categories: Category[];
+  readonly category: string;
 };
 
-export const Blog = memo<BlogProps>(({ posts, categories }) => (
+export const Category = memo<CategoryProps>(({ posts, category }) => (
   <main className={styles.wrapper} id="main">
     <Heading tag="h1" variant="primary">
-      Artykuły
+      {category}
     </Heading>
-    <CategoriesList categories={categories} />
     <section className={styles.wrapper}>
       <div className={cn(styles.postsWrapper, styles.postsWrapperPrimary)}>
         <PostsListing posts={posts} isPrimary={true} />
@@ -25,4 +23,4 @@ export const Blog = memo<BlogProps>(({ posts, categories }) => (
   </main>
 ));
 
-Blog.displayName = 'Blog';
+Category.displayName = 'Blog';

@@ -4,7 +4,7 @@ import { Layout } from '../components/layout/Layout';
 import { Grid } from '../components/shared/components/grid/Grid';
 import { PostsListing } from '../components/blog/postsListing/PostsListing';
 import { Heading } from '../components/shared/components/heading/Heading';
-import { Categories } from '../components/categories/Categories';
+import { CategoriesList } from '../components/category/categoriesList/CategoriesList';
 import { NewsletterForm } from '../components/shared/components/newsletter/newsletterForm/NewsletterForm';
 import { Author } from '../components/autor/Autor';
 import { Navigation } from '../components/navigation/Navigation';
@@ -56,7 +56,7 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
             <Heading tag="h2" variant="tertiary">
               Kategorie
             </Heading>
-            <Categories categories={categoriesArr} />
+            <CategoriesList categories={categoriesArr} />
           </Grid.Item>
           <Grid.Item>
             <Heading tag="h2" variant="tertiary">

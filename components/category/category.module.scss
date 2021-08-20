@@ -1,0 +1,55 @@
+@import 'common';
+
+.wrapper {
+  margin: 3rem 0;
+
+  @include mediaquery('sm') {
+    margin: 8rem 0;
+  }
+
+  @include mediaquery('lg') {
+    margin: 10rem 0;
+  }
+
+  @include mediaquery('xl') {
+    margin: 12rem 0;
+  }
+}
+
+.wrapper {
+  margin-top: 6rem;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.postsWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.postsWrapperPrimary {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 4rem;
+  transform: translateY(-1rem);
+
+  @include mediaquery('lg') {
+    grid-gap: 6rem;
+    grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+  }
+
+  @include mediaquery('xl') {
+    grid-gap: 10rem;
+    grid-template-columns: repeat(auto-fill, minmax(50rem, 1fr));
+  }
+
+  @include mediaquery('xl') {
+    grid-template-columns: repeat(auto-fill, minmax(60rem, 1fr));
+  }
+}
