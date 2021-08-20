@@ -8,10 +8,10 @@ export const Logo = ({ lazy = false }: { lazy?: boolean }) => {
     <Link href="/" passHref>
       <a className={styles.link}>
         <div className={cn(styles.logo, styles.logoBig)}>
-          <Image src="/images/logo-big.png" alt="" width={222} height={39} priority={lazy} />
+          <Image src="/images/logo-big.png" alt="" width={222} height={39} priority={!lazy} />
         </div>
         <div className={cn(styles.logo, styles.logoSmall)}>
-          <Image src="/images/logo-small.png" alt="" width={170} height={35} priority={lazy} />
+          <Image src="/images/logo-small.png" alt="" width={170} height={35} priority={!lazy} />
         </div>
         <span className="visually-hidden">Frontlive.pl by Olaf Sulich</span>
       </a>
