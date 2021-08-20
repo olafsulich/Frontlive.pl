@@ -3,7 +3,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 import styles from './logo.module.scss';
 
-export const Logo = ({ lazy = false }: { lazy: boolean }) => {
+export const Logo = ({ lazy = false }: { lazy?: boolean }) => {
   return (
     <Link href="/" passHref>
       <a className={styles.link}>
