@@ -33,6 +33,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         Router.events.off('routeChangeComplete', handleRouteChange);
       };
     }
+    return () => false;
   }, []);
 
   return (

@@ -4,12 +4,21 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 20 Aug 2021 21:11:25 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 22 Aug 2021 08:30:47 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
+        <item>
+            <title><![CDATA[Jak dostałem pracę jako Frontend Developer?]]></title>
+            <description><![CDATA[Czy w 2021 roku początkujący programista może liczyć na znalezienie pracy? Oczywiście, że tak. Bez studiów informatycznych. Bez większego doświadczenia komercyjnego. Wystarczyć wysłać jedno, jedyne CV...]]></description>
+            <link>https://frontlive.pl/blog/jak-zostalem-frontend-developerem</link>
+            <guid isPermaLink="false">jak-zostalem-frontend-developerem</guid>
+            <category><![CDATA[Praca]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sat, 21 Aug 2021 22:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[React Testing Library - Mock Service Worker]]></title>
             <description><![CDATA[MSW to narzędzie nowej geneneracji, które umożliwia łatwiejszą i przyjemniejszą pracę z mockami...]]></description>
