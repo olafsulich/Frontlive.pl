@@ -24,5 +24,10 @@
     "sourceMap": true
   },
   "exclude": ["node_modules", "./scripts/generate-rss.ts"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "content/posts/jak-zostalem-frontend-developerem.msx"
+  ]
 }

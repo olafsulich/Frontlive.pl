@@ -1,14 +1,15 @@
 import { MouseEvent, FormEvent, useState, ChangeEvent, memo } from 'react';
+import { useRouter } from 'next/router';
+import { subscribeToNewsletter } from './utils/api';
 import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
-import { Loader } from './loader/Loader';
-import { subscribeToNewsletter } from './utils/api';
 
-export const NewsletterForm = memo(() => {
+export const NewsletterForm = () => {
   const [inputValue, setInputValue] = useState('');
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
   const [isLoading, setLoadingState] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -25,15 +26,13 @@ export const NewsletterForm = memo(() => {
     const { error } = await res.json();
 
     if (error) {
-      setTitle('Wystąpił błąd');
-      setStatus('error');
+      router.push('/newsletter/error');
       setLoadingState(false);
       return;
     }
 
+    router.push('/newsletter/success');
     setLoadingState(false);
-    setTitle('Subskrybujesz!');
-    setStatus('success');
   };
 
   return (
@@ -51,11 +50,9 @@ export const NewsletterForm = memo(() => {
         />
         <span className="visually-hidden">Email</span>
       </label>
-      <button disabled={isLoading} className={cn(styles.button, styles[status])}>
-        {isLoading ? <Loader /> : <span>{title}</span>}
+      <button className={cn(styles.button, styles[status])}>
+        <span>{isLoading ? 'Ładowanie...' : title}</span>
       </button>
     </form>
   );
-});
-
-NewsletterForm.displayName = 'NewsletterForm';
+};

@@ -1,0 +1,32 @@
+@import 'common';
+
+.container {
+  width: 100%;
+  margin-top: 6rem;
+  margin-bottom: 10rem;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text {
+  font-size: 2rem;
+  line-height: 3.8rem;
+  color: var(--white);
+  width: 100%;
+  flex-shrink: 0;
+  margin-top: 0;
+  margin-bottom: 6rem;
+  text-align: center;
+
+  @include mediaquery('xl') {
+    padding-right: 6rem;
+    max-width: 70%;
+    margin-bottom: 10rem;
+  }
+}

@@ -1,6 +1,6 @@
-import { Layout } from '../components/layout/Layout';
-import { Navigation } from '../components/navigation/Navigation';
-import { Newsletter } from '../components/newsletter/Newsletter';
+import { Layout } from '../../components/layout/Layout';
+import { Navigation } from '../../components/navigation/Navigation';
+import { Newsletter } from '../../components/newsletter/Newsletter';
 import { NextSeo } from 'next-seo';
 
 const title = 'Frontlive.pl - Newsletter';

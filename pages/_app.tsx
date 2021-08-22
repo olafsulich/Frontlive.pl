@@ -24,13 +24,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   loadFonts();
 
   useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      gtag.reportPageView(url);
-    };
-    Router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      Router.events.off('routeChangeComplete', handleRouteChange);
-    };
+    if (isProduction && isBrowser) {
+      const handleRouteChange = (url: string) => {
+        gtag.reportPageView(url);
+      };
+      Router.events.on('routeChangeComplete', handleRouteChange);
+      return () => {
+        Router.events.off('routeChangeComplete', handleRouteChange);
+      };
+    }
   }, []);
 
   return (
