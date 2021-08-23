@@ -1,0 +1,72 @@
+---
+title: 'Storybook - dokumentacja i testy wizualne Twoich komponentów'
+category: 'Storybook'
+publishedAt: '23-08-2021'
+isPublished: true
+popular: false
+image: '/images/storybook-dokumentacja-i-testy-wizualne-twoich-komponentów/storybook.png'
+excerpt: '
+Obecnie większość naszych aplikacji budowanych jest w oparciu o komponenty. Nie ważne czy jest to React, Vue czy Angular, założenia pozostają te same. Zdarza się tak, że wraz z rozwojem naszego projektu tworzymy pseudo biblioteki z komponentami, które mają być używane w całym systemie...'
+---
+
+Obecnie większość naszych aplikacji budowanych jest w oparciu o komponenty. Nie ważne czy jest to React, Vue czy Angular, założenia pozostają te same. Zdarza się tak, że wraz z rozwojem naszego projektu tworzymy pseudo biblioteki z komponentami, które mają być używane w całym systemie...
+
+## Dokumentacja
+
+Załóżmy, że tworzymy właśnie taką bibliotekę w oparciu o wcześniej przygotowany design system. Świetnie by było mieć jakieś miejsce, w którym moglibyśmy udokumentować komponenty i podzielić się nimi z zespołem. Wtedy cały na biało wchodzi Storybook, który jest stworzony do takich (i nie tylko) celów.
+
+Wróćmy do naszej biblioteki, na pierwszy ogień niech idą alerty. W Storybooku podstawą do budowy dokumentacji są tzw. `stories`. Znajdują się zazwyczaj blisko stworzonych wcześniej komponentów i wyglądają w następujący sposób:
+
+```tsx
+// Button.stories.tsx
+
+import React from 'react';
+import type { Story, Meta } from '@storybook/react';
+
+import { Button, ButtonProps } from './Button';
+
+export default {
+  component: Button,
+  title: 'Button',
+}
+
+const Temlate: Story<ButtonProps> = (args) => <Button {..args} />;
+
+export const Primary = Template.bind({});
+Primary.args = {
+	label: 'My button',
+	variant: 'primary'
+};
+```
+
+Całość naszego story nie jest zbyt skomplikowana. Na samym początku deklarujemy szablon, na bazie którego później tworzymy kolejne warianty komponentu, od cała filozofia, choć to jest to mały skrawek umiejętności Storybooka, na sam początek będzie idealny. Po odpaleniu serwera developerskiego, Twoim oczom powinien pokazać się podobny dashboard:
+
+<Image src="/images/storybook-dokumentacja-i-testy-wizualne-twoich-komponentów/storybook-1.png" />
+
+To tutaj zebrane są wszystkie Twoje komponenty wraz z ich wariantami. Świetne jest tutaj to, że możemy zmieniać właściwości komponentu i np. sprawdzić czy zbyt długi `label` nie popsuje jego wyglądu.
+
+<Newsletter />
+
+## Addons
+
+Storybook oparty jest na systemie pluginów zwanych również addonsami. To dzięki nim mamy większą kontrolę nad komponentem czy otaczającym go środowiskiem.
+
+Według mnie takim must-havem na sam początek jest pakiet kilku najważniejszych addonsów - `@storybook/addon-essentials`. Znajdziesz w nim rozszerzenia odpowiadające za tworzenie lepszej dokumentacji, kontrolowania zachowania komponentu oraz samego Storybooka.
+
+## Testowanie
+
+Okej, więc jak to jest z tymi testami? Storybook oferuje nam kilka opcji:
+
+- Testy manualne
+- Testy jednostkowe
+- Testy integracyjne
+- Testy snapshotowe
+- Testy wizualne automatyczne
+
+Jakie z nich wybrać? To zależy. Jeśli chodzi o testy jednostkowe i integracje to możesz wykorzystać znane Ci z poprzednich wpisów Jest i Testing Library. Testy snapshotowe również będziemy wykonywać za pomocą tych narzędzi, ale z dodatkiem pluginu [Storyshorts](https://github.com/storybookjs/storybook/tree/master/addons/storyshots/storyshots-core).
+
+Do automatycznych testów wizualnych automatyczych świetnie sprawdzi się przygotowane przez twórców Storybooka narzędzie Chromatic. Jeśli chcesz się dowiedzieć więcej o tym rodzaju testów, to polecam Ci zapoznać się z [dedykowanym tutorialem](https://storybook.js.org/tutorials/visual-testing-handbook).
+
+## Podsumowanie
+
+To by było na tyle jeśli chodzi o same podstawy podstaw Storybooka. Niech nie zmyli Cię to krótkie wprowadzenie, bo to narzędznie nadaje się również do testowania bardziej złożonych komponentów, a nawet całych stron!

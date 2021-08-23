@@ -1,11 +1,22 @@
 import { memo, ReactNode } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { MDXRemote } from 'next-mdx-remote';
 import slugify from 'slugify';
 import cn from 'classnames';
 import type { PostFrontmatter } from '../../types/types';
 import styles from './mdx.module.scss';
 import { Heading } from '../shared/components/heading/Heading';
+
+// @ts-ignore
+const Share = dynamic(() => import('./share/Share').then((c) => c.Share), {
+  ssr: false,
+});
+
+// @ts-ignore
+const Edit = dynamic(() => import('./edit/Edit').then((c) => c.Edit), {
+  ssr: false,
+});
 
 type MdxProps = {
   readonly frontmatter: PostFrontmatter;
@@ -32,7 +43,11 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
           {title}
         </Heading>
       </header>
-      <div className={cn(styles.content, 'content')}>{children}</div>
+      <div className={cn(styles.content, 'content')}>
+        {children}
+        <Share />
+        <Edit />
+      </div>
     </article>
   );
 });
