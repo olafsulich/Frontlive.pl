@@ -26,6 +26,7 @@ export const Info = ({ frontmatter }: InfoProps) => {
     <ul className={styles.list}>
       <li className={styles.listItem}>
         <span className={styles.text}>
+          <span className="visually-hidden">Czas potrzebny na przeczytanie:</span>
           {Math.round(frontmatter.readingTime)} {formattedReadingTime}
         </span>{' '}
         <div className={styles.icon}>
@@ -33,6 +34,7 @@ export const Info = ({ frontmatter }: InfoProps) => {
         </div>
       </li>
       <li className={styles.listItem}>
+        <span className="visually-hidden">Opublikowane:</span>
         <span className={styles.text}>{formattedDate}</span>{' '}
         <div className={styles.icon}>
           <Image src="/images/calendar.png" width={35} height={35} alt="" priority />

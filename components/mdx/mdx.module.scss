@@ -34,7 +34,7 @@
   margin-bottom: 4rem;
 
   @include mediaquery('sm') {
-    margin-top: 4rem;
+    margin-top: 0rem;
     padding: 0 4rem;
   }
 }
@@ -51,6 +51,8 @@
   margin-bottom: 1rem;
   text-align: center;
   z-index: -1;
+  padding: 0;
+  margin-bottom: 0 !important;
 
   @include mediaquery('xs') {
     font-size: 3.6rem;

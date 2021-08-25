@@ -13,8 +13,8 @@ export const About = () => {
       <div className={styles.wrapper}>
         <div className={styles.content}>
           <p className={styles.text}>
-            Siema, tu Olaf! Jak się możesz domyślić jestem Frontend Developerem. Obecnie pracuję i
-            godnie reprezentuje firmę 
+            Siema, tu Olaf! Jak się możesz domyślić jestem Frontend Developerem. Obecnie pracuję w
+            firmie 
             <a
               className={styles.link}
               target="_blank"

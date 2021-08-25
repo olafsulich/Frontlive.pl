@@ -9,7 +9,7 @@
   justify-content: center;
   border-radius: 0.8rem;
   margin: 0;
-  margin-top: 1rem;
+  margin-top: 4rem;
   background: #0b2437;
   position: relative;
   width: 100%;
@@ -20,13 +20,13 @@
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 3rem;
+    margin-top: 5rem;
   }
 
   @include mediaquery('lg') {
     padding: 1rem 5rem;
     margin: 2rem auto;
-    margin-top: 5rem;
+    margin-top: 6rem;
 
     border-radius: 1.8rem;
   }

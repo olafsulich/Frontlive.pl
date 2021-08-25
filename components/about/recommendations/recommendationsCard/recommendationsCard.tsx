@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import Image from 'next/image';
 import styles from './recommendationCard.module.scss';
 import QuoteIcon from '../../../../public/icons/quote.svg';
 
@@ -18,7 +19,9 @@ export const RecommendationCard = memo<RecommendationCardProps>(({ content, auth
       <QuoteIcon className={styles.quote} />
       <p className={styles.text}>{content}</p>
       <div className={styles.author}>
-        <img src={image} alt="" className={styles.authorImage} />
+        <div className={styles.authorImage}>
+          <Image src={image} alt="" width={50} height={50} />
+        </div>
         <div className={styles.textWrapper}>
           <cite className={styles.authorName}>
             <span className="visually-hidden">Autor:</span>
