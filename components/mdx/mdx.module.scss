@@ -51,7 +51,8 @@
   margin-bottom: 1rem;
   text-align: center;
   z-index: -1;
-  padding: 0;
+  padding-top: 10rem;
+  padding-bottom: 4rem;
   margin-bottom: 0 !important;
 
   @include mediaquery('xs') {
