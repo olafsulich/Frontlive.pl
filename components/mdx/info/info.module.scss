@@ -5,22 +5,30 @@
   max-width: 100rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   border-radius: 0.8rem;
-  margin: 12rem auto 8rem auto;
+  margin: 0;
+  margin-top: 1rem;
   background: #0b2437;
   position: relative;
   width: 100%;
   grid-column: 1 / 4 !important;
-  padding: 6rem 3rem 2rem 3rem;
+  padding: 1rem 3rem;
+
+  @include mediaquery('xs') {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3rem;
+  }
 
   @include mediaquery('lg') {
     padding: 1rem 5rem;
     margin: 2rem auto;
+    margin-top: 5rem;
+
     border-radius: 1.8rem;
-    justify-content: space-between;
-    flex-direction: row;
   }
 }
 
@@ -38,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+
   @include mediaquery('sm') {
     font-size: 1.8rem;
   }
@@ -46,4 +54,13 @@
   @include mediaquery('lg') {
     font-size: 2rem;
   }
+}
+
+.icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.text {
+  margin-right: 1rem;
 }

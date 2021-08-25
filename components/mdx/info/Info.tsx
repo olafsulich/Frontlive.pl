@@ -25,26 +25,18 @@ export const Info = ({ frontmatter }: InfoProps) => {
   return (
     <ul className={styles.list}>
       <li className={styles.listItem}>
-        {Math.round(frontmatter.readingTime)} {formattedReadingTime}{' '}
-        <Image
-          className={styles.icon}
-          src="/images/hourglass.png"
-          width={35}
-          height={35}
-          alt=""
-          priority
-        />
+        <span className={styles.text}>
+          {Math.round(frontmatter.readingTime)} {formattedReadingTime}
+        </span>{' '}
+        <div className={styles.icon}>
+          <Image src="/images/hourglass.png" width={35} height={35} alt="" priority />
+        </div>
       </li>
       <li className={styles.listItem}>
-        {formattedDate}{' '}
-        <Image
-          className={styles.icon}
-          src="/images/calendar.png"
-          width={35}
-          height={35}
-          alt=""
-          priority
-        />
+        <span className={styles.text}>{formattedDate}</span>{' '}
+        <div className={styles.icon}>
+          <Image src="/images/calendar.png" width={35} height={35} alt="" priority />
+        </div>
       </li>
     </ul>
   );
