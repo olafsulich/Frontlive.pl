@@ -14,6 +14,8 @@ export const Edit = () => {
         <p className={styles.text}>
           Zauważyłeś błąd? Edytuj ten post na{' '}
           <a
+            target="_blank"
+            rel="noopener noreferrer"
             href={`https://github.com/olafsulich/Frontlive.pl/tree/main/content/posts/${pathname.replace(
               '/blog',
               '',

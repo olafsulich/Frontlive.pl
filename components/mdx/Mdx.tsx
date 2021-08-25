@@ -7,6 +7,9 @@ import cn from 'classnames';
 import type { PostFrontmatter } from '../../types/types';
 import styles from './mdx.module.scss';
 import { Heading } from '../shared/components/heading/Heading';
+import { polishPlurals } from 'polish-plurals';
+import Image from 'next/image';
+import { Info } from './info/Info';
 
 // @ts-ignore
 const Share = dynamic(() => import('./share/Share').then((c) => c.Share), {
@@ -25,6 +28,7 @@ type MdxProps = {
 
 export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
   const { title } = frontmatter;
+  console.log(frontmatter.readingTime);
   return (
     <article className={styles.wrapper}>
       <header className={styles.header} id="main">
@@ -42,6 +46,7 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
         >
           {title}
         </Heading>
+        <Info frontmatter={frontmatter} />
       </header>
       <div className={cn(styles.content, 'content')}>
         {children}

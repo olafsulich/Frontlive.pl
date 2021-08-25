@@ -1,7 +1,7 @@
 .comment,
 .prolog,
 .cdata {
-  color: var(--gray-500);
+  color: #405a70;
 }
 
 .namespace {
@@ -33,7 +33,7 @@
 
 .punctuation,
 .parameter {
-  color: #405a70;
+  color: var(--gray-500);
 }
 
 .attr-name,

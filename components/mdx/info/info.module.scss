@@ -1,0 +1,49 @@
+@import 'common';
+
+.list {
+  width: 100%;
+  max-width: 100rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.8rem;
+  margin: 12rem auto 8rem auto;
+  background: #0b2437;
+  position: relative;
+  width: 100%;
+  grid-column: 1 / 4 !important;
+  padding: 6rem 3rem 2rem 3rem;
+
+  @include mediaquery('lg') {
+    padding: 1rem 5rem;
+    margin: 2rem auto;
+    border-radius: 1.8rem;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+}
+
+.listItem {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #bdddff;
+  padding: 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  @include mediaquery('sm') {
+    font-size: 1.8rem;
+  }
+
+  @include mediaquery('lg') {
+    font-size: 2rem;
+  }
+}

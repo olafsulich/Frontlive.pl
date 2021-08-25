@@ -18,6 +18,7 @@ export type PostFrontmatter = {
   popular: boolean;
   isPublished: boolean;
   image: string;
+  readingTime: number;
 } & Frontmatter;
 
 export type Post = {

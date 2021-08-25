@@ -50,6 +50,7 @@ export const About = () => {
             width={517}
             height={718}
             priority
+            quality={100}
             alt="Olaf na family day'u w siedzibie AppUnite w Poznaniu."
           />
         </div>

@@ -1,9 +1,8 @@
-import { serialize } from "next-mdx-remote/serialize";
+import { serialize } from 'next-mdx-remote/serialize';
 // import remarkAutoLinkHeadings from "remark-autolink-headings";
 // import remarkSlug from "remark-slug";
 // import mdxPrism from "mdx-prism";
-import type { PostFrontmatter } from "../types/types";
-
+import type { PostFrontmatter } from '../types/types';
 
 const mdxSource = `
 ---

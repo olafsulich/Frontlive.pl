@@ -7,6 +7,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import remarkSlug from 'remark-slug';
 import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
+import readingTime from 'reading-time';
 
 type ResourceFrontmatter = PostFrontmatter;
 type Resource = Post;
@@ -49,7 +50,11 @@ export const getResourceBySlug = async (slug: string, resourcePath: string) => {
   const postFilePath = path.join(resourcePath, `${slug}.mdx`);
   const source = fs.readFileSync(postFilePath);
   const { content, data } = matter(source);
-  const frontmatter = data as ResourceFrontmatter;
+  const timeToRead = readingTime(content).minutes;
+  const frontmatter = {
+    readingTime: timeToRead,
+    ...data,
+  } as ResourceFrontmatter;
   const transformedMdx = await serialize(content, {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
