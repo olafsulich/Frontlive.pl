@@ -16,7 +16,7 @@ export const Newsletter = () => {
           nagrodami! 🎁
         </p>
         <NewsletterForm />
-        <p className={styles.regulations}>Zapisując się do newslettera akceptujesz regulamin.</p>
+        {/* <p className={styles.regulations}>Zapisując się do newslettera akceptujesz regulamin.</p> */}
       </div>
     </article>
   );
