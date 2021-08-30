@@ -13,7 +13,9 @@ export const NewsletterSuccess = () => {
           Dzięki za zaufanie 💜 Nie musisz już niczego potwierdzać. Na Twoją skrzynkę w przeciągu
           kilku chwil powinien trafić powitalny mail, witamy w drużynie!
         </p>
-        <Image src="/images/olaf-party.png" alt="" width={434} height={391} quality={100} />
+        <div className={styles.image}>
+          <Image src="/images/olaf-party.png" alt="" width={434} height={391} quality={100} />
+        </div>
       </div>
     </main>
   );

@@ -4,38 +4,20 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Wed, 25 Aug 2021 19:49:42 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Aug 2021 15:44:37 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
         <item>
-            <title><![CDATA[React Children & TypeScript - wszystko co powinieneś wiedzieć]]></title>
-            <description><![CDATA[Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce childreny oferują znacznie więcej, są trochę tricki i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na uważać podczas ich wykorzystania?]]></description>
-            <link>https://frontlive.pl/blog/react-children-i-typescirpt-wszystko-co-powinienes-wiedziec</link>
-            <guid isPermaLink="false">react-children-i-typescirpt-wszystko-co-powinienes-wiedziec</guid>
-            <category><![CDATA[React]]></category>
-            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
-            <pubDate>Mon, 23 Aug 2021 22:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Storybook - dokumentacja i testy wizualne Twoich komponentów]]></title>
-            <description><![CDATA[ Obecnie większość naszych aplikacji budowanych jest w oparciu o komponenty. Nie ważne czy jest to React, Vue czy Angular, założenia pozostają te same. Zdarza się tak, że wraz z rozwojem naszego projektu tworzymy pseudo biblioteki z komponentami, które mają być używane w całym systemie...]]></description>
-            <link>https://frontlive.pl/blog/storybook-dokumentacja-i-testy-wizualne-twoich-komponentow</link>
-            <guid isPermaLink="false">storybook-dokumentacja-i-testy-wizualne-twoich-komponentow</guid>
-            <category><![CDATA[Storybook]]></category>
-            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
-            <pubDate>Sun, 22 Aug 2021 22:00:00 GMT</pubDate>
-        </item>
-        <item>
             <title><![CDATA[Jak dostałem pracę jako Frontend Developer?]]></title>
-            <description><![CDATA[Czy w 2021 roku początkujący programista może liczyć na znalezienie pracy? Oczywiście, że tak. Bez studiów informatycznych. Bez większego doświadczenia komercyjnego. Wystarczyć wysłać jedno, jedyne CV...]]></description>
+            <description><![CDATA[Czy w 2021 roku początkujący programista może liczyć na znalezienie pracy? Oczywiście, że tak. Bez studiów informatycznych. Bez większego doświadczenia komercyjnego. Wystarczy wysłać jedno, jedyne CV...]]></description>
             <link>https://frontlive.pl/blog/jak-zostalem-frontend-developerem</link>
             <guid isPermaLink="false">jak-zostalem-frontend-developerem</guid>
             <category><![CDATA[Praca]]></category>
             <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
-            <pubDate>Sat, 21 Aug 2021 22:00:00 GMT</pubDate>
+            <pubDate>Sun, 29 Aug 2021 22:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[React Testing Library - Mock Service Worker]]></title>

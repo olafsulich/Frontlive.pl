@@ -3,7 +3,7 @@
 .container {
   width: 100%;
   margin-top: 6rem;
-  margin-bottom: 10rem;
+  padding-bottom: 4rem;
 }
 
 .wrapper {
@@ -27,7 +27,7 @@
   @include mediaquery('xl') {
     padding-right: 6rem;
     max-width: 70%;
-    margin-bottom: 10rem;
+    margin-bottom: 5rem;
   }
 }
 

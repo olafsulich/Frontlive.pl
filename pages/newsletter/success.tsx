@@ -4,10 +4,10 @@ import { NewsletterSuccess } from '../../components/newsletter/newsletterSuccess
 
 const NewsletterSuccessPage = () => {
   return (
-    <Layout>
+    <div className="newsletterOnePage">
       <Navigation />
       <NewsletterSuccess />
-    </Layout>
+    </div>
   );
 };
 

@@ -7,9 +7,10 @@ import { Community } from '../community/Community';
 type LayoutProps = {
   readonly children: ReactNode;
   readonly isAutor?: boolean;
+  readonly withFooter?: boolean;
 };
 
-export const Layout = memo<LayoutProps>(({ children, isAutor = true }) => {
+export const Layout = memo<LayoutProps>(({ children, isAutor = true, withFooter = true }) => {
   return (
     <>
       <div className={styles.wrapper}>
@@ -17,7 +18,7 @@ export const Layout = memo<LayoutProps>(({ children, isAutor = true }) => {
         {isAutor && <Author />}
         {/* <Community /> */}
       </div>
-      <Footer />
+      {withFooter && <Footer />}
     </>
   );
 });

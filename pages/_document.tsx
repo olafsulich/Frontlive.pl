@@ -58,7 +58,28 @@ class MyDocument extends Document {
           <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png" />
           <link rel="manifest" href="./site.webmanifest" />
           <link rel="alternate" title="rss feed" type="application/rss+xml" href="/rss.xml" />
-          <meta name="apple-mobile-web-app-title" content="Frontlive" />
+          <script
+            defer
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.GA_TRACKING_ID}', {
+                  page_path: window.location.pathname,
+                });
+          `,
+            }}
+          />
+          <script
+            defer
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
+          />
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "5ac2428685874efb86c8c912d27be908"}'
+          ></script>
         </Head>
         <body>
           <Main />

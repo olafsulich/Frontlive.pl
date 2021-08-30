@@ -1,14 +1,14 @@
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
-import { Newsletter } from '../../components/newsletter/Newsletter';
 import { NewsletterError } from '../../components/newsletter/newsletterError/newsletterError';
+import { Footer } from '../../components/footer/Footer';
 
 const NewsletterErrorPage = () => {
   return (
-    <Layout>
+    <div className="newsletterOnePage">
       <Navigation />
       <NewsletterError />
-    </Layout>
+    </div>
   );
 };
 
