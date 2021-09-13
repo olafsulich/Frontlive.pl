@@ -66,6 +66,11 @@ config.sassOptions = {
 config.redirects = () => {
   return [
     {
+      source: 'blog/react-children-i-typescirpt',
+      destination: 'blog/react-children-i-typescript',
+      permanent: true,
+    },
+    {
       source: '/me',
       destination: '/o-mnie',
       permanent: true,
