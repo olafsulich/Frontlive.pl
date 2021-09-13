@@ -5,10 +5,10 @@ publishedAt: '13-09-2021'
 isPublished: true
 popular: false
 image: '/images/react-children-i-typescript/thumbnail.png'
-excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricki i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
+excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricky i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
 ---
 
-Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce `children` oferują znacznie więcej, są trochę _tricki_ i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania? Jedziemy z tematem!
+Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce `children` oferują znacznie więcej, są trochę _tricky_ i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania? Jedziemy z tematem!
 
 ## Podstawy
 
@@ -61,7 +61,8 @@ const App = () => (
 
 ### ReactElement
 
-Dzięki `React.ReactElement` nasze _childreny_ będą mogły być tylko komponentem/elementem HTML:
+Dzięki `React.ReactElement` nasze _children_ będą mogłby być tylko komponentem/elementem HTML:
+
 
 ```tsx
 type ListProps = {
@@ -196,7 +197,7 @@ Te i inne opcje po prostu nie zadziałają tak jakbyśmy tego oczekiwali... Dzie
 
 ## Nie jakość, a ilość
 
-Co pozostaje nam, biednym Reaktowcom, jeśli nie możemy wskazać dokładnego typu? Wskazanie **dokładnej ilości!** W naszym typie możemy wskazać czy `children` będą np. pojedynczym elementem, tablicą elementów lub tuplem (tablica o określonej długości i określonych typach):
+Co pozostaje nam, biednym Reaktowcom, jeśli nie możemy wskazać dokładnego typu? Wskazanie **dokładnej ilości!** W naszym typie możemy wskazać czy `children` będą np. pojedynczym elementem, tablicą elementów lub tuplą (tablica o określonej długości i określonych typach):
 
 ```tsx
 import { ReactElement, ReactText, ReactFragment } from 'react';
@@ -359,7 +360,7 @@ const App = () => (
 );
 ```
 
-### Prywatne childreny
+### Prywatne children
 
 Ostatni z naszych _case'ów_ - naszymi dziećmi będą komponenty + nie będziemy mogli ich użyć poza komponentem rodzica. Zaciekawieni? Jedziemy!
 
@@ -433,7 +434,7 @@ const App = () => (
 );
 ```
 
-Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z typem `Array<ReactElement>`, ale zostaną wyrenderowane **tylko** komponenty `PrivateListItem`! Hmm...więc po co ta sztuczka z `ListItem`? 🤔 Dzięki niej nie możemy wywołać `ListItem` nigdzie indziej niż w komponencie `List` i to są właśnie te "prywatne childreny"!
+Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z typem `Array<ReactElement>`, ale zostaną wyrenderowane **tylko** komponenty `PrivateListItem`! Hmm...więc po co ta sztuczka z `ListItem`? 🤔 Dzięki niej nie możemy wywołać `ListItem` nigdzie indziej niż w komponencie `List` i to są właśnie te "prywatne children"!
 
 #### Problemy z kompozycją
 
