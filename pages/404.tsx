@@ -4,9 +4,9 @@ import { Navigation } from '../components/navigation/Navigation';
 
 export default function NotFoundPage() {
   return (
-    <Layout>
+    <div className="onePage">
       <Navigation />
       <Error name="404!" description="Upps... Strony nie znaleziono!" />
-    </Layout>
+    </div>
   );
 }

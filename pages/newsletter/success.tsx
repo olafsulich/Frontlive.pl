@@ -4,7 +4,7 @@ import { NewsletterSuccess } from '../../components/newsletter/newsletterSuccess
 
 const NewsletterSuccessPage = () => {
   return (
-    <div className="newsletterOnePage">
+    <div className="onePage">
       <Navigation />
       <NewsletterSuccess />
     </div>

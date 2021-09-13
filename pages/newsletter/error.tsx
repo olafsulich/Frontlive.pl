@@ -5,7 +5,7 @@ import { Footer } from '../../components/footer/Footer';
 
 const NewsletterErrorPage = () => {
   return (
-    <div className="newsletterOnePage">
+    <div className="onePage">
       <Navigation />
       <NewsletterError />
     </div>
