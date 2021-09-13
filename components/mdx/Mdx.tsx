@@ -28,7 +28,7 @@ type MdxProps = {
 
 export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
   const { title } = frontmatter;
-  console.log(frontmatter.readingTime);
+  
   return (
     <article className={styles.wrapper}>
       <header className={styles.header} id="main">
