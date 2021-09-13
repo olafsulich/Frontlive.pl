@@ -1,0 +1,493 @@
+---
+title: 'React Children & TypeScript - jak to ogarnąć?'
+category: 'React'
+publishedAt: '13-09-2021'
+isPublished: true
+popular: false
+image: '/images/react-children-i-typescript/thumbnail.png'
+excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricki i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
+---
+
+Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce `children` oferują znacznie więcej, są trochę _tricki_ i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania? Jedziemy z tematem!
+
+## Podstawy
+
+Jeśli do tej pory nie słyszałeś o dzieciach w React, to polecam na starcie odwiedzić [oficjalną dokumentację](https://pl.reactjs.org/docs/composition-vs-inheritance.html). A my jedziemy z powtórką! Dzieci są spejcalnymi propsami, które pomagają nam w komponowaniu komponentów. Spójrz na przykład:
+
+```tsx
+type ListProps = {
+  children: '?';
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    <li>Banana 🍌</li>
+    <li>Strawberry 🍓</li>
+  </List>
+);
+```
+
+Tworzymy dwa komponenty, pierwszy `<List>`, który będzie przyjmował dzieci, oraz komponent `<App>`, który będzie wywoływał ten pierwszy. Podczas wywołania komponentu `<List>` do jego **środka** przekazujemy np. elementy HTML, ot cała filozofia...Tylko, że nie do końca!
+
+## Typy
+
+I tutaj zaczyna się prawdziwa zabawa. W teorii `chilren` mogą być wszystkim, jednak często chcemy, aby były czymś bardziej konkretnym, spójrzmy na dostępne opcje:
+
+### ReactNode
+
+Typ `React.ReactNode` to najpopularniejsza z opcji. Korzysta z niej np. nie polecany przeze mnie typ `React.FC`. Wracając, `React.ReactNode` jest bardzo giętkim typem i przepuszcza przez nasze dzieci dosłownie wszystko: portal, tekst, liczy, boolean, elementy, komponenty...
+
+```tsx
+type ListProps = {
+  children: React.ReactNode;
+};
+
+const List = ({ children }: ListProps) => <div>{children}</div>;
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    Banana 🍌
+    {['Strawberry 🍓']}
+    {false}
+  </List>
+);
+```
+
+> Z typem `React.ReactNode` wiąże się pewien problem, ale to bardzo rzadki case - dla ciekawskich zostawiam <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/issues/37596" target="_blank" rel="noopener noreferrer">issue na GitHubie</a>.
+
+### ReactElement
+
+Dzięki `React.ReactElement` nasze _childreny_ będą mogłby być tylko komponentem/elementem HTML:
+
+```tsx
+type ListProps = {
+  children: Array<React.ReactElement>;
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const ListItem = () => <span>Apple 🍏</span>;
+
+const App = () => (
+  <List>
+    <ListItem />
+    <p>Banana 🍌</p>
+    <h2>Strawberry 🍓</h2>
+  </List>
+);
+```
+
+### ReactText
+
+Typ `React.ReactText` akceptuje tylko ciąg znaków/liczb. Zdecydowanie lepsza opcja jeśli chcemy wprowadzić takie ogarniczenia:
+
+```tsx
+type ListProps = {
+  children: React.ReactText;
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const App = () => <List>Apple 🍏 Banana 🍌 Strawberry 🍓</List>;
+```
+
+### ReactChild
+
+Ten typ jest połączeniem (a taka naprawdę unią) typów `ReactElement` i `ReactText`:
+
+```tsx
+type ListProps = {
+  children: React.ReactChild;
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const App = () => (
+  <List>
+    Apple 🍏 <li>Banana 🍌</li> Strawberry 🍓
+  </List>
+);
+```
+
+### Funkcje
+
+Dziećmi mogą być oczywiście również funkcje, szczególnie przydatne przy patternie _render props_:
+
+```tsx
+type ListProps = {
+  children: () => React.ReactElement;
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const App = () => <List>{() => <li>Apple 🍏</li>}</List>;
+```
+
+### JSX.Element
+
+Często możemy się spotkać z typem `JSX.Element`, jest to typ zwracany z metody `React.createElement()`. To tak naprawdę *tylko nakładka* na `React.ReactElement` i pod spodem wygląda tak:
+
+```tsx
+interface Element extends React.ReactElement<any, any> {}
+```
+
+Czy warto więc go stosować do typowania `children`? Ja osobiście wolę korzystać z wspomnianych wcześniej typów z prefixem _React_, ale jak to już bywa w Reakcie - pełna dowolność.
+
+> _More technical explanation is that a valid React node is not the same thing as what is returned by React.createElement. Regardless of what a component ends up rendering, React.createElement always returns an object, which is the JSX.Element interface, but React.ReactNode is the set of all possible return values of a component._ ~ <a href="https://github.com/typescript-cheatsheets/react/issues/57" target="_blank" rel="noopener noreferrer">Feraber</a>
+
+### React.FC
+
+Przyszła pora na gwiazdę wieczoru - typ `React.FC`. Osobiście odradzam jego stowanie, ponieważ wiążą się z nim [pewne problemy](https://github.com/facebook/create-react-app/pull/8177)... Najważniejszym z nich jest to, że ten typ **z automatu** typuje `children` jako **niewymagane** `ReactNode`. Może to rodzić podobne sytuacje:
+
+```tsx
+const List: React.FC = () => <ul></ul>;
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    <li>Banana 🍌</li>
+    <li>Strawberry 🍓</li>
+  </List>
+);
+```
+
+Co więc zamiast `React.FC`? Wystarczy normalne typowanie, tak jak w przypadku funkcji.
+
+## Zawężenie typu
+
+Załóżmy, że w naszym kodzie chcemy zadeklarować, tak jak wyżej, komponent `<List>`, który będzie nieoznaczoną listą. Z racji tego, że dziećmi `<ul>` mogą być **tylko** `<li>`, chcieli byśmy nałożyć ograniczenie dla `children` na ten konkretny tag, czy to możliwe?
+
+Na pierwszy strzał niech poleci `React.ReactElement`, jest on typem generycznym do którego możemy podać konkretny element, czy to wystarczy?
+
+```tsx
+type ListProps = {
+  children: React.ReactElement<'li'>;
+};
+
+const List = ({ children }: ListProps) => <ul>{children}</ul>;
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    Banana 🍌 Strawberry 🍓
+  </List>
+);
+```
+
+Okazuję się, że nie ❌ Spróbujmy jeszcze inaczej:
+
+```tsx
+const ListItem = ({ name }: { name: string }) => <li>{name}</li>;
+
+type ListProps = {
+  children: React.ReactElement<'li'>; // ❌
+  children: JSX.InstrictElements['li']; // ❌
+  children: typeof ListItem; // ❌
+  ... //  ❌
+};
+
+```
+
+Te i inne opcje po prostu nie zadziałają tak jakbyśmy tego oczekiwali... Dzieje się to z tego względu, że komponenty/elementy zamieniane są w locie na typ `JSX.Element`, a szkoda.
+
+## Nie jakość, a ilość
+
+Co pozostaje nam, biednym Reaktowcom, jeśli nie możemy wskazać dokładnego typu? Wskazanie **dokładnej ilości!** W naszym typie możemy wskazać czy `children` będą np. pojedynczym elementem, tablicą elementów lub tuplem (tablica o określonej długości i określonych typach):
+
+```tsx
+import { ReactElement } from 'react';
+
+type ListProps = {
+  children: ReactElement;
+  children: Array<ReactElement>;
+  children: [ReactElement, ReactElement, ReactElement];
+  children: [ReactElement, ReactText, ReactFragment];
+};
+```
+
+## Metody iteracyjne
+
+React oprócz samego mechanizmu komponentów rodziców i dzieci udostępnia nam również szereg metod dla API `React.Children`. Nie będę Ci tutaj przytaczał wszystkich, są one bardzo dobrze opisane w [dokumentacji](https://pl.reactjs.org/docs/react-api.html#reactchildren). Chciałbym jednak wrócić do naszego problemu, wiemy już, że nie możemy w pełni bezpiecznie otypować dzieci, jak więc obejść ten problem?
+
+1. Deklarujemy typ dla `children`, ustawiamy go jako tablię `React.ReactElement`
+2. Korzystamy z metody `toArray` obiektu `Children`, która zwraca dzieci jako płaską strukturę
+3. Sprawdzamy, czy aby na pewno nasz `child` jest elementem Reaktowym. Dlaczego tak, skoro w propsach mamy już pewność? W wyniku metody `toArray` każde z naszych dzieci będzie miało typ `ReactChild | ReactFragment | ReactPortal`, my chcemy mieć pewność, że jest to `ReactElement`. Moglibyśmy do tego celu stworzyć dedykowanego _type guarda_, ale React nas wyręcza i udostępnia funkcję `isValidElement`
+4. Spradzamy, czy typ dziecka jest równy typowi jaki posiada `<li>`
+5. Jeśli tak, klonujemy i zwracamy `child`
+6. Jeśli nie, wrzucamy `child` w tag `<li>`
+7. Całość opakowujemy w zmienną i przekazujemy do `<ul>`
+
+```tsx
+import { Children, ReactElement, isValidElement, cloneElement } from 'react';
+
+type ListProps = {
+  // #1
+  children: Array<ReactElement>;
+};
+
+const List = ({ children }: ListProps) => {
+  // #2
+  const newChildren = Children.toArray(children).map((child) => {
+    // #3
+    if (isValidElement(child)) {
+      // #4
+      if (child.type === 'li') {
+        // #5
+        return cloneElement(child);
+      }
+      // #6
+      return <li key={child.key}>{child}</li>;
+    }
+  });
+  // #7
+  return <ul>{newChildren}</ul>;
+};
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    <a href="banana.html">Banana 🍌</a>
+    <p>Strawberry 🍓</p>
+  </List>
+);
+```
+
+<Newsletter />
+
+### Problemy z React.Fragment
+
+Wszystko byłoby pięknie, gdyby nie `React.Fragment`. Domyślnie metoda `React.Children.toArray()` spłaszcza nam strukturę `children`, ale... No właśnie, pozostawia fragmenty. Problem pojawia się gdy do naszej listy podamy dzieci w takiej formie:
+
+```tsx
+<List>
+  <li>Apple 🍏</li>
+  <>
+    <a href="banana.html">Banana 🍌</a>
+    <p>Strawberry 🍓</p>
+  </>
+</List>
+```
+
+Zamiast trzech `<li>` zostaną wyrenderowane dwa. Jak temu zaradzić? Powstała [biblioteka](https://github.com/grrowl/react-keyed-flatten-children) specjalnie pod ten problem, która udostępnia funkcje `flattenChildren`. Zobaczmy na cały, poprawiony przykład:
+
+```tsx
+import { Children, ReactElement, isValidElement, cloneElement } from 'react';
+import flattenChildren from 'react-keyed-flatten-children';
+
+type ListProps = {
+  children: Array<ReactElement>;
+};
+
+const List = ({ children }: ListProps) => {
+  const newChildren = flattenChildren(children).map((child) => {
+    if (isValidElement(child)) {
+      if (child.type === 'li') {
+        return cloneElement(child);
+      }
+      return <li key={child.key}>{child}</li>;
+    }
+  });
+
+  return <ul>{newChildren}</ul>;
+};
+
+const App = () => (
+  <List>
+    <li>Apple 🍏</li>
+    <>
+      <a href="banana.html">Banana 🍌</a>
+      <p>Strawberry 🍓</p>
+    </>
+    <span>Blueberry 🫐</span>
+  </List>
+);
+```
+
+### Komponenty jako dzieci
+
+Przyszła pora na to, co nas najbardziej interesuje, czyli faktyczny komponent jako dziecko `List`. Tym razem zamiast sprawdzać, czy `child.type` jest równy typowi `li`, sprawdzamy, czy jest on taki sam jak komponent.
+
+A co z propsami? Nasz komponent będzie przyjmował wszystkie atrybuty `li` + `ref` (typ `JSX.IntrinsicElements['li']`), a jego dzieci będą miały typ `ReactText`:
+
+```tsx
+import { ReactElement, isValidElement, ReactText } from 'react';
+import flattenChildren from 'react-keyed-flatten-children';
+
+type ListItemProps = {
+  children: ReactText;
+} & JSX.IntrinsicElements['li'];
+
+const ListItem = (props: ListItemProps) => {
+  return <li {...props}></li>;
+};
+
+type ListProps = {
+  children: Array<ReactElement>;
+};
+
+export const List = ({ children }: ListProps) => {
+  const newChildren = flattenChildren(children).map((child) => {
+    if (isValidElement(child)) {
+      if (child.type === ListItem) {
+        return <ListItem key={child.key} {...(child.props as ListItemProps)} />;
+      } else {
+        throw new Error('Tylko ListItem może być dzieckiem List');
+      }
+    }
+  });
+
+  return <ul>{newChildren}</ul>;
+};
+```
+
+To co tutaj jest nowe, to wyjątek, rzucamy go, gdy typ **nie jest** zgodny z `ListItem` - w ten sposób obchodzimy ograniczenia typowania.
+
+```tsx
+const App = () => (
+  <List>
+    <ListItem>Apple 🍏</ListItem>
+    <>
+      <ListItem>Banana 🍌</ListItem>
+      <ListItem>Strawberry 🍓</ListItem>
+    </>
+    <span>Blueberry 🫐</span> // ❌ Error: Tylko ListItem może być dzieckiem List
+  </List>
+);
+```
+
+### Prywatne childreny
+
+Ostatni z naszych _case'ów_ - naszymi dziećmi będą komponenty + nie będziemy mogli ich użyć poza komponentem rodzica. Zaciekawieni? Jedziemy!
+
+Zanim przejdziemy do typów, stwórzymy dwa komponenty - `ListItem` i `PrivateListItem`. Nie przeraź się tym pierwszym, rzuca on wyjątkiem z konkretnego powodu, zaraz do tego wrócimy! `PrivateListItem` za to, tak jak poprzednio, jest po prostu normalnym komponentem, który zwraca `li` razem z propsami:
+
+```tsx
+type ListItemProps = {
+  children: ReactText;
+} & JSX.IntrinsicElements['li'];
+
+const ListItem = (_props: ListItemProps) => {
+  throw new Error('ListItem musi być dzieckiem List');
+};
+
+const PrivateListItem = (props: ListItemProps) => {
+  return <li {...props}></li>;
+};
+```
+
+Pozostało nam tylko, tak jak poprzednio, w odpowiedni sposób spłaszczyć i przeiterować przez nasze `children` w komponencie `<List>`, z małą różnicą...Tym razem sprawdzmy czy dziecko jest typu `ListItem`, jeśli tak, to zwracamy `PrivateListItem`:
+
+```tsx
+import { ReactElement, isValidElement, ReactText } from 'react';
+import flattenChildren from 'react-keyed-flatten-children';
+
+type ListItemProps = {
+  children: ReactText;
+} & JSX.IntrinsicElements['li'];
+
+export const ListItem = (_props: ListItemProps) => {
+  throw new Error('ListItem musi być dzieckiem List');
+};
+
+const PrivateListItem = (props: ListItemProps) => {
+  return <li {...props}></li>;
+};
+
+type ListProps = {
+  children: Array<ReactElement>;
+};
+
+export const List = ({ children }: ListProps) => {
+  const newChildren = flattenChildren(children).map((child) => {
+    if (isValidElement(child)) {
+      if (child.type === ListItem) {
+        return <PrivateListItem key={child.key} {...(child.props as ListItemProps)} />;
+      } else {
+        throw new Error('Tylko ListItem może być dzieckiem List');
+      }
+    }
+  });
+
+  return <ul>{newChildren}</ul>;
+};
+```
+
+Ten kod na pierwszy rzut oka wydaje się mało intuicyjny, ale zobaczmy jak wygląda wywołanie:
+
+```tsx
+const App = () => (
+  <>
+    <List>
+      <ListItem>Apple 🍏</ListItem>
+      <>
+        <ListItem>Banana 🍌</ListItem>
+        <ListItem>Strawberry 🍓</ListItem>
+      </>
+    </List>
+    <ListItem>Blueberry 🫐</ListItem> // ❌ Error: ListItem musi być dzieckiem List
+  </>
+);
+```
+
+Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z typem `Array<ReactElement>`, ale zostaną wyrenderowane **tylko** komponenty `PrivateListItem`! Hmm...więc po co ta sztuczka z `ListItem`? 🤔 Dzięki niej nie możemy wywołać `ListItem` nigdzie indziej niż w komponencie `List` i to są właśnie te "prywatne childreny"!
+
+#### Problemy z kompozycją
+
+Podwyższe rozwiązania mają jeden poważny problem - brak możliwości opakowania kompontu `<ListItem>` w inny komponent. Możemy go niejako rozwiązać deklarując komponent rodzica:
+
+```tsx
+type ListItemProps = {
+  children: ReactText;
+} & JSX.IntrinsicElements['li'];
+
+type ChildWithParent = ReactElement & {
+  type: { parent: ReactElement };
+  props: ListItemProps;
+};
+
+const ListItem = (_props: ListItemProps) => {
+  throw new Error('ListItem musi być dzieckiem List');
+};
+
+ListItem.parent = List;
+
+export const List = ({ children }: ListProps) => {
+  const newChildren = flattenChildren(children).map((child: unknown) => {
+    const child = child as ChildWithParent;
+    if (isValidElement(child)) {
+      if (child.type === ListItem && child.type.parent === List) {
+        return <PrivateListItem key={child.key} {...(child.props as ListItemProps)} />;
+      } else {
+        throw new Error('Tylko ListItem może być dzieckiem List');
+      }
+    }
+  });
+
+  return <ul>{newChildren}</ul>;
+};
+
+const ListItemWrapper = (props: ListItemProps) => <ListItem {...props} />;
+
+ListItemWrapper.parent = List;
+```
+
+Przy takim założeniu, każdy _wrapper_ na komponent `<ListItem>`, taki jak np. `<ListItemWrapper>` będzie musiał posiadać sztywno zadeklarowanego rodzica - `ListItemWrapper.parent = List`.
+
+## Podsumowanie
+
+Uff, to by było na tyle jeśli chodzi o `children` w React & TypeScript. Dzisiejszy wpis potraktuj jako taki pakiet wiedzy o typach dla `children` oraz zbiór ciekawostek. Większość reaktowych codebasów (i komponentów) nie będzie potrzebowała tego typu restrykcji. Polecam Ci szczególnie zapoznać się z innymi metodami dla `React.Children`, chociaż ich również nie stosuje się ich na codzień, to jak widać, potrafią się przydać :)
+
+Jeśli ten artykuł okazał się dla Ciebie przydatny, podziel się nim z innymi!
+
+Do usłyszenia!
+
+### Źródła
+
+- [Fake Child Pattern](https://twitter.com/markdalgleish/status/1370951759284162565)
+- [React TS Cheatsheet](https://github.com/typescript-cheatsheets/react)
+- [ReactNode Date object issue](https://github.com/DefinitelyTyped/DefinitelyTyped/issues/37596)
+- [ReactNode object issue](https://github.com/typescript-cheatsheets/react/issues/357)
