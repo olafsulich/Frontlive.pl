@@ -12,7 +12,7 @@ Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nau
 
 ## Podstawy
 
-Jeśli do tej pory nie słyszałeś o dzieciach w React, to polecam na starcie odwiedzić [oficjalną dokumentację](https://pl.reactjs.org/docs/composition-vs-inheritance.html). A my jedziemy z powtórką! Dzieci są spejcalnymi propsami, które pomagają nam w komponowaniu komponentów. Spójrz na przykład:
+Jeśli do tej pory nie słyszałeś o dzieciach w React, to polecam na starcie odwiedzić [oficjalną dokumentację](https://pl.reactjs.org/docs/composition-vs-inheritance.html). A my jedziemy z powtórką! Dzieci są specjalnymi propsami, które pomagają nam w komponowaniu komponentów. Spójrz na przykład:
 
 ```tsx
 type ListProps = {
@@ -30,11 +30,11 @@ const App = () => (
 );
 ```
 
-Tworzymy dwa komponenty, pierwszy `<List>`, który będzie przyjmował dzieci, oraz komponent `<App>`, który będzie wywoływał ten pierwszy. Podczas wywołania komponentu `<List>` do jego **środka** przekazujemy np. elementy HTML, ot cała filozofia...Tylko, że nie do końca!
+Tworzymy dwa komponenty, pierwszy `<List>`, który będzie przyjmował dzieci, oraz komponent `<App>`, który będzie wywoływał ten pierwszy. Podczas wywołania komponentu `<List>` do jego **środka** przekazujemy np. elementy HTML, ot cała filozofia... Tylko, że nie do końca!
 
 ## Typy
 
-I tutaj zaczyna się prawdziwa zabawa. W teorii `chilren` mogą być wszystkim, jednak często chcemy, aby były czymś bardziej konkretnym, spójrzmy na dostępne opcje:
+I tutaj zaczyna się prawdziwa zabawa. W teorii `children` mogą być wszystkim, jednak często chcemy, aby były czymś bardziej konkretnym, spójrzmy na dostępne opcje:
 
 ### ReactNode
 
@@ -61,7 +61,7 @@ const App = () => (
 
 ### ReactElement
 
-Dzięki `React.ReactElement` nasze _children_ będą mogłby być tylko komponentem/elementem HTML:
+Dzięki `React.ReactElement` nasze _children_ będą mogły być tylko komponentem/elementem HTML:
 
 
 ```tsx
@@ -84,7 +84,7 @@ const App = () => (
 
 ### ReactText
 
-Typ `React.ReactText` akceptuje tylko ciąg znaków/liczb. Zdecydowanie lepsza opcja jeśli chcemy wprowadzić takie ogarniczenia:
+Typ `React.ReactText` akceptuje tylko ciąg znaków/liczb. Zdecydowanie lepsza opcja jeśli chcemy wprowadzić takie ograniczenia:
 
 ```tsx
 type ListProps = {
@@ -217,7 +217,7 @@ React oprócz samego mechanizmu komponentów rodziców i dzieci udostępnia nam 
 1. Deklarujemy typ dla `children`, ustawiamy go jako tablicę `React.ReactElement`
 2. Korzystamy z metody `toArray` obiektu `Children`, która zwraca dzieci jako płaską strukturę
 3. Sprawdzamy, czy aby na pewno nasz `child` jest elementem Reaktowym. Dlaczego tak, skoro w propsach mamy już pewność? W wyniku metody `toArray` każde z naszych dzieci będzie miało typ `ReactChild | ReactFragment | ReactPortal`, my chcemy mieć pewność, że jest to `ReactElement`. Moglibyśmy do tego celu stworzyć dedykowanego _type guarda_, ale React nas wyręcza i udostępnia funkcję `isValidElement`
-4. Spradzamy, czy typ dziecka jest równy typowi jaki posiada `<li>`
+4. Sprawdzamy, czy typ dziecka jest równy typowi jaki posiada `<li>`
 5. Jeśli tak, klonujemy i zwracamy `child`
 6. Jeśli nie, wrzucamy `child` w tag `<li>`
 7. Całość opakowujemy w zmienną i przekazujemy do `<ul>`
@@ -438,7 +438,7 @@ Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z type
 
 #### Problemy z kompozycją
 
-Podwyższe rozwiązania mają jeden poważny problem - brak możliwości opakowania kompontu `<ListItem>` w inny komponent. Możemy go niejako rozwiązać deklarując komponent rodzica:
+Podwyższe rozwiązania mają jeden poważny problem - brak możliwości opakowania komponentu `<ListItem>` w inny komponent. Możemy go niejako rozwiązać deklarując komponent rodzica:
 
 ```tsx
 type ListItemProps = {
