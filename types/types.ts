@@ -31,3 +31,38 @@ export type Post = {
   isPublished: boolean;
   imageOpenGraph: string;
 };
+
+export type GistWithoutContent = {
+  git_pull_url: string;
+  id: string;
+  created_at: string;
+  description: string;
+  files: {
+    [key: string]: {
+      filename: string;
+    };
+  };
+};
+
+export type GistWithContent = {
+  git_pull_url: string;
+  id: string;
+  created_at: string;
+  description: string;
+  files: {
+    [key: string]: {
+      language: string;
+      content: string;
+      filename: string;
+    };
+  };
+};
+
+export type Snippet = {
+  url: string;
+  id: string;
+  createdAt: string;
+  description: string;
+  filename: string;
+  content: string;
+};
