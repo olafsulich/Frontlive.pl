@@ -1,0 +1,296 @@
+---
+title: 'Monorepo z Lerna, Yarn Workspaces i TypeScript'
+category: 'Architektura'
+publishedAt: '11-10-2021'
+isPublished: true
+popular: false
+image: '/images/monorepo-typescript/thumbnail.png'
+excerpt: 'Jak zarządzać projektem, w którym mamy kilka repozytoriów z kodem? Utrzymywanie zewnętrzynch zależności, sprawny development, bezbolesny release, to tylko niektóre z wyzwań, z którymi musimy się mierzyć przy większych codebasach. Jak to ogarnąć?'
+---
+
+Jak zarządzać projektem, w którym mamy kilka _paczek\*_ z kodem? Utrzymywanie zewnętrznych zależności, sprawny development, bezbolesny release, to tylko niektóre z wyzwań, z którymi musimy się mierzyć przy większych codebasach. Jak to ogarnąć?
+
+_\*_ paczka, inaczej projekt, wydzielony kawałek kodu
+
+## Rodzaje repozytoriów
+
+Zanim zaczniemy, rozróżnijmy trzy podstawowe rodzaje repozytoriów:
+
+1. Multirepo - każda nasza _paczka_, jest w osobnym repozytorium - klasyczny podział.
+
+2. **Monorepo** - gwiazda dzisiejszego wieczoru, w tym podziale posiadamy wiele **wyizolowanych** projektów, ale są one zebrane w ramach jednego repo. Mogą (ale nie muszą) być od siebie zależne.
+
+3. Monolit - tutaj w przeciwieństwie do poprzednich rodzajów, cały nasz codebase jest zebrany w jednej _paczce_, w jednym repozytorium.
+
+<Image src="/images/monorepo-typescript/rodzaje-repo.png" alt="Rodzaje repozytoriów" />
+
+## Monorepo
+
+Zatrzymajmy się na chwilę przy samym koncepcie monorepo, wiemy już, że w takim systemie przechowujemy wszystkie nasze _paczki_ w jednym repozytorium, tylko po co?
+
+Załóżmy, że tworzymy nowy projekty, backend i frontend będą napisane w tej samej technologii - TypeScripcie. Takie rozwiązanie jest super, bo po jakimś czasie będziemy mogli reużywać kawałki kodu w obu aplikacjach, oh wait, tylko jak to zrobić? To nie koniec problemów, podobne konfiguracje toolingu, powtarzające się zewnętrzne pakiety, które trzeba utrzymywać, wersjonowanie i publikowanie, to tylko niektóre rzeczy, z którymi musielibyśmy się mierzyć na co dzień...
+
+Do plusów Monorepo możemy zaliczyć:
+
+- Reużywanie kodu
+- Łatwiejsze zarządzanie pakietami
+- Sprawniejsze procesy (lint, build, test, release)
+- Refactoring na dużą skalę
+- Jedno miejsce do zgłaszania issues (open source)
+
+Oczywiście takie rozwiązanie nie jest złożone z samych zalet, do jakiego wad można zaliczyć:
+
+- Brak możliwości ograniczenia dostępu do pojedynczej paczki
+- Konieczność pobrania całego repo, nawet jeśli pracujemy tylko nad jedną paczką
+- Problemy z systemem kontroli wersji przy bardzooo dużej skali (typu Google/Facebook)
+- Dłuższy build
+
+### Kto korzysta z Monorepo?
+
+Koncept pojedynczych repozytoriów nie jest znany od wczoraj, korzystają z niego tacy giganci jak Google, czy Facebook, ale również "mniejsi" gracze/projekty związane z technologiami, np. Next.js, Vue i Babel.
+
+<Image
+  src="/images/monorepo-typescript/lerna-firmy.png"
+  alt="Firmy i projekty, które korzystają z Lerny"
+/>
+
+## Lerna & Yarn Workspaces
+
+Pierwszym ze składników naszego projektu będzie [Lerna](https://github.com/lerna/lerna). To narzędzie jest bazą pod nasze monorepo, dostarcza nam tooling potrzebny do wykonywania skryptów pomiędzy paczkami, wersjonowanie i publikowanie paczek. Lernę możemy wykorzystać również jako managera zależności, ale w związku z tym, że na pokładzie mamy jeszcze Yarn Workspaces, podzielmy trochę odpowiedzialność.
+
+Workspaces posłużą nam za inteligenty manager zewnętrznych pakietów, dzięki niemu _połączymy_ ze sobą zależności, będziemy posiadali tylko jeden `yarn.lock`, co ułatwi nam późniejsze utrzymanie pakietów. Yarn Workspaces dostarczają nam również mechanizm, w którym jeden z naszych lokalnych projektów będzie mogł być zależny od drugiego.
+
+Co ciekawe, te dwie technologie możemy wykorzystać niezależnie od siebie, jeśli chcesz się trochę bardziej wgłębić w różnice, to polecam świetny [artykuł autorstwa Sebastiana Webera](https://doppelmutzi.github.io/monorepo-lerna-yarn-workspaces/).
+
+<Image
+  src="/images/monorepo-typescript/lerna-yarn-powiazanie.png"
+  alt="Diagram powiązania pomiędzy Lerną, Yarn workspaces i Yarnem"
+/>
+
+## Monorepo w praktyce
+
+Zanim przejdziemy do właściwej konfiguracji, z założenia nasz projekt będzie bardzo prosty, będziemy posiadali trzy niezależne paczki - backend, frontend i types. Dwie pierwsze będą współdzieliły typy z TypeScripta:
+
+<Image
+  src="/images/monorepo-typescript/repo-typescript.png"
+  alt="Przepływ danych pomiędzy typami z TypeScript, a repozytoriami"
+/>
+
+### Konfiguracja
+
+Jeśli już zainstalowaliśmy Lernę, to przechodzimy do jej konfiguracji, to czego potrzebujemy to plik `lerna.json`, a w nim:
+
+```json
+{
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "packages": ["packages/*"],
+  "version": "1.0.0"
+}
+```
+
+W tym miejscu określamy czy będziemy korzystali z NPM, czy z Yarna, ustawiamy również miejsce składowania _paczek_ i wersję projektu.
+
+W `package.json`, poza standardowymi rzeczami, wskazujemy `workspaces`, które potrzebne są Yarnowi:
+
+```json
+{
+  "name": "root",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": ["packages/*"]
+  }
+}
+```
+
+## Instalacja zależności
+
+Tak jak wcześniej wspomniałem, zarządzaniem zewnętrznymi zależnościami będą się zajmowały Yarn Workspaces. Żeby dodać jakiś pakiet, wystarczy stosować się takiego patternu:
+
+```bash
+yarn workspace <nazwa_lokalnej_paczki> add <nazwa_zewnętrznej_zależności>
+```
+
+W kontekście naszego projektu będzie to wyglądało w ten sposób:
+
+```bash
+yarn workspace frontend parcel-bundler --save-dev
+```
+
+Jeśli chcemy dodać pakiet, który będzie występował we wszystkich naszych _paczkach_, wystarczy, że zrobimy:
+
+```bash
+yarn add <nazwa_zewnętrznej_zależności> -W
+```
+
+<Newsletter />
+
+## Powiązanie lokalnych paczek
+
+Esencja dzisiejszego artykułu, czyli jak reużywać typy pomiędzy frontendem, a backendem?
+
+Załóżmy, że w paczce `types` posiadamy typ użytkownika:
+
+```ts
+export type User = {
+  id: string;
+  name: string;
+  points: number;
+};
+```
+
+Aby skorzystać z niego w paczce `backend`, musimy wykonać taką komendę:
+
+```bash
+yarn workspace backend add types@1.0.0
+```
+
+<Image
+  src="/images/monorepo-typescript/lokalne-powiazania-paczki.png"
+  alt="Diagram lokalne powiązania między TypeScriptowymi typami, a paczkami frontend i backend"
+/>
+
+> Ważne jest, aby uważać tutaj z wersjami - lepiej zadeklarować konkretną wersję, w moim przypadku yarn "źle" domyślał się, jaką naprawdę ma dodać
+
+Jeśli wszystko poszło zgodnie z planem, powinniśmy zobaczyć nową zależność w `package.json` w paczce `backend`:
+
+```json
+"dependencies": {
+   "types": "^1.0.0"
+}
+```
+
+Korzystamy z niej dokładnie tak samo, jak z każdej innej zależności:
+
+```ts
+import express from 'express';
+import type { User } from 'types';
+import { v4 as uuidv4 } from 'uuid';
+
+const app = express();
+
+const user: User = {
+  id: uuidv4(),
+  name: 'User',
+  points: 10012,
+};
+
+app.get('/', (req, res) => res.send('Monorepo Backend'));
+app.listen(8000);
+```
+
+## Praca z Lerną
+
+Uff, udało nam się wykorzystać Yarn Workspaces, czas na Lernę, po co tak właściwie nam ona w projekcie? 🤔
+
+### Procesy
+
+Jak już wspomniałem na samym początku, Lerna **świetnie** usprawnia nam pracę z różnymi procesami. Często spotykane procesy w aplikacjach TypeScriptowych:
+
+- lint
+- test
+- format
+- build
+
+My zajmiemy się tym pierwszym, ale cały _przepis_ będzie również działał na inne procesy. Do naszego procesu `lint` wykorzystamy dobrze znanego wszystkim ESlinta.
+
+Instalacja:
+
+```bash
+yarn add eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier eslint-plugin-prettier -W
+```
+
+Konfiguracja:
+
+```json
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2021
+  },
+
+  "plugins": ["@typescript-eslint"],
+  "extends": ["prettier", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"]
+}
+```
+
+Chcemy wykonywać ten proces w paczkach `frontend` i `backend`, dodajemy w obu miejscach skrypt w `package.json`:
+
+```json
+"scripts": {
+    "lint": "eslint . --ext ts"
+    }
+```
+
+Dla uproszczenia, w naszym projekcie posiadamy tylko jeden plik konfiguracyjny ESlinta oraz takie same skrypty, ale nic nie stoi nam na przeszkodzie, żeby zrobić je **zupełnie inne** w każdej z naszych paczek 📦
+
+W katalogu głównym projektu, do `package.json` dodajemy odpowiedni skrypt:
+
+```json
+"scripts": {
+    "lint": "lerna run lint --stream"
+    }
+```
+
+A następnie wywołujemy:
+
+```bash
+lerna run lint
+```
+
+Dzięki temu we wszystkich naszych paczkach zostanie wywołany `eslint . --ext ts`. Ten i podobne procesy wraz z Lerną, super się łączą z narzędziami typu [Lint Staged](https://github.com/okonet/lint-staged) i [Husky](https://github.com/typicode/husky), zdecydowanie warto spróbować!
+
+<Image
+  src="/images/monorepo-typescript/procesy-lint.png"
+  alt="Diagram procesu lintowania wraz z wykorzystaniem Lerny"
+/>
+
+## Wersjonowanie
+
+Wykorzystanie Lerny do wersjonowania paczek to łatwizna wystarczy jedna komenda:
+
+```bash
+lerna version [major | minor | patch | premajor | preminor | prepatch | prerelease]
+```
+
+Co się dzieje po wykonaniu tej komendy? Lerna za kulisami sprawdzi jakie zmiany zostały zaaplikowane w danych paczkach, otaguje nową wersję i wypushuje na zdalne rezpotorium Gita.
+
+<Image
+  src="/images/monorepo-typescript/wersjonowanie.png"
+  alt="Wersjonowanie: Patch (1.0.1), Minor (1.2.0), Major (2.0.0)"
+/>
+
+Warto jeszcze wspomnieć o fladze `--conventional-commits`, która korzysta z [Conventional Commits](https://conventionalcommits.org/) i automatycznie określi wersje oraz wygeneruje changelog:
+
+```bash
+lerna version --conventional-commits
+```
+
+## Publikowanie do rejestru NPM
+
+Tutaj sprawa wygląda bardzo podobnie jak poprzednio. Wystarczy jedna komenda:
+
+```bash
+lerna publish
+```
+
+Po jej wykonaniu wszystkie paczki, które zostały zmienione od poprzedniej wersji, zostaną opublikowane.
+
+> Paczki muszą mieć ustawione `"private": false` w `package.json`, inaczej Lerna nie rozpocznie procesu publikacji
+
+## Podsumowanie
+
+To by było na tyle, jeśli chodzi o krótkie wprowadzenie do tematu Monorepo 🙏
+
+Zarówno Lerna, jak i Yark Workspaces oferują znacznie więcej, a komfort pracy z takim połączeniem stoi na wysokim poziomie - zachęcam do dalszego zgłębiania 😎
+
+Do usłyszenia!
+
+### Źródła
+
+- [Why is Babel a monorepo?](https://github.com/babel/babel/blob/master/doc/design/monorepo.md)
+- [Monorepos in the Wild](https://medium.com/@maoberlehner/monorepos-in-the-wild-33c6eb246cb9)

@@ -5,14 +5,14 @@ publishedAt: '13-09-2021'
 isPublished: true
 popular: false
 image: '/images/react-children-i-typescript/thumbnail.png'
-excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricki i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
+excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricky i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
 ---
 
-Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce `children` oferują znacznie więcej, są trochę _tricki_ i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania? Jedziemy z tematem!
+Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce `children` oferują znacznie więcej, są trochę _tricky_ i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania? Jedziemy z tematem!
 
 ## Podstawy
 
-Jeśli do tej pory nie słyszałeś o dzieciach w React, to polecam na starcie odwiedzić [oficjalną dokumentację](https://pl.reactjs.org/docs/composition-vs-inheritance.html). A my jedziemy z powtórką! Dzieci są spejcalnymi propsami, które pomagają nam w komponowaniu komponentów. Spójrz na przykład:
+Jeśli do tej pory nie słyszałeś o dzieciach w React, to polecam na starcie odwiedzić [oficjalną dokumentację](https://pl.reactjs.org/docs/composition-vs-inheritance.html). A my jedziemy z powtórką! Dzieci są specjalnymi propsami, które pomagają nam w komponowaniu komponentów. Spójrz na przykład:
 
 ```tsx
 type ListProps = {
@@ -30,15 +30,15 @@ const App = () => (
 );
 ```
 
-Tworzymy dwa komponenty, pierwszy `<List>`, który będzie przyjmował dzieci, oraz komponent `<App>`, który będzie wywoływał ten pierwszy. Podczas wywołania komponentu `<List>` do jego **środka** przekazujemy np. elementy HTML, ot cała filozofia...Tylko, że nie do końca!
+Tworzymy dwa komponenty, pierwszy `<List>`, który będzie przyjmował dzieci, oraz komponent `<App>`, który będzie wywoływał ten pierwszy. Podczas wywołania komponentu `<List>` do jego **środka** przekazujemy np. elementy HTML, ot cała filozofia... Tylko, że nie do końca!
 
 ## Typy
 
-I tutaj zaczyna się prawdziwa zabawa. W teorii `chilren` mogą być wszystkim, jednak często chcemy, aby były czymś bardziej konkretnym, spójrzmy na dostępne opcje:
+I tutaj zaczyna się prawdziwa zabawa. W teorii `children` mogą być wszystkim, jednak często chcemy, aby były czymś bardziej konkretnym, spójrzmy na dostępne opcje:
 
 ### ReactNode
 
-Typ `React.ReactNode` to najpopularniejsza z opcji. Korzysta z niej np. niepolecany przeze mnie typ `React.FC`. Wracając, `React.ReactNode` jest bardzo giętkim typem i przepuszcza przez nasze dzieci dosłownie wszystko: portal, tekst, liczy, boolean, elementy, komponenty...
+Typ `React.ReactNode` to najpopularniejsza z opcji. Korzysta z niej np. niepolecany przeze mnie typ `React.FC`. Wracając, `React.ReactNode` jest bardzo giętkim typem i przepuszcza przez nasze dzieci dosłownie wszystko: portal, tekst, liczby, boolean, elementy, komponenty...
 
 ```tsx
 type ListProps = {
@@ -61,7 +61,8 @@ const App = () => (
 
 ### ReactElement
 
-Dzięki `React.ReactElement` nasze _childreny_ będą mogłby być tylko komponentem/elementem HTML:
+Dzięki `React.ReactElement` nasze _children_ będą mogły być tylko komponentem/elementem HTML:
+
 
 ```tsx
 type ListProps = {
@@ -83,7 +84,7 @@ const App = () => (
 
 ### ReactText
 
-Typ `React.ReactText` akceptuje tylko ciąg znaków/liczb. Zdecydowanie lepsza opcja jeśli chcemy wprowadzić takie ogarniczenia:
+Typ `React.ReactText` akceptuje tylko ciąg znaków/liczb. Zdecydowanie lepsza opcja jeśli chcemy wprowadzić takie ograniczenia:
 
 ```tsx
 type ListProps = {
@@ -196,7 +197,7 @@ Te i inne opcje po prostu nie zadziałają tak jakbyśmy tego oczekiwali... Dzie
 
 ## Nie jakość, a ilość
 
-Co pozostaje nam, biednym Reaktowcom, jeśli nie możemy wskazać dokładnego typu? Wskazanie **dokładnej ilości!** W naszym typie możemy wskazać czy `children` będą np. pojedynczym elementem, tablicą elementów lub tuplem (tablica o określonej długości i określonych typach):
+Co pozostaje nam, biednym Reaktowcom, jeśli nie możemy wskazać dokładnego typu? Wskazanie **dokładnej ilości!** W naszym typie możemy wskazać czy `children` będą np. pojedynczym elementem, tablicą elementów lub tuplą (tablica o określonej długości i określonych typach):
 
 ```tsx
 import { ReactElement, ReactText, ReactFragment } from 'react';
@@ -213,10 +214,10 @@ type ListProps = {
 
 React oprócz samego mechanizmu komponentów rodziców i dzieci udostępnia nam również szereg metod dla API `React.Children`. Nie będę Ci tutaj przytaczał wszystkich, są one bardzo dobrze opisane w [dokumentacji](https://pl.reactjs.org/docs/react-api.html#reactchildren). Chciałbym jednak wrócić do naszego problemu, wiemy już, że nie możemy w pełni bezpiecznie otypować dzieci, jak więc obejść ten problem?
 
-1. Deklarujemy typ dla `children`, ustawiamy go jako tablię `React.ReactElement`
+1. Deklarujemy typ dla `children`, ustawiamy go jako tablicę `React.ReactElement`
 2. Korzystamy z metody `toArray` obiektu `Children`, która zwraca dzieci jako płaską strukturę
 3. Sprawdzamy, czy aby na pewno nasz `child` jest elementem Reaktowym. Dlaczego tak, skoro w propsach mamy już pewność? W wyniku metody `toArray` każde z naszych dzieci będzie miało typ `ReactChild | ReactFragment | ReactPortal`, my chcemy mieć pewność, że jest to `ReactElement`. Moglibyśmy do tego celu stworzyć dedykowanego _type guarda_, ale React nas wyręcza i udostępnia funkcję `isValidElement`
-4. Spradzamy, czy typ dziecka jest równy typowi jaki posiada `<li>`
+4. Sprawdzamy, czy typ dziecka jest równy typowi jaki posiada `<li>`
 5. Jeśli tak, klonujemy i zwracamy `child`
 6. Jeśli nie, wrzucamy `child` w tag `<li>`
 7. Całość opakowujemy w zmienną i przekazujemy do `<ul>`
@@ -359,7 +360,7 @@ const App = () => (
 );
 ```
 
-### Prywatne childreny
+### Prywatne children
 
 Ostatni z naszych _case'ów_ - naszymi dziećmi będą komponenty + nie będziemy mogli ich użyć poza komponentem rodzica. Zaciekawieni? Jedziemy!
 
@@ -379,7 +380,7 @@ const PrivateListItem = (props: ListItemProps) => {
 };
 ```
 
-Pozostało nam tylko, tak jak poprzednio, w odpowiedni sposób spłaszczyć i przeiterować przez nasze `children` w komponencie `<List>`, z małą różnicą...Tym razem sprawdzmy czy dziecko jest typu `ListItem`, jeśli tak, to zwracamy `PrivateListItem`:
+Pozostało nam tylko, tak jak poprzednio, w odpowiedni sposób spłaszczyć i przeiterować przez nasze `children` w komponencie `<List>`, z małą różnicą...Tym razem sprawdzamy czy dziecko jest typu `ListItem`, jeśli tak, to zwracamy `PrivateListItem`:
 
 ```tsx
 import { ReactElement, isValidElement, ReactText } from 'react';
@@ -433,11 +434,11 @@ const App = () => (
 );
 ```
 
-Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z typem `Array<ReactElement>`, ale zostaną wyrenderowane **tylko** komponenty `PrivateListItem`! Hmm...więc po co ta sztuczka z `ListItem`? 🤔 Dzięki niej nie możemy wywołać `ListItem` nigdzie indziej niż w komponencie `List` i to są właśnie te "prywatne childreny"!
+Co prawda do komponentu `List` możemy przekazać wszystko co jest zgodne z typem `Array<ReactElement>`, ale zostaną wyrenderowane **tylko** komponenty `PrivateListItem`! Hmm...więc po co ta sztuczka z `ListItem`? 🤔 Dzięki niej nie możemy wywołać `ListItem` nigdzie indziej niż w komponencie `List` i to są właśnie te "prywatne children"!
 
 #### Problemy z kompozycją
 
-Podwyższe rozwiązania mają jeden poważny problem - brak możliwości opakowania kompontu `<ListItem>` w inny komponent. Możemy go niejako rozwiązać deklarując komponent rodzica:
+Podwyższe rozwiązania mają jeden poważny problem - brak możliwości opakowania komponentu `<ListItem>` w inny komponent. Możemy go niejako rozwiązać deklarując komponent rodzica:
 
 ```tsx
 type ListItemProps = {
@@ -479,7 +480,7 @@ Przy takim założeniu, każdy _wrapper_ na komponent `<ListItem>`, taki jak np.
 
 ## Podsumowanie
 
-Uff, to by było na tyle jeśli chodzi o `children` w React & TypeScript. Dzisiejszy wpis potraktuj jako taki pakiet wiedzy o typach dla `children` oraz zbiór ciekawostek. Większość reaktowych codebasów (i komponentów) nie będzie potrzebowała tego typu restrykcji. Polecam Ci szczególnie zapoznać się z innymi metodami dla `React.Children`, chociaż ich również nie stosuje się ich na codzień, to jak widać, potrafią się przydać :)
+Uff, to by było na tyle jeśli chodzi o `children` w React & TypeScript. Dzisiejszy wpis potraktuj jako taki pakiet wiedzy o typach dla `children` oraz zbiór ciekawostek. Większość reaktowych codebasów (i komponentów) nie będzie potrzebowała tego typu restrykcji. Polecam Ci szczególnie zapoznać się z innymi metodami dla `React.Children`, chociaż ich również nie stosuje się na co dzień, to jak widać, potrafią się przydać :)
 
 Jeśli ten artykuł okazał się dla Ciebie przydatny, podziel się nim z innymi!
 

@@ -5,7 +5,7 @@ import { Navigation } from '../../components/navigation/Navigation';
 import { Blog } from '../../components/blog/Blog';
 import { getAllPosts } from '../../lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { NextSeo } from 'next-seo';
+import { BlogJsonLd, NextSeo } from 'next-seo';
 import { categoriesArr } from '../../data/categories';
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -35,6 +35,7 @@ export default function BlogPage({ posts }: InferGetStaticPropsType<typeof getSt
           description,
         }}
       />
+
       <Layout>
         <Navigation />
         <Blog posts={posts} categories={categoriesArr} />
