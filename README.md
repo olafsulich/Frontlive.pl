@@ -2,7 +2,7 @@
 
 <br>
 
-<img src="https://i.ibb.co/sttPX1y/tlo-fb-2.png" width="100%" />
+<img src="https://user-images.githubusercontent.com/46969484/138513380-92dd8778-72b8-46ab-85da-5d3ea4ba2e83.png" width="100%" />
 
 <br>
 
