@@ -21,6 +21,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const title = 'Frontlive.pl - Blog';
 const description = 'Najbardziej konkretne artykuły dla frontend developerów!';
 const url = 'https://frontlive.pl/blog';
+const imageThumbnail = '/images/blog.png';
 
 export default function BlogPage({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -33,6 +34,14 @@ export default function BlogPage({ posts }: InferGetStaticPropsType<typeof getSt
           url,
           title,
           description,
+          images: [
+            {
+              url: imageThumbnail,
+              alt: title,
+              width: 1200,
+              height: 628,
+            },
+          ],
         }}
       />
 

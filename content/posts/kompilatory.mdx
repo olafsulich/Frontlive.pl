@@ -2,7 +2,7 @@
 title: 'Kompilator to nic strasznego, czyli jak działa Twój kod pod spodem?'
 category: 'JavaScript'
 publishedAt: '18-10-2021'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/kompilatory/thumbnail.png'
 excerpt: 'Czym są, jak działają i jakie problemy rozwiązują współczesne kompilatory takie jak Babel?'
@@ -17,7 +17,7 @@ Piszesz nowy, zajebisty kodzik w JS, a wysyłasz do przeglądarki kod "legacy", 
 Wiemy już czym są i jakie problemy rozwiązują, ale jak tak naprawdę działają kompilatory? Proces kompilacji możemy podzielić na trzy etapy:
 
 1. **Parsowanie** - kompilator bierze surowy kod i przekształca go w jego abstrakcyjną reprezentację
-2. **Transformacja** - komilator korzysta z przetworzonej, abstrakcyjnej reprezentacji kodu i modyfikuje ją według potrzeb
+2. **Transformacja** - kompilator korzysta z przetworzonej, abstrakcyjnej reprezentacji kodu i modyfikuje ją według potrzeb
 3. **Generacja** - przetransformowana, abstrakcyjna reprezentacja kodu zostaje z powrotem wygenerowana w zwykły kod
 
 <Image
@@ -56,7 +56,7 @@ Tak odseparowane kawałki kodu są wysyłane do tzw. analizy składni (ang. _syn
 
 <Image src="/images/kompilatory/ast.png" alt="Wizualna reprezentacja drzewa AST" />
 
-Dla naszego skrawka kodu AST może wyglądać w taki sposób (uproszczone):
+Dla naszego skrawka kodu AST może wyglądać w taki sposób (uproszczone, format: JSON):
 
 ```json
 {
@@ -95,9 +95,11 @@ Dla naszego skrawka kodu AST może wyglądać w taki sposób (uproszczone):
 }
 ```
 
+<Newsletter />
+
 ## Transformacja
 
-W tym etapie dostajemy wcześniej przygotwany AST i możemy z nim robić co tylko chcemy! Jak mogłeś zauważyć, drzewo zbudowane jest z podobnych do siebie obiektów zwanymi `AST codes`:
+W tym etapie dostajemy wcześniej przygotowany AST i możemy z nim robić co tylko chcemy! Jak mogłeś zauważyć, drzewo zbudowane jest z podobnych do siebie obiektów zwanymi _AST nodes_:
 
 Node dla `VariableDeclaration`:
 
@@ -130,11 +132,11 @@ Spróbujmy stworzyć mechanizm, który zamieni nasz współczesny kod, w polską
 }
 ```
 
-Jeśli chcesz wypróbować ten mechanizm transformacji to zdecyodwanie warto spojrzeć na [AST Explorer](https://astexplorer.net/).
+Chcesz wypróbować ten mechanizm transformacji? Sprawdź [AST Explorer](https://astexplorer.net/) ⚙️
 
 ## Generacja
 
-Ostatni z procesów, bierzemy przetransformowane drzewo AST i z powrotem zmieniamy jest w ciąg znaków. Kompilator będzie przechodził przez wszystkie `AST nodes` dopóki `const message = "Hello world!"` nie zamieni się w piękne `var wiadomość = "Witaj świecie!"`.
+Ostatni z procesów, bierzemy przetransformowane drzewo AST i z powrotem zmieniamy jest w ciąg znaków. Kompilator będzie przechodził przez wszystkie _AST nodes_ dopóki `const message = "Hello world!"` nie zamieni się w piękne `var wiadomość = "Witaj świecie!"`.
 
 <Image src="/images/kompilatory/generacja-kodu.png" alt="" />
 

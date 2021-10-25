@@ -17,7 +17,7 @@ export const Author = () => {
       </div>
       <div className={styles.content}>
         <p className={styles.text}>
-          Olaf jest Frontend Developerem, blogerem i nosi śmieszny kapelusz 🎩 Pisze o wszystkim co
+          Olaf jest Frontend Developerem, blogerem i nosi rybacki kapelusz 🎩 Pisze o wszystkim co
           związane z frontendem, ale nie boi się backendu i designów 🦾 Ma głowę pełną pomysłów i
           nadzieję, że znajdziesz tutaj coś dla siebie!
         </p>

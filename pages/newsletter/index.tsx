@@ -9,6 +9,7 @@ const description = `O nie, tylko nie kolejny branżowy newsletter, jestem już 
             newsletterze nie uświadczysz żadnego bullshitu. Od czasu do czasu będę podsyłał Ci kilka
             przydatnych linków + aktualizację z tego bloga`;
 const url = 'https://frontlive.pl/newsletter';
+const imageThumbnail = '/images/newsletter.png';
 
 const NewsletterPage = () => {
   return (
@@ -21,6 +22,14 @@ const NewsletterPage = () => {
           url,
           title,
           description,
+          images: [
+            {
+              url: imageThumbnail,
+              alt: title,
+              width: 1200,
+              height: 628,
+            },
+          ],
         }}
       />
       <Layout>
