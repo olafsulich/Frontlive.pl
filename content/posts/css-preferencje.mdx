@@ -136,6 +136,11 @@ Oczywiście takie rozwiązanie nie jest idealne... Często obrazki w tweetach s�
 Innym, bardziej uniwersalnym przypadkiem, może być **ładowanie fontów**. Często na swoje strony ładujemy wiele różnych, customowych fontów. Dla użytkowników, którzy chcą zużywać jak najmniej danych, dobrą opcją będzie zastąpienie niestandardowych, tymi systemowymi:
 
 ```css
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
 @media (prefers-reduced-data: no-preference) {
   @font-face {
     font-family: LeagueMono;
@@ -148,11 +153,6 @@ Innym, bardziej uniwersalnym przypadkiem, może być **ładowanie fontów**. Cz�
   body {
     font-family: 'LeagueMono';
   }
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 ```
 
