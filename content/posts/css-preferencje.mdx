@@ -12,7 +12,7 @@ Słuchaj swoich użytkowników. Ta porada jest jedną z najważniejszych, jeśl
 
 ## Ograniczenia ruchu
 
-Animacje, bo o nich mowa, najcześciej nie są niczym złym - często poprawiają wrażenia z korzystania z naszej strony. No ale jak to już bywa w programowaniu, nic nie jest czarno-białe. Niektórzy użytkownicy nie chcą, bądź **nie mogą** patrzeć na np. szybko poruszające się elementy na stronie. Tacy użytkownicy często borykają się z niepełnosprawnościami poznawczymi...
+Animacje, bo o nich mowa, najczęściej nie są niczym złym - często poprawiają wrażenia z korzystania z naszej strony. No ale jak to już bywa w programowaniu, nic nie jest czarno-białe. Niektórzy użytkownicy nie chcą bądź **nie mogą** patrzeć np. na szybko poruszające się elementy na stronie. Tacy użytkownicy często borykają się z niepełnosprawnościami poznawczymi...
 
 <Image
   src="/images/css-preferencje/ja-lubie-wolmo.png"
@@ -21,7 +21,7 @@ Animacje, bo o nich mowa, najcześciej nie są niczym złym - często poprawiaj�
 
 Na szczęście jest na to sposób! Możemy skorzystać z preferencji ograniczenia ruchu i oszczędzić bólu głowy naszym użytkownikom. Jak to działa? Użytkownik włącza w systemie operacyjnym opcje redukowania ruchu, a my wykrywamy to z pomocą specjalnych _media queries_.
 
-W `@prefers-reduced-motion` możemy rozróżnić dwa stany - `no-preference` i `reduce`. Załóżmy, że na naszej stronie chcemy mieć box, który będzie się obracał w konkrenty sposób przez półtorej sekundy:
+W `@prefers-reduced-motion` możemy rozróżnić dwa stany - `no-preference` i `reduce`. Załóżmy, że na naszej stronie chcemy mieć box, który będzie się obracał w konkretny sposób przez półtorej sekundy:
 
 ```css
 @keyframes spin {
@@ -48,9 +48,9 @@ Aby usunąć animacje, gdy ograniczenia ruchu będą ustawione na `reduce`, wyst
 }
 ```
 
-Warto pamiętać, że `@prefers-reduced-motion` nie ograniczenia nas w żadnym stopniu. Nie musimy również kasować całej animacji, możemy ją tylko **zredukować**, o ile i w jaki sposób, to już zależy od konkrentego przypadku.
+Warto pamiętać, że `@prefers-reduced-motion` nie ogranicza nas w żadnym stopniu. Nie musimy również kasować całej animacji, możemy ją tylko **zredukować**, o ile i w jaki sposób, to już zależy od konkretnego przypadku.
 
-Kolejnym praktycznym zastosowaniem dla tego media query może być odtwarzanie filmu. Jak może wiesz, _autoplay_ nie jest uznawany za dobrą praktykę jeśli chodzi o video. Niestety czasem "nie mamy wyboru" i musimy umieścić film na stronie, który będzie autoodtwarzany, najczęściej w formie jakiegoś tła.
+Kolejnym praktycznym zastosowaniem dla tego media query może być odtwarzanie filmu. Jak może wiesz, _autoplay_ nie jest uznawany za dobrą praktykę, jeśli chodzi o video. Niestety czasem "nie mamy wyboru" i musimy umieścić film na stronie, który będzie autoodtwarzany, najczęściej w formie jakiegoś tła.
 
 <Image
   src="/images/css-preferencje/autoplay.png"
@@ -61,7 +61,7 @@ Kolejnym praktycznym zastosowaniem dla tego media query może być odtwarzanie f
 <video src="..." type="video/mp4" controls />
 ```
 
-Chcemy aby nasz film odtwarzał się automatycznie, jeśli wartość `@prefers-reduced-motion` w systemie jest ustawiona na `no-preference`. Jeśli użytkownik będzie chciał mieć zredukowany ruch, zatrzymamy autoodtwarzanie. Jak to ogarnąć? Wystarczy nam kilka linijek w JS:
+Chcemy, aby nasz film odtwarzał się automatycznie, jeśli wartość `@prefers-reduced-motion` w systemie jest ustawiona na `no-preference`. Jeśli użytkownik będzie chciał mieć zredukowany ruch, zatrzymamy autoodtwarzanie. Jak to ogarnąć? Wystarczy nam kilka linijek w JS:
 
 ```js
 const video = document.querySelector('video');
@@ -86,7 +86,7 @@ Na pewno znane Ci _dark_ i _light_ themes oraz odwieczna wojna użytkowników i 
 
 <Image src="/images/css-preferencje/dark-and-white-theme.png" alt="" />
 
-Którą strone obrać? _Jeśli mam wybierać między złem a złem..._ Najlepiej nie wybierać wcale i przygotować dwie wersje tak, aby każdy był zadwolony. Dzięki `@prefers-color-scheme` mamy możliwość wykrycia preferowanego motywu w systemie:
+Którą stronę obrać? _Jeśli mam wybierać między złem a złem..._ Najlepiej nie wybierać wcale i przygotować dwie wersje tak, aby każdy był zadowolony. Dzięki `@prefers-color-scheme` mamy możliwość wykrycia preferowanego motywu w systemie:
 
 ```css
 :root {
@@ -189,7 +189,7 @@ Jak to się ma do naszych preferencji kontrastu? Dzięki `@prefers-contrast` mo�
 }
 ```
 
-Preferencje kontrastu to nie tylko kolory! Zamiast zmieniać ich poziom, możemy dostować inne elemnty UI, taki jak np. _border_, aby były bardziej wyraziste:
+Preferencje kontrastu to nie tylko kolory! Zamiast zmieniać ich poziom, możemy dostosować inne elemnty UI, taki jak np. _border_, aby były bardziej wyraziste:
 
 ```css
 .box {
@@ -207,7 +207,7 @@ Preferencje kontrastu to nie tylko kolory! Zamiast zmieniać ich poziom, możem
 
 ## Zredukowana transparentość
 
-Last but not least - czyli preferencje dotyczące transparentości. Dzięki `@prefers-reduced-transparency` możemy wskazać w jakim stopniu dany element UI będzie transparenty:
+Last but not least - czyli preferencje dotyczące transparentności. Dzięki `@prefers-reduced-transparency` możemy wskazać, w jakim stopniu dany element UI będzie transparenty:
 
 ```css
 .box {
@@ -226,7 +226,7 @@ Last but not least - czyli preferencje dotyczące transparentości. Dzięki `@pr
 
 ## Podsumowanie
 
-To by było na tyle jeśli chodzi o preferencje użytkownika w CSS 😎 Według mnie najważniejszą z nich jest ta pierwsza, ograniczenia ruchu to coś, co powinieneś mieć na swojej stronie jeśli korzystasz z animacji!
+To by było na tyle, jeśli chodzi o preferencje użytkownika w CSS 😎 Według mnie najważniejszą z nich jest ta pierwsza, ograniczenia ruchu to coś, co powinieneś mieć na swojej stronie, jeśli korzystasz z animacji!
 
 Celowo pominąłem jedną preferencje - [forced-colors](https://drafts.csswg.org/mediaqueries-5/#forced-colors). Jest ona według mnie tak abstrakcyjna, że nie znalazłem żadnego sensownego wytłumaczenia na jej użycie 🙄 Jeśli przychodzi Ci jakieś do głowy, to koniecznie daj znać.
 
