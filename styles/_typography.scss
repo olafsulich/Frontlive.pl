@@ -68,6 +68,14 @@ code {
 
 html {
   font-size: 62.5%;
+
+  @include mediaquery('lg') {
+    font-size: 55%;
+  }
+
+  @include mediaquery('xxl') {
+    font-size: 62.5%;
+  }
 }
 
 // html,

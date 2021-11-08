@@ -27,8 +27,8 @@ type MdxProps = {
 };
 
 export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
-  const { title } = frontmatter;
-  
+  const { title, image } = frontmatter;
+
   return (
     <article className={styles.wrapper}>
       <header className={styles.header} id="main">
@@ -46,6 +46,9 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
         >
           {title}
         </Heading>
+        <div className={styles.image}>
+          <Image width={1200} height={628} src={image} alt="" />
+        </div>
         <Info frontmatter={frontmatter} />
       </header>
       <div className={cn(styles.content, 'content')}>

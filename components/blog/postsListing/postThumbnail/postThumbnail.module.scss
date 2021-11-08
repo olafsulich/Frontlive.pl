@@ -16,6 +16,7 @@
   justify-content: flex-start;
   flex-direction: column;
   text-decoration: none;
+  transition: all 0.3s;
   --line-height: 2.8rem;
 
   @include mediaquery('xl') {
@@ -25,6 +26,7 @@
   &:hover,
   &:focus {
     .heading {
+      transition: all 0.3s;
       color: var(--blue-300);
     }
     .icon {

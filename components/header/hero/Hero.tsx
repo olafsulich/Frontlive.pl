@@ -5,15 +5,16 @@ import cn from 'classnames';
 export const Hero = () => {
   return (
     <div className={styles.container}>
-      <Image
-        src="/images/olaf-head.png"
-        alt="Olaf Sulich"
-        width="502"
-        height="414"
-        className={styles.heroImage}
-        quality={100}
-        priority
-      />
+      <div className={styles.heroImage}>
+        <Image
+          src="/images/olaf-head.png"
+          alt="Olaf Sulich"
+          width="502"
+          height="414"
+          quality={100}
+          priority
+        />
+      </div>
       <h1 className="visually-hidden">Olaf Sulich</h1>
       <span aria-hidden="true" className={cn(styles.name, styles.namePrimary)}>
         Olaf

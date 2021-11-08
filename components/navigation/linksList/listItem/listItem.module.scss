@@ -27,9 +27,35 @@
 .link {
   font-size: 2.4rem;
   font-weight: 500;
-  color: var(--white);
   text-decoration: none;
   position: relative;
+  color: #fff;
+  transition: all 0.3s;
+  position: relative;
+
+  &::after {
+    content: '';
+    height: 2px;
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+    transform-origin: left;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    display: none;
+    position: absolute;
+    background-color: #bdddff;
+
+    @media (hover: hover) {
+      display: block;
+    }
+  }
+
+  &:hover {
+    &::after {
+      transform: scaleX(100%);
+    }
+  }
 
   @include mediaquery('sm') {
     font-size: 2.6rem;

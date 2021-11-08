@@ -1,0 +1,238 @@
+---
+title: 'Preferencje użytkownika a CSS, na co warto zwracać uwagę?'
+category: 'CSS'
+publishedAt: '08-11-2021'
+isPublished: true
+popular: true
+image: '/images/css-preferencje/thumbnail.png'
+excerpt: 'Słuchaj swoich użytkowników. Ta porada jest jedną z najważniejszych, jeśli chcemy usprawnić User Experience naszej aplikacji...'
+---
+
+Słuchaj swoich użytkowników. Ta porada jest jedną z najważniejszych, jeśli chcemy usprawnić User Experience naszej aplikacji. Jak przez pryzmat preferencji użytkownika dostosowywać swoje produkty korzystając z nowoczesnych media queries?
+
+## Ograniczenia ruchu
+
+Animacje, bo o nich mowa, najcześciej nie są niczym złym - często poprawiają wrażenia z korzystania z naszej strony. No ale jak to już bywa w programowaniu, nic nie jest czarno-białe. Niektórzy użytkownicy nie chcą, bądź **nie mogą** patrzeć na np. szybko poruszające się elementy na stronie. Tacy użytkownicy często borykają się z niepełnosprawnościami poznawczymi...
+
+<Image
+  src="/images/css-preferencje/ja-lubie-wolmo.png"
+  alt="Kuce z bronksu - ja lubie szypko, a ja lubie wolmo"
+/>
+
+Na szczęście jest na to sposób! Możemy skorzystać z preferencji ograniczenia ruchu i oszczędzić bólu głowy naszym użytkownikom. Jak to działa? Użytkownik włącza w systemie operacyjnym opcje redukowania ruchu, a my wykrywamy to z pomocą specjalnych _media queries_.
+
+W `@prefers-reduced-motion` możemy rozróżnić dwa stany - `no-preference` i `reduce`. Załóżmy, że na naszej stronie chcemy mieć box, który będzie się obracał w konkrenty sposób przez półtorej sekundy:
+
+```css
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.box {
+  animation: spin 1.5s linear infinite both;
+}
+```
+
+Aby usunąć animacje, gdy ograniczenia ruchu będą ustawione na `reduce`, wystarczy zrobić:
+
+```css
+@media screen and (prefers-reduced-motion: reduce) {
+  .box {
+    animation: none;
+  }
+}
+```
+
+Warto pamiętać, że `@prefers-reduced-motion` nie ograniczenia nas w żadnym stopniu. Nie musimy również kasować całej animacji, możemy ją tylko **zredukować**, o ile i w jaki sposób, to już zależy od konkrentego przypadku.
+
+Kolejnym praktycznym zastosowaniem dla tego media query może być odtwarzanie filmu. Jak może wiesz, _autoplay_ nie jest uznawany za dobrą praktykę jeśli chodzi o video. Niestety czasem "nie mamy wyboru" i musimy umieścić film na stronie, który będzie autoodtwarzany, najczęściej w formie jakiegoś tła.
+
+<Image
+  src="/images/css-preferencje/autoplay.png"
+  alt="Porównanie wyglądu odtwarzacza wideo z i bez ograniczeń ruchu"
+/>
+
+```html
+<video src="..." type="video/mp4" controls />
+```
+
+Chcemy aby nasz film odtwarzał się automatycznie, jeśli wartość `@prefers-reduced-motion` w systemie jest ustawiona na `no-preference`. Jeśli użytkownik będzie chciał mieć zredukowany ruch, zatrzymamy autoodtwarzanie. Jak to ogarnąć? Wystarczy nam kilka linijek w JS:
+
+```js
+const video = document.querySelector('video');
+
+// Sprawdzamy, czy ruch jest zredukowany
+const isReducedMotionEnabled = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (isReduceMotionEnabled) {
+  // Jeśli tak, wywalamy atrybut autoplay
+  video.setAttribute('autoplay', false);
+} else {
+  // Jeśli nie, ustawiamy odtwarzanie na automatyczne
+  video.setAttribute('autoplay', true);
+}
+```
+
+<Newsletter />
+
+## Preferencje motywu
+
+Na pewno znane Ci _dark_ i _light_ themes oraz odwieczna wojna użytkowników i programistów o to, który z nich jest lepszy w przeglądarce, na stronie internetowej, a który w IDE...
+
+<Image src="/images/css-preferencje/dark-and-white-theme.png" alt="" />
+
+Którą strone obrać? _Jeśli mam wybierać między złem a złem..._ Najlepiej nie wybierać wcale i przygotować dwie wersje tak, aby każdy był zadwolony. Dzięki `@prefers-color-scheme` mamy możliwość wykrycia preferowanego motywu w systemie:
+
+```css
+:root {
+  --color-background: #ffffff;
+  --color-text: #000000;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #000000;
+    --color-text: #ffffff;
+  }
+}
+```
+
+Do wyboru mamy opcje `dark` i `light`. Przy obsłudze więcej niż jednego motywu (i nie tylko) Twoim najlepszym przyjacielem będą **CSS Variables**. Jeśli jeszcze o nich nie słyszałeś, to sprawdź koniecznie [mój artykuł na ten temat.](https://frontlive.pl/blog/css-variables)
+
+## Redukowanie danych
+
+Chociaż ciężko w to uwierzyć, ale w 2021 roku, niektórzy użytkownicy internetu, mogą nie mieć szybkiego łącza internetowego lub mają ściśle określony transfer do wykorzystania. Takie osoby mogą chcieć zredukować ilość pobieranych danych ze względu na oszczędność ich zasobów. Z pomocą przychodzi `@prefers-reduced-data`.
+
+Weźmy za przykład twitterowy post, normalnie, poza samą treścią, wyświetlane jest jeszcze zdjęcie profilowe użytkownika oraz u niektórych etykieta zweryfikowanego usera.
+
+<Image src="/images/css-preferencje/tweet.png" alt="" />
+
+W naszym przypadku, gdy użytkownik ustawi wartość media query na `reduce`, chcielibyśmy wyświetlać tylko najważniejsze informacje, czyli autora i treść posta, bez zbędnych zdjęć, tak aby ograniczyć transfer do minimum.
+
+```css
+.avatar {
+}
+.approved-icon {
+}
+.code-snippet {
+}
+
+@media screen and (prefers-reduced-data: reduce) {
+  .avatar,
+  .approved-icon,
+  .code-snippet {
+    display: none;
+  }
+}
+```
+
+Oczywiście takie rozwiązanie nie jest idealne... Często obrazki w tweetach są niezbędne do zrozumienia przekazu całego posta, więc fajnie by było wrzucić tutaj chociażby tekst alternatywny.
+
+Innym, bardziej uniwersalnym przypadkiem, może być **ładowanie fontów**. Często na swoje strony ładujemy wiele różnych, customowych fontów. Dla użytkowników, którzy chcą zużywać jak najmniej danych, dobrą opcją będzie zastąpienie niestandardowych, tymi systemowymi:
+
+```css
+@font-face {
+  font-family: LeagueMono;
+  src: url('/fonts/LeagueMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'LeagueMono';
+}
+
+@media (prefers-reduced-data: reduce) {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  }
+}
+```
+
+> `@prefers-reduced-data` jest obecnie w bardzo wczesnej fazie rozwoju, wsparcie dla tej media query możesz śledzić na [Can I Use](https://caniuse.com/?search=prefers-reduced-data).
+
+### Ustawienia kontrastu
+
+Minimalny kontrast pomiędzy tekstem a tłem określa standard WCAG 2.0, jest on podzielony na dwa poziomy:
+
+- **AA** - dla normalnego tekstu kontrast powinien wynosić przynajmniej 4.5:1
+- **AAA** - dla normalnego tekstu kontrast powinien wynosić przynajmniej 7:1
+
+Jak to się ma do naszych preferencji kontrastu? Dzięki `@prefers-contrast` możemy wykryć, że użytkownik potrzebuje więcej kontrastu i na bazie tego podbić kontrast z poziomu `AA` do `AAA`:
+
+```css
+/* Kontrast 4.59:1, poziom AA */
+.box {
+  background-color: #ffffff;
+}
+
+.text {
+  color: #387e94;
+}
+
+/* Kontrast 21:1, poziom AAA */
+@media (prefers-contrast: more) {
+  .box {
+    background-color: #000000;
+  }
+
+  .text {
+    color: #ffffff;
+  }
+}
+```
+
+Preferencje kontrastu to nie tylko kolory! Zamiast zmieniać ich poziom, możemy dostować inne elemnty UI, taki jak np. _border_, aby były bardziej wyraziste:
+
+```css
+.box {
+  outline: 2px dashed black;
+}
+
+@media (prefers-contrast: more) {
+  .box {
+    outline: 2px solid black;
+  }
+}
+```
+
+> `@prefers-contrast` jest obecnie w bardzo wczesnej fazie rozwoju, wsparcie dla tej media query możesz śledzić na [Can I Use](https://caniuse.com/?search=prefers-contrast).
+
+## Zredukowana transparentość
+
+Last but not least - czyli preferencje dotyczące transparentości. Dzięki `@prefers-reduced-transparency` możemy wskazać w jakim stopniu dany element UI będzie transparenty:
+
+```css
+.box {
+  background: #000000;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .box {
+    opacity: 1;
+  }
+}
+```
+
+> `@prefers-reduced-transparency` jest obecnie w bardzo wczesnej fazie rozwoju, wsparcie dla tej media query możesz śledzić na [Can I Use](https://caniuse.com/?search=prefers-reduced-transparency).
+
+## Podsumowanie
+
+To by było na tyle jeśli chodzi o preferencje użytkownika w CSS 😎 Według mnie najważniejszą z nich jest ta pierwsza, ograniczenia ruchu to coś, co powinieneś mieć na swojej stronie jeśli korzystasz z animacji!
+
+Celowo pominąłem jedną preferencje - [forced-colors](https://drafts.csswg.org/mediaqueries-5/#forced-colors). Jest ona według mnie tak abstrakcyjna, że nie znalazłem żadnego sensownego wytłumaczenia na jej użycie 🙄 Jeśli przychodzi Ci jakieś do głowy, to koniecznie daj znać.
+
+Do usłyszenia!
+
+### Źródła
+
+- [CSS Spec](https://drafts.csswg.org/mediaqueries-5/#mf-user-preferences)
+- [MDN](https://developer.mozilla.org/en-US/)
