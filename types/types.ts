@@ -29,7 +29,7 @@ export type Post = {
   publishedAt: string;
   popular: boolean;
   isPublished: boolean;
-  imageOpenGraph: string;
+  image: string;
 };
 
 export type GistWithoutContent = {

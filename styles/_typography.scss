@@ -73,6 +73,10 @@ html {
     font-size: 55%;
   }
 
+  @include mediaquery('xl') {
+    font-size: 58%;
+  }
+
   @include mediaquery('xxl') {
     font-size: 62.5%;
   }

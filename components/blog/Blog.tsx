@@ -5,6 +5,7 @@ import { Heading } from '../shared/components/heading/Heading';
 import type { Category, Post } from '../../types/types';
 import styles from './blog.module.scss';
 import { CategoriesList } from '../category/categoriesList/CategoriesList';
+import { Featured } from './featured/Featured';
 
 type BlogProps = {
   readonly posts: Post[];

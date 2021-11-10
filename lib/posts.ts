@@ -41,7 +41,7 @@ export const getAllPosts = () => {
 
 export const getNewestPosts = () => {
   const posts = getAllPosts();
-  return posts.slice(0, 3);
+  return posts.slice(0, 4);
 };
 
 export const getPostsByCategory = (postCategory: string) => {

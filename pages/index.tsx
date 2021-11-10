@@ -13,6 +13,7 @@ import { Footer } from '../components/footer/Footer';
 import { getNewestPosts } from '../lib/posts';
 import { NextSeo } from 'next-seo';
 import { categoriesArr } from '../data/categories';
+import { Featured } from '../components/blog/featured/Featured';
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();
@@ -32,7 +33,7 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
       <Layout>
         <Header>
           <Navigation />
-        </Header>
+        </Header>{' '}
         <Grid>
           <Grid.Item>
             <Heading tag="h2" variant="tertiary">

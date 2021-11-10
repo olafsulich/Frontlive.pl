@@ -3,7 +3,7 @@
 .container {
   margin-top: 6rem;
   width: 100%;
-  margin-bottom: 8rem;
+  margin-bottom: 20rem;
 }
 
 .wrapper {
@@ -97,7 +97,7 @@
 }
 
 .newsletter {
-  @include mediaquery('lg') {
+  @include mediaquery('xl') {
     transform: translateY(-20rem);
   }
 }
