@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { SocialLinks } from './socialLinks/SocialLinks';
 import styles from './author.module.scss';
+import SmileIcon from '../../public/icons/smile-face.svg';
 
 export const Author = () => {
   return (
@@ -19,7 +20,7 @@ export const Author = () => {
         <p className={styles.text}>
           Olaf jest Frontend Developerem, blogerem i nosi rybacki kapelusz 🎩 Pisze o wszystkim co
           związane z frontendem, ale nie boi się backendu i designów 🦾 Ma głowę pełną pomysłów i
-          nadzieję, że znajdziesz tutaj coś dla siebie!
+          nadzieję, że znajdziesz tutaj coś dla siebie! <SmileIcon className={styles.smile} />
         </p>
         <SocialLinks />
       </div>

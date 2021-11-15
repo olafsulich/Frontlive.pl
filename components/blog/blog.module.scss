@@ -38,18 +38,21 @@
   grid-template-columns: 1fr;
   grid-gap: 4rem;
   transform: translateY(-1rem);
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
 
   @include mediaquery('lg') {
     grid-gap: 6rem;
-    grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   }
 
-  @include mediaquery('xl') {
-    grid-gap: 10rem;
-    grid-template-columns: repeat(auto-fill, minmax(50rem, 1fr));
-  }
+  //   @include mediaquery('xl') {
+  //     grid-gap: 10rem;
+  //     grid-template-columns: repeat(auto-fill, minmax(50rem, 1fr));
+  //   }
 
-  @include mediaquery('xl') {
-    grid-template-columns: repeat(auto-fill, minmax(60rem, 1fr));
-  }
+  //   @include mediaquery('xl') {
+  //     grid-template-columns: repeat(auto-fill, minmax(60rem, 1fr));
+  //   }
 }

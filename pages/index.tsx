@@ -13,7 +13,9 @@ import { Footer } from '../components/footer/Footer';
 import { getNewestPosts } from '../lib/posts';
 import { NextSeo } from 'next-seo';
 import { categoriesArr } from '../data/categories';
-import { Featured } from '../components/blog/featured/Featured';
+import { FeaturedPost } from '../components/blog/postsListing/featuredPost/FeaturedPost';
+import { ArrowRow } from '../components/shared/components/arrowRow/ArrowRow';
+import { Newsletter } from '../components/shared/components/newsletter/Newsletter';
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();
@@ -27,6 +29,8 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default function Index({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { title, excerpt, category, image, slug, timeToRead } = posts[0];
+  const [, ...postsWithoutFirst] = posts;
   return (
     <>
       <NextSeo />
@@ -34,28 +38,26 @@ export default function Index({ posts }: InferGetStaticPropsType<typeof getStati
         <Header>
           <Navigation />
         </Header>{' '}
-        <Grid>
-          <Grid.Item>
-            <Heading tag="h2" variant="tertiary">
-              Najnowsze
-            </Heading>
-            <PostsListing posts={posts} />
-          </Grid.Item>
-          <Grid.Item tag="div">
-            <Grid.Item>
-              <Heading tag="h2" variant="tertiary">
-                Kategorie
-              </Heading>
-              <CategoriesList categories={categoriesArr} />
-            </Grid.Item>
-            <Grid.Item>
-              <Heading tag="h2" variant="tertiary">
-                Newsletter
-              </Heading>
-              <NewsletterForm />
-            </Grid.Item>
-          </Grid.Item>
-        </Grid>
+        <main id="main" className="mainWrapper">
+          <Heading className="visually-hidden" tag="h2" variant="tertiary">
+            Najnowsze
+          </Heading>
+          <FeaturedPost
+            key={title}
+            path={`/blog/${slug}`}
+            heading={title}
+            excerpt={excerpt}
+            category={category}
+            image={image}
+            timeToRead={timeToRead}
+          />
+          <Grid>
+            <PostsListing posts={postsWithoutFirst} />
+          </Grid>
+          <ArrowRow position="right" />
+          <Newsletter />
+          <ArrowRow position="left" />
+        </main>
       </Layout>
     </>
   );

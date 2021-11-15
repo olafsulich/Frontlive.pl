@@ -6,7 +6,7 @@ import { SkipLink } from './skipLink/SkipLink';
 import WaveLine from '../../public/icons/wave-line.svg';
 import Wave from '../../public/icons/wave-3.svg';
 
-export const Navigation = ({ withWaveLine }: { withWaveLine: boolean }) => {
+export const Navigation = ({ withWaveLine }: { withWaveLine?: boolean }) => {
   return (
     <nav className={styles.wrapper}>
       <Wave className={styles.wave} />

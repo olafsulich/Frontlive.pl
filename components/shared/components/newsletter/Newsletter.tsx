@@ -1,11 +1,13 @@
 import styles from './newsletter.module.scss';
 import { NewsletterForm } from './newsletterForm/NewsletterForm';
 import Image from 'next/image';
+import Decoration from '../../../../public/icons/decoration-1.svg';
 
 export const Newsletter = () => {
   return (
     <article className={styles.wrapper}>
-      <h2 className="visually-hidden">Newsletter</h2>
+      <Decoration className={styles.decoration} />
+      <h2 className={styles.heading}>Newsletter dla Frontend Developerów 📮</h2>
       <div className={styles.image}>
         <Image src="/images/olaf-love.png" alt="" width={288} height={293} quality={100} />
       </div>

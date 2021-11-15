@@ -2,42 +2,47 @@
 title: 'React & TypeScript - komponenty generyczne'
 category: 'React'
 publishedAt: '15-11-2021'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/react-typescript-komponenty-generyczne/thumbnail.png'
-excerpt: 'Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricky i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?'
+excerpt: 'Czy połączenie TypeScript & React musi się ograniczać do typowania propsów? Oczywiście, że nie! W samym TS istnieje wiele bardziej zaawansowanych mechanizmów, które możemy przekuć do naszych aplikacji Reactowych...'
 ---
 
-## Funkcje generyczne w TypeScript
+Czy połączenie TypeScript & React musi się ograniczać do typowania propsów? Oczywiście, że nie! W samym TS istnieje wiele bardziej zaawansowanych mechanizmów, które możemy przekuć do naszych aplikacji Reactowych. Jednym z nich są funkcje generyczne. Jak dzięki nim możemy budować w pełni otypowane, dynamiczne komponenty w React?
 
-```ts
-function generic<T>(arg: T): T {
-  return arg;
-}
+Zanim zaczniemy, jeśli jeszcze nie jesteś zaznajomiony z tematem typów i funkcji generycznych, to zapraszam Cię do sprawdzenia [mojego osobnego artykułu na ten temat](https://frontlive.pl/blog/typescript-klasy) - ta wiedza będzie niezbędna do zrozumienia komponentów generycznych w React.
+
+## Generyczne komponenty
+
+Skoro w TypeScripcie mamy możliwość pisania funkcji generycznych, a w React komponenty to _tylko_ funkcje, to nic nie stoi nam na przeszkodzie, żeby stworzyć generyczny komponent, zobacz jak to wygląda:
+
+```tsx
+type GenericComponentProps<T> = {
+  prop1: T;
+  prop2: Array<T>;
+};
+
+function GenericComponent<T>({ prop1, prop2 }: GenericComponentProps<T>) {}
 ```
 
-```ts
-interface User {
-  age: number;
-}
+Deklarujemy tutaj generyczny typ `GenericComponentProps<T>`, który posłuży nam do otypowania propsów, a mówiąc bardziej po TypeScriptowemu, po prostu parametrów funkcji. Wszystko fajnie, tylko właściwie po co mielibyśmy to robić? Komponenty generyczne sprawdzą się świetnie w takich dwóch podstawowych przypadkach:
 
-function combineUserInfo<T extends object, U extends User[]>(a: T, b: U) {
-  return { ...a, ...b };
-}
+1. Gdy chcemy, aby nasz **komponent był elastyczny**, jeśli chodzi o typy. Nie nadajemy wtedy sztywnego typu dla np. tablicy elementów, ale przypisujemy jej dynamiczny, generyczny typ.
+2. Gdy chcemy, aby nasze **propsy były ze sobą powiązane**. Dokładnie tak robimy w tym przypadku, `prop1` dostaje typ `T`, a `prop2`, jest po prostu tablicą elementów o typie `T`.
 
-combineUserInfo({ name: 'Bob' }, [{ age: 23 }]);
+Wiemy już czym są, kiedy powinniśmy z nich korzystać i w jaki sposób to robić, przejdź więc do bardziej praktycznego przykładu...
+
+Założenia: chcemy stworzyć komponent tabelki, który będzie przyjmował dane oraz kolumny. Propsy mają być dynamiczne, chociaż w pewien sposób ograniczone i zależne od siebie.
+
+Tworzymy komponent `Table`, tym razem przyjmuje on dwa typy zamiast jednego. Temu drugiemu nadajemy ograniczenia, korzystając ze specjalnego słówka `extends`, parametr `Key` może być tylko kluczem `Row`. Następnie przekazujemy typy do tajemniczego `TableProps`, a w JSX renderujemy tabelę:
+
+```tsx
+const Table = <Row, Key extends keyof Row>({ data, columns }: TableProps<Row, Key>) => (
+  <table>{renderTable(data, columns)}</table>
+);
 ```
 
-```ts
-function getUserKey<T extends object>(obj: T, key: keyof T) {
-  return obj[key];
-}
-
-const user = { userName: 'Maciej', age: 22 };
-
-getUserKey(user, 'userName'); // wszystko ok
-getUserKey(user, 'location'); // error: Argument o typie "location" nie jest przypisywalny do  'userName' lub "age"
-```
+Wewnątrz `TableProps` deklarujemy typy dla `data`, `columns` i funkcji `renderTable`. Wszystkie te propsy korzystają z generycznych parametrów i są powiązane ze sobą:
 
 ```tsx
 type Column<Row, Key extends keyof Row> = {
@@ -48,29 +53,121 @@ type Column<Row, Key extends keyof Row> = {
 type TableProps<Row, Key extends keyof Row> = {
   data: Array<Row>;
   columns: Array<Column<Row, Key>>;
+  renderTable: (row: Row, column: Column<Row, Key>) => React.ReactNode;
 };
 
-const Table = <Row, Key extends keyof Row>({ data, columns }: TableProps<Row, Key>) => {};
+const Table = <Row, Key extends keyof Row>({ data, columns }: TableProps<Row, Key>) => (
+  <table>{renderTable(data, columns)}</table>
+);
 ```
 
+Zostało nam tylko wywołanie komponentu, ale zanim to zrobimy, zamodelujmy dane:
+
 ```tsx
-type Option<Value extends string> = {
+type Column<Row, Key extends keyof Row> = {
+  key: Key;
+  header: string;
+};
+
+type Character = Readonly<{
+  id: number;
+  name: string;
+  status: 'Dead' | 'Alive';
+  species: string;
+}>;
+
+const characters: Character[] = [
+  {
+    id: 1,
+    name: 'Rick Sanchez',
+    species: 'Human',
+    status: 'Alive',
+  },
+  {
+    id: 2,
+    name: 'Morty Smith',
+    species: 'Human',
+    status: 'Alive',
+  },
+  {
+    id: 4,
+    name: 'Alexander',
+    species: 'Human',
+    status: 'Dead',
+  },
+];
+
+const columns: Column<Character, keyof Character>[] = [
+  {
+    key: 'id',
+    header: 'Id',
+  },
+  {
+    key: 'name',
+    header: 'Name',
+  },
+  {
+    key: 'species',
+    header: 'Species',
+  },
+  {
+    key: 'status',
+    header: 'Status',
+  },
+];
+```
+
+Nadałem typ `Column<Row,Key>` dla danych `columns`, żeby zaprezentować Ci jak będzie działał nasz komponent. Gdybyśmy teraz spróbowali podać `key`, który nie jest kluczem obiektu `Character`, dostalibyśmy błąd i dokładnie o to nam chodziło! Najlepsze jest to, że podczas wywołania komponentu, nie musimy nic więcej robić niż zwykle:
+
+```tsx
+const App = () => <Table data={characters} columns={columns} renderTable={...} />;
+```
+
+<Newsletter />
+
+## Generyczne wyrażenie funkcyjne
+
+Kolejnym fajnym przykładem użycia komponentów generycznych jest `Select`, tutaj podobnie jak poprzednio propsy są pewien sposób dynamiczne i zależne od siebie:
+
+```tsx
+type Option<Value> = {
   value: Value;
   name: string;
 };
 
-type SelectProps<Value extends string> = {
+type SelectProps<Value> = {
   options: Array<Option<Value>>;
   value: Value;
-  handleChange: (value: Value) => void;
 };
 
-const Select = <Value extends string>({ options, value, handleChange }: SelectProps<Value>) => {};
+const Select = <Value>({ options, value }: SelectProps<Value>) => {}; // Błąd!
 ```
+
+Tylko jest jeden mały problem. TypeScript, przy generycznych wyrażeniach funkcyjnych (komponenty pisane z `const`), nie rozumie, że chcemy zadeklarować tam generyka i rzuca błędami. Błąd występuje tylko, gdy żaden z naszych parametrów nie jest ograniczany. Jak to naprawić:
+
+1. Zamienić sposób zapisu z `const` na `function`
+2. Ograniczyć typ o `unknown` - `const Select = <Value extends unknown>() => {}`
+3. Wprowadzić przecinek po parametrze - `const Select = <Value, >() => {}`
+
+## Generyki z React.memo()
+
+Kolejnym problemem, który wiąże się z generycznymi komponentami, jest memoizacja za pomocą `React.memo()`. Memoizowane komponenty trochę się *gryzą* z tymi generycznymi i **nie możemy** zrobić czegoś takiego:
+
+```tsx
+const Select = <Value>memo(({ options, value }: SelectProps<Value>) => {}); // Błąd!
+```
+
+Jak to ogarnąć? Wystarczy najpierw stworzyć komponent, a dopiero później opakować go w `React.memo()`. Pozostaje jeszcze kwestia typów, tutaj z pomocą przychodzi asercja na oryginalny komponent:
 
 ```tsx
 const MemoizedSelect = memo(Select) as typeof Select;
 ```
+
+## Inferencja typów
+
+Ostatni z naszych tematów, czyli inferecja typów. Podczas wywoływania komponentu `<Table />` nie podawaliśmy nic więc, TypeScript sam _domyślił się_ jaki ma przekazać typ. A co jeśli chcielibyśmy przekazać typ _na sztywno_ tak jak możemy to zrobić w zwykłych funkcjach?
+
+Zobaczmy jak do tego tematu podeszli twórcy Formika. Ich główny komponent jest komponentem generycznym i jako pierwszy parametr przyjmuje `Values`. Przy jego wywołaniu podajemy tzw. `initialValues`, TypeScript na bazie obiektu, sam wywnioskuje jego typ:
 
 ```tsx
 export function Formik<Values extends FormikValues = FormikValues, ExtraProps = {}>(
@@ -79,13 +176,36 @@ export function Formik<Values extends FormikValues = FormikValues, ExtraProps = 
   const formikbag = useFormik<Values>(props);
 }
 
+<Formik
+  initialValues={{
+    email: false, // Wszystko ok!
+  }}
+/>;
+```
+
+A co jeśli chcielibyśmy powiedzieć temu komponentowi, że ma przyjmować początkowe wartości tylko o określonych typach? Wystarczy przekazać do komponentu typ w taki sposób:
+
+```tsx
 type FormValues = {
   email: string;
 };
 
 <Formik<FormValues>
   initialValues={{
-    email: false, // TS error: boolean is not assignable to string
+    email: false, // Błąd!
   }}
 />;
 ```
+
+Oczywiście moglibyśmy po prostu przypisać typ dla obiektu, ale ta opcja wygląda bardziej cool 😎
+
+## Podsumowanie
+
+Typy generyczne są potężnym mechanizmem, zarówno w czystym TS, jak i w tym w React. Nie bój się korzystać z generycznych komponentów, wtedy, kiedy ma to sens. Dzięki nim nasze aplikacje mogą stać się o wiele bardziej type-safety.
+
+Do usłyszenia!
+
+### Źródła
+
+- [React TypeScript Cheatsheet](https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase#generic-components)
+- [Formik Generic Component](https://twitter.com/gustavo_pch/status/1386515073762529280)

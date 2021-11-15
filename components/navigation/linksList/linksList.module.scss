@@ -14,7 +14,7 @@
   z-index: 1000;
   position: fixed;
   height: -webkit-fill-available;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.95);
   transition: all 0.4s;
 
   @include mediaquery('xl') {

@@ -28,8 +28,10 @@ export const getResourceFrontmatter = <T extends Resource>({
   const slug = filename.replace(MDX_PATTERN, '');
   const fullPath = path.join(resourcePath, filename);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data } = matter(fileContents);
-  const frontmatter: unknown = { ...data, slug };
+  const { content, data } = matter(fileContents);
+  const timeToRead = readingTime(content).minutes;
+
+  const frontmatter: unknown = { ...data, slug, timeToRead };
   return frontmatter as T;
 };
 

@@ -1,0 +1,40 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.wrapperRight {
+  height: 25rem;
+}
+
+.wrapperLeft {
+  height: 35rem;
+
+  @include mediaquery('xl') {
+    height: 25rem;
+  }
+}
+
+.arrow {
+  position: absolute;
+}
+
+.arrowRight {
+  top: 0;
+  right: 0;
+
+  @include mediaquery('xl') {
+    right: -10rem;
+  }
+}
+
+.arrowLeft {
+  top: 2rem;
+  left: 0;
+
+  @include mediaquery('xl') {
+    left: -10rem;
+  }
+}

@@ -30,6 +30,7 @@ export type Post = {
   popular: boolean;
   isPublished: boolean;
   image: string;
+  timeToRead: number;
 };
 
 export type GistWithoutContent = {
