@@ -149,7 +149,7 @@ Tylko jest jeden mały problem. TypeScript, przy generycznych wyrażeniach funkc
 2. Ograniczyć typ o `unknown` - `const Select = <Value extends unknown>() => {}`
 3. Wprowadzić przecinek po parametrze - `const Select = <Value, >() => {}`
 
-## Generyki z React.memo()
+## Generyki z React.memo()/React.forwardRef()
 
 Kolejnym problemem, który wiąże się z generycznymi komponentami, jest memoizacja za pomocą `React.memo()`. Memoizowane komponenty trochę się *gryzą* z tymi generycznymi i **nie możemy** zrobić czegoś takiego:
 
@@ -160,7 +160,22 @@ const Select = <Value>memo(({ options, value }: SelectProps<Value>) => {}); // B
 Jak to ogarnąć? Wystarczy najpierw stworzyć komponent, a dopiero później opakować go w `React.memo()`. Pozostaje jeszcze kwestia typów, tutaj z pomocą przychodzi asercja na oryginalny komponent:
 
 ```tsx
-const MemoizedSelect = memo(Select) as typeof Select;
+const _Select = <Value extends string>({ options, value }: SelectProps<Value>) => {};
+
+const Select = memo(_Select) as typeof _Select;
+```
+
+Dokładnie taki sam problem występuje przy korzystaniu z `React.forwardRef()`. Spośród [dostępnych rozwiązań](https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref/58473012#58473012), ja osobiście skłaniam się ku temu samemu co w przypadku `memo()`:
+
+```tsx
+import type { Ref } from 'react';
+
+const _Select = <Value extends string>(
+  { options, value }: SelectProps<Value>,
+  ref: Ref<HTMLSelectElement>,
+) => <select ref={ref}></select>;
+
+const Select = forwardRef(_Select) as typeof _Select;
 ```
 
 ## Inferencja typów
