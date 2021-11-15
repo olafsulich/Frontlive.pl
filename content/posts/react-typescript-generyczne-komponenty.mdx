@@ -159,13 +159,21 @@ const Select = <Value>memo(({ options, value }: SelectProps<Value>) => {}); // B
 
 Jak to ogarnąć? Wystarczy najpierw stworzyć komponent, a dopiero później opakować go w `React.memo()`. Pozostaje jeszcze kwestia typów, tutaj z pomocą przychodzi asercja na oryginalny komponent:
 
+Komponent:
+
 ```tsx
 const _Select = <Value extends string>({ options, value }: SelectProps<Value>) => {};
+```
 
+Memoizacja:
+
+```tsx
 const Select = memo(_Select) as typeof _Select;
 ```
 
 Dokładnie taki sam problem występuje przy korzystaniu z `React.forwardRef()`. Spośród [dostępnych rozwiązań](https://stackoverflow.com/questions/58469229/react-with-typescript-generics-while-using-react-forwardref/58473012#58473012), ja osobiście skłaniam się ku temu samemu co w przypadku `memo()`:
+
+Komponent:
 
 ```tsx
 import type { Ref } from 'react';
@@ -174,7 +182,11 @@ const _Select = <Value extends string>(
   { options, value }: SelectProps<Value>,
   ref: Ref<HTMLSelectElement>,
 ) => <select ref={ref}></select>;
+```
 
+ForwardRef:
+
+```tsx
 const Select = forwardRef(_Select) as typeof _Select;
 ```
 
