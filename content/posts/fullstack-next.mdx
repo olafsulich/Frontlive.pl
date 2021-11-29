@@ -1,0 +1,1732 @@
+---
+title: 'FullStack Next.js z Prisma, Stripe, React Query, Tailwind, NextAuth i TypeScript'
+category: 'React'
+publishedAt: '29-11-2021'
+isPublished: true
+popular: false
+image: '/images/fullstack-next/thumbnail.png'
+excerpt: 'Jak za pomocą najszybciej rozwijającego się frameworka na frontendzie Next.js, stworzyć w pełni funkcjonalną aplikację fullstackową z wykorzystaniem najnowszych technologii?'
+---
+
+## Wprowadzenie
+
+Zanim zaczniemy, jeśli wcześniej nie miałeś kontaktu z Next.js, to przed tym tutorialem zapoznaj się koniecznie z [oficjalnym poradnikiem](https://nextjs.org/learn/basics/create-nextjs-app?utm_source=next-site&utm_medium=nav-cta&utm_campaign=next-website). Poradnik wyjaśnia wszystko czego potrzebujesz by zacząć z Next.js do zera. Ważne, żebyś był zaznajomiony z podstawami, bo w tym tutorialu się na nich nie skupiamy, za to bierzemy na tapet poszczególne technologie i ich praktyczne wykorzystanie w projekcie.
+
+Gotowi? Do dzieła!
+
+## Opis projektu
+
+Czym będziemy się dzisaj tak właściwie zajmować? Zbudujemy mały sklep e-commerce z wykorzystaniem wielu bardzo fajnych technologii. Pokażę Ci jak połączyć narzędzia frontendowe, z tymi backendowymi i stworzyć w pełni działającą aplikacje w Next.js.
+
+Zaimplementujemy uwierzytelnianie, pobierzemy produkty z bazy danych, które później będziemy mogli kupić przy pomocy Stripe - providera do obsługi płatności. Finalny wygląd:
+
+<Image src="/images/fullstack-next/produkty.png" alt="Strona główna sklepu" />
+
+Ten projekt możesz również traktować jak **podstawowy budulec do rozbudowy** Twojego następnego _side projectu_. Ze względu na formę tego tutoriala (jeden artykuł), musiałem ograniczyć pewne funkcjonalności. Ale nie martw się, na samym końcu znajdziesz sekcję z kilkoma ficzerami wraz z opisem, o które możesz rozbudować ten sklep 🛒
+
+Poniżej znajdziesz spis treści, który ułatwi Ci nawigowanie po kolejnych tematach 👇
+
+## Spis treści
+
+- [Konfiguracja](#konfiguracja)
+  - [Instalacja zależności](#instalacja-zaleznosci)
+  - [Eslint & Prettier](#eslint-and-prettier)
+  - [Husky & Lint staged](#husky-and-lint-staged)
+  - [TailwindCSS](#tailwindcss)
+  - [React Query](#react-query)
+  - [Zmienne środowiskowe](#zmienne-srodowiskowe)
+- [Baza danych](#baza-danych)
+  - [Kontenery i Docker](#kontenery-i-docker)
+- [Prisma](#prisma)
+  - [Tworzenie schemy](#tworzenie-schemy)
+  - [Migracje](#migracje)
+- [Layout](#layout)
+- [Produkty](#produkty)
+  - [Karta produktu](#karta-produktu)
+  - [Endpoint z Next API Routes](#endpoint-z-next-api-routes)
+  - [Zaciąganie produktów z React Query](#zaciaganie-produktow-z-react-query)
+- [Koszyk](#produkty)
+  - [Koszyk w TailwindCSS](#koszyk-w-taiwlindcss)
+  - [Globany stan z React.Context](#globalny-stan-z-react.context)
+- [Uwierzytelnianie](#uwierzytelnianie)
+  - [Konfiguracja NextAuth](#konfiguracja-nextauth)
+  - [Pomocnicze hooki i przekierowania](#pomocnicze-hooki-i-przekierowania)
+- [Płatności](#platnosci)
+  - [Konfiguracja Stripe](#konfiguracja-stripe)
+  - [Pojedynczy produkt](#pojedynczy-produkt)
+  - [Koszyk i checkout](#koszyk-i-checkout)
+- [Obsługa błędów](#obsluga-bledow)
+  - [Konfiguracja Sentry](#konfiguracja-sentry)
+  - [Komponent Error](#komponent-error)
+- [Rozbudowa projektu](#rozbudowa-projektu)
+- [Podusomowanie](#podsumowanie)
+  - [Źródła](#zrodla)
+
+## Konfiguracja
+
+Zacznynamy od najmniej przyjemnej części, czyli konfiguracji całego środowiska:
+
+### Instalacja zależności
+
+Lecimy z instalacją nowego projektu z wykorzystaniem Nexta:
+
+```bash
+npx create-next-app@latest --ts
+```
+
+Po wygenerowaniu projektu, zróbmy mały porządek. Usuńmy niepotrzebne pliki i style. Następnie zainstalujmy wszystkie potrzebne paczki:
+
+```bash
+npm install @next-auth/prisma-adapter @prisma/client @sentry/nextjs @stripe/react-stripe-js @stripe/stripe-js @tailwindcss/forms react-query stripe yup && npm install --save-dev @headlessui/react @heroicons/react @tailwindcss/aspect-ratio @types/stripe tailwindcss autoprefixer postcss prettier eslint eslint-config-next eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react eslint-plugin-react-hooks husky lint-staged
+```
+
+### ESlint & Prettier
+
+Niezbędna dla każdego projektu w JS/TS para narzędzi, czyli ESlint i Prettier. Tutaj sprawa dla Ciebie może wyglądać inaczej, każdy ma swoje ulubione pluginy/zasady, u mnie wygląda to tak:
+
+Prettier:
+
+```json
+{
+  "tabWidth": 2,
+  "printWidth": 100,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "semi": true
+}
+```
+
+ESlint:
+
+```json
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/strict",
+    "plugin:testing-library/recommended",
+    "plugin:jest-dom/recommended",
+    "next",
+    "next/core-web-vitals"
+  ],
+  "plugins": [
+    "jsx-a11y",
+    "react-app",
+    "react-hooks",
+    "jest-dom",
+    "testing-library",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "node": true
+  },
+  "rules": {},
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  }
+}
+```
+
+### Husky & Lint-staged
+
+O ile o poprzednich narzędziach każdy na pewno słyszał, to o tej dwójce już niekoniecznie. Te narzędzia w połączeniu pozwalają nam korzystać z tzw. _Git hooks_ i odpalać konkretne skrypty przed np. zacommitowaniem zmian. A jakie mogą być to skrypty i dlaczego właściwie chcielibyśmy coś takiego robić? 🤔 Idealnym przykładem może być odpalenie ESlinta i Prettiera, po to, żeby kod w zdalnym repozytorium nie miał jakiś boli i żeby spełniał określone reguły.
+
+Instalacja:
+
+```bash
+npx mrm@2 lint-staged
+```
+
+Ten skrypt wygeneruje nam folder `.husky` w katalogu głównym. To w nim możemy tworzyć poszczególne _hooki_. W naszym przpadku ograniczymy się tylko do fazy _pre-commit_ i odpalimy konkretny skrypt:
+
+```bash
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run pre-commit
+```
+
+Żeby całość zadziałała tak, jak tego chcemy, musimy uzupełnić nasz `package.json`:
+
+```json
+ "scripts": {
+    "pre-commit": "lint-staged"
+  },
+ "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml,scss,css}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix"
+  }
+```
+
+### TailwindCSS
+
+Przez jednych kochanych, przez drugich znienawidzony, TailwindCSS. Ja jestem gdzieś po środku, ani nie kocham Tailwinda, ani mi on nie przeszkadza. Dlaczego więc właśnie go wybrałem do tego projektu? Na pewno nie można mu odmówić jednego, że bardzo szybko się w nim prototypuje projekty i właśnie to zadecydowało o jego miejscu tutaj 🏎️
+
+Konfiguracja jest banalnie prosta, wystarczy jedna komenda:
+
+```bash
+npx tailwindcss init -p
+```
+
+Generuje ona dwa pliki: `tailwind.config.js` i `postcss.config.js`. My będziemy rozbudowywać ten pierwszy:
+
+```js
+module.exports = {
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  darkMode: false,
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: { cursor: ['hover', 'focus'] },
+  },
+  plugins: [require('@tailwindcss/aspect-ratio'), require('@tailwindcss/forms')],
+};
+```
+
+W pliku konfiguracyjnym dodajemy `purge`, czyli opcje, która umożliwi nam pozbycie się nieużywanych styli na produkcji. Oprócz tego dodajemy dwa pluginy: `@tailwindcss/aspect-ratio` i `@tailwindcss/forms`.
+
+Z racji tego, że będziemy korzystać tylko z tego frameworka, bez innych customowych styli, wystarczy, że dodamy import w specjalnym pliku `_app.tsx`
+
+```
+import 'tailwindcss/tailwind.css';
+```
+
+Voilà ✨
+
+### React Query
+
+React Query to świetna biblioteka, która w prosty sposób umożliwia nam zarządzanie tzw. Server State. Czekaj, czym? W aplikacjach frontendowych możemy wyróżnić dwa podstawowe stany:
+
+- Client State
+- Server State
+
+Ten pierwszy, obsługuje rzeczy, które nie zmieniają się jakoś często. Na pewno dobrze znacie globalny stan dla motywów, otwarcie/zamknięcie menu itp itd. **Server State** jest tym, co pobieramy z API, czyli w naszym przypadku będą to np. wszystkie produkty. Taki stan charakteryzuje się zupełnie innymi wymaganiami niż Client State. Paginacja, cache, infinite scroll, prefetching, refetching to tylko niektóre z problemów, które rozwiązuje React Query. Ta libka dostarcza nam szereg przydanych, w pełni **otypowanych hooków**, które możemy wykorzystać w projekcie.
+
+Konfiguracja jest bardzo prosta, w `_app.tsx` dodajemy provider `QueryClientProvider`. Opakowujemy również nasz komponent w `Hydrate`, czyli specjalny provider dla tzw. hydracji, o której powiemy sobie trochę później:
+
+```tsx
+import { useState } from 'react';
+import type { AppProps } from 'next/app';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import 'tailwindcss/tailwind.css';
+
+export default function App({ Component, pageProps }: AppProps) {
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Component {...pageProps} />
+      </Hydrate>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
+}
+```
+
+### Zmienne środowiskowe
+
+Ostatnia rzecz na naszej konfiguracyjnej liście, czyli zmienne środowiskowe. Na razie nie będziemy ich uzupełniać, za to stworzymy małą funkcje pomocniczą, która ułatwi nam pracę z nimi.
+
+Na samym początku deklarujemy typy dla naszych zmiennych:
+
+```ts
+type NameToType = {
+  readonly ENV: 'production' | 'staging' | 'development' | 'test';
+  readonly NODE_ENV: 'production' | 'development';
+  readonly PORT: number;
+};
+```
+
+Następnie impelemntujemy właściwą już funkcje `getEnv`. Korzystamy tutaj z tzw. [przeładowania funkcji](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads). Ta funkcja daje nam dwie rzeczy:
+
+- Autouzupełnianie nazw
+- Właściwy typ zmiennej
+
+```ts
+export function getEnv<Env extends keyof NameToType>(name: Env): NameToType[Env];
+export function getEnv(name: keyof NameToType): NameToType[keyof NameToType] {
+  const val = process.env[name];
+
+  if (!val) {
+    throw new Error(`Cannot find environmental variable: ${name}`);
+  }
+
+  return val;
+}
+```
+
+Zobaczmy na jej wywołanie, funkcja nie dość, że podpowiada nam nazwę, to jeszcze wypluwa wcześniej określony typ, magia 🪄
+
+<Image
+  src="/images/fullstack-next/getEnv.png"
+  alt="Wywołanie funkcji getEnv z argumentem NODE_ENV zwraca typ 'production' lub 'development'"
+/>
+
+## Baza danych
+
+Do naszego projektu wybrałem PostreSQL jako bazę danych, zarządzać zapytaniami będziemy przez Prismę, która jest wysokopoziomowym ORM, ale zanim to zrobimy skonfigurujmy Dockera:
+
+## Kontenery i Docker
+
+Jeśli jeszcze nie wiesz czym jest Docker, to zachęcam Cię do sprawdzenia [dedykowanego filmu z wyjaśnieniem](https://www.youtube.com/watch?v=P4ZC3cFN0WQ). Ja mistrzem Dockera nie jestem, dlatego korzystam z wcześniej przygotowanych setupów.
+
+W naszym przypadku, taki _setup_ wrzucamy do specjalnego pliku `docker-compose.yml`, o którym więcej przeczytasz w [dokumentacji](https://docs.docker.com/compose/). W samej konfiguracji deklarujemy dedykowany obraz dla Postresa z konkretną wersją, wolumeny oraz porty.
+
+```yml
+version: '3.8'
+services:
+  postgres:
+    image: postgres:14
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+volumes:
+  postgres:
+```
+
+Zwróć uwagę na `env_file`, to tutaj deklarujemy ścieżkę do naszych zmiennych środowiskowych. Musimy je uzupełnić następującymi danymi:
+
+```
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+DATABASE_URL="postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@<POSTGRES_HOST>:<POSTGRES_PORT>/<POSTGRES_DB>?schema=public&sslmode=prefer"
+```
+
+Wystarczy nam teraz odpalić aplikację:
+
+```bash
+docker-compose up -d
+```
+
+Jeśli korzystasz z Docker Desktop, powinineś widzieć tak działające kontenery:
+
+<Image src="/images/fullstack-next/docker.png" alt="Dashboard w Docker Desktop" />
+
+## Prisma
+
+Jak już jesteśmy przy bazach danych, to przejdźmy do naszego rozwiazania ORM, czyli Prismy. Szczerze mówiąc to jestem wielkim fanem tej technologii, praca z nią to czysta przyjemność... Ale zacznimy od początku, czym w ogóle jest Primsa?
+
+Prisma jest rozwiązaniem ORM, które w pełni wspiera TypeScripta. Prisma udostępnia nam również szereg przydantych narzędzi do migracji, czy wizualizacji danych takich jak `prisma studio`. Oferuje nam ona w pełni otypowany, wysokopoziomowy klient bazy danych. Bez zbędnego gadania, sprawdźmy jak to działa!
+
+<Image src="/images/fullstack-next/takemymoney.jpeg" alt="" />
+
+## Tworzenie schemy
+
+W pierwszej kolejności do pracy z Prismą niezbędna jest tzw. _schema_. To w niej będziemy mieć obraz tego, jak wyglądają nasze dane i relacje między nimi. Mamy dwie opcje, jeśli mamy zamodelowane wcześniej dane w PostreSQL, to możemy wygenerować scheme automatycznie. Jeśli jednak, tak jak w naszym przypadku, statujemy od zera, to musimy stworzyć schemat danych ręcznie.
+
+> Jeśli pracujesz z VSCode, przy pracy z Prismą Twoim najlepszym przyjacielem będzie [dedykowany plugin](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma), który koloruje składnie, formatuje i uzupełnia plik ze schemą.
+
+W katalogu głównym stwórz folder `prisma`, a w nim plik `schema.prisma`:
+
+```
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+Na samym początku definiujemy podstawową konfigurację i provider, czyli wcześniej wybraną bazę danych. Prismę możemy wykorzystywać z różnymi narzędzami począwszy od właśnie Postgresa, idąc przez MySQL, SQLite, a kończąc na MongoDB.
+
+Zdefiniujmy nasz pierwszy model, model użytkownika:
+
+```
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+}
+```
+
+Na początku składnia może Ci się wydawać dziwna, ale uwierz mi, że po krótkim zapoznaniu jest ona bardzo intuicyjna. Model zawsze deklarujemy z dużej litery, a w nim opisujemy poszczególne pola. Każde pole posiada swój typ, który może Ci przypominać typy chociażby z TypeScripta oraz opcjonalnie listę atrybutów(`@`).
+
+W tym przypadku wszystkie nasze pola są typu `String`. Identyfikator posiada dwa atrybuty, pierwszy `@id` odpowiada `PRIMARY KEY` w bazie danych. Konstrukcja `@default(cuid())` będzie nam generowała automatycznie `id`. Dodajmy więcej pól:
+
+```
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  role          Role      @default(USER)
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+```
+
+Pojawiło nam się tutaj sporo nowości. Zacznijmy od enuma, enum działa podobnie jak w językach programowania, np. w TypeScript. Możemy go rozumieć tak, że rolą użytkownika będzie albo `USER` albo `ADMIN`. Atrybutu `@unique` używamy do wskazania unikalnych wartości lub kombinacji wartości (`@@unique([pole1, pole2])`). A o co chodzi z tymi _mapami_?
+
+Atrybut `@map("email_verified")` mapuje nam nazwę tego pola tak, aby w bazie danych była ona zapisana w innej konwencji nazewczniczej. Podobnie jest z atrybutem `@@map("users")`, w tym przypadku zmieniamy nie nazwę atrybutu, a modelu i tabeli.
+
+A o co chodzi z `Account[]` i `Session[]`? Tutaj do gry wchodzą relacje. Weźmy za przykład sesję, mamy tutaj do czynienia z relacją jeden do wielu, czyli użytkownik może mieć w wiele sesji, ale sesja tylko jednego użytkownika, logiczne, prawda?
+
+```
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  role          Role      @default(USER)
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+```
+
+W `Session` używamy specjalnego atrybutu `@relation`, w którym deklarujemy `fields`, czyli pola **obecnego** modelu, `references`, czyli pola **relacyjnego** modelu oraz `onDelete`. `onDelete` jest tzw. akcją referencyjną, czyli "co się stanie, gdy użytkownik zostanie usunięty"? W naszym przypadku, zostanie usunięta również sesja.
+
+Cała schema:
+
+```
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  role          Role      @default(USER)
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Product {
+  id          String @id
+  description String
+  name        String
+  price       Int
+  image       String
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+```
+
+## Migracje
+
+Po tym, jak skończyliśmy defniować scheme, musimy wygenerować migrację. Prisma tutaj znowu przychodzi nam z pomocą i dzieje się to w niej praktycznie z automatu:
+
+```
+npx prisma migrate dev
+```
+
+Po wygenerowaniu, migracje będą dostępne w katalogu `prisma`:
+
+<Image src="/images/fullstack-next/migracje.png" alt="" />
+
+Żeby mieć najnowsze dane w kliencie Prismy, po każdej zmianie w schemie powinniśmy wykonać polecenie:
+
+```bash
+npx prisma generate
+```
+
+## Layout
+
+Uff, odpocznijmy na chwile od baz danych i przejdźmy do tego co frontendowcy lubią najbardziej, czyli _centrowania diva_.
+
+Nasz `Header` w przyszłości będzie odpowiadał za wyświetlenie zdjęcia użytkownika oraz za akcje wylogowania, ale na ten moment skupmy się na samej strukturze:
+
+```tsx
+export const Header = () => {
+  return (
+    <header className="relative bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <nav className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+          <Logo />
+          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+            <img src="" className="w-16 h-16 rounded-full" alt="" />
+            <button className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+              Wyloguj się
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+};
+```
+
+Logo:
+
+```tsx
+export const Logo = () => (
+  <div className="flex justify-start lg:w-0 lg:flex-1">
+    <a href="#">
+      <img
+        className="h-8 w-auto sm:h-10"
+        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+        alt=""
+        width={40}
+        height={44}
+      />
+    </a>
+  </div>
+);
+```
+
+Tak przygotowany komponent chcielibyśmy umieścić w komponencie `Layout`, który oplecie wszystkie nasze strony:
+
+```tsx
+import type { ReactNode } from 'react';
+import { Header } from './header/Header';
+
+type LayoutProps = {
+  readonly children: ReactNode;
+};
+
+export const Layout = ({ children }: LayoutProps) => (
+  <>
+    <Header />
+    <main className="h-full w-full bg-white py-16 px-4 flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 self-center">
+        FullStack Next.js E-commerce
+      </h1>
+      {children}
+    </main>
+  </>
+);
+```
+
+Zwróć uwagę na typ podawanych przeze mnie propsów i sposób typowania komponentów. Celowo nie korzystam tutaj z `React.FC`, więcej o wadach tego typu mówiłem w artykule [React Children + TypeScript](https://frontlive.pl/blog/react-typescript-generyczne-komponenty). Propsy deklaruje z dodatkiem `readonly`, po prostu lubię mieć niemutowalne dane.
+
+Tak przygotowany kawałek kodu używamy na stronie głównej:
+
+```tsx
+export default function Home() {
+  return <Layout>...</Layout>;
+}
+```
+
+Dodajmy jeszcze brakującą specjalną strone w `_document.tsx`:
+
+```tsx
+import Document, { Head, Html, NextScript, DocumentContext } from 'next/document';
+import { Layout } from '../components/layout/Layout';
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
+
+    return { ...initialProps };
+  }
+  render() {
+    return (
+      <Html lang="pl-PL" className="h-full">
+        <Head></Head>
+        <body className="h-full">
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+```
+
+Jeśli wszystko poszło zgodnie z planem, to `Header` w naszej aplikacji powinien wyglądać następująco:
+
+<Image
+  src="/images/fullstack-next/header.png"
+  alt="Główny header aplikacji. Składa się on z niebieskiego, abstrakcyjnego loga, zdjęcia użytkownika oraz przyciusku 'Wyloguj się'"
+/>
+
+## Produkty
+
+Lecimy w końcu z czymś konkretnym, czyli utworzeniem listy poduktów:
+
+### Karta produktu
+
+Zacznijmy od komponentu karty i stwórzenia pliku `Product.tsx`:
+
+```tsx
+import type Prisma from '@prisma/client';
+
+type ProductProps = Readonly<Prisma.Product>;
+
+export const Product = (product: ProductProps) => {
+  const { id, image, name, price } = product;
+
+  return (
+    <article className="group relative">
+      <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:h-80 lg:aspect-none">
+        <img className="w-full h-full object-center object-cover lg:w-full lg:h-full" alt="" />
+      </div>
+      <div className="mt-4 flex justify-between">
+        <h2 className="text-sm text-gray-700">
+          <span aria-hidden="true" className="absolute inset-0" />
+        </h2>
+        <p className="text-sm font-medium text-gray-900"></p>
+      </div>
+      <button className="mt-6 group outline-none relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">
+        Kup
+      </button>
+      <button className="mt-4 group outline-none relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-100 hover:bg-gray-300 focus:outline-none">
+        Dodaj do koszyka
+      </button>
+    </article>
+  );
+};
+```
+
+To co na pewno przykuło Twoją uwagę to typ `Prisma.Product`. Tutaj właśnie zaczyna się pojawiać cała magia Prismy, generuje ona z wcześniej stworzonej schemy TypeScriptowe typy. Dla każdego modelu mamy osoby typ:
+
+```tsx
+import type Prisma from '@prisma/client';
+
+// type ProductProps = {
+//   readonly id: string;
+//   readonly description: string;
+//   readonly name: string;
+//   readonly price: number;
+//   readonly image: string;
+// }; 👇
+
+type ProductProps = Readonly<Prisma.Product>;
+```
+
+### Endpoint z Next API Routes
+
+Zaczeliśmy mówić o typach, a jeszcze nie pobraliśmy danych! Do pobrania danych z bazy wykorzystamy oczywiście Prismę w połączeniu z tzw. API Routes z Nexta. W katalogu `pages` tworzymy folder `api`, a w nim `products/index.ts`. Jeśli miałeś wcześniej do czynienia z Expressem, ta konstrukacja będzie dla Ciebie znajoma. Żeby stworzyć API Route potrzebujemy po prostu wyeksportować funkcję:
+
+```tsx
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {};
+```
+
+Mamy w niej dostęp do specjalnych obiektów żądania i odpowiedzi przygotowanych przez Nexta. Jak już Ci wspominałem, Prisma oferuje nam wysokopoziomowy klient dla bazy danych, zobacz w jak prosty sposób możemy zaciągnąć wszystkie produkty:
+
+```tsx
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const prisma = new PrismaClient();
+
+  const products = await prisma.product.findMany(); // typ: Array<Prisma.Product>
+};
+```
+
+Na samym początku inicjalizujemy nowego klienta, z którego później możemy skorzystać i pobrać produkty. Korzystamy tutaj z metody `findMany`, która zwraca tablicę produktów typu `Array<Prisma.Product>`, dokładnie tak samo jak zadeklarowaliśmy w komponencie `Product`.
+
+Co najlepsze takie zapytania możemy w różny sposób modyfikować, np. wybrać tyle użytkowników o określonej nazwie:
+
+````tsx
+const users = await prisma.user.findMany({
+  where: {
+    name: 'Olaf',
+  },
+})```
+````
+
+Dokładnie tak samo sprawa wygląda z [relacjami](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#relation-filters).
+
+Nasz cały endpoint:
+
+```tsx
+import { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient } from '@prisma/client';
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const prisma = new PrismaClient();
+
+  const products = await prisma.product.findMany();
+
+  if (products.length) {
+    res.status(200).json(products);
+    res.end();
+  } else {
+    res.status(404);
+    res.end();
+  }
+};
+```
+
+### Zaciąganie produktów z React Query
+
+Naszym bazowym budulcem przy fetchowaniu produktów z API będzie pomocnicza funkcja `fetcher`, którą na pewno niejednokrotnie implementowałeś w swoich projektach, zobaczmy jak będzie to wyglądało w naszym przypadku. To co będzie nieco niestandardowe w naszym przypadku, to wykorzystanie walidacji i biblioteki Yup, zobaczmy jak wyglądają typy:
+
+```ts
+import type { AnySchema, InferType } from 'yup';
+
+export type HTTPMethod =
+  | 'GET'
+  | 'HEAD'
+  | 'POST'
+  | 'PUT'
+  | 'DELETE'
+  | 'CONNECT'
+  | 'OPTIONS'
+  | 'TRACE'
+  | 'PATCH';
+
+type FetcherConfig<Schema extends AnySchema | null> = {
+  readonly method: HTTPMethod;
+  readonly schema: Schema;
+  readonly body?: object;
+  readonly config?: RequestInit;
+};
+```
+
+Deklarujemy generyczny typ `FetcherConfig`, który będzie przyjmował dowolną schemę z Yup'a lub `null`. Wewnątrz określamy jeszcze typ metody HTTP, body i konfigurację funkcji `fetch()`.
+
+W przypadku _fetchera_, tak jak przy zmiennych środowiskych, korzystamy z przeładowania funkcji. Pod maską kryje się zwykły `fetch` oraz sprawdzanie poprawności schemy z wykorzystaniem metody `cast()` z Yup'a:
+
+```ts
+import { ResponseError } from './responseError';
+
+export async function fetcher<Schema extends null>(
+  path: string,
+  { method, body, config, schema }: FetcherConfig<Schema>,
+): Promise<null>;
+
+export async function fetcher<Schema extends AnySchema>(
+  path: string,
+  { method, body, config, schema }: FetcherConfig<Schema>,
+): Promise<InferType<Schema>>;
+
+export async function fetcher<Schema extends AnySchema | null>(
+  path: string,
+  { method, body, config, schema }: FetcherConfig<Schema>,
+) {
+  try {
+    const response = await fetch(path, {
+      ...config,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      method,
+      ...(body && { body: JSON.stringify(body) }),
+    });
+    if (response.ok) {
+      if (!schema) {
+        return null;
+      }
+
+      const data = await response.json();
+
+      return schema.cast(data);
+    }
+    throw new ResponseError(response.statusText, response.status);
+  } catch (err) {
+    if (err instanceof ResponseError) {
+      throw err;
+    }
+    throw new ResponseError('Something went wrong during fetching!');
+  }
+}
+```
+
+W środku rzucamy wyjątkiem `ResponseError`, który jest customową klasą dziedziczącą po `Error`:
+
+```ts
+export class ResponseError extends Error {
+  constructor(message: string, public readonly status?: number) {
+    super(message);
+    this.name = 'ResponseError';
+    Object.setPrototypeOf(this, ResponseError.prototype);
+  }
+}
+```
+
+Ta funkcja na pierwszy rzut oka może wydawać Ci się skomplikowana, nic bardziej mylnego, trochę obraz zaciemnia to przeładowanie funkcyjne, ale logika nie jest zawiła. Zobaczmy jak to działa w praktyce:
+
+```ts
+export const getProducts = async () => {
+  return await fetcher('/api/products', {
+    method: 'GET',
+    schema: productsSchema,
+  });
+};
+```
+
+W katalogu `products/api/` definiujemy funkcje `getProducts`, która oplata fetchera. Ostatnim brakującym elementem w naszej układance jest schema.
+
+Konstruujemy w niej zarys danych. Zwróć uwagę na typ `y.SchemaOf<Prisma.Product>`, dzięki niemu wymuszamy na walidatorze konkretny typ, w tym przypadku typ produktu z Prismy:
+
+```ts
+import * as y from 'yup';
+import type Prisma from '@prisma/client';
+
+export const productSchema: y.SchemaOf<Prisma.Product> = y.object().shape({
+  id: y.string().required(),
+  description: y.string().required(),
+  name: y.string().required(),
+  price: y.number().required(),
+  image: y.string().required(),
+});
+
+export const productsSchema = y.array(productSchema);
+```
+
+Nasze pomocniczne funkcje przygotowane, więc możemy przejść do React Query. Biblioteka udostępnia nam specjalnego hooka `useQuery`, do którego podajemy id zapytania `products` oraz funkcję, która zwraca promise:
+
+```ts
+import { useQuery } from 'react-query';
+import { getProducts } from '../api/getProducts';
+
+export const useGetProducts = () => {
+  return useQuery('products', getProducts);
+};
+```
+
+Ja lubię każdą taką konstrukcję opakowywać w jeszcze osobnego hooka. Po pierwszy możemy go wtedy dowolnie reużywać, a poza tym całość wygląda nieco bardziej czytelenie.
+
+Gdy hook jest już przygotowany, możemy w końcu zabrać się za wyświetlenie produktów z realnymi danymi i stworzyć komponent `Products`:
+
+```tsx
+import { Product } from './Product';
+import { useGetProducts } from './hooks/useGetProducts';
+
+export const Products = () => {
+  const { data: products } = useGetProducts();
+
+  return (
+    <div className="bg-white max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      {products && products.map((product) => <Product key={product.id} {...product} />)}
+    </div>
+  );
+};
+```
+
+<Image src="/images/fullstack-next/react-query-devtools.png" alt="" />
+
+Ostatni temat na naszej liście jeśli chodzi o pobieranie produktów, czyli hydracja. W pliku `_app.tsx` zadeklarowaliśmy wrapper `Hydrate` na nasz komponent:
+
+```tsx
+<Hydrate state={pageProps.dehydratedState}>
+  <Component {...pageProps} />
+</Hydrate>
+```
+
+Hydracja z React Query, w połączeniu z Nextem, pozwala nam pobrać potrzebne dane na serwerze, np. podczas _builda_. Tylko właściwie po co to wszystko, skoro moglibyśmy po prostu użyć `useGetProducts()` w komponencie i pobrać dane po stronie klienta? Wykorzystanie hydracji sprawia, że nie będziemy musieli w ogólne czekać na dane, będą one dostępne natychmiasto. Do uzyskania takiego efektu wystarczy nam stworzenie nowego klienta `QueryClient` oraz wywołanie metody `prefetchQuery` z odpowiednim `id` zapytania oraz funkcją, która pobierze potrzebne dane:
+
+```tsx
+import type { GetStaticSideProps } from 'next';
+import { dehydrate, QueryClient } from 'react-query';
+import { Products } from '../components/products/Products';
+import { getProducts } from '../components/products/api/getProducts';
+import { Layout } from '../components/layout/Layout';
+
+export default function Home() {
+  return (
+    <Layout>
+      <Products />
+    </Layout>
+  );
+}
+
+export const getStaticSideProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery('products', getProducts);
+
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
+};
+```
+
+W tym przypadku korzystamy z podjeścia _SSG_ wykorzystując funkcję `getStaticSideProps`, ale równie dobrze moglibyśmy to samo zrobić korzystając z Server Side Renderingu i `getServerSideProps`. To podejście jest dość niecodzienne, normalnie w `getStaticSideProps` zwracamy obiekt z propsami, który później możemy wykorzystać z komponencie, tutaj sprawa wygląda zupełnie inaczej. W tym przypadku nasze propsy wykorzystujemy nie w komponencie samej strony, a w pliku `_app.tsx` w komponencie `Hydrate`. Dzięki temu możemy nie tylko mieć natychmiastowo pobrane dane, ale również wykorzystywać je w podrzędnych komponentenach bez przekazywania propsów w dół.
+
+<Image
+  src="/images/fullstack-next/hydracja.png"
+  alt="Diagram przedstawiający przepływ produktów pomiędzy częściami aplikacji korzystając z hydracji"
+/>
+
+## Koszyk
+
+W naszej aplikacji będziemy mieli dwa sposóby na zakup produktu. Numero uno, pojedyńczy zakup oraz numero duo, czyli koszyk zakupowy 🛒
+
+### Koszyk w TailwindCSS
+
+Koszyk będzie się skład z trzech bazowych komponentów, na pierwszy ogień leci `CartItem`:
+
+```tsx
+import type Prisma from '@prisma/client';
+
+type CartItemProps = Prisma.Product;
+
+export const CartItem = (product: CartItemProps) => {
+  return (
+    <li className="py-6 flex">
+      <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+        <img alt="" className="w-full h-full object-center object-cover" />
+      </div>
+      <div className="ml-4 flex-1 flex flex-col">
+        <div className="flex justify-between text-base font-medium text-gray-900">
+          <h3></h3>
+          <p className="ml-4"></p>
+        </div>
+        <div className="flex-1 flex items-end justify-between text-sm">
+          <div className="flex">
+            <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Usuń
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  );
+};
+```
+
+Korzystamy tutaj ponownie z typów z Prismy, na pewno zauważyłeś, że tworzę tutaj alias `CartItemProps` dla typu `Prisma.Product`. Nie stoi za tym żadna większa filozofia, a bardziej trzymanie się pewnej konwencji. Bardzo podobnie będzie wyglądał komponent `CartItems`, który mapuje po `products` i wypulwa listę produktów:
+
+```tsx
+import type Prisma from '@prisma/client';
+import { CartItem } from './CartItem';
+
+type CartItemsProps = {
+  readonly products: Array<Prisma.Product>;
+};
+
+export const CartItems = ({ products }: CartItemsProps) => (
+  <ul className="-my-6 divide-y divide-gray-200">
+    {products.map((product) => (
+      <CartItem key={product.id} {...product} />
+    ))}
+  </ul>
+);
+```
+
+Ostatni z trójki komponentów koszyka: `Checkout`. To w nim umieścimy część logiki odpowiadającej za otwieranie/zamykanie menu, czy przejście do płatności. Poza samymi stylami korzystam tutaj jeszcze z biblioteki `@headlessui`. Jest to bardzo fajna libka od twórców Tailwinda. Oferuje ona w pełni dostępne, nieostylowane komponenty, gotowe do szybkiego użycia:
+
+```tsx
+import { Dispatch, Fragment, SetStateAction } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { XIcon } from '@heroicons/react/outline';
+import { CartItems } from './CartItems';
+
+export const Checkout = () => {
+  return (
+    <Transition.Root as={Fragment}>
+      <Dialog as="div" className="fixed inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-in-out duration-500"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in-out duration-500"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Dialog.Overlay className="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-y-0 right-0 pl-10 max-w-full flex">
+            <Transition.Child
+              as={Fragment}
+              enter="transform transition ease-in-out duration-500 sm:duration-700"
+              enterFrom="translate-x-full"
+              enterTo="translate-x-0"
+              leave="transform transition ease-in-out duration-500 sm:duration-700"
+              leaveFrom="translate-x-0"
+              leaveTo="translate-x-full"
+            >
+              <div className="w-screen max-w-md">
+                <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+                  <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
+                    <div className="flex items-start justify-between">
+                      <Dialog.Title className="text-lg font-medium text-gray-900">
+                        Koszyk
+                      </Dialog.Title>
+                      <div className="ml-3 h-7 flex items-center">
+                        <button
+                          type="button"
+                          className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                        >
+                          <span className="sr-only">Zamknij</span>
+                          <XIcon className="h-6 w-6" aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="mt-8 flow-root">
+                      <CartItems products={products} />
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
+                    <div className="flex justify-between text-base font-medium text-gray-900">
+                      <p></p>
+                      <p></p>
+                    </div>
+
+                    <div className="mt-6">
+                      {products.length > 0 ? (
+                        <button className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                          Do kasy
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+};
+```
+
+<Image src="/images/fullstack-next/koszyk.png" alt="" />
+
+### Globalny stan z React.Context
+
+UI gotowe, to pora na prawdziwe mięsko, czyli logikę koszyka. W tym przypadku, zamiast wymyślnych technologii do zarządzania stanem, postanowiłem pójść w klasykę, czyli `React.Context`.
+
+```tsx
+import { ReactNode, createContext, useReducer, useContext, useMemo, useState } from 'react';
+import { cartReducer } from './reducers/cartReducer';
+import type { Action, State } from './types';
+
+type Dispatch = (action: Action) => void;
+type CartProviderProps = { readonly children: React.ReactNode };
+
+export const CartStateContext = createContext<{ state: State; dispatch: Dispatch } | undefined>(
+  undefined,
+);
+
+const initialState: State = { products: [], totalPrice: 0, isOpen: false };
+
+export const CartProvider = ({ children }: CartProviderProps) => {
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  const value = useMemo(() => ({ state, dispatch }), [state]);
+
+  return <CartStateContext.Provider value={value}>{children}</CartStateContext.Provider>;
+};
+```
+
+Jeśli pracowałeś wcześniej z contextem, to nie powinno być tutaj dla Ciebie żadnych niespodzianek. Jeden fajny tip, który mogę Ci sprzedać to wykorzystanie `React.useMemo()` przy wartości podawanej do Providera, potrafi to zrobić niemałą różnicę w wydajności.
+
+Typy wyglądają następująco, deklarujemy akcje, które są unią obiektów oraz stan, który będziemy przekazywać do Providera:
+
+```tsx
+import type Prisma from '@prisma/client';
+
+export type Action =
+  | { type: 'addProduct'; payload: Prisma.Product }
+  | { type: 'deleteProduct'; payload: Prisma.Product }
+  | { type: 'openMenu' }
+  | { type: 'closeMenu' };
+
+export type State = {
+  readonly products: Array<Prisma.Product>;
+  readonly totalPrice: number;
+  readonly isOpen: boolean;
+};
+```
+
+W `cartReducer` kryje się cała logika. To tutaj deklarujemy akcje dla koszyka `addProduct` i `deleteProduct`. Kalkulujemy również łączną wartość koszyka oraz podajemy akcje odpowiadające za stan jego otwarcia:
+
+```tsx
+import type Prisma from '@prisma/client';
+import type { Action, State } from '../types';
+
+const calculateTotalPrice = (products: Array<Prisma.Product>) => {
+  return products.reduce((acc, curr) => acc + curr.price, 0);
+};
+
+export const cartReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'addProduct': {
+      const products = [...state.products];
+      const newProduct = action.payload;
+      const isTheNewProductInCart = products.find((product) => product.id === newProduct.id);
+
+      const newProducts = [newProduct, ...products];
+
+      const totalPrice = calculateTotalPrice(newProducts);
+
+      if (!isTheNewProductInCart) {
+        return {
+          ...state,
+          products: newProducts,
+          totalPrice,
+        };
+      }
+    }
+    case 'deleteProduct': {
+      const products = [...state.products];
+      const productToDelete = action.payload;
+
+      const newProducts = products.filter((product) => product.id !== productToDelete.id);
+
+      const totalPrice = calculateTotalPrice(newProducts);
+
+      return {
+        ...state,
+        products: newProducts,
+        totalPrice,
+      };
+    }
+    case 'openMenu': {
+      return {
+        ...state,
+        isOpen: true,
+      };
+    }
+    case 'closeMenu': {
+      return {
+        ...state,
+        isOpen: false,
+      };
+    }
+
+    default: {
+      throw new Error(`Unhandled action type`);
+    }
+  }
+};
+```
+
+Gdy nasz context jest już gotowy, możemy dodać Provider do `_app.tsx`:
+
+```tsx
+<Hydrate state={pageProps.dehydratedState}>
+  <CartProvider>
+    <Component {...pageProps} err={err} />
+  </CartProvider>
+</Hydrate>
+```
+
+Bardzo często spotykaną praktyką podczas wykorzystania contextu, jest tworzenie specjalnego hooka zwracającego wartość stanu, nieinaczej jest w naszym przypadku:
+
+```tsx
+import { useMemo, useContext } from 'react';
+
+import { CartStateContext } from '../context/cartContext';
+
+export const useCart = () => {
+  const context = useContext(CartStateContext);
+  if (context === undefined) {
+    throw new Error('useCount must be used within a CountProvider');
+  }
+  return useMemo(() => context, [context]);
+};
+```
+
+W komponencie `Checkout` wykorzystujemy dane z hooka i określamy akcje dla stanu menu:
+
+```tsx
+export const Checkout = () => {
+  const {
+    state: { totalPrice, products, isOpen },
+    dispatch,
+  } = useCart();
+
+  const handleOpenMenu = () => dispatch({ type: 'openMenu' });
+  const handleCloseMenu = () => dispatch({ type: 'closeMenu' });
+
+ ...
+};
+```
+
+Context przyda nam się również w `CartItem`, gdzie będziemy korzystali z akcji usuwania produktu z koszyka:
+
+```tsx
+export const CartItem = (product: CartItemProps) => {
+  const { id, name, price, image } = product;
+  const { dispatch } = useCart();
+
+  const handleDelete = (product: Prisma.Product) => {
+    dispatch({ type: "deleteProduct", payload: product });
+  };
+
+  ...
+```
+
+Ostatnim miejscem, które potrzebuje danych z naszego contextu jest komponent `Product`:
+
+```tsx
+export const Product = (product: ProductProps) => {
+  const { id, image, name, price } = product;
+  const { dispatch } = useCart();
+
+  const addToCart = () => {
+    dispatch({ type: 'addProduct', payload: product });
+    dispatch({ type: 'openMenu' });
+  };
+
+  ...
+};
+```
+
+## Uwierzytelnianie
+
+Prawie każda współczesna aplikacja posiada system logowania użytkowników, dlatego tej ważne funkcjonalności nie mogło zabraknąć w naszym sklepie. Uwierzytelnianie w aplikacjach często wygląda w bardzo podobny sposób, dlatego społeczność Next.js wyszła z inicjatywą i stworzyła bibliotekę NextAuth, która umożliwia nam uwierzytelnianie za pomocą różnych providerów. My będziemy korzystać z GitHuba, ale w bardzo prosty sposób możesz dodać do swojej aplikacji logowanie z pomocą maila, Googla, Facebooka itp.
+
+### Konfiguracja NextAuth
+
+Konfiguracja logowania jest bardzo prosta. Zaczynamy od stworzenia specjalnego pliku w katalogu `pages/api/auth` o specyficznej nazwie `[...nextauth].tsx`. Tworzymy w nim coś podobnego na wzór endpointa z Next API Routes. W wyeksporowanej funkcji `NextAuth` podajemy obiekt konfiguracyjny, a w nim deklarujemy rodzaj providera i adaptera. Adapter jest systemem, do którego NextAuth się *podłącza*, tworzy sesje i konta użytkowników. W naszym przypadku adapterem jest Prisma. NextAuth w pewien sposób definiuje [model danych w schemie](https://next-auth.js.org/adapters/prisma), tak abyśmy nie musieli nic dodatkowego tworzyć.
+
+```tsx
+import { PrismaClient } from '@prisma/client';
+import NextAuth from 'next-auth';
+import GitHubProvider from 'next-auth/providers/github';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { getEnv } from '../../../utils/env';
+
+const prisma = new PrismaClient();
+
+export default NextAuth({
+  providers: [
+    GitHubProvider({
+      clientId: getEnv('GITHUB_ID'),
+      clientSecret: getEnv('GITHUB_SECRET'),
+    }),
+  ],
+  adapter: PrismaAdapter(prisma),
+  secret: getEnv('SECRET'),
+});
+```
+
+Sekret to ciąg znaków, który używany jest do hashowania tokenów/szyfrowania ciasteczek.
+
+Jeśli chodzi o stronę serwerową, to nasza konfiguracja gotowa. Aby korzystać z infromacjach o sesji, naszą aplikację frontendową musimy opakować w specjalny provider:
+
+```tsx
+import { useState } from 'react';
+import type { AppProps } from 'next/app';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { SessionProvider } from 'next-auth/react';
+import 'tailwindcss/tailwind.css';
+import { CartProvider } from '../components/cart/context/cartContext';
+
+export default function App({ Component, pageProps, err }: AppProps & { err: Error }) {
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+                                {/* any ❌ */}
+    <SessionProvider session={pageProps.session}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <CartProvider>
+            <Component {...pageProps} err={err} />
+          </CartProvider>
+        </Hydrate>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </SessionProvider>
+  );
+}
+```
+
+To co mi się nie podoba w tym miejscu, to typ `any` dla sesji. Jeśli chcielibyśmy to zmienić, to powinniśmy zadeklarować plik `next.ds.ts`, w którym _poprawimy_ typy:
+
+```ts
+import type { NextComponentType, NextPageContext } from 'next';
+import type { Session } from 'next-auth';
+import type { Router } from 'next/router';
+
+declare module 'next/app' {
+  type AppProps<P = Record<string, unknown>> = {
+    Component: NextComponentType<NextPageContext, any, P>;
+    router: Router;
+    __N_SSG?: boolean;
+    __N_SSP?: boolean;
+    pageProps: P & {
+      session?: Session;
+    };
+  };
+}
+```
+
+Identycznie robimy z typami dla sesji użytkownika w pliku `next-auth.d.ts`:
+
+```ts
+import { Session } from 'next-auth';
+import type Prisma from '@prisma/client';
+
+declare module 'next-auth' {
+  interface Session {
+    user: Prisma.User;
+  }
+}
+```
+
+### Pomocnicze hooki i przekierowania
+
+Teraz, gdy nasza konfiguracja jest gotowa, możemy przejść do logowania i odczytywania sesji dla użytkownika. NextAuth udostępnia nam pomocnicze funkcje do logowania, wylogowania i odczytywania sesji. Podobnie jak w przypadku React Query, ja lubię opokować udsotępnionego przez bibliotekę hooka `useSession()` w dodatkowy wrapper `useAuth()`:
+
+```tsx
+import { useMemo } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
+export const useAuth = () => {
+  const { data: session, status } = useSession();
+
+  return useMemo(
+    () =>
+      ({
+        session,
+        status,
+        signIn,
+        signOut,
+      } as const),
+    [session, status],
+  );
+};
+```
+
+NextAuth poza systemem do uwierzytelniania, oferuje nam również predefiniowane strony do logowania. W mojej opinii nie wyglądają one zbyt dobrze i nie wpasowują się w styl naszej apki, dlatego dostarczymy nasze customowe rozwiązanie. Tworzymy nową stronę `signin` w folderze `pages/auth`, w której wykorzystujemy funkcję `signIn` z hooka `useAuth`:
+
+```tsx
+import { Layout } from '../../components/layout/Layout';
+import { SignInButton } from '../../components/auth/SignInButton';
+import { useAuth } from './hooks/useAuth';
+
+export default function SignIn() {
+  const { signIn } = useAuth();
+  const handleSignIn = () => signIn('github');
+
+  return (
+    <Layout>
+      <button
+        onClick={handleSignIn}
+        className="mt-6 group outline-none relative w-28 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
+      >
+        Zaloguj się
+      </button>
+    </Layout>
+  );
+}
+```
+
+W pliku konfiguracyjnym biblioteki dajemy znać, że chcemy korzystać z własnoręcznie przygotowanej strony logowania:
+
+```tsx
+export default NextAuth({
+  providers: [
+    GitHubProvider({
+      clientId: getEnv('GITHUB_ID'),
+      clientSecret: getEnv('GITHUB_SECRET'),
+    }),
+  ],
+  pages: {
+    signIn: '/auth/signin',
+  },
+  adapter: PrismaAdapter(prisma),
+  secret: getEnv('SECRET'),
+});
+```
+
+<Image src="/images/fullstack-next/niezalogowano.png" alt="" />
+
+Miejscem, w którym również korzystamy z sesji jest `Header`. Wykorzystujemy tutaj dane by wyświetlić zdjęcie bieżącego użytkownika oraz wykonać akcję wylogowania:
+
+```tsx
+export const Header = () => {
+  const { session, signIn, signOut } = useAuth();
+};
+```
+
+Z sesji możemy korzystać na wiele różnych sposób, jednym z nich jest sprawdzenie, czy użytkownik jest zalogowany i na bazie tego udostępniać mu różne obszary aplikacji. My bądźmy bardzo restrykcyjni, jeśli użytkownik nie będzie zalogowany, to od razu przeniesiemy go na stronę logowania:
+
+```tsx
+export default function Home() {
+  const { session } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) {
+      router.push(getEnv('NEXTAUTH_CALLBACK_URL'));
+    }
+  }, [session]);
+
+  return (
+    <Layout>
+      <Products />
+      <Checkout />
+    </Layout>
+  );
+}
+```
+
+## Płatności
+
+Za obsługę płatności w naszym sklepie będzie odpowiadało Stripe, czyli jeden z popularniejszych graczy na tym rynku, zobaczmy jak go połączyć z Next.js:
+
+### Konfiguracja Stripe
+
+W pierwszej kolejności potrzebujemy stworzyć specjalny endpoint, z którego będziemy zaciągali sesję dla tzw. _checkoutu_. Po zainicjalizowaniu usługi, deklarujemy endpoint w którym tworzymy sesję za pomocą metody ` stripe.checkout.sessions.create()`. Przekazujemy do niej obiekt konfiguracyjny, w którym znajdują się rownież `line_items`, czyli przedmioty, które chcemy zakupić:
+
+```ts
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Stripe } from 'stripe';
+import { getEnv } from '../../../../utils/env';
+
+const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'), {
+  apiVersion: '2020-08-27',
+});
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const prisma = new PrismaClient();
+
+    const products = await prisma.product.findMany();
+
+    if (products.length) {
+      res.status(200).json(products);
+      res.end();
+    } else {
+      res.status(404);
+      res.end();
+    }
+  } catch {
+    res.status(500);
+  }
+};
+```
+
+Po stronie klienta, dla uproszczenia, będziemy korzystali z tego jednego endpointu w dwóch różnych miejscach, przy zakupie pojedynczego produktu oraz w koszyku. Zacznijmy od stworzenia funkcji, która będzie otrzymywała sesję Stripe, a następnie na jej bazie przekierowywała do strony checkout'u:
+
+```ts
+import type Stripe from 'stripe';
+import { getEnv } from './env';
+import { loadStripe } from '@stripe/stripe-js';
+
+export const redirectToCheckout = async (session: Pick<Stripe.Checkout.Session, 'id'>) => {
+  const stripe = await loadStripe(getEnv('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY'));
+
+  return stripe!.redirectToCheckout({
+    sessionId: session.id,
+  });
+};
+```
+
+Stripe podobnie jak Prisma udsotępnia nam gotowe typy, w tym przypadku korzystamy z typu `Stripe.Checkout.Session`, z którego _wyciągamy_ `id` sesji. Następnie `id` ląduje funkcji `redirectToCheckout()`. W związku z tym, że będziemy korzystali z fetchera do zapytania endpointu, potrzebujemy stworzyć scheme:
+
+```ts
+import * as y from 'yup';
+
+export const stripeSessionSchema: y.SchemaOf<Pick<Stripe.Checkout.Session, 'id'>> = y
+  .object()
+  .shape({
+    id: y.string().required(),
+  });
+```
+
+#### Pojedynczy produkt
+
+Z tak przygotowanymi utilsami możemy przejść do kupna pojedynczego produktu. Zacznijmy od stworzenia wrappera na funckje `fetcher`:
+
+```ts
+import type Prisma from '@prisma/client';
+import { fetcher } from '../../../utils/fetcher';
+import { stripeSessionSchema } from '../../../utils/stripe';
+import { transformProduct } from '../utils/transforms';
+
+export const buyProduct = async (product: Prisma.Product) => {
+  const stripeItem = transformProduct(product);
+
+  return await fetcher(`/api/checkout/products/`, {
+    method: 'POST',
+    body: [stripeItem],
+    schema: stripeSessionSchema,
+  });
+};
+```
+
+Funkcja `buyProduct` będzie przyjmowała product, a następnie przekazywała go do kolejnej funkcji pomocniczej `transformProduct`. Ta funkcja kryja za sobą zwykłe dopisanie/zmodyfikowanie danych potrzebnych dla samego Stripe. Zmieniamy w tym miejscu strukturę i typ naszego produktu:
+
+```ts
+export const transformProduct = ({
+  name,
+  description,
+  price,
+  image,
+}: Prisma.Product): Stripe.Checkout.SessionCreateParams.LineItem => ({
+  name,
+  description,
+  amount: price,
+  currency: 'PLN',
+  images: [image],
+  quantity: 1,
+});
+```
+
+Tak przygotowaną funkcję przekazujemy do hooka `useBuyProduct`. Tutaj ponownie korzystamy z React Query, ale tym razem wykorzystujemy hooka `useMutation`. Jeśli korzystałeś wcześniej z GraphQL, to na pewno kojarzysz tę nazwę. Używamy go w sytuacjach, w których potrzebujemy coś wysłać/zaktualizować/usunąć z serwera. Przekazujemy do niego funkcję, do której trafi produkt, który chcemy wysłać do Stripe. Drugim argumentem mutacji jest obiekt, w którym możemy zadeklarować najróżniejsze _side-effects_. My chcemy zareagować na zdarzenie `onSuccess`, w którym odpalimy funkcję `redirectToCheckout`:
+
+```ts
+import { useMutation } from 'react-query';
+import type Prisma from '@prisma/client';
+import { buyProduct } from '../api/buyProduct';
+import { redirectToCheckout } from '../../../utils/stripe';
+
+export const useBuyProduct = () => {
+  return useMutation((product: Prisma.Product) => buyProduct(product), {
+    onSuccess: redirectToCheckout,
+  });
+};
+```
+
+Tak przygotowanego hooka wykorzystujemy w komponencie `Produkt` w następujący sposób:
+
+```tsx
+export const Product = (product: ProductProps) => {
+  const { id, image, name, price } = product;
+  const { mutate } = useBuyProduct();
+
+  const buyProduct = () => mutate(product);
+
+  ...
+```
+
+Hook `useMutation` zwraca funkcję `mutate`, do której przekazujemy wcześniej zadeklarowany produkt. Jeśli wszystko poszło zgodnie z planem, to po kliknięciu w przycisk powinniśmy zostać przekierowani na stronę zakupu:
+
+<Image src="/images/fullstack-next/stripe-produkt.png" alt="Strona zakupu produktu w Stripe" />
+
+### Koszyk i checkout
+
+Analogicznie jak w przypadku produktu, tworzymy funkcję, która będzie przesyłała dane do serwera:
+
+```ts
+import { stripeSessionSchema } from '../../../utils/stripe';
+import { transformProduct } from '../../products/utils/transforms';
+
+export const checkoutCart = async (products: Array<Prisma.Product>) => {
+  const stripeItems = products.map((product) => transformProduct(product));
+
+  return await fetcher(`/api/checkout/products/`, {
+    method: 'POST',
+    body: stripeItems,
+    schema: stripeSessionSchema,
+  });
+};
+```
+
+Jedyną różnicą tutaj jest fakt, że w koszyku możemy mieć jednocześnie wiele produktów. Tak przygotowany kawałek kodu przekazujemy do hooka `useCheckout()`:
+
+```ts
+import { useMutation } from 'react-query';
+import type Prisma from '@prisma/client';
+import { checkoutCart } from '../api/checkoutCart';
+import { redirectToCheckout } from '../../../utils/stripe';
+
+export const useCheckout = () => {
+  return useMutation((products: Array<Prisma.Product>) => checkoutCart(products), {
+    onSuccess: redirectToCheckout,
+  });
+};
+```
+
+Następnie wykorzystujemy go w komponencie `Checkout`:
+
+```tsx
+export const Checkout = () => {
+  const {
+    state: { totalPrice, products, isOpen },
+    dispatch,
+  } = useCart();
+  const { mutate } = useCheckout();
+
+  const handleOpenMenu = () => dispatch({ type: 'openMenu' });
+  const handleCloseMenu = () => dispatch({ type: 'closeMenu' });
+
+  const handleCheckout = () => mutate(products);
+};
+```
+
+Jeśli dodasz teraz kilka produktów do swojego koszyka i sfinalizujesz zakupy, to powinieneś zostać przekierowany do strony płatności:
+
+<Image src="/images/fullstack-next/stripe-koszyk.png" alt="Strona zakupu produktu w Stripe" />
+
+## Obsługa błędów
+
+Nasza aplikacja teoretycznie jest gotowa, ale... Zapomnieliśmy o błędach! Zakładam, że przypomnielibyśmy sobie o nich dopiero na produktcji, gdy jakiś niezadowolony użytkownik zgłosiłby błąd w aplikacji. W apkach produkcyjnych warto przykładać szczególnie dużą uwagę do wszelakich błędów, zarówno tych na frontendzie, ale również tych na backendzie. Fajnie by było również gdzieś zbierać te błędy z produkcji, żeby wiedzieć co potencjalnie możemy naprawiać i w którym miejscu leży błąd. Z pomocą przychodzi serwis Sentry, który oferuje nam zbieranie błędów i zarządzanie nimi z poziomu dashboardu w przeglądarce.
+
+### Konfiguracja Sentry
+
+Dzięki paczce `@sentry/nextjs` konfiguracja Sentry stała się banalnie prosta. Wystarczy, że stworzymy dwa pliki `sentry.client.js` i `sentry.server.js` z taką samą zawartością:
+
+```ts
+import * as Sentry from '@sentry/nextjs';
+import { getConfig } from './utils/config';
+
+Sentry.init({
+  dsn: getConfig('SENTRY_DNS'),
+});
+```
+
+### Komponent Error
+
+Next.js udostępnia nam customowy komponent `Error`, który umieszczamy w folderze `pages` w pliku o nazwie `_error.tsx`. Ten komponent wykorzystywany jest zarówno po stronie klienta, jak i po stronie serwera, ale tylko i wyłącznie na produkcji. Przychwycone w odpowiednich fazach błędy przekazujemy do Sentry, jeśli chcesz się dowiedzieć więcej o działaniu tego komponetu, to koniecznie zajrzyj do [oficialnego przykładu](https://github.com/vercel/next.js/blob/canary/examples/with-sentry/pages/_error.js) przygotowanego przez Nexta, gdzie twórcy wyjaśniają jego działanie linijka po linijce.
+
+```tsx
+import { ReactElement } from 'react';
+import { NextPageContext, NextPage } from 'next';
+import NextErrorComponent, { ErrorProps as NextErrorProps } from 'next/error';
+import * as Sentry from '@sentry/nextjs';
+
+type ErrorPageProps = {
+  err: Error;
+  statusCode: number;
+  hasGetInitialPropsRun: boolean;
+  children?: ReactElement;
+};
+
+type ErrorProps = {
+  hasGetInitialPropsRun: boolean;
+} & NextErrorProps;
+
+export default function ErrorPage({ statusCode, hasGetInitialPropsRun, err }: ErrorPageProps) {
+  if (!hasGetInitialPropsRun && err) {
+    Sentry.captureException(err);
+  }
+
+  return <NextErrorComponent statusCode={statusCode} />;
+}
+
+ErrorPage.getInitialProps = async ({ res, err, asPath }: NextPageContext) => {
+  const errorInitialProps = (await NextErrorComponent.getInitialProps({
+    res,
+    err,
+  } as NextPageContext)) as ErrorProps;
+
+  errorInitialProps.hasGetInitialPropsRun = true;
+
+  if (err) {
+    Sentry.captureException(err);
+
+    await Sentry.flush(2000);
+
+    return errorInitialProps;
+  }
+
+  Sentry.captureException(new Error(`_error.js getInitialProps missing data at path: ${asPath}`));
+
+  await Sentry.flush(2000);
+
+  return errorInitialProps;
+};
+```
+
+## Rozbudowa projektu
+
+Tak jak wspominałem Ci na początku, przez formę tego tutoriala musiałem ograniczyć pewne funkcjonalności, ale zachęcam Cię do spróbowania zaimplementowania niektórych _ficzerów_ na które ja nie miałem miejsca, oto kilka moich pomysłów:
+
+- Dodanie ról i autoryzacja. W schemie zadeklarowaliśmy nawet role użytkownika. Możesz nadać użytkownikowi rolę admina i na jej bazie np. zarządzać produktami. Mógłbyś zrobić specjalnego dashboarda do tworzenia/aktualizowania/usuwania produktów z bazy danych.
+- Implementacja prawdziwych płatności w Stripe. W naszym koszyku my tak naprawdę tylko przekierowujemy do stronych checkout'u w Stripe. Twoim zadaniem byłoby obsłużenie płatności i na bazie tego, czy transakcja się powiodła, np. dodanie kupionego produktu do tabeli użytkownika. Przykłady z bardziej zaawansowanym użyciem Stripe znajdziesz w [oficjalnym przykładzie na GitHubie](https://github.com/stripe-samples/nextjs-typescript-react-stripe-js). Słowo klucz: _webhook_.
+- Rozbuowa sklepu, obecnie nasz e-commerce to miniaturowa wersja prawdziwych, dużych sklepów online. Możesz zacząć od np. strony pojedynczego produktu, a skończyć na promocjach, kategoriach produktów, czy zakładce z kupionymi produktami użytkownika, ogranicza Cię tylko Twoja wyobraźnia :)
+
+## Podsumowanie
+
+To by było na tyle jeśli chodzi o poradnik z połączenia Next.js z różnymi fullstack'owymi technologiami. Mam nadzieję, że pokazałem Ci możliwości i narzędzia, z których możesz korzystać by tworzyć własne, bardziej rozbudowane aplikacje w Next.
+
+Cały kod dostępny jest w [repozytorium na GitHubie](https://github.com/olafsulich/fullstack-nextjs-ecommerce). Jeśli Ci się podobało, to nie zapomnij zarzucić ⭐
+
+Do usłyszenia!
+
+### Źródła
+
+- [Next.js Stripe Example](https://github.com/stripe-samples/nextjs-typescript-react-stripe-js)
+- [Next.js Sentry Example](https://github.com/vercel/next.js/tree/canary/examples/with-sentry)
+- [Next,js Prisma Example](https://vercel.com/guides/nextjs-prisma-postgres)
+- [PolskiFrontend](https://github.com/typeofweb/polskifrontend)
+- [TailwindUI](https://tailwindui.com/#product-ecommerce)
