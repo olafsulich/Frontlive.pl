@@ -905,7 +905,7 @@ Ostatni temat na naszej liście jeśli chodzi o pobieranie produktów, czyli hyd
 Hydracja z React Query, w połączeniu z Nextem, pozwala nam pobrać potrzebne dane na serwerze, np. podczas _builda_. Tylko właściwie po co to wszystko, skoro moglibyśmy po prostu użyć `useGetProducts()` w komponencie i pobrać dane po stronie klienta? Wykorzystanie hydracji sprawia, że nie będziemy musieli w ogólne czekać na dane, będą one dostępne natychmiasto. Do uzyskania takiego efektu wystarczy nam stworzenie nowego klienta `QueryClient` oraz wywołanie metody `prefetchQuery` z odpowiednim `id` zapytania oraz funkcją, która pobierze potrzebne dane:
 
 ```tsx
-import type { GetStaticSideProps } from 'next';
+import type { GetStaticProps } from 'next';
 import { dehydrate, QueryClient } from 'react-query';
 import { Products } from '../components/products/Products';
 import { getProducts } from '../components/products/api/getProducts';
@@ -919,7 +919,7 @@ export default function Home() {
   );
 }
 
-export const getStaticSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery('products', getProducts);
@@ -930,7 +930,7 @@ export const getStaticSideProps = async () => {
 };
 ```
 
-W tym przypadku korzystamy z podjeścia _SSG_ wykorzystując funkcję `getStaticSideProps`, ale równie dobrze moglibyśmy to samo zrobić korzystając z Server Side Renderingu i `getServerSideProps`. To podejście jest dość niecodzienne, normalnie w `getStaticSideProps` zwracamy obiekt z propsami, który później możemy wykorzystać z komponencie, tutaj sprawa wygląda zupełnie inaczej. W tym przypadku nasze propsy wykorzystujemy nie w komponencie samej strony, a w pliku `_app.tsx` w komponencie `Hydrate`. Dzięki temu możemy nie tylko mieć natychmiastowo pobrane dane, ale również wykorzystywać je w podrzędnych komponentenach bez przekazywania propsów w dół.
+W tym przypadku korzystamy z podjeścia _SSG_ wykorzystując funkcję `getStaticProps`, ale równie dobrze moglibyśmy to samo zrobić korzystając z Server Side Renderingu i `getServerSideProps`. To podejście jest dość niecodzienne, normalnie w `getStaticProps` zwracamy obiekt z propsami, który później możemy wykorzystać z komponencie, tutaj sprawa wygląda zupełnie inaczej. W tym przypadku nasze propsy wykorzystujemy nie w komponencie samej strony, a w pliku `_app.tsx` w komponencie `Hydrate`. Dzięki temu możemy nie tylko mieć natychmiastowo pobrane dane, ale również wykorzystywać je w podrzędnych komponentenach bez przekazywania propsów w dół.
 
 <Image
   src="/images/fullstack-next/hydracja.png"
