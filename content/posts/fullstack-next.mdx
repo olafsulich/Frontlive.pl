@@ -16,7 +16,7 @@ Gotowi? Do dzieła!
 
 ## Opis projektu
 
-Czym będziemy się dzisaj tak właściwie zajmować? Zbudujemy mały sklep e-commerce z wykorzystaniem wielu bardzo fajnych technologii. Pokażę Ci jak połączyć narzędzia frontendowe, z tymi backendowymi i stworzyć w pełni działającą aplikacje w Next.js.
+Czym będziemy się dzisiaj tak właściwie zajmować? Zbudujemy mały sklep e-commerce z wykorzystaniem wielu bardzo fajnych technologii. Pokażę Ci jak połączyć narzędzia frontendowe, z tymi backendowymi i stworzyć w pełni działającą aplikacje w Next.js.
 
 Zaimplementujemy uwierzytelnianie, pobierzemy produkty z bazy danych, które później będziemy mogli kupić przy pomocy Stripe - providera do obsługi płatności. Finalny wygląd:
 
@@ -64,7 +64,7 @@ Poniżej znajdziesz spis treści, który ułatwi Ci nawigowanie po kolejnych tem
 
 ## Konfiguracja
 
-Zacznynamy od najmniej przyjemnej części, czyli konfiguracji całego środowiska:
+Zaczynamy od najmniej przyjemnej części, czyli konfiguracji całego środowiska:
 
 ### Instalacja zależności
 
@@ -145,7 +145,7 @@ Instalacja:
 npx mrm@2 lint-staged
 ```
 
-Ten skrypt wygeneruje nam folder `.husky` w katalogu głównym. To w nim możemy tworzyć poszczególne _hooki_. W naszym przpadku ograniczymy się tylko do fazy _pre-commit_ i odpalimy konkretny skrypt:
+Ten skrypt wygeneruje nam folder `.husky` w katalogu głównym. To w nim możemy tworzyć poszczególne _hooki_. W naszym przypadku ograniczymy się tylko do fazy _pre-commit_ i odpalimy konkretny skrypt:
 
 ```bash
 #!/bin/sh
@@ -215,7 +215,7 @@ React Query to świetna biblioteka, która w prosty sposób umożliwia nam zarz�
 - Client State
 - Server State
 
-Ten pierwszy, obsługuje rzeczy, które nie zmieniają się jakoś często. Na pewno dobrze znacie globalny stan dla motywów, otwarcie/zamknięcie menu itp itd. **Server State** jest tym, co pobieramy z API, czyli w naszym przypadku będą to np. wszystkie produkty. Taki stan charakteryzuje się zupełnie innymi wymaganiami niż Client State. Paginacja, cache, infinite scroll, prefetching, refetching to tylko niektóre z problemów, które rozwiązuje React Query. Ta libka dostarcza nam szereg przydanych, w pełni **otypowanych hooków**, które możemy wykorzystać w projekcie.
+Ten pierwszy, obsługuje rzeczy, które nie zmieniają się jakoś często. Na pewno dobrze znacie globalny stan dla motywów, otwarcie/zamknięcie menu itp itd. **Server State** jest tym, co pobieramy z API, czyli w naszym przypadku będą to np. wszystkie produkty. Taki stan charakteryzuje się zupełnie innymi wymaganiami niż Client State. Paginacja, cache, infinite scroll, prefetching, refetching to tylko niektóre z problemów, które rozwiązuje React Query. Ta libka dostarcza nam szereg przydatnych, w pełni **otypowanych hooków**, które możemy wykorzystać w projekcie.
 
 Konfiguracja jest bardzo prosta, w `_app.tsx` dodajemy provider `QueryClientProvider`. Opakowujemy również nasz komponent w `Hydrate`, czyli specjalny provider dla tzw. hydracji, o której powiemy sobie trochę później:
 
@@ -254,7 +254,7 @@ type NameToType = {
 };
 ```
 
-Następnie impelemntujemy właściwą już funkcje `getEnv`. Korzystamy tutaj z tzw. [przeładowania funkcji](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads). Ta funkcja daje nam dwie rzeczy:
+Następnie implementujemy właściwą już funkcje `getEnv`. Korzystamy tutaj z tzw. [przeładowania funkcji](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads). Ta funkcja daje nam dwie rzeczy:
 
 - Autouzupełnianie nazw
 - Właściwy typ zmiennej
@@ -281,7 +281,7 @@ Zobaczmy na jej wywołanie, funkcja nie dość, że podpowiada nam nazwę, to je
 
 ## Baza danych
 
-Do naszego projektu wybrałem PostreSQL jako bazę danych, zarządzać zapytaniami będziemy przez Prismę, która jest wysokopoziomowym ORM, ale zanim to zrobimy skonfigurujmy Dockera:
+Do naszego projektu wybrałem PostgreSQL jako bazę danych, zarządzać zapytaniami będziemy przez Prismę, która jest wysokopoziomowym ORM, ale zanim to zrobimy skonfigurujmy Dockera:
 
 ## Kontenery i Docker
 
@@ -320,21 +320,21 @@ Wystarczy nam teraz odpalić aplikację:
 docker-compose up -d
 ```
 
-Jeśli korzystasz z Docker Desktop, powinineś widzieć tak działające kontenery:
+Jeśli korzystasz z Docker Desktop, powinieneś widzieć tak działające kontenery:
 
 <Image src="/images/fullstack-next/docker.png" alt="Dashboard w Docker Desktop" />
 
 ## Prisma
 
-Jak już jesteśmy przy bazach danych, to przejdźmy do naszego rozwiazania ORM, czyli Prismy. Szczerze mówiąc to jestem wielkim fanem tej technologii, praca z nią to czysta przyjemność... Ale zacznimy od początku, czym w ogóle jest Primsa?
+Jak już jesteśmy przy bazach danych, to przejdźmy do naszego rozwiązania ORM, czyli Prismy. Szczerze mówiąc to jestem wielkim fanem tej technologii, praca z nią to czysta przyjemność... Ale zacznimy od początku, czym w ogóle jest Prisma?
 
-Prisma jest rozwiązaniem ORM, które w pełni wspiera TypeScripta. Prisma udostępnia nam również szereg przydantych narzędzi do migracji, czy wizualizacji danych takich jak `prisma studio`. Oferuje nam ona w pełni otypowany, wysokopoziomowy klient bazy danych. Bez zbędnego gadania, sprawdźmy jak to działa!
+Prisma jest rozwiązaniem ORM, które w pełni wspiera TypeScripta. Prisma udostępnia nam również szereg przydatnych narzędzi do migracji, czy wizualizacji danych takich jak `prisma studio`. Oferuje nam ona w pełni otypowany, wysokopoziomowy klient bazy danych. Bez zbędnego gadania, sprawdźmy jak to działa!
 
 <Image src="/images/fullstack-next/takemymoney.jpeg" alt="" />
 
 ## Tworzenie schemy
 
-W pierwszej kolejności do pracy z Prismą niezbędna jest tzw. _schema_. To w niej będziemy mieć obraz tego, jak wyglądają nasze dane i relacje między nimi. Mamy dwie opcje, jeśli mamy zamodelowane wcześniej dane w PostreSQL, to możemy wygenerować scheme automatycznie. Jeśli jednak, tak jak w naszym przypadku, statujemy od zera, to musimy stworzyć schemat danych ręcznie.
+W pierwszej kolejności do pracy z Prismą niezbędna jest tzw. _schema_. To w niej będziemy mieć obraz tego, jak wyglądają nasze dane i relacje między nimi. Mamy dwie opcje, jeśli mamy zamodelowane wcześniej dane w PostgreSQL, to możemy wygenerować scheme automatycznie. Jeśli jednak, tak jak w naszym przypadku, startujemy od zera, to musimy stworzyć schemat danych ręcznie.
 
 > Jeśli pracujesz z VSCode, przy pracy z Prismą Twoim najlepszym przyjacielem będzie [dedykowany plugin](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma), który koloruje składnie, formatuje i uzupełnia plik ze schemą.
 
@@ -389,7 +389,7 @@ model User {
 
 Pojawiło nam się tutaj sporo nowości. Zacznijmy od enuma, enum działa podobnie jak w językach programowania, np. w TypeScript. Możemy go rozumieć tak, że rolą użytkownika będzie albo `USER` albo `ADMIN`. Atrybutu `@unique` używamy do wskazania unikalnych wartości lub kombinacji wartości (`@@unique([pole1, pole2])`). A o co chodzi z tymi _mapami_?
 
-Atrybut `@map("email_verified")` mapuje nam nazwę tego pola tak, aby w bazie danych była ona zapisana w innej konwencji nazewczniczej. Podobnie jest z atrybutem `@@map("users")`, w tym przypadku zmieniamy nie nazwę atrybutu, a modelu i tabeli.
+Atrybut `@map("email_verified")` mapuje nam nazwę tego pola tak, aby w bazie danych była ona zapisana w innej konwencji nazewniczej. Podobnie jest z atrybutem `@@map("users")`, w tym przypadku zmieniamy nie nazwę atrybutu, a modelu i tabeli.
 
 A o co chodzi z `Account[]` i `Session[]`? Tutaj do gry wchodzą relacje. Weźmy za przykład sesję, mamy tutaj do czynienia z relacją jeden do wielu, czyli użytkownik może mieć w wiele sesji, ale sesja tylko jednego użytkownika, logiczne, prawda?
 
@@ -505,7 +505,7 @@ model VerificationToken {
 
 ## Migracje
 
-Po tym, jak skończyliśmy defniować scheme, musimy wygenerować migrację. Prisma tutaj znowu przychodzi nam z pomocą i dzieje się to w niej praktycznie z automatu:
+Po tym, jak skończyliśmy definiować scheme, musimy wygenerować migrację. Prisma tutaj znowu przychodzi nam z pomocą i dzieje się to w niej praktycznie z automatu:
 
 ```
 npx prisma migrate dev
@@ -600,7 +600,7 @@ export default function Home() {
 }
 ```
 
-Dodajmy jeszcze brakującą specjalną strone w `_document.tsx`:
+Dodajmy jeszcze brakującą specjalną stronę w `_document.tsx`:
 
 ```tsx
 import Document, { Head, Html, NextScript, DocumentContext } from 'next/document';
@@ -629,16 +629,16 @@ Jeśli wszystko poszło zgodnie z planem, to `Header` w naszej aplikacji powinie
 
 <Image
   src="/images/fullstack-next/header.png"
-  alt="Główny header aplikacji. Składa się on z niebieskiego, abstrakcyjnego loga, zdjęcia użytkownika oraz przyciusku 'Wyloguj się'"
+  alt="Główny header aplikacji. Składa się on z niebieskiego, abstrakcyjnego loga, zdjęcia użytkownika oraz przycisku 'Wyloguj się'"
 />
 
 ## Produkty
 
-Lecimy w końcu z czymś konkretnym, czyli utworzeniem listy poduktów:
+Lecimy w końcu z czymś konkretnym, czyli utworzeniem listy produktów:
 
 ### Karta produktu
 
-Zacznijmy od komponentu karty i stwórzenia pliku `Product.tsx`:
+Zacznijmy od komponentu karty i stworzenia pliku `Product.tsx`:
 
 ```tsx
 import type Prisma from '@prisma/client';
@@ -688,7 +688,7 @@ type ProductProps = Readonly<Prisma.Product>;
 
 ### Endpoint z Next API Routes
 
-Zaczeliśmy mówić o typach, a jeszcze nie pobraliśmy danych! Do pobrania danych z bazy wykorzystamy oczywiście Prismę w połączeniu z tzw. API Routes z Nexta. W katalogu `pages` tworzymy folder `api`, a w nim `products/index.ts`. Jeśli miałeś wcześniej do czynienia z Expressem, ta konstrukacja będzie dla Ciebie znajoma. Żeby stworzyć API Route potrzebujemy po prostu wyeksportować funkcję:
+Zaczęliśmy mówić o typach, a jeszcze nie pobraliśmy danych! Do pobrania danych z bazy wykorzystamy oczywiście Prismę w połączeniu z tzw. API Routes z Nexta. W katalogu `pages` tworzymy folder `api`, a w nim `products/index.ts`. Jeśli miałeś wcześniej do czynienia z Expressem, ta konstrukcja będzie dla Ciebie znajoma. Żeby stworzyć API Route potrzebujemy po prostu wyeksportować funkcję:
 
 ```tsx
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -772,7 +772,7 @@ type FetcherConfig<Schema extends AnySchema | null> = {
 
 Deklarujemy generyczny typ `FetcherConfig`, który będzie przyjmował dowolną schemę z Yup'a lub `null`. Wewnątrz określamy jeszcze typ metody HTTP, body i konfigurację funkcji `fetch()`.
 
-W przypadku _fetchera_, tak jak przy zmiennych środowiskych, korzystamy z przeładowania funkcji. Pod maską kryje się zwykły `fetch` oraz sprawdzanie poprawności schemy z wykorzystaniem metody `cast()` z Yup'a:
+W przypadku _fetchera_, tak jak przy zmiennych środowiskowych, korzystamy z przeładowania funkcji. Pod maską kryje się zwykły `fetch` oraz sprawdzanie poprawności schemy z wykorzystaniem metody `cast()` z Yup'a:
 
 ```ts
 import { ResponseError } from './responseError';
@@ -862,7 +862,7 @@ export const productSchema: y.SchemaOf<Prisma.Product> = y.object().shape({
 export const productsSchema = y.array(productSchema);
 ```
 
-Nasze pomocniczne funkcje przygotowane, więc możemy przejść do React Query. Biblioteka udostępnia nam specjalnego hooka `useQuery`, do którego podajemy id zapytania `products` oraz funkcję, która zwraca promise:
+Nasze pomocnicze funkcje przygotowane, więc możemy przejść do React Query. Biblioteka udostępnia nam specjalnego hooka `useQuery`, do którego podajemy id zapytania `products` oraz funkcję, która zwraca promise:
 
 ```ts
 import { useQuery } from 'react-query';
@@ -873,7 +873,7 @@ export const useGetProducts = () => {
 };
 ```
 
-Ja lubię każdą taką konstrukcję opakowywać w jeszcze osobnego hooka. Po pierwszy możemy go wtedy dowolnie reużywać, a poza tym całość wygląda nieco bardziej czytelenie.
+Ja lubię każdą taką konstrukcję opakowywać w jeszcze osobnego hooka. Po pierwszy możemy go wtedy dowolnie reużywać, a poza tym całość wygląda nieco bardziej czytelnie.
 
 Gdy hook jest już przygotowany, możemy w końcu zabrać się za wyświetlenie produktów z realnymi danymi i stworzyć komponent `Products`:
 
@@ -930,7 +930,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 ```
 
-W tym przypadku korzystamy z podjeścia _SSG_ wykorzystując funkcję `getStaticProps`, ale równie dobrze moglibyśmy to samo zrobić korzystając z Server Side Renderingu i `getServerSideProps`. To podejście jest dość niecodzienne, normalnie w `getStaticProps` zwracamy obiekt z propsami, który później możemy wykorzystać z komponencie, tutaj sprawa wygląda zupełnie inaczej. W tym przypadku nasze propsy wykorzystujemy nie w komponencie samej strony, a w pliku `_app.tsx` w komponencie `Hydrate`. Dzięki temu możemy nie tylko mieć natychmiastowo pobrane dane, ale również wykorzystywać je w podrzędnych komponentenach bez przekazywania propsów w dół.
+W tym przypadku korzystamy z podejścia _SSG_ wykorzystując funkcję `getStaticProps`, ale równie dobrze moglibyśmy to samo zrobić korzystając z Server Side Renderingu i `getServerSideProps`. To podejście jest dość niecodzienne, normalnie w `getStaticProps` zwracamy obiekt z propsami, który później możemy wykorzystać z komponencie, tutaj sprawa wygląda zupełnie inaczej. W tym przypadku nasze propsy wykorzystujemy nie w komponencie samej strony, a w pliku `_app.tsx` w komponencie `Hydrate`. Dzięki temu możemy nie tylko mieć natychmiastowo pobrane dane, ale również wykorzystywać je w podrzędnych komponentach bez przekazywania propsów w dół.
 
 <Image
   src="/images/fullstack-next/hydracja.png"
@@ -939,11 +939,11 @@ W tym przypadku korzystamy z podjeścia _SSG_ wykorzystując funkcję `getStatic
 
 ## Koszyk
 
-W naszej aplikacji będziemy mieli dwa sposóby na zakup produktu. Numero uno, pojedyńczy zakup oraz numero duo, czyli koszyk zakupowy 🛒
+W naszej aplikacji będziemy mieli dwa sposoby na zakup produktu. Numero uno, pojedyńczy zakup oraz numero duo, czyli koszyk zakupowy 🛒
 
 ### Koszyk w TailwindCSS
 
-Koszyk będzie się skład z trzech bazowych komponentów, na pierwszy ogień leci `CartItem`:
+Koszyk będzie się składał z trzech bazowych komponentów, na pierwszy ogień leci `CartItem`:
 
 ```tsx
 import type Prisma from '@prisma/client';
@@ -974,7 +974,7 @@ export const CartItem = (product: CartItemProps) => {
 };
 ```
 
-Korzystamy tutaj ponownie z typów z Prismy, na pewno zauważyłeś, że tworzę tutaj alias `CartItemProps` dla typu `Prisma.Product`. Nie stoi za tym żadna większa filozofia, a bardziej trzymanie się pewnej konwencji. Bardzo podobnie będzie wyglądał komponent `CartItems`, który mapuje po `products` i wypulwa listę produktów:
+Korzystamy tutaj ponownie z typów z Prismy, na pewno zauważyłeś, że tworzę tutaj alias `CartItemProps` dla typu `Prisma.Product`. Nie stoi za tym żadna większa filozofia, a bardziej trzymanie się pewnej konwencji. Bardzo podobnie będzie wyglądał komponent `CartItems`, który mapuje po `products` i wypluwa listę produktów:
 
 ```tsx
 import type Prisma from '@prisma/client';
@@ -1196,7 +1196,7 @@ Gdy nasz context jest już gotowy, możemy dodać Provider do `_app.tsx`:
 </Hydrate>
 ```
 
-Bardzo często spotykaną praktyką podczas wykorzystania contextu, jest tworzenie specjalnego hooka zwracającego wartość stanu, nieinaczej jest w naszym przypadku:
+Bardzo często spotykaną praktyką podczas wykorzystania contextu, jest tworzenie specjalnego hooka zwracającego wartość stanu, nie inaczej jest w naszym przypadku:
 
 ```tsx
 import { useMemo, useContext } from 'react';
@@ -1354,7 +1354,7 @@ declare module 'next-auth' {
 
 ### Pomocnicze hooki i przekierowania
 
-Teraz, gdy nasza konfiguracja jest gotowa, możemy przejść do logowania i odczytywania sesji dla użytkownika. NextAuth udostępnia nam pomocnicze funkcje do logowania, wylogowania i odczytywania sesji. Podobnie jak w przypadku React Query, ja lubię opokować udsotępnionego przez bibliotekę hooka `useSession()` w dodatkowy wrapper `useAuth()`:
+Teraz, gdy nasza konfiguracja jest gotowa, możemy przejść do logowania i odczytywania sesji dla użytkownika. NextAuth udostępnia nam pomocnicze funkcje do logowania, wylogowania i odczytywania sesji. Podobnie jak w przypadku React Query, ja lubię opakować udostępnionego przez bibliotekę hooka `useSession()` w dodatkowy wrapper `useAuth()`:
 
 ```tsx
 import { useMemo } from 'react';
@@ -1428,7 +1428,7 @@ export const Header = () => {
 };
 ```
 
-Z sesji możemy korzystać na wiele różnych sposób, jednym z nich jest sprawdzenie, czy użytkownik jest zalogowany i na bazie tego udostępniać mu różne obszary aplikacji. My bądźmy bardzo restrykcyjni, jeśli użytkownik nie będzie zalogowany, to od razu przeniesiemy go na stronę logowania:
+Z sesji możemy korzystać na wiele różnych sposóbów, jednym z nich jest sprawdzenie, czy użytkownik jest zalogowany i na bazie tego udostępniać mu różne obszary aplikacji. My bądźmy bardzo restrykcyjni, jeśli użytkownik nie będzie zalogowany, to od razu przeniesiemy go na stronę logowania:
 
 ```tsx
 export default function Home() {
@@ -1456,7 +1456,7 @@ Za obsługę płatności w naszym sklepie będzie odpowiadało Stripe, czyli jed
 
 ### Konfiguracja Stripe
 
-W pierwszej kolejności potrzebujemy stworzyć specjalny endpoint, z którego będziemy zaciągali sesję dla tzw. _checkoutu_. Po zainicjalizowaniu usługi, deklarujemy endpoint w którym tworzymy sesję za pomocą metody ` stripe.checkout.sessions.create()`. Przekazujemy do niej obiekt konfiguracyjny, w którym znajdują się rownież `line_items`, czyli przedmioty, które chcemy zakupić:
+W pierwszej kolejności potrzebujemy stworzyć specjalny endpoint, z którego będziemy zaciągali sesję dla tzw. _checkoutu_. Po zainicjalizowaniu usługi, deklarujemy endpoint w którym tworzymy sesję za pomocą metody ` stripe.checkout.sessions.create()`. Przekazujemy do niej obiekt konfiguracyjny, w którym znajdują się również `line_items`, czyli przedmioty, które chcemy zakupić:
 
 ```ts
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -1502,7 +1502,7 @@ export const redirectToCheckout = async (session: Pick<Stripe.Checkout.Session, 
 };
 ```
 
-Stripe podobnie jak Prisma udsotępnia nam gotowe typy, w tym przypadku korzystamy z typu `Stripe.Checkout.Session`, z którego _wyciągamy_ `id` sesji. Następnie `id` ląduje funkcji `redirectToCheckout()`. W związku z tym, że będziemy korzystali z fetchera do zapytania endpointu, potrzebujemy stworzyć scheme:
+Stripe podobnie jak Prisma udostępnia nam gotowe typy, w tym przypadku korzystamy z typu `Stripe.Checkout.Session`, z którego _wyciągamy_ `id` sesji. Następnie `id` ląduje funkcji `redirectToCheckout()`. W związku z tym, że będziemy korzystali z fetchera do zapytania endpointu, potrzebujemy stworzyć scheme:
 
 ```ts
 import * as y from 'yup';
@@ -1516,7 +1516,7 @@ export const stripeSessionSchema: y.SchemaOf<Pick<Stripe.Checkout.Session, 'id'>
 
 #### Pojedynczy produkt
 
-Z tak przygotowanymi utilsami możemy przejść do kupna pojedynczego produktu. Zacznijmy od stworzenia wrappera na funckje `fetcher`:
+Z tak przygotowanymi utilsami możemy przejść do kupna pojedynczego produktu. Zacznijmy od stworzenia wrappera na funkcje `fetcher`:
 
 ```ts
 import type Prisma from '@prisma/client';
@@ -1535,7 +1535,7 @@ export const buyProduct = async (product: Prisma.Product) => {
 };
 ```
 
-Funkcja `buyProduct` będzie przyjmowała product, a następnie przekazywała go do kolejnej funkcji pomocniczej `transformProduct`. Ta funkcja kryja za sobą zwykłe dopisanie/zmodyfikowanie danych potrzebnych dla samego Stripe. Zmieniamy w tym miejscu strukturę i typ naszego produktu:
+Funkcja `buyProduct` będzie przyjmowała product, a następnie przekazywała go do kolejnej funkcji pomocniczej `transformProduct`. Ta funkcja kryje za sobą zwykłe dopisanie/zmodyfikowanie danych potrzebnych dla samego Stripe. Zmieniamy w tym miejscu strukturę i typ naszego produktu:
 
 ```ts
 export const transformProduct = ({
@@ -1641,7 +1641,7 @@ Jeśli dodasz teraz kilka produktów do swojego koszyka i sfinalizujesz zakupy, 
 
 ## Obsługa błędów
 
-Nasza aplikacja teoretycznie jest gotowa, ale... Zapomnieliśmy o błędach! Zakładam, że przypomnielibyśmy sobie o nich dopiero na produktcji, gdy jakiś niezadowolony użytkownik zgłosiłby błąd w aplikacji. W apkach produkcyjnych warto przykładać szczególnie dużą uwagę do wszelakich błędów, zarówno tych na frontendzie, ale również tych na backendzie. Fajnie by było również gdzieś zbierać te błędy z produkcji, żeby wiedzieć co potencjalnie możemy naprawiać i w którym miejscu leży błąd. Z pomocą przychodzi serwis Sentry, który oferuje nam zbieranie błędów i zarządzanie nimi z poziomu dashboardu w przeglądarce.
+Nasza aplikacja teoretycznie jest gotowa, ale... Zapomnieliśmy o błędach! Zakładam, że przypomnielibyśmy sobie o nich dopiero na produkcji, gdy jakiś niezadowolony użytkownik zgłosiłby błąd w aplikacji. W apkach produkcyjnych warto przykładać szczególnie dużą uwagę do wszelakich błędów, zarówno tych na frontendzie, ale również tych na backendzie. Fajnie by było również gdzieś zbierać te błędy z produkcji, żeby wiedzieć co potencjalnie możemy naprawiać i w którym miejscu leży błąd. Z pomocą przychodzi serwis Sentry, który oferuje nam zbieranie błędów i zarządzanie nimi z poziomu dashboardu w przeglądarce.
 
 ### Konfiguracja Sentry
 
@@ -1714,7 +1714,7 @@ ErrorPage.getInitialProps = async ({ res, err, asPath }: NextPageContext) => {
 Tak jak wspominałem Ci na początku, przez formę tego tutoriala musiałem ograniczyć pewne funkcjonalności, ale zachęcam Cię do spróbowania zaimplementowania niektórych _ficzerów_ na które ja nie miałem miejsca, oto kilka moich pomysłów:
 
 - Dodanie ról i autoryzacja. W schemie zadeklarowaliśmy nawet role użytkownika. Możesz nadać użytkownikowi rolę admina i na jej bazie np. zarządzać produktami. Mógłbyś zrobić specjalnego dashboarda do tworzenia/aktualizowania/usuwania produktów z bazy danych.
-- Implementacja prawdziwych płatności w Stripe. W naszym koszyku my tak naprawdę tylko przekierowujemy do stronych checkout'u w Stripe. Twoim zadaniem byłoby obsłużenie płatności i na bazie tego, czy transakcja się powiodła, np. dodanie kupionego produktu do tabeli użytkownika. Przykłady z bardziej zaawansowanym użyciem Stripe znajdziesz w [oficjalnym przykładzie na GitHubie](https://github.com/stripe-samples/nextjs-typescript-react-stripe-js). Słowo klucz: _webhook_.
+- Implementacja prawdziwych płatności w Stripe. W naszym koszyku my tak naprawdę tylko przekierowujemy do strony checkout'u w Stripe. Twoim zadaniem byłoby obsłużenie płatności i na bazie tego, czy transakcja się powiodła, np. dodanie kupionego produktu do tabeli użytkownika. Przykłady z bardziej zaawansowanym użyciem Stripe znajdziesz w [oficjalnym przykładzie na GitHubie](https://github.com/stripe-samples/nextjs-typescript-react-stripe-js). Słowo klucz: _webhook_.
 - Rozbuowa sklepu, obecnie nasz e-commerce to miniaturowa wersja prawdziwych, dużych sklepów online. Możesz zacząć od np. strony pojedynczego produktu, a skończyć na promocjach, kategoriach produktów, czy zakładce z kupionymi produktami użytkownika, ogranicza Cię tylko Twoja wyobraźnia :)
 
 ## Podsumowanie
