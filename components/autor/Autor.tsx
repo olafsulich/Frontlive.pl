@@ -9,7 +9,7 @@ export const Author = () => {
       <h2 className="visually-hidden">O autorze</h2>
       <div className={styles.image}>
         <Image
-          src="/images/olaf-circle.png"
+          src="/images/olaf-circle-midnight.png"
           alt="Olaf Sulich"
           width={200}
           height={200}

@@ -7,7 +7,7 @@ export const Hero = () => {
     <div className={styles.container}>
       <div className={styles.heroImage}>
         <Image
-          src="/images/olaf-head.png"
+          src="/images/olaf-head-santa.png"
           alt="Olaf Sulich"
           width="502"
           height="414"

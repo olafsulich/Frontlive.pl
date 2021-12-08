@@ -51,9 +51,11 @@
     }
   }
 
-  &:hover {
-    &::after {
-      transform: scaleX(100%);
+  @media (hover: hover) {
+    &:hover {
+      &::after {
+        transform: scaleX(100%);
+      }
     }
   }
 

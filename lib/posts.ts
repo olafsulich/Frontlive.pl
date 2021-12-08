@@ -11,6 +11,7 @@ const POSTS_PATH = path.join(process.cwd(), 'content/posts');
 
 export const getPostBySlug = async (slug: string) => {
   const post = await getResourceBySlug(slug, POSTS_PATH);
+  console.log(post);
   return post;
 };
 

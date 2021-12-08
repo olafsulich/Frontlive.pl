@@ -65,6 +65,7 @@ export const getResourceBySlug = async (slug: string, resourcePath: string) => {
     },
     scope: data,
   });
+
   return { transformedMdx, frontmatter };
 };
 

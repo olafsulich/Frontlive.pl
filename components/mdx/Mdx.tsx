@@ -1,4 +1,4 @@
-import { memo, ReactNode } from 'react';
+import { Children, memo, ReactNode } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { MDXRemote } from 'next-mdx-remote';
