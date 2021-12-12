@@ -16,7 +16,7 @@ export const Layout = memo<LayoutProps>(({ children, isAutor = true, withFooter 
       <div className={styles.wrapper}>
         {children}
         {isAutor && <Author />}
-        {/* <Community /> */}
+        <Community />
       </div>
       {withFooter && <Footer />}
     </>

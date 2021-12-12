@@ -63,8 +63,24 @@ config.sassOptions = {
 //   imageSizes: [320, 640, 768, 1200, 1536],
 // };
 
+config.rewrites = () => {
+  return [
+    {
+      source: '/discord',
+      destination: 'https://discord.gg/xQaycBFF',
+      basePath: false,
+    },
+  ];
+};
+
 config.redirects = () => {
   return [
+    {
+      source: '/discord',
+      destination: 'https://discord.gg/xQaycBFF',
+      permanent: false,
+      basePath: false,
+    },
     {
       source: '/blog/react-children-i-typescirpt',
       destination: '/blog/react-children-i-typescript',

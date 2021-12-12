@@ -4,12 +4,66 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Mon, 30 Aug 2021 15:44:37 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 12 Dec 2021 00:16:20 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
+        <item>
+            <title><![CDATA[FullStack Next.js z Prisma, Stripe, React Query, Tailwind, NextAuth i TypeScript]]></title>
+            <description><![CDATA[Jak za pomocą najszybciej rozwijającego się frameworka na frontendzie Next.js, stworzyć w pełni funkcjonalną aplikację fullstackową z wykorzystaniem najnowszych technologii?]]></description>
+            <link>https://frontlive.pl/blog/fullstack-next</link>
+            <guid isPermaLink="false">fullstack-next</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 28 Nov 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React & TypeScript - komponenty generyczne]]></title>
+            <description><![CDATA[Czy połączenie TypeScript & React musi się ograniczać do typowania propsów? Oczywiście, że nie! W samym TS istnieje wiele bardziej zaawansowanych mechanizmów, które możemy przekuć do naszych aplikacji Reactowych...]]></description>
+            <link>https://frontlive.pl/blog/react-typescript-generyczne-komponenty</link>
+            <guid isPermaLink="false">react-typescript-generyczne-komponenty</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 14 Nov 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Preferencje użytkownika a CSS, na co warto zwracać uwagę?]]></title>
+            <description><![CDATA[Słuchaj swoich użytkowników. Ta porada jest jedną z najważniejszych, jeśli chcemy usprawnić User Experience naszej aplikacji...]]></description>
+            <link>https://frontlive.pl/blog/css-preferencje</link>
+            <guid isPermaLink="false">css-preferencje</guid>
+            <category><![CDATA[CSS]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 07 Nov 2021 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Kompilator to nic strasznego, czyli jak działa Twój kod pod spodem?]]></title>
+            <description><![CDATA[Czym są, jak działają i jakie problemy rozwiązują współczesne kompilatory takie jak Babel?]]></description>
+            <link>https://frontlive.pl/blog/kompilatory</link>
+            <guid isPermaLink="false">kompilatory</guid>
+            <category><![CDATA[JavaScript]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 17 Oct 2021 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Monorepo z Lerna, Yarn Workspaces i TypeScript]]></title>
+            <description><![CDATA[Jak zarządzać projektem, w którym mamy kilka repozytoriów z kodem? Utrzymywanie zewnętrzynch zależności, sprawny development, bezbolesny release, to tylko niektóre z wyzwań, z którymi musimy się mierzyć przy większych codebasach. Jak to ogarnąć?]]></description>
+            <link>https://frontlive.pl/blog/monorepo-typescript</link>
+            <guid isPermaLink="false">monorepo-typescript</guid>
+            <category><![CDATA[Architektura]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 10 Oct 2021 22:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[React Children & TypeScript - jak to ogarnąć?]]></title>
+            <description><![CDATA[Koncepcja dzieci w Reakcie pojawia się nam już w bardzo wczesnych etapach nauki. Ich sposób działania po chwili okazuje się bardzo prosty, ale w praktyce children oferują znacznie więcej, są trochę tricky i potrafią zaskoczyć 🤔 Jak więc sobie z nimi radzić i na co uważać podczas ich wykorzystania?]]></description>
+            <link>https://frontlive.pl/blog/react-children-i-typescript</link>
+            <guid isPermaLink="false">react-children-i-typescript</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 12 Sep 2021 22:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Jak dostałem pracę jako Frontend Developer?]]></title>
             <description><![CDATA[Czy w 2021 roku początkujący programista może liczyć na znalezienie pracy? Oczywiście, że tak. Bez studiów informatycznych. Bez większego doświadczenia komercyjnego. Wystarczy wysłać jedno, jedyne CV...]]></description>

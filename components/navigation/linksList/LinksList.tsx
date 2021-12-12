@@ -11,8 +11,7 @@ export const LinksList = memo(() => {
     <ul className={cn(styles.list, { [styles.active]: isMenuVisible })} id="navigation">
       <ListItem title="Strona główna" href="/" />
       <ListItem title="Artykuły" href="/blog" />
-      {/* <ListItem title="Snippety" href="/snippety" /> */}
-      {/* <ListItem title="Książki" href="/ksiazki" /> */}
+      <ListItem title="Społeczność" href="/discord" />
       <ListItem title="O mnie" href="/o-mnie" />
       <ListItem title="Newsletter" href="/newsletter" />
     </ul>
