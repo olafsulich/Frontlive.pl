@@ -9,7 +9,7 @@ export const Community = () => {
         <h2 className={styles.heading}>Dołącz do społeczności!</h2>
         <p className={styles.text}>Bo w programowaniu liczą się ludzie</p>
       </div>
-      <a href="/discord" className={styles.link}>
+      <a href="https://discord.gg/NkBFbXJBh4" className={styles.link}>
         <DiscordIcon className={styles.icon} />
         Wchodzę
       </a>
