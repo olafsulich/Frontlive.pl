@@ -67,7 +67,7 @@ config.rewrites = () => {
   return [
     {
       source: '/discord',
-      destination: 'https://discord.gg/NkBFbXJBh4',
+      destination: 'https://discord.gg/XTRkJXwCU9',
       basePath: false,
     },
   ];
@@ -77,7 +77,7 @@ config.redirects = () => {
   return [
     {
       source: '/discord',
-      destination: 'https://discord.gg/NkBFbXJBh4',
+      destination: 'https://discord.gg/XTRkJXwCU9',
       permanent: false,
       basePath: false,
     },
