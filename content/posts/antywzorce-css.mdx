@@ -359,10 +359,6 @@ A czemu by nie napisać tego krócej?
 
 ```css
 .box {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url('logo.svg');
-
   border-color: var(--color-blue);
   border-style: solid;
   border-width: 2px;
@@ -375,8 +371,23 @@ A czemu by nie napisać tego krócej?
 
 ```css
 .box {
-  background: center no-repeat url('logo.svg');
   border: 2px solid var(--color-blue);
+}
+```
+
+</Highlight>
+
+<Highlight  variant="info" title="Wyjątki 🤔">
+
+Jednak nie zawsze się to sprawdza, istnieją pewne właściwości, którch skrót jest trudny do zapamiętania i takie, które mają w sobie wiele składowych. Ja staram się wtedy **nie korzystać** ze skrótów, tak aby całość była bardziej czytelna:
+
+```css
+.box {
+  background: center no-repeat url('logo.svg'); /* ❌ zbyt dużo możliwośći w jednej linijce, może warto to rozpisać? */
+
+  background-position: center; /* ✅ */
+  background-repeat: no-repeat;
+  background-image: url('logo.svg');
 }
 ```
 
