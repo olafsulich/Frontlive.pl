@@ -8,7 +8,7 @@ image: '/images/antywzorce-css/thumbnail.png'
 excerpt: 'Mimo tego, że CSS nie jest językiem programowania, to często Frotnend Developerzy popełniają w nim te same błędy...'
 ---
 
-Mimo tego, że CSS nie jest językiem programowania, to często Frotnend Developerzy popełniają w nim te same błędy. Zebrałem je w całość i stworzyłem listę Antywzorców w CSS, czyli najczęściej popełnianych błędów początkujących i nie tylko 😉
+Mimo tego, że CSS nie jest językiem programowania, to często Frontend Developerzy popełniają w nim te same błędy. Zebrałem je w całość i stworzyłem listę Antywzorców w CSS, czyli najczęściej popełnianych błędów początkujących i nie tylko 😉
 
 ## Stylowanie po id i tagach
 
@@ -24,7 +24,7 @@ Stylowanie po id i tagach to zdecydowanie najczęściej popełniany błąd 😱 
 </body>
 ```
 
-Jaką wielkość będzie miał nasz tekst? Spodziwalibyśmy się, że ostatnia z deklaracji będzie tą właściwą, niestety wynik jest inny:
+Jaką wielkość będzie miał nasz tekst? Spodziewalibyśmy się, że ostatnia z deklaracji będzie tą właściwą, niestety wynik jest inny:
 
 ```css
 span {
@@ -44,7 +44,7 @@ span.text {
 }
 ```
 
-Poza psuciem specyficzności, stylowanie za pomocą kombinacji tagów `body div span` staje się coraz mniej czytalne, a gdy dodamy do tego id i klasy, to robi nam się małe nazewnicze piekiełko 🔥
+Poza psuciem specyficzności, stylowanie za pomocą kombinacji tagów `body div span` staje się coraz mniej czytelne, a gdy dodamy do tego id i klasy, to robi nam się małe nazewnicze piekiełko 🔥
 
 </Highlight>
 
@@ -66,7 +66,7 @@ Jak to naprawić? W naszych stylach chcemy zachować jak najbardziej płaską sp
 
 <Highlight variant="info" title="Wyjątki 🤔">
 
-Stylowanie po tagach **nie zawsze** jest złe. Istnieją tagi, dla których chcemy mieć konkretnie style, które nie będą się zmieniać. Przykładem tego może być `html`/`body` czy wykonywanie tzw. _normalize_.
+Stylowanie po tagach **nie zawsze** jest złe. Istnieją tagi, dla których chcemy mieć konkretne style, które nie będą się zmieniać. Przykładem tego może być `html`/`body` czy wykonywanie tzw. _normalize_.
 
 ```css
 *,
@@ -105,7 +105,7 @@ element.styles.fontSize = '14px';
 
 </Highlight>
 
-Jak to naprawić? Ponownie, wystarczy dodać odpowienią klasę:
+Jak to naprawić? Ponownie, wystarczy dodać odpowiednią klasę:
 
 <Highlight variant="success" title="Dobrze  ✅">
 
@@ -157,7 +157,7 @@ Nadajesz elementowi `z-index`, nie działa, zwiększasz wartość, nie działa, 
 
 </Highlight>
 
-Do zarządzania `z-index` przydadzą nam się [zmienne CSS](https://frontlive.pl/blog/css-variables), to dzięki nim będzie mogli uporządkować i przede wszystkim odpowiednio nazwać poszczególne indexy. W `:root` deklarujemy zmienne z odpowienimi nazwami:
+Do zarządzania `z-index` przydadzą nam się [zmienne CSS](https://frontlive.pl/blog/css-variables), to dzięki nim będzie mogli uporządkować i przede wszystkim odpowiednio nazwać poszczególne indexy. W `:root` deklarujemy zmienne z odpowiednimi nazwami:
 
 <Highlight variant="success" title="Dobrze  ✅">
 
@@ -272,7 +272,7 @@ Dość popularny błąd, czyli tzw. _magic numbers_. Występują one najczęści
 
 ## Nieużywanie konwencji nazewniczej
 
-Trzymanie się pewnych założeń, konwencji w kodzie to bardzo ważna rzecz, nie tylko pod względem technologicznym, ale również zespołowym. Nie warto tracić czasu na sprzeczanie się, czy lepszą nazwą klasy jest `.box-text`, czy `.box_text`. Dzięki takiej pewnej niekonsekwncji my sami po czasie możemy się pogubić jak tak naprawdę powinniśmy pisać w naszym projekcie.
+Trzymanie się pewnych założeń, konwencji w kodzie to bardzo ważna rzecz, nie tylko pod względem technologicznym, ale również zespołowym. Nie warto tracić czasu na sprzeczanie się, czy lepszą nazwą klasy jest `.box-text`, czy `.box_text`. Dzięki takiej pewnej niekonsekwencji my sami po czasie możemy się pogubić jak tak naprawdę powinniśmy pisać w naszym projekcie.
 
 <Highlight variant="error" title="Źle  💩">
 
@@ -384,7 +384,7 @@ A czemu by nie napisać tego krócej?
 
 ## Zaburzanie kolejności elementów
 
-Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności elementów w kontenerze. O ile może być to czasem przydatne, to najczęściej nie jest to dobrą praktyką. Załóżmy, że mamy kontener, a w nim pięć elementów, jeśli w kontenerze ustawimy właściwość `flex-direction` na `row-reverse`, to elementy zostaną wyświetlone w odwrotnej kolejności. Zmienienie kolejności w CSS nie spowoduje jednak przemieszczenia się elementów w strukturze HTML, a ten potrzebny jest dla czytników ekranowych. Dla użytkowników czytników może być to dość frustrujące, gdy będą przemieszczali się po elementach w złej kolejności. Jeśli checesz zmieniać kolejność, zrób to w HTML:
+Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności elementów w kontenerze. O ile może być to czasem przydatne, to najczęściej nie jest to dobrą praktyką. Załóżmy, że mamy kontener, a w nim pięć elementów, jeśli w kontenerze ustawimy właściwość `flex-direction` na `row-reverse`, to elementy zostaną wyświetlone w odwrotnej kolejności. Zmienienie kolejności w CSS nie spowoduje jednak przemieszczenia się elementów w strukturze HTML, a ten potrzebny jest dla czytników ekranowych. Dla użytkowników czytników może być to dość frustrujące, gdy będą przemieszczali się po elementach w złej kolejności. Jeśli chcesz zmieniać kolejność, zrób to w HTML:
 
 <Highlight variant="error" title="Źle  💩">
 
@@ -441,7 +441,7 @@ Jedną z największych bolączek związanych z _accessibility_ na stronach inte
 
 </Highlight>
 
-Rozwiązaniem tego problemu jest ostylowanie ouline lub zapewnienie innych styli, które posłużą nam za taki wizualny wskaźnik. Pamiętaj, aby nie korzystać tutaj z samych kolorów, niektórzy użytkownicy mogą ich nie rozróżniać:
+Rozwiązaniem tego problemu jest ostylowanie outline lub zapewnienie innych styli, które posłużą nam za taki wizualny wskaźnik. Pamiętaj, aby nie korzystać tutaj z samych kolorów, niektórzy użytkownicy mogą ich nie rozróżniać:
 
 <Highlight variant="success" title="Dobrze  ✅">
 
