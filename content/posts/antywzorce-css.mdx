@@ -384,18 +384,28 @@ A czemu by nie napisać tego krócej?
 
 ## Zaburzanie kolejności elementów
 
-Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności elementów w kontenerze. O ile może być to czasem przydatne, to najczęściej nie jest to dobrą praktyką. Załóżmy, że mamy kontener, a w nim pięć elementów, jeśli w kontenerze ustawimy właściwość `flex-direction` na `row-reverse`, to elementy zostaną wyświetlone w odwrotnej kolejności. Zmienienie kolejności w CSS nie spowoduje jednak przemieszczenia się elementów w strukturze HTML, a ten potrzebny jest dla czytników ekranowych. Dla użytkowników czytników może być to dość frustrujące, gdy będą przemieszczali się po elementach w złej kolejności. Jeśli checesz zmieniać kolejność, zrób to w HTML:
+Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności elementów w kontenerze. O ile może być to czasem przydatne, to najczęściej nie jest to dobrą praktyką. Załóżmy, że mamy kontener, a w nim pięć elementów interaktywnych, jeśli w kontenerze ustawimy właściwość `flex-direction` na `row-reverse`, to elementy zostaną wyświetlone w odwrotnej kolejności. Zmienienie kolejności w CSS nie spowoduje jednak przemieszczenia się elementów w strukturze HTML, a ten potrzebny jest dla czytników ekranowych. Dla użytkowników czytników może być to dość frustrujące, gdy będą przemieszczali się po elementach w złej kolejności. Jeśli checesz zmieniać kolejność, zrób to w HTML:
 
 <Highlight variant="error" title="Źle  💩">
 
 ```html
-<div class="wrapper">
-  <div>1</div>
-  <div>2</div>
-  <div>3</div>
-  <div>4</div>
-  <div>5</div>
-</div>
+<ul class="wrapper">
+  <li>
+    <a href="">1</a>
+  </li>
+  <li>
+    <a href="">2</a>
+  </li>
+  <li>
+    <a href="">3</a>
+  </li>
+  <li>
+    <a href="">4</a>
+  </li>
+  <li>
+    <a href="">5</a>
+  </li>
+</ul>
 ```
 
 ```css
@@ -410,13 +420,23 @@ Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności 
 <Highlight variant="success" title="Dobrze  ✅">
 
 ```html
-<div class="wrapper">
-  <div>5</div>
-  <div>4</div>
-  <div>3</div>
-  <div>2</div>
-  <div>1</div>
-</div>
+<ul class="wrapper">
+  <li>
+    <a href="">5</a>
+  </li>
+  <li>
+    <a href="">4</a>
+  </li>
+  <li>
+    <a href="">3</a>
+  </li>
+  <li>
+    <a href="">2</a>
+  </li>
+  <li>
+    <a href="">1</a>
+  </li>
+</ul>
 ```
 
 ```css
