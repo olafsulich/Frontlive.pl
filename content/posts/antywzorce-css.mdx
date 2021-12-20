@@ -1,0 +1,464 @@
+---
+title: 'Antywzorce w CSS - 10 najczęściej popełnianych błędów'
+category: 'CSS'
+publishedAt: '20-12-2021'
+isPublished: true
+popular: false
+image: '/images/antywzorce-css/thumbnail.png'
+excerpt: 'Mimo tego że CSS nie jest językiem programowania, to często Frotnend Developerzy popełniają w nim te same błędy...'
+---
+
+Mimo tego że CSS nie jest językiem programowania, to często Frotnend Developerzy popełniają w nim te same błędy. Zebrałem je w całość i stworzyłem listę Antywzorców w CSS, czyli najczęściej popełnianych błędów początkujących i nie tylko 😉
+
+## Stylowanie po id i tagach
+
+Stylowanie po id i tagach to zdecydowanie najczęściej popełniany błąd 😱 Co w tym takiego strasznego? Pisanie w ten sposób znacząco **zwiększa specyficzność** przez co style stają się cięższe w utrzymaniu i ponownym reużywaniu.
+
+<Highlight variant="error" title="Źle  💩">
+
+```html
+<body>
+  <div id="box">
+    <span class="text">Hello world</span>
+  </div>
+</body>
+```
+
+Jaką wielkość będzie miał nasz tekst? Spodziwalibyśmy się, że ostatnia z deklaracji będzie tą właściwą, niestety wynik jest inny:
+
+```css
+span {
+  font-size: 10px;
+}
+
+body div span {
+  font-size: 12px;
+}
+
+#box span {
+  font-size: 14px; /* 👈  wybrane style, największa specyficzność */
+}
+
+span.text {
+  font-size: 18px; /* ❌  klasa nie została nadpisana, zbyt mała specyficzność */
+}
+```
+
+Poza psuciem specyficzności, stylowanie za pomocą kombinacji tagów `body div span` staje się coraz mniej czytalne, a gdy dodamy do tego id i klasy, to robi nam się małe nazewnicze piekiełko 🔥
+
+</Highlight>
+
+Jak to naprawić? W naszych stylach chcemy zachować jak najbardziej płaską specyficzność, dlatego najlepiej korzystać po prostu z klas:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.text {
+  font-size: 10px;
+}
+
+.text--big {
+  font-size: 18px; /* 👈  style zostały nadpisane, bo klasa "text--big" jest zadeklarowana pod "text" */
+}
+```
+
+</Highlight>
+
+<Highlight variant="info" title="Wyjątki 🤔">
+
+Stylowanie po tagach **nie zawsze** jest złe. Istnieją tagi, dla których chcemy mieć konkretnie style, które nie będą się zmieniać. Przykładem tego może być `html`/`body` czy wykonywanie tzw. _normalize_.
+
+```css
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+```
+
+</Highlight>
+
+## Inline style i !important
+
+Dokładnie z tych samych powodów powinniśmy unikać tzw. _inline styles_ oraz deklaracji `!important`. Najczęściej zdarza mi się obserwować użycie inline styles przy zmianie wartości za pomocą JavaScript lub po prostu w HTML, bo chcemy zmienić tylko jedną właściwość. Użycie `!important` za to jest często poprawką na nasze własne błędy spowodowane zbyt wysoką specyficznością w stylach.
+
+<Highlight variant="error" title="Źle  💩">
+
+```js
+element.styles.fontSize = '14px';
+```
+
+```html
+<span style="font-size: 14px" class="text text--big">Hello world</span>
+```
+
+```css
+.text--big {
+  font-size: 18px !important;
+}
+```
+
+</Highlight>
+
+Jak to naprawić? Ponownie, wystarczy dodać odpowienią klasę:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```js
+element.classList.add('text--big');
+```
+
+```html
+<span class="text text--big">Hello world</span>
+```
+
+```css
+.text--big {
+  font-size: 18px;
+}
+```
+
+</Highlight>
+
+<Highlight variant="info" title="Wyjątki 🤔">
+
+Od każej reguły są jakieś wyjątki, nie inaczej jest w tym przypadku. _Inline styles_ przydają się, gdy musimy nadać wartość, która jest w pewien sposób dynamiczna:
+
+```js
+element.style.fontSize = `${someRandomValue}px`;
+```
+
+</Highlight>
+
+## Niezarządzanie z-index
+
+Nadajesz elementowi `z-index`, nie działa, zwiększasz wartość, nie działa, dajesz `999999999` - działa! Za miesiąc wracasz do tego kodu, próbujesz dodać nowy modal, który potrzebuje mieć największy `z-index` w projekcie i sytuacja się powtarza... Znasz ten ból? Ja tak, `z-index` w CSS napsuł mi sporo krwi, nawet czasem mam wrażenie, że większe wartości nie przynoszą pożądanego efektu, czy to w ogóle możliwe? Okazuję się, że [jak najbardziej](https://www.joshwcomeau.com/css/stacking-contexts/), dlatego tak ważne jest zadbanie o porządek w `z-index` w projekcie.
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.box {
+  z-index: 999;
+}
+
+.popup {
+  z-index: 9999;
+}
+
+.modal {
+  z-index: 99999;
+}
+```
+
+</Highlight>
+
+Do zarządzania `z-index` przydadzą nam się [zmienne CSS](https://frontlive.pl/blog/css-variables), to dzięki nim będzie mogli uporządkować i przede wszystkim odpowiednio nazwać poszczególne indexy. W `:root` deklarujemy zmienne z odpowienimi nazwami:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+:root {
+  --z-index-box: 1000;
+  --z-index-popup: 1100;
+  --z-index-modal: 1200;
+}
+
+.box {
+  z-index: var(--z-index-box);
+}
+
+.popup {
+  z-index: var(--z-index-popup);
+}
+
+.modal {
+  z-index: var(--z-index-modal);
+}
+```
+
+</Highlight>
+
+<Newsletter />
+
+## Ogarnij swoje kolory
+
+A co z kolorami? W jakim formacie najlepiej je podawać? Hex, Hsla, Rgb?
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.box {
+  background-color: #eb4034;
+}
+
+.modal {
+  background-color: rgb(52, 222, 235);
+}
+
+.header {
+  background-color: hsl(266, 85%, 53%);
+}
+```
+
+</Highlight>
+
+Według mnie sam format nie jest aż tak istotny, najważniejsze jest aby ponownie **korzystać ze zmiennych** oraz z takich samych formatów. Wykorzystanie zmiennych daje nam możliwość skorzystania z koloru ponownie, a ten sam format to pewna forma konsekwencji w kodzie:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+:root {
+  --color-orange: rgb(235, 64, 52);
+  --color-blue: rgb(52, 222, 235);
+  --color-purple: rgb(122, 33, 237);
+}
+
+.box {
+  background-color: var(--color-orange);
+}
+
+.modal {
+  background-color: var(--color-blue);
+}
+
+.header {
+  background-color: var(--color-purple);
+}
+```
+
+</Highlight>
+
+## Magiczne wartości
+
+Mam dla Ciebie jeszcze jeden świetny przykład wykorzystania zmiennych. Załóżmy, że nasz element pozycjonujemy absolutnie i chcemy mu nadać właściwość `top`:
+
+<Highlight variant="error" title="Źle  💩">
+
+Skąd się wzięły te wartości?
+
+Dlaczego zamiast `50px` nie może być `30px`?
+
+Czemu ktoś po prostu nie wpisał `200px`?
+
+```css
+.box {
+  position: absolute;
+  top: calc(50px + 144px + 6px);
+}
+```
+
+</Highlight>
+
+Dość popularny błąd, czyli tzw. _magic numbers_. Występują one najczęściej w językach programowania, ale CSS jak najbardziej ma ich odpowiedniki. Bardzo często spotykałem się z sytuacjami, gdzie ktoś zadeklarował jakąś szaloną wartość typu `43.54%` i teraz domyśl się o co w tym chodzi! Zmienne znowu przychodzą z pomocą, nie musimy ich nawet deklarować globalnie w `:root`, wystarczy to zrobić na poziomie bloku:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.box {
+  --offset: 50px;
+  --header-height: 144px;
+  --header-margin-bottom: 6px;
+  position: absolute;
+  top: calc(var(--offset) + var(--header-height) + var(--header-margin-bottom));
+}
+```
+
+</Highlight>
+
+## Nieużywanie konwencji nazewniczej
+
+Trzymanie się pewnych założeń, konwencji w kodzie to bardzo ważna rzecz, nie tylko pod względem technologicznym, ale również zespołowym. Nie warto tracić czasu na sprzeczanie się, czy lepszą nazwą klasy jest `.box-text`, czy `.box_text`. Dzięki takiej pewnej niekonsekwncji my sami po czasie możemy się pogubić jak tak naprawdę powinniśmy pisać w naszym projekcie.
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.box__button {
+}
+
+.boxHeading {
+}
+
+.box-text {
+}
+```
+
+</Highlight>
+
+Zamiast używać różnych wariacji klas, warto spojrzeć chociażby na BEM, który narzuca nam sposób nazewnictwa klas w CSS:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.box__heading {
+}
+
+.box__button {
+}
+
+.boxt__text {
+}
+```
+
+</Highlight>
+
+## Powtarzanie się
+
+_Don't repeat yourself_, czyli ulubiona zasada programistów sprawdza się również w CSS. Gdy mamy wspólne style dla np. dwóch związanych ze sobą klas, możemy je zamknąć w jednym bloku. Idealnym przykładem tego są pseudoelementy `::before` i `::after`:
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.box::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  color: var(--color-red);
+}
+
+.box::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  color: var(--color-blue);
+}
+```
+
+</Highlight>
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.box::before,
+.box::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+}
+
+.box::before {
+  color: var(--color-red);
+}
+
+.box::after {
+  color: var(--color-blue);
+}
+```
+
+</Highlight>
+
+## Niekorzystanie ze skrótów
+
+A czemu by nie napisać tego krócej?
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.box {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('logo.svg');
+
+  border-color: var(--color-blue);
+  border-style: solid;
+  border-width: 2px;
+}
+```
+
+</Highlight>
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.box {
+  background: center no-repeat url('logo.svg');
+  border: 2px solid var(--color-blue);
+}
+```
+
+</Highlight>
+
+## Zaburzanie kolejności elementów
+
+Podczas korzystania z flexboxa i grida mamy możliwość zmieniania kolejności elementów w kontenerze. O ile może być to czasem przydatne, to najczęściej nie jest to dobrą praktyką. Załóżmy, że mamy kontener, a w nim pięć elementów, jeśli w kontenerze ustawimy właściwość `flex-direction` na `row-reverse`, to elementy zostaną wyświetlone w odwrotnej kolejności. Zmienienie kolejności w CSS nie spowoduje jednak przemieszczenia się elementów w strukturze HTML, a ten potrzebny jest dla czytników ekranowych. Dla użytkowników czytników może być to dość frustrujące, gdy będą przemieszczali się po elementach w złej kolejności. Jeśli checesz zmieniać kolejność, zrób to w HTML:
+
+<Highlight variant="error" title="Źle  💩">
+
+```html
+<div class="wrapper">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+</div>
+```
+
+```css
+.wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+```
+
+</Highlight>
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```html
+<div class="wrapper">
+  <div>5</div>
+  <div>4</div>
+  <div>3</div>
+  <div>2</div>
+  <div>1</div>
+</div>
+```
+
+```css
+.wrapper {
+  display: flex;
+}
+```
+
+</Highlight>
+
+## Usuwanie outline
+
+Jedną z największych bolączek związanych z _accessibility_ na stronach internetowych jest brak wizualnego wskaźnika `outline` dla elementów interaktywnych, takich jak np. _link_. Bardzo często usuwamy `outline`, bo nie podoba nam się jej wygląd, ale niesie to za sobą poważne konsekwencje. Użytkownicy, którzy korzystają tylko z klawiatury do poruszania się na stronie, nie będą widzieli na jakim dokładnie elemencie się znajdują...
+
+<Highlight variant="error" title="Źle  💩">
+
+```css
+.link:focus {
+  outline: none;
+}
+```
+
+</Highlight>
+
+Rozwiązaniem tego problemu jest ostylowanie ouline lub zapewnienie innych styli, które posłużą nam za taki wizualny wskaźnik. Pamiętaj, aby nie korzystać tutaj z samych kolorów, niektórzy użytkownicy mogą ich nie rozróżniać:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```css
+.link:focus {
+  outline: thin dotted;
+  /* LUB */
+  outline: none;
+  border-bottom: 2px solid var(--color-black);
+  color: var(--color-gray);
+}
+```
+
+</Highlight>
+
+## Podsumowanie
+
+To by było na tyle, jeśli chodzi o najczęściej popełniane błędy w CSS. Lista jest jak najbardziej subiektywna, wynika z tego, co udało mi się zaobserwować podczas _code review_ :)
+
+Do usłyszenia!

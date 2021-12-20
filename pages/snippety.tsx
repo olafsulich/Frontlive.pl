@@ -23,7 +23,6 @@ const description = 'Najbardziej konkretne artykuły dla frontend developerów!'
 const url = 'https://frontlive.pl/snippety';
 
 export default function SnippetsPage({ snippets }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(snippets);
   return (
     <>
       <NextSeo

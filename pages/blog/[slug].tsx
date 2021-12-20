@@ -12,6 +12,7 @@ import { useCallback, useMemo } from 'react';
 import { Heading } from '../../components/mdx/heading/Heading';
 import { useRouter } from 'next/router';
 import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
+import { Highlight } from '../../components/mdx/highlight/Highlight';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -85,6 +86,7 @@ const BlogPost = ({
       img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
       Sparkles,
       Image,
+      Highlight,
       Newsletter,
     }),
     [],
