@@ -16,7 +16,7 @@ Już jest, nowy <Sparkles>Frontlive!</Sparkles> Od teraz to zarówno mój blog, 
 
 Na samym początku, tak jak robię przy każdym moim projekcie, zacząłem tworzyć design strony. Następnym krokiem było wybranie odpowiedniej technologii, padło na Gatsbiego, którego już w tamtym momencie trochę liznąłem. Gatsby posiada wiele szablonów, postanowiłem z takiego skorzystać i zacząłem szukać!
 
-Znalazłem odpowiedni template(później przestał być templatem), dostosowałem go do siebie i gotowe! Blog był minimalistyczny i prosty. Do każdego postu była przypisana ikonka z technologią, o której pisałem w artykule(co było problematyczne przy trybie ciemnym).
+Znalazłem odpowiedni template (później przestał być templatem), dostosowałem go do siebie i gotowe! Blog był minimalistyczny i prosty. Do każdego postu była przypisana ikonka z technologią, o której pisałem w artykule (co było problematyczne przy trybie ciemnym).
 
 <Image
   src="/images/nowy-frontlive/stary-frontlive.png"
@@ -59,7 +59,7 @@ Obecna strona zrobiona jest w całości w **Next.js** i **TypeScripcie**. Czemu 
 
 A co z Next.js? Next to **świetny**, Reaktowy framework, który rozwija się w naprawdę szybkim tempie. Od dłuższego czasu obserwuję tą technologię i bardzo **przyjemnie** mi się w niej pracuję. W poprzedniej wersji strony przytłoczyła mnie trochę liczba pluginów, z których korzystałem. Pluginy to jednocześnie jedna z największych zalet, ale również wad Gatsbiego.
 
-Next daję mi **większe możliwości**, jeśli chodzi o rozbudowę strony, jednak większość rzeczy implementujemy tutaj na własną rękę. To też nie jest tak, że w Next.js nie mamy żadnych pluginów, czy starterów, to wszystko jest na swoim miejscu, ale nie są one podstawą tego frameworka. Next ma również, w mojej opinii, trochę **przejrzystsze** API, całość jest bardziej intuicyjna, ale próg wejścia może(chociaż tutaj sprawa nie jest taka prosta) wyższy. W żaden sposób nie dyskredytuję tutaj Gatsbiego, nadal go uwielbiam, po prostu, ja używam tych frameworków do trochę innych celów. Tym razem postanowiłem postawić na Nexta i nie żałuję.
+Next daję mi **większe możliwości**, jeśli chodzi o rozbudowę strony, jednak większość rzeczy implementujemy tutaj na własną rękę. To też nie jest tak, że w Next.js nie mamy żadnych pluginów, czy starterów, to wszystko jest na swoim miejscu, ale nie są one podstawą tego frameworka. Next ma również, w mojej opinii, trochę **przejrzystsze** API, całość jest bardziej intuicyjna, ale próg wejścia może (chociaż tutaj sprawa nie jest taka prosta) być wyższy. W żaden sposób nie dyskredytuję tutaj Gatsbiego, nadal go uwielbiam, po prostu używam tych frameworków do trochę innych celów. Tym razem postanowiłem postawić na Nexta i nie żałuję.
 
 Może pora na jakieś większe porównanie, **co Ty na to?**
 
@@ -67,7 +67,7 @@ Może pora na jakieś większe porównanie, **co Ty na to?**
 
 A gdzie trzymane są posty? Podobnie jak poprzednio, lokalnie w repozytorium. Wcześniej tworzyłem posty w [Markdownie](https://pl.wikipedia.org/wiki/Markdown), tym razem postawiłem na coś, co daje mi większą swobodę i supermoce! [MDX](https://mdxjs.com/) to taki Markdown na sterydach, w którym możemy umieszczać **Reaktowe komponenty**. Daję to naprawdę duże możliwości, w każdym momencie mogę stworzyć jakiś *customowy* komponent i wrzuć go do pliku z artykułem.
 
-Nie wspominam już o interaktywnej artykułach, będzie ciekawie ;)
+Nie wspominam już o interaktywnych artykułach, będzie ciekawie ;)
 
 ### Stylowanie
 
@@ -112,7 +112,7 @@ Sprawa wygląda znacznie ciekawiej, jeśli chodzi o lokalne fonty. Dostępne opc
 
 ## Dostępność
 
-Cała strona została przetestowana za pomocą czytnika ekranowego(**VoiceOver**) oraz **klawiatury**. Kontrast, w więszkości przypadków, jest na okej poziomie, nie jest idealnie, ale praktycznie zawsze łapię się w _standardy WCAG_.
+Cała strona została przetestowana za pomocą czytnika ekranowego (**VoiceOver**) oraz **klawiatury**. Kontrast, w więszkości przypadków, jest na okej poziomie, nie jest idealnie, ale praktycznie zawsze łapię się w _standardy WCAG_.
 
 Zdarzają się wyjątki, są to teksty na kartach z kategoriami i theme dla bloków kodu. Karty mają tło stworzone za pomocą różnych gradientów, dlatego ciężko dopasować odpowiedni kontrast dla tekstu. Bloki kodu, zupełnie inaczej niż poprzednio, posiadają jasny motyw, ciemny po prostu nie pasował do stylistyki strony. W tym przypadku występują problemy z kontrastem podświetlanego kodu, spędziłem sporo czasu na poszukiwaniach jakiegoś gotowego, jasnego motywu, który wygląda sensownie i posiada odpowiedni kontrast. Niestety, **nie udało mi się** takiego znaleźć.
 
@@ -120,7 +120,7 @@ Zdarzają się wyjątki, są to teksty na kartach z kategoriami i theme dla blo
 
 Kilka rzeczy ubyło. Przede wszystkim nie ma ciemnego motywu. Jak wspominałem wcześniej, przy ciemnym motywie, na starej wersji strony, niektóre ikonki technologii wyglądały źle albo po prostu były niewidoczne. Tym razem nie ma ikonek technologii, więc problem by nie występował. Bardzo możliwe, że dark theme będzie dodany w przyszłości.
 
-Kolejną rzeczą, która nie znalazła się na stronie jest **wyszukiwarka** i możliwość dodawania **komentarzy**. Popularnego _szukajki_ nie implementowałem z jednego, prostego względu. Wszystkie artykuły pogrupowane są w **kategorie**, dlatego myślę, że nie będziesz miał/a problemów ze znalezieniem interesujących Cię artykułów. Jeśli brakuję Ci tej opcji, daj mi znać, na pewno stworzę taką dla Ciebie(no sarcasm). Komentarzy nie dodawałem, ponieważ średnio pasowały mi do wyglądu strony. Rzadko ktoś komentował posty bezpośrednio na stronie, myślę, że nie będzie to wielki cios.
+Kolejną rzeczą, która nie znalazła się na stronie jest **wyszukiwarka** i możliwość dodawania **komentarzy**. Popularnego _szukajki_ nie implementowałem z jednego, prostego względu. Wszystkie artykuły pogrupowane są w **kategorie**, dlatego myślę, że nie będziesz miał/a problemów ze znalezieniem interesujących Cię artykułów. Jeśli brakuję Ci tej opcji, daj mi znać, na pewno stworzę taką dla Ciebie (no sarcasm). Komentarzy nie dodawałem, ponieważ średnio pasowały mi do wyglądu strony. Rzadko ktoś komentował posty bezpośrednio na stronie, myślę, że nie będzie to wielki cios.
 
 Doszła nowa sekcja pod każdym postem! Możesz teraz w łatwy sposób <Sparkles>udostępnić</Sparkles> dany artykuł na Twitterze i Facebooku. Jeśli Ci się podobało, udostępnij, pozwoli mi to dotrzeć do większej liczby odbiorców, dzięki :)
 
