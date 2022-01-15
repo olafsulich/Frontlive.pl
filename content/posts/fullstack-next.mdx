@@ -174,7 +174,7 @@ npm run pre-commit
 
 ### TailwindCSS
 
-Przez jednych kochanych, przez drugich znienawidzony, TailwindCSS. Ja jestem gdzieś po środku, ani nie kocham Tailwinda, ani mi on nie przeszkadza. Dlaczego więc właśnie go wybrałem do tego projektu? Na pewno nie można mu odmówić jednego, że bardzo szybko się w nim prototypuje projekty i właśnie to zadecydowało o jego miejscu tutaj 🏎️
+Przez jednych kochany, przez drugich znienawidzony, TailwindCSS. Ja jestem gdzieś po środku, ani nie kocham Tailwinda, ani mi on nie przeszkadza. Dlaczego więc właśnie go wybrałem do tego projektu? Na pewno nie można mu odmówić jednego, że bardzo szybko się w nim prototypuje projekty i właśnie to zadecydowało o jego miejscu tutaj 🏎️
 
 Konfiguracja jest banalnie prosta, wystarczy jedna komenda:
 
@@ -326,7 +326,7 @@ Jeśli korzystasz z Docker Desktop, powinieneś widzieć tak działające konten
 
 ## Prisma
 
-Jak już jesteśmy przy bazach danych, to przejdźmy do naszego rozwiązania ORM, czyli Prismy. Szczerze mówiąc to jestem wielkim fanem tej technologii, praca z nią to czysta przyjemność... Ale zacznimy od początku, czym w ogóle jest Prisma?
+Jak już jesteśmy przy bazach danych, to przejdźmy do naszego rozwiązania ORM, czyli Prismy. Szczerze mówiąc to jestem wielkim fanem tej technologii, praca z nią to czysta przyjemność... Ale zacznijmy od początku, czym w ogóle jest Prisma?
 
 Prisma jest rozwiązaniem ORM, które w pełni wspiera TypeScripta. Prisma udostępnia nam również szereg przydatnych narzędzi do migracji, czy wizualizacji danych takich jak `prisma studio`. Oferuje nam ona w pełni otypowany, wysokopoziomowy klient bazy danych. Bez zbędnego gadania, sprawdźmy jak to działa!
 
@@ -351,7 +351,7 @@ datasource db {
 }
 ```
 
-Na samym początku definiujemy podstawową konfigurację i provider, czyli wcześniej wybraną bazę danych. Prismę możemy wykorzystywać z różnymi narzędzami począwszy od właśnie Postgresa, idąc przez MySQL, SQLite, a kończąc na MongoDB.
+Na samym początku definiujemy podstawową konfigurację i provider, czyli wcześniej wybraną bazę danych. Prismę możemy wykorzystywać z różnymi narzędziami począwszy od właśnie Postgresa, idąc przez MySQL, SQLite, a kończąc na MongoDB.
 
 Zdefiniujmy nasz pierwszy model, model użytkownika:
 
@@ -391,7 +391,7 @@ Pojawiło nam się tutaj sporo nowości. Zacznijmy od enuma, enum działa podobn
 
 Atrybut `@map("email_verified")` mapuje nam nazwę tego pola tak, aby w bazie danych była ona zapisana w innej konwencji nazewniczej. Podobnie jest z atrybutem `@@map("users")`, w tym przypadku zmieniamy nie nazwę atrybutu, a modelu i tabeli.
 
-A o co chodzi z `Account[]` i `Session[]`? Tutaj do gry wchodzą relacje. Weźmy za przykład sesję, mamy tutaj do czynienia z relacją jeden do wielu, czyli użytkownik może mieć w wiele sesji, ale sesja tylko jednego użytkownika, logiczne, prawda?
+A o co chodzi z `Account[]` i `Session[]`? Tutaj do gry wchodzą relacje. Weźmy za przykład sesję, mamy tutaj do czynienia z relacją jeden do wielu, czyli użytkownik może mieć wiele sesji, ale sesja tylko jednego użytkownika, logiczne, prawda?
 
 ```
 enum Role {
@@ -590,7 +590,7 @@ export const Layout = ({ children }: LayoutProps) => (
 );
 ```
 
-Zwróć uwagę na typ podawanych przeze mnie propsów i sposób typowania komponentów. Celowo nie korzystam tutaj z `React.FC`, więcej o wadach tego typu mówiłem w artykule [React Children + TypeScript](https://frontlive.pl/blog/react-typescript-generyczne-komponenty). Propsy deklaruje z dodatkiem `readonly`, po prostu lubię mieć niemutowalne dane.
+Zwróć uwagę na typ podawanych przeze mnie propsów i sposób typowania komponentów. Celowo nie korzystam tutaj z `React.FC`, więcej o wadach tego typu mówiłem w artykule [React Children + TypeScript](https://frontlive.pl/blog/react-children-i-typescript). Propsy deklaruje z dodatkiem `readonly`, po prostu lubię mieć niemutowalne dane.
 
 Tak przygotowany kawałek kodu używamy na stronie głównej:
 
@@ -670,7 +670,7 @@ export const Product = (product: ProductProps) => {
 };
 ```
 
-To co na pewno przykuło Twoją uwagę to typ `Prisma.Product`. Tutaj właśnie zaczyna się pojawiać cała magia Prismy, generuje ona z wcześniej stworzonej schemy TypeScriptowe typy. Dla każdego modelu mamy osoby typ:
+To co na pewno przykuło Twoją uwagę to typ `Prisma.Product`. Tutaj właśnie zaczyna się pojawiać cała magia Prismy, generuje ona z wcześniej stworzonej schemy TypeScriptowe typy. Dla każdego modelu mamy osobny typ:
 
 ```tsx
 import type Prisma from '@prisma/client';
@@ -1260,7 +1260,7 @@ export const Product = (product: ProductProps) => {
 
 ## Uwierzytelnianie
 
-Prawie każda współczesna aplikacja posiada system logowania użytkowników, dlatego tej ważne funkcjonalności nie mogło zabraknąć w naszym sklepie. Uwierzytelnianie w aplikacjach często wygląda w bardzo podobny sposób, dlatego społeczność Next.js wyszła z inicjatywą i stworzyła bibliotekę NextAuth, która umożliwia nam uwierzytelnianie za pomocą różnych providerów. My będziemy korzystać z GitHuba, ale w bardzo prosty sposób możesz dodać do swojej aplikacji logowanie z pomocą maila, Googla, Facebooka itp.
+Prawie każda współczesna aplikacja posiada system logowania użytkowników, dlatego tej ważnej funkcjonalności nie mogło zabraknąć w naszym sklepie. Uwierzytelnianie w aplikacjach często wygląda w bardzo podobny sposób, dlatego społeczność Next.js wyszła z inicjatywą i stworzyła bibliotekę NextAuth, która umożliwia nam uwierzytelnianie za pomocą różnych providerów. My będziemy korzystać z GitHuba, ale w bardzo prosty sposób możesz dodać do swojej aplikacji logowanie z pomocą maila, Googla, Facebooka itp.
 
 ### Konfiguracja NextAuth
 
