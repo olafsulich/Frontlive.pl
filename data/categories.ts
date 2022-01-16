@@ -15,4 +15,5 @@ export const categoriesArr: Category[] = [
   { title: 'Webpack', path: '/kategorie/webpack' },
   { title: 'Praca', path: '/kategorie/praca' },
   { title: 'Architektura', path: '/kategorie/architektura' },
+  { title: 'Cypress', path: '/kategorie/cypress' },
 ];
