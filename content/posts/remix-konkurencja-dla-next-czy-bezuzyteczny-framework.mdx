@@ -1,0 +1,111 @@
+---
+title: 'Remix - konkurencja dla Next.js czy kolejny bezużyteczny framework?'
+category: 'React'
+publishedAt: '31-01-2022'
+isPublished: false
+popular: false
+image: '/images/remix/thumbnail.png'
+excerpt: 'Nowy dzień, nowy framework JavaScript. Czy Remix, nowość od twórców React Router, to kolejna beużyteczna biblioteka, czy technologia warta uwagi?'
+---
+
+Od kilku miesięcy moja Twitterowa tablica zalewana jest przez jeden konkretny temat - Remix. Nowy framework JS typu server-side od twórców React Router i... **Kent C. Doddsa**! Czy faktycznie jest taki dobry, jak go reklamują? Sprawdźmy to!
+
+## Historia Remixa
+
+Początki Remixa nie były usłane różami, twórcy postawili na nietypowy model promocji - ten framework miał być **płatny**! W normalnym świecie nikogo by to nie zdziwiło, ale w naszej programistycznej bańce, takie działania _nie zostały_ przyjęte ochoczo. Powiedzmy sobie szczerze, jesteśmy przyzwyczajeni do **open source** i darmowych bibliotek. Każdy z nas korzysta za darmo z pracy innych ludzi i nie widzimy w tym nic złego.
+
+<Image
+  src="/images/remix/preview.png"
+  alt="Zestawienie płatnych planów we wczesnej wersji Remixa"
+/>
+
+Opinie środowiska były dość negatywne aż do czasu pojawienia się promocji ze strony [Kent C. Doddsa](https://kentcdodds.com/). Stworzył on kilka artykułów i przepisał kompletnie swoją stronę na Remixa. Kent to znany i ceniony w środowisku JavaScript nauczyciel, bloger i twórca bibliotek open source. Odpowiada on za takie projekty jak [React Testing Library](https://github.com/testing-library/react-testing-library), czy [Downshift](https://github.com/downshift-js/downshift). Od lat prowadzi bloga, kanał na YouTube, występuje na konferencjach oraz tworzy darmowe (i płatne) kursy na platformach takich jak Egghead 🥚 Jednym słowem, to bardzo znana i lubiana postać w świecie front-endu. Nic więc dziwnego, że po jego uznaniu dla Remixa, ludzie zaczęli coraz baczniej przyglądać się tej technologii.
+
+Kolejny przełom na początku października 2021 roku, twórcy Remixa ogłosili, że dostali dofinansowanie i stają się open source!
+
+<Image
+  src="/images/remix/open-source.png"
+  alt="Artykuł twórców Remixa mówiący o przekazaniu dofinansowania przez OSS Capital na rozwój frameworka"
+/>
+
+Ten krok był małą iskierką nadziei, wszyscy wiedzieli, że to nie był jeszcze czas na płatne rozwiązania technologiczne. W listopadzie ubiegłego roku internet obiegła "niespodziewana" informacja o tym, że Kent oficjalnie zostaje **współzałożycielem** oraz tzw. _Director of Developer Experience_ w Remixie. Z mojego punktu widzenia właśnie od tego momentu hype train najbardziej się rozpędził. Masa informacji i ciągłe wychwalanie tej technologii sprawiły, że postanowiłem przyjrzeć się temu z bliska...
+
+## Co w trawie piszczy?
+
+Twórcy nie siłowali się na wymyślenie koła na nowo, postawili na znany od lat _klasyczny_ Server Side Rendering z kilkoma dodatkami. Remix to przede wszystkim framework fullstackowy, nastawiony na działania po dwóch stronach barykady. Cały framework oparty jest o piekielnie szybki ESBuild 🔥
+
+Hasłami przewodnimi Remixa są "Client/Sever Model", "lepszy UX" i "Progressive Enhancement". Twórcy, wykorzystując _prefeching_ oraz namawiają developerów do podejścia _optimistic UI_, które poprawia wrażenia z korzystania z aplikacji. Ciekawym zabiegiem jest [podejście do formularzy](https://remix.run/docs/en/v1/guides/data-writes#plain-html-forms), takie trochę PHP style :)
+
+Komunikacja klient-serwer odbywa się za pośrednictwem funkcji `loader` i `action`, każda z nich wywoływana jest na serwerze:
+
+```tsx
+// Wywoływane na serwerze rządzania typu GET
+export async function loader() {}
+
+// Wywoływane na serwerze POST, PUT, PATCH, i DELETE
+export async function action() {}
+
+export default function Page() {
+  const loaderData = useLoaderData();
+  const actionData = useActionData();
+}
+```
+
+Wygląda to na proste i przyjemne rozwiązanie, podobne do tego, które uświadczymy w Next.
+
+Jedną z mega kluczowych rzeczy w aplikacjach frontendowych jest **routing**. Osobiście jestem fanem tzw. _file based_ routing i całe szczęście Remix poszedł właśnie w tę stronę:
+
+<Image
+  src="/images/remix/routing.png"
+  alt="Odzwierciedlenie routingu jako struktury komponentów w Remix"
+/>
+
+To co mnie w routingu zaskoczyło to możliwość tworzenia tzw. _Nested Routes_. Jest to mechanizm, który pozwala nam skorzystać ze strony nadrzędnej jako swojego rodzaju wrappera na stronę dynamiczną! Takie rozwiązanie idealnie się sprawdzi, gdy mamy dość skompilokowany UI, a w dynamicznym roucie potrzebujemy zmienić tylko kawałek aplikacji. Koniec z komponentem `<Layout/>`, Remix robi tą robotę za Ciebie.
+
+<Image
+  src="/images/remix/nested-routes.png"
+  alt="Aplikacja Fastbooks stworzona na potrzeby Remixa pokazująca możliwości wkorzystania Nested Routes i braku konieczności wykorzystywania popularnego komponentu Layout dla poszczególnych podstron"
+/>
+
+Nested Routes posiadają jeszcze jedną dużą zaletę - obsługę błędów. Remix automatycznie wypłapuje za nas praktycznie każde błędy z route'ów i przekazuje je do dobrze znanego komponentu _Error Boundary_. Co ciekawe takich komponentów może być wiele, Remix sam wykryje na jakiej ścieżce dany błąd wystąpił i wyrenerduje odpowiedni placeholder błędu:
+
+<Image
+  src="/images/remix/error-boundary.png"
+  alt="Aplikacja Fastbooks stworzona na potrzeby Remixa pokazująca możliwości wkorzystania tzw. Error Boundaries w zakresie danego komponentu"
+/>
+
+## Next vs Remix
+
+Czy Next ma zacząć pakować walizę? 💼 Oczywiście, że nie :) Remix to całkowicie nowe rozwiązanie i pomimo kilku fajnych featurów nie widzę, aby był niesamowicie rewolucyjnym frameworkiem. Obecnie największym zbudowanym projekcie na Remixie jest strona Kent C. Doddsa i z tego co wiem działa świetnie, ale to "tylko" blog. Next został już sprawdzony w boju na wielu komercyjnych projektach.
+
+Twórcy Remixa przygotowali [małe porównanie](https://remix.run/blog/remix-vs-next) swojego frameworka z Next... Zgadnijcie, jakie były wyniki ;)
+
+To, co na pewno trzeba przyznać to fakt, że Remix tylko pomoże nam developerom. Konkurencja wśród bilbiotek tylko wyjdzie nam na dobre.
+
+<Image
+  src="/images/remix/konkurencja.png"
+  alt="Tweet Lee Robinsona, w którym autor mówi o tym, że konkurencja wśród blibliotek jest dobra dla użytkownika końcowego"
+/>
+
+## Przyszłość Remixa
+
+Niestety nie mam zdolności przewidywania przyszłości, ale patrząc na obecny rozwój tego frameworka, jestem dobrych myśli :) Kent na pokładzie, więc jest dobry marketing, a to już bardzo wiele by się przebić przez inne rozwiązania na rynku. Twórcy nie próżnują i organizują szkolenia i konferencje, oby tak dalej!
+
+Jakie mają plany na przyszłość? Czyżby Remix miał być rozwiązaniem _framework agnostic_?
+
+<Image
+  src="/images/remix/przyszlosc.png"
+  alt="Tweet Kenta opisujący plany na przyszłość w Remixie"
+/>
+
+## Podsumowanie
+
+Nie ukrywam, że na początku byłem nieco negatywnie nastawiony. Podejście do początkowej, płatnej promocji do mnie nie trafiło. Obecnie sytuacja się trochę zmieniła, poznałem w małym stopniu Remixa i widzę jakie zalety i wady posiada, ale nadal niesamowicie denerwuje mnie wielki hype i wychwalanie tej technologii nad niebiosa. Wkurzające, ale działa, bez tego prawdopodobnie ten artykuł by nie powstał :)
+
+Do czego sprawdzi się Remix? Ciężko oceniać, ale przez swoją naturę bardziej pasuje do średnich aplikacji fullstackowych, niż do małych strony, czy wielkich molochów.
+
+Do usłyszenia!
+
+### Źródła
+
+- [Remix.run](https://remix.run/)
