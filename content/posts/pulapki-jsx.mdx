@@ -1,0 +1,288 @@
+---
+title: 'Pułpaki konstrukcji warunkowych w React i JSX'
+category: 'React'
+publishedAt: '14-02-2022'
+isPublished: false
+popular: false
+image: '/images/pulapki-jsx/thumbnail.png'
+excerpt: 'React, JSX i renderowanie warunkowe - to nie może się skończyć dobrze! Sprawdź jakie pułapki czyhają na nas podczas korzystania z operatorów logicznych (i nie tylko)'
+---
+
+Warunkowe renderowanie w React, w przeciwieństwie do takiego Vue.js może odbywać się za pomocą [operatorów logicznych](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND). Takie rozwiązanie to w teorii łatwiejsza do nauczenia składania, z drugiej strony niesie ono za sobą szereg pułapek, na które warto zwracać uwagę.
+
+## Strzeż się zera
+
+Bardzo często zdarza nam się korzystać z operatora AND (`&&`), żeby wyświetlić jakiś kawałek JSX. Załóżmy, że tworzymy komponent odpowiadający za wyświetlanie ceny i ilości danego przedmiotu w koszyku. Ilość jest niezbędna do wyświetlenia całego komponentu, a przez to, że pochodzi z zewnętrznego serwisu może mieć wartość typu `number` lub być pod postacią `undefined`:
+
+```tsx
+quantity && <PriceAndQuantity quantity={quantity} />;
+```
+
+Jeśli ilość będzie `undefined`, to po prostu nie wyświelimy komponentu. A co jeśli jej wartość będzie `0`? Spodziewalibyśmy się, że tak jak w przypadku `undefined` komponent nie zostanie wyrenderowany, w końcu `0` jest _falsy_, dzieje się jednak inaczej... Do naszego drzewa DOM _przecieka_ faktyczne `0`! Ale jak?
+
+Właśnie z powodu tego, że `0` jest wartością _falsy_, JavaScript przetworzy je i natychmiastowo zwróci. Kilka przykładów wykorzystania `&&`:
+
+```ts
+0 && true; // 0
+true && 0; // 0
+false && true; // false
+true && ''; // ''
+```
+
+Dlaczego więc takie `false` albo `undefined` nie jest renderowane przez JSX w DOM? Ponieważ `0`, w przeciwieństwie do tych wartości, jest w 100% poprawnym React Node, dlatego możemy zrobić `<p>ilość sztuk: {quantity}</p>` i dostaniemy poprawną wiadomość z ilością produktów.
+
+Bardzo częstym przykładem jest również sprawdzanie długości tablicy i na bazie tego renderowane komponentu:
+
+<Highlight variant="error" title="Źle  ❌">
+
+```tsx
+items.length && <ItemsList items={items} />;
+```
+
+</Highlight>
+
+Jak to naprawić? Mam kilka asów w rękawie:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```tsx
+items.length > 0 && <ItemsList items={items} />;
+
+// lub
+
+!!items.length && <ItemsList items={items} />;
+
+// lub
+
+Boolean(items.length) && <ItemsList items={items} />;
+
+// lub
+
+items.length ? <ItemsList items={items} /> : null;
+```
+
+</Highlight>
+
+## Pierwszeństwo operatorów
+
+Budujemy dashboard dla naszego serwera Discord, w którym administratorzy i moderatorzy będą mogli zmieniać ustawienia serwera. Każdy użytkownik w naszej aplikacji będzie miał specjalne pole **roli**, na bazie której będziemy chcieli renderować komponent ustawień serwera:
+
+```tsx
+// prettier-ignore
+user.role === 'admin' || user.role === 'moderator' && <ServerSettings />;
+```
+
+> Olaf, szukam i szukam ten pułapki, ale w tym kodzie nie ma nic nadzwyczajnego!
+
+Wszystko rozchodzi się o tzw. [pierwszeństwo operatorów](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence). Logiczny operator OR (`||`) ma pierwszeństwo nad AND ('&&'), dlatego pod spodem nasz kodem będzie wyglądał w ten sposób:
+
+<Highlight variant="error" title="Źle  ❌">
+
+```tsx
+user.role === 'admin' || (user.role === 'moderator' && <ServerSettings />);
+```
+
+</Highlight>
+
+Jak już możesz się domyślić, ten kod skończyłby się istną katastrofą! Gdy nasz użytkownik będzie miał rolę administratora, wyrażenie `user.role === 'admin'` zamieni się na `true` a to przy operatorze OR (`||`) zostanie zwrócone do JSX...
+
+Sposób na poprawienie tego, to odpowiednie dostosowanie nawiasów:
+
+<Highlight variant="success" title="Dobrze  ✅">
+
+```tsx
+(user.role === 'admin' || user.role === 'moderator') && <ServerSettings />;
+```
+
+</Highlight>
+
+## Czytelność
+
+Ternaries i czytelność to często toksyczny związek ❌ To jedna z najczęstszych i najbardziej przebiegłych pułapek!
+
+Wróćmy do dashboardu, dla każdej roli użytkownika chcemy wyświetlać osobny dashboard:
+
+<Highlight variant="error" title="Źle  ❌">
+
+```tsx
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    {user.role === 'admin' ? (
+      <AdminUserDashBoard />
+    ) : user.role === 'moderator' ? (
+      <ModeratorUserDashBoard />
+    ) : user.role === 'normal' ? (
+      <NormalUserDashBoard />
+    ) : (
+      <span>Twoja rola nie jest obecnie wspierana</span>
+    )}
+    <Footer />
+  </div>
+);
+```
+
+</Highlight>
+
+Ałć! Z każdą dodaną rolą ten kod będzie wyglądał tylko gorzej. Spróbujmy podejścia z klasycznymi ifami:
+
+<Highlight variant="warning" title="If, if i if 🤔">
+
+```tsx
+type UserRole = 'admin' | 'moderator' | 'normal';
+
+const renderUserDashboard = (role: UserRole) => {
+  if (role === 'admin') {
+    return <AdminUserDashBoard />;
+  }
+  if (role === 'moderator') {
+    return <ModeratorUserDashBoard />;
+  }
+  if (role === 'normal') {
+    return <NormalUserDashBoard />;
+  }
+
+  return <span>Twoja rola nie jest obecnie wspierana</span>;
+};
+
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    {renderUserDashboard()}
+    <Footer />
+  </div>
+);
+```
+
+</Highlight>
+
+Lepiej lepiej, ale nadal te ify mnie nie przekonują, co powiesz na switcha?
+
+<Highlight variant="warning" title="A może tak? 🤔">
+
+```tsx
+type UserRole = 'admin' | 'moderator' | 'normal';
+
+const renderUserDashboard = (role: UserRole) => {
+  switch (role) {
+    case 'admin':
+      return <AdminUserDashBoard />;
+    case 'moderator':
+      <ModeratorUserDashBoard />;
+    case 'normal':
+      <NormalUserDashBoard />;
+    default:
+      <span>Twoja rola nie jest obecnie wspierana</span>;
+  }
+};
+
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    {renderUserDashboard()}
+    <Footer />
+  </div>
+);
+```
+
+</Highlight>
+
+Hmm, sam nie wiem, czy mamy coś jeszcze w zanadrzu?
+
+### React-If
+
+Jakiś czas temu natrafiłem na dość ciekawą bilbiotekę, [react-if](https://github.com/romac/react-if) zamiast korzystać z ternatires, używa zwykłych komponentów:
+
+```tsx
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    <If condition={user.role === 'admin'}>
+      <Then>
+        <AdminUserDashBoard />
+      </Then>
+    </If>
+    <If condition={user.role === 'moderator'}>
+      <Then>
+        <ModeratorUserDashBoard />
+      </Then>
+    </If>
+    <If condition={user.role === 'normal'}>
+      <Then>
+        <NormalUserDashBoard />
+      </Then>
+    </If>
+    <Unless condition={['admin', 'moderator', 'normal'].includes(user.role)}>
+      <span>Twoja rola nie jest obecnie wspierana</span>
+    </Unless>
+    <Footer />
+  </div>
+);
+```
+
+Mamy tutaj do dyspozycji takie komponetny jak `<If/>`, `<Else/>`, `<When/>`, `<Unless/>`, a nawet odpowiednik klasycznego `<Switch/>`:
+
+<Highlight variant="warning" title="A może tak? 🤔">
+
+```tsx
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    <Switch>
+      <Case condition={user.role === 'admin'}>
+        <AdminUserDashBoard />
+      </Case>
+      <Case condition={user.role === 'moderator'}>
+        <ModeratorUserDashBoard />
+      </Case>
+      <Case condition={user.role === 'normal'}>
+        <NormalUserDashBoard />
+      </Case>
+      <Default>
+        <span>Twoja rola nie jest obecnie wspierana</span>
+      </Default>
+    </Switch>
+    <Footer />
+  </div>
+);
+```
+
+</Highlight>
+
+Frontend Developerzy, którzy przyzwyczajeni są do pisania we Vue, czy Angularze znają podobne patterny, ale mi jakoś ciężko się do nich przyzwyczaić, chociaż muszę przyznać, że to o wiele bardziej czytelne :)
+
+### Pattern Matching
+
+A co powiesz na [Pattern Matching](https://dev.to/gvergnaud/bringing-pattern-matching-to-typescript-introducing-ts-pattern-v3-0-o1k)? Halo Olaf, ale przecież [ECMA proposal](https://github.com/tc39/proposal-pattern-matching) dla tej konstrukcji jest dopiero w pierwszym stage'u! Uwaga, mam godnego zastępce, `ts-pattern` to bilbioteka do pseudo Pattern Matchingu zbudowana z myślą o TypeScripcie 💙
+
+<Highlight variant="success" title="Czytelniej  ✅">
+
+```tsx
+type UserRole = 'admin' | 'moderator' | 'normal';
+
+const Dashboard = ({ user }) => (
+  <div>
+    <Header />
+    {match<UserRole>(user.role)
+      .with('admin', () => <AdminUserDashBoard />)
+      .with('moderator', () => <ModeratorUserDashBoard />)
+      .with('normal', () => <NormalUserDashBoard />)
+      .otherwise(() => (
+        <span>Twoja rola nie jest obecnie wspierana</span>
+      ))}
+    <Footer />
+  </div>
+);
+```
+
+</Highlight>
+
+Wygląda to naprawdę **świetnie** i jest _type-safe_! Taką konstrukcję możemy również wynieść do funkcji `renderUserDashboard` :) Czego chcieć więcej?
+
+Minusem takiego rozwiązania jest na pewno konieczność instalowania dodatkowej biliboteki, no cóż, coś za coś.
+
+## Podsumowanie
+
+_It's a trap!_ Tak można podsumować konstrukcje warunkowe w React i JSX. Uważajcie na siebie i nie dajcie się złapać!
+
+Do usłyszenia!
