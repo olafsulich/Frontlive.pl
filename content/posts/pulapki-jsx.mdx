@@ -74,7 +74,7 @@ user.role === 'admin' || user.role === 'moderator' && <ServerSettings />;
 
 > Olaf, szukam i szukam ten pułapki, ale w tym kodzie nie ma nic nadzwyczajnego!
 
-Wszystko rozchodzi się o tzw. [pierwszeństwo operatorów](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence). Logiczny operator AND ('&&') ma pierwszeństwo nad OR (`||`), dlatego pod spodem nasz kodem będzie wyglądał w ten sposób:
+Wszystko rozchodzi się o tzw. [pierwszeństwo operatorów](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence). Logiczny operator AND (`&&`) ma pierwszeństwo nad OR (`||`), dlatego pod spodem nasz kodem będzie wyglądał w ten sposób:
 
 <Highlight variant="error" title="Źle  ❌">
 
