@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo';
 import { Header } from '../../components/layout/header/header';
 import { Footer } from '../../components/layout/footer/footer';
 import { getPost } from '../../lib/mdx';
-import { MDX } from '../../components/mdx/mdx';
+// import { MDX } from '../../components/mdx/mdx';
 
 export async function getStaticPaths() {
   return {
