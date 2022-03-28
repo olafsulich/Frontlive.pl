@@ -4,8 +4,8 @@
   box-sizing: border-box;
   scroll-margin-top: 4rem;
   ::selection {
-    background-color: var(--yellow);
-    color: var(--black);
+    background-color: white;
+    color: black;
   }
 }
 
@@ -21,11 +21,12 @@ html {
 }
 
 body {
-  background-color: #101821;
+  background-color: white;
   min-height: 100vh;
   min-height: -webkit-fill-available;
   width: 100%;
-  overflow-x: hidden;
+  background: #0f0d0c;
+  color: white;
 }
 
 [data-whatintent='mouse'] *:focus {
@@ -48,38 +49,12 @@ button {
   background: none;
 }
 
-.error {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin: 8rem 0;
-
-  h1 {
-    text-align: center;
-  }
-}
-
-.onePage {
-  padding: 2rem;
-  margin: 0 auto;
-  width: 100%;
-
-  @include mediaquery('sm') {
-    padding: 3rem 4rem;
-  }
-
-  @include mediaquery('xl') {
-    overflow: hidden;
-  }
-
-  nav {
-    max-width: 156rem;
-  }
-}
-
 .mainWrapper {
   max-width: 128rem;
   margin: 35rem auto 0 auto;
+}
+
+[data-radix-portal] {
+  width: 100%;
+  z-index: 10 !important;
 }

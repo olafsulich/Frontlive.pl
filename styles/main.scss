@@ -1,13 +1,15 @@
-@import "./global.scss";
+@import './reset.scss';
 
-@import "./_typography.scss";
+@import './global.scss';
 
-@import "./_mixins.scss";
+@import './_typography.scss';
 
-@import "./variables.scss";
+@import './_mixins.scss';
 
-@import "./common.scss";
+@import './variables.scss';
 
-@import "./theme.scss";
+@import './common.scss';
 
-@import "./mdx.scss";
+@import './theme.scss';
+
+@import './mdx.scss';

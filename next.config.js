@@ -32,6 +32,11 @@ const withBundleAnalyzer = (
 const withPolyfills = (module.exports = (nextConfig = {}) => {
   return Object.assign({}, nextConfig, {
     webpack(config, options) {
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      });
+
       const originalEntry = config.entry;
       config.entry = function entry() {
         return Promise.resolve(originalEntry()).then((entries) => {

@@ -1,0 +1,44 @@
+.container {
+  width: 100%;
+  background: #131415;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 145rem;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link {
+  font-size: 1.4rem;
+  color: #ededed;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #7b7b7b;
+  margin-right: 1rem;
+  text-decoration: none;
+}
+
+.arrow,
+.closeIcon {
+  path {
+    fill: #7b7b7b;
+  }
+}
+
+.closeButton {
+  cursor: pointer;
+  border: none;
+  background: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+}

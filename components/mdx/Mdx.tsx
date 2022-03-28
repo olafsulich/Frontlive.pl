@@ -1,63 +1,23 @@
-import { Children, memo, ReactNode } from 'react';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import { MDXRemote } from 'next-mdx-remote';
-import slugify from 'slugify';
-import cn from 'classnames';
-import type { PostFrontmatter } from '../../types/types';
+import { useMemo } from 'react';
+import { getMDXComponent } from 'mdx-bundler/client';
+import {Image} from './image/image';
 import styles from './mdx.module.scss';
-import { Heading } from '../shared/components/heading/Heading';
-import { polishPlurals } from 'polish-plurals';
-import Image from 'next/image';
-import { Info } from './info/Info';
 
-// @ts-ignore
-const Share = dynamic(() => import('./share/Share').then((c) => c.Share), {
-  ssr: false,
-});
-
-// @ts-ignore
-const Edit = dynamic(() => import('./edit/Edit').then((c) => c.Edit), {
-  ssr: false,
-});
-
-type MdxProps = {
-  readonly frontmatter: PostFrontmatter;
-  readonly children: ReactNode;
+type MDXProps = {
+  code: string;
+  frontmatter: any;
 };
 
-export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
-  const { title, image } = frontmatter;
+export const MDX = ({ code,frontmatter }: MDXProps) => {
+  const Component = useMemo(() => getMDXComponent(code, { image: Image }), [code]);
 
   return (
     <article className={styles.wrapper}>
-      <header className={styles.header} id="main">
-        <Link href={`/kategorie/${slugify(frontmatter.category, { lower: true })}`}>
-          <a className={cn(styles.category, 'categoryLink')}>
-            <span className="visually-hidden">Kategoria:</span>
-            <span>{frontmatter.category}</span>
-          </a>
-        </Link>
-        <Heading
-          beforeContent={frontmatter.category}
-          tag="h1"
-          variant="secondary"
-          className={styles.heading}
-        >
-          {title}
-        </Heading>
-        <div className={styles.image}>
-          <Image width={1200} height={628} src={image} alt="" />
-        </div>
-        <Info frontmatter={frontmatter} />
-      </header>
-      <div className={cn(styles.content, 'content')}>
-        {children}
-        <Share />
-        <Edit />
-      </div>
+        <header className={styles.header}>
+      <h1 className={styles.title}>{frontmatter.title}</h1>
+<p className={styles.author}>by Olaf Sulich</p>
+            </header>
+      <Component />
     </article>
   );
-});
-
-Mdx.displayName = 'Mdx';
+};

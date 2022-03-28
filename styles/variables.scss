@@ -45,4 +45,16 @@
   --orange: rgb(249, 115, 22);
   --orange-100: rgba(251, 146, 60, 0.3);
   --orange-gradient-accent: rgba(251, 146, 60, 0.8);
+
+   --shiki-color-text: #EEEEEE;
+    --shiki-color-background: #333333;
+    --shiki-token-constant: #660000;
+    --shiki-token-string: #770000;
+    --shiki-token-comment: #880000;
+    --shiki-token-keyword: #990000;
+    --shiki-token-parameter: #AA0000;
+    --shiki-token-function: #BB0000;
+    --shiki-token-string-expression: #CC0000;
+    --shiki-token-punctuation: #DD0000;
+    --shiki-token-link: #EE0000;
 }

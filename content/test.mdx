@@ -1,0 +1,575 @@
+---
+title: Pułapki konstrukcji warunkowych w React i JSX
+description: This is some description
+category: react
+---
+
+import Image from 'image';
+
+Znacie ten ból posiadania wielu `media-query` w swoich CSSach? Na przestrzeli lat, wraz ze wsparciem flexboxa i grida przez przeglądarki, ta sytuacja się zmieniała. Jednak flexbox i grid to nie wszystko, najlepiej by było gdyby różne elementy np. fonty skalowały się **automatycznie** i żebyśmy mieli nad nimi **pełną kontrolę**. Z pomocą przychodzą nam trzy **logiczne funkcje:** `min()`, `max()` i `clamp()`.
+
+<h2 className="article-category">{frontmatter.category}</h2>
+
+## min()
+
+Ta funkcja przyjmuje wartości, które mogą być wyrażone w różnych jednostkach(rem,em,px,%,vw,vh...) i wybiera z nich tą **najmniejszą**. Funkcja `min()` ustawia **maksymalną** wartość.
+
+```css
+.element {
+  width: min(50px, 2rem);
+}
+```
+
+<Image src="/images/olaf.png" alt="Atomic Design System" />
+
+Załóżmy, że nadajemy szerokość dla boxa `min(50%, 800px)`, którą wartość w tym przypadku wybierze funkcja `min()`?. Z moich zaawansowanych obliczeń matematycznych wynika, że **50%**, ponieważ jest mniejsze niż 800px, gdy szerokość rodzica wynosi 1400px.
+
+Kolejność podawanych wartości nie ma znaczenia, możemy ich podać wiele.
+
+## max()
+
+Funkcja `max()` to przeciwieństwo `min()`, tutaj tak samo podajemy wartości po przecinku, ale funkcja wybiera **największą** z nich i ustawia **minimalną** wartość.
+
+```css
+.element {
+  width: max(5vw, 4rem);
+}
+```
+
+Weźmy taki przykład, podajemy do funkcji trzy wartości: `6rem`, `2vw`i `5%`. Załóżmy, że `1rem = 16px`, szerokość viewporta to 1920px, a rodzica 1000px. Największą wartością z tych będzie `6rem` i właśnie taką wartość **minimalną** funkcja ustali dla szerokości naszego boxa.
+
+W naszych funkcjach możemy wykorzystywać różne matematyczne działania, bez konieczności użycia znanego Ci pewnie `calc()`.
+
+## clamp()
+
+Ostatnia na naszej liście, czyli funkcja `clamp()`. Przyjmuje ona trzy wartości: minimalną, preferowaną i maksymalną.
+
+```css
+.element {
+  width: clamp(20rem, 50%, 800px);
+}
+```
+
+Jest ona tak na prawdę połączeniem poprzednich funkcji:
+
+```css
+.element {
+  width: max(20rem, min(50%, 800px)); /* = clamp(20rem, 50%, 800px) */
+}
+```
+
+Weźmy przykład z trzema wartościami: `20px`, `50%` i `4rem`. Tutaj nasza wartość domyślnie będzie 50%, nie może ona być mniejsza niż 20px i większa niż 4rem.
+
+## Przykłady użycia
+
+Do czego może Ci się to przydać? Jedziemy z przykładami!
+
+### Fluid typography
+
+Chyba najbardziej znany przykład w kontekście wykorzystania funkcji `clamp()`, czyli **fluid typography**. Możemy np. zrobić nagłówek, który skaluje się wraz z szerokością viewporta, jednocześnie ustawiając mu minimalną i maksymalna wartość.
+
+```css
+.heading {
+  font-size: clamp(1.5rem, 5vw, 5rem);
+}
+```
+
+### Idealny paragraf
+
+Znacie zasadę, o odpowiedniej liczbie znaków w jednej lini tekstu? Mówi ona, że powinniśmy trzymać się w granicach 45 - 75 znaków na linię. Z `clamp()` to nic trudnego, ustawiamy preferowaną szerokość na `50%` i skrajne wartości na 45 i 75 z [jednostką ch](https://developer.mozilla.org/en-US/docs/Web/CSS/length).
+
+```css
+.text {
+  width: clamp(45ch, 50%, 75ch);
+}
+```
+
+### Dynamiczny margines
+
+Często potrzebujemy nadać margines, np. dla nagłówka, ale po chwili okazuję się, że jest on za mały/za duży dla danej rozdzielczości. Tutaj znowu możemy skorzystać z dobrodziejstw funkcji i zrobić to **dynamicznie**:
+
+```css
+.heading {
+  margin: min(5vh, 3rem) 0;
+}
+```
+
+## Wsparcie przeglądarek
+
+Wsparcie dla omawianych dziś funkcji jest **całkiem niezłe** i praktycznie wszystkie _szanujące się_ przeglądarki je wspierają.
+
+## Dostępność
+
+Przy wykorzystaniu tych funkcji z fontami, musimy zwrócić uwagę na [wymagania WCAG odnośnie zmieniania rozmiaru fontów](https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html). Tekst powinień być skalowalny na przynajmniej 200%, upewnij się też, że Twoje fonty nie są za małe na urządzeniach mobilnych.
+
+## Podsumowanie i playground
+
+Logiczne funkcje to super sprawa, wiadomo, nie wyrzucimy wszystkich media-queries z naszego CSSa, ale możemy trochę zmniejszyć ich ilość i **ułatwić sobie życie**.
+
+To by było tyle na dzisiaj, a już na sam koniec zostawiam Cię z małym [playgroundem](https://codepen.io/olafsulich/pen/WNxaxm), w którym testowałem opisywane dziś funkcje, **have fun!**
+
+### Źródła
+
+- [MDN clamp()](<https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()>)
+- [Web.dev - min(), max(), and clamp()](https://web.dev/min-max-clamp/)
+
+# GFM
+
+## Autolink literals
+
+www.example.com, https://example.com, and contact@example.com.
+
+## Footnote
+
+A note[^1]
+
+[^1]: Big note.
+
+## Strikethrough
+
+~one~ or ~~two~~ tildes.
+
+## Table
+
+| a   | b   |   c |  d  |
+| --- | :-- | --: | :-: |
+
+## Tasklist
+
+- [ ] to do
+- [x] done
+
+<div className="grid-note">
+
+    Prawdopodobnie na początku kariery będziesz wykonywał taski oznaczone jako te _„najłatwiejsze”_, ale nie dołuj się, jeśli przyblokują Cię one na dłuższy moment. To całkowicie normalne, w końcu nie posiadasz jeszcze odpowiedniej wiedzy domenowej/technicznej Twojego nowego projektu, na to potrzeba czasu. Jeśli napotkasz na jakiś problem w żadnym wypadku **nie bój się poprosić kogoś o pomoc**. Każdy wie, że jesteś nową osobą w projekcie, ktoś na pewno nakieruje Cię na rozwiązanie problemu i wytłumaczy parę kwestii, które Cię dręczą, pamiętaj, kto pyta, nie błądzi!
+
+```css
+* {
+  box-sizing: border-box;
+  scroll-margin-top: 4rem;
+  ::selection {
+    background-color: white;
+    color: black;
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: -webkit-fill-available;
+  overflow-x: hidden;
+}
+```
+
+</div>
+
+```ts
+type Filter<Obj extends Object, ValueType> = {
+  [Key in keyof Obj as ValueType extends Obj[Key] ? Key : never]: Obj[Key];
+};
+
+interface Foo {
+  name: string;
+  id: number;
+}
+
+type Filtered = Filter<Foo, string>; // {name: string;}
+```
+
+Prawdopodobnie na początku kariery będziesz wykonywał taski oznaczone jako te _„najłatwiejsze”_, ale nie dołuj się, jeśli przyblokują Cię one na dłuższy moment. To całkowicie normalne, w końcu nie posiadasz jeszcze odpowiedniej wiedzy domenowej/technicznej Twojego nowego projektu, na to potrzeba czasu. Jeśli napotkasz na jakiś problem w żadnym wypadku **nie bój się poprosić kogoś o pomoc**. Każdy wie, że jesteś nową osobą w projekcie, ktoś na pewno nakieruje Cię na rozwiązanie problemu i wytłumaczy parę kwestii, które Cię dręczą, pamiętaj, kto pyta, nie błądzi!
+
+```tsx
+import Document, { Main, Head, Html, NextScript, DocumentContext } from 'next/document';
+import Script from 'next/script';
+
+class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
+
+    return { ...initialProps };
+  }
+
+  render() {
+    return (
+      <Html
+        lang="pl-PL"
+        prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"
+        itemScope
+        itemType="http://schema.org/WebPage"
+      >
+        <Head>
+          <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png" />
+          <link rel="manifest" href="./site.webmanifest" />
+          <link rel="alternate" title="rss feed" type="application/rss+xml" href="/rss.xml" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Newsreader:ital@1&display=swap"
+            rel="stylesheet"
+          />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+
+export default MyDocument;
+```
+
+```html
+<!-- Add an id to the element -->
+<svg>
+  <circle id="circle" cx="5" r="5" fill="black" />
+</svg>
+
+<!-- Pass the id as href to <use> -->
+<svg>
+  <use href="#circle" />
+</svg>
+
+<!-- The same SVG renders twice -->
+```
+
+```tsx
+export default function Index({ result }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const Component = useMemo(() => getMDXComponent(result.code), [result.code]);
+  return (
+    <>
+      <NextSeo />
+      <Component />
+      <Sandpack theme={{ ...nightOwlTheme }} />
+    </>
+  );
+}
+```
+
+```js focus=4
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null ? 0 : ipsum.sit;
+  dolor = sit - amet(dolor);
+  return sit ? consectetur(ipsum) : [];
+}
+```
+
+```js bg=2:4
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null ? 0 : ipsum.sit;
+  dolor = sit - amet(dolor);
+  return sit ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor) : [];
+}
+```
+
+```js focus=4,8
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null && 0;
+  dolor = sit - amet(dolor);
+  // link[16:26] https://github.com/code-hike/codehike
+  return sit ? consectetur(ipsum) : [];
+}
+
+function adipiscing(...elit) {
+  // label something something
+  console.log('hover me');
+  return elit.map((ipsum) => ipsum.sit);
+}
+```
+
+# Wahoo
+
+Here's a **neat** demo:
+
+<CH.Spotlight>
+
+```js app.js
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null && 0;
+  dolor = sit - amet(dolor);
+  return sit ? consectetur(ipsum) : [];
+}
+```
+
+---
+
+Change focus
+
+```js app.js focus=2:4
+
+```
+
+---
+
+Or change the code
+
+```js app.js focus=6:10
+function lorem(ipsum, dolor = 1) {
+  const sit = ipsum == null && 0;
+  dolor = sit - amet(dolor);
+  return sit ? consectetur(ipsum) : [];
+}
+
+function adipiscing(...elit) {
+  console.log(elit);
+  return elit.map((ipsum) => ipsum.sit);
+}
+```
+
+---
+
+Or change the file
+
+<CH.Code>
+
+```js app.js focus=1:4
+function adipiscing(...elit) {
+  console.log(elit);
+  return elit.map((ipsum) => ipsum.sit);
+}
+```
+
+---
+
+```css styles.css
+.lorem {
+  color: #fff;
+  padding: 10px;
+  background: #000;
+}
+```
+
+</CH.Code>
+
+---
+
+### By the way
+
+- you can
+- put any
+- markdown
+- here
+
+👍
+
+```js app.js
+
+```
+
+</CH.Spotlight>
+
+<CH.Section>
+
+Lorem dolor sit amet, [javascript](focus://index.js#2:3) adipiscing elit, sed do eiusmod [styles](focus://styles.css#2:3) incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+<CH.Code>
+
+```js index.js
+function lorem(ipsum, dolor) {
+  const sit = ipsum - amet(dolor);
+  return sit + 'lorem ipsum';
+}
+```
+
+```css styles.css
+.lorem-ipsum > .dolor pre {
+  background-color: var(--color-bg);
+  padding: 1em 0px 10vh 300px;
+}
+```
+
+</CH.Code>
+
+</CH.Section>
+
+<CH.Spotlight preset="https://codesandbox.io/s/zzgrb" start={1}>
+
+```jsx app.js
+import Circle from './circle';
+const red = 'hsl(0 85% 60%)';
+export default function App() {
+  return (
+    <div>
+      <Circle color={red} />
+    </div>
+  );
+}
+```
+
+---
+
+## Lorem
+
+```jsx app.js
+
+```
+
+---
+
+## Ipsum
+
+```jsx app.js focus=5:9
+import Circle from './circle';
+const red = 'hsl(0 85% 60%)';
+export default function App() {
+  return (
+    <div>
+      <Circle color={red} />
+      <Circle color={red} />
+      <Circle color={red} />
+    </div>
+  );
+}
+```
+
+---
+
+## Dolor sit
+
+```jsx app.js focus=2,6:8
+import Circle from './circle';
+const red = 'hsl(0 85% 60%)';
+export default function App() {
+  return (
+    <div>
+      <Circle color={red} />
+      <Circle color={red} />
+      <Circle color={red} />
+    </div>
+  );
+}
+```
+
+---
+
+## Amet
+
+```jsx app.js focus=8:10
+import Circle from './circle';
+const red = 'hsl(0 85% 60%)';
+const blue = 'hsl(240 50% 60%)';
+const gold = 'hsl(60 60% 60%)';
+export default function App() {
+  return (
+    <div>
+      <Circle color={red} />
+      <Circle color={blue} />
+      <Circle color={gold} />
+    </div>
+  );
+}
+```
+
+</CH.Spotlight>
+
+# Scrollycoding
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+
+Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel fringilla est ullamcorper eget. At imperdiet dui accumsan sit amet nulla facilities morbi tempus. Praesent elementum facilisis leo vel fringilla. Congue mauris rhoncus aenean vel. Egestas sed tempus urna et pharetra pharetra massa massa ultricies.
+
+<CH.Scrollycoding>
+
+## Step 1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing something about points, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+```js app.js focus=3:10
+const { lorem, ipsum } = dolor({
+  sit: {
+    amet: 1,
+    consectetur: 2,
+    adipiscing: (elit) => ({
+      sed: elit,
+    }),
+    eiusmod: (tempor) => ({
+      incididunt: tempor,
+    }),
+    ut: (labore) => ({
+      et: labore,
+      dolore: labore + 1,
+    }),
+    magna: (aliqua) => ({
+      ut: aliqua,
+    }),
+    nostrud: (elit) => ({
+      exercitation: elit,
+      ullamco: elit,
+    }),
+    laboris: (elit) => ({
+      nisi: elit,
+    }),
+  },
+});
+```
+
+---
+
+## Step 2
+
+Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in.
+
+```js app.js focus=11:17
+
+```
+
+---
+
+## Step 3
+
+Id aliquet risus feugiat in ante metus dictum at tempor. Sed blandit libero volutpat sed cras. Sed odio morbi quis commodo odio aenean sed adipiscing. Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu.
+
+```js app.js focus=11:14
+const { lorem, ipsum } = dolor({
+  sit: {
+    amet: 1,
+    consectetur: 2,
+    adipiscing: (elit) => ({
+      sed: elit,
+    }),
+    eiusmod: (tempor) => ({
+      incididunt: tempor,
+    }),
+    ut: (labore) => ({
+      et: lorem(labore * ipsum),
+      dolore: lorem(labore + 1),
+    }),
+    nostrud: (elit) => ({
+      exercitation: elit,
+      ullamco: elit,
+    }),
+    laboris: (elit) => ({
+      nisi: elit,
+    }),
+  },
+});
+```
+
+---
+
+## Step 4
+
+Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in. Venenatis cras sed felis eget velit. Consectetur libero id faucibus nisl tincidunt.
+
+```js app.js focus=15:21
+
+```
+
+---
+
+## Step 5
+
+Velit euismod in pellentesque massa placerat. Mi bibendum neque egestas congue quisque egestas diam in arcu. Nisi lacus sed viverra tellus in.
+
+```js app.js
+
+```
+
+</CH.Scrollycoding>

@@ -3,11 +3,10 @@ import slugify from 'slugify';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { getResourcesPaths, getResourceBySlug, getAllResources } from './resource';
-import type { Post } from '../types/types';
 
 dayjs.extend(customParseFormat);
 
-const POSTS_PATH = path.join(process.cwd(), 'content/posts');
+const POSTS_PATH = path.join(process.cwd(), 'content');
 
 export const getPostBySlug = async (slug: string) => {
   const post = await getResourceBySlug(slug, POSTS_PATH);
@@ -15,9 +14,9 @@ export const getPostBySlug = async (slug: string) => {
   return post;
 };
 
-const filterUnpublishedPosts = (posts: Post[]) => posts.filter((post) => post.isPublished);
+const filterUnpublishedPosts = (posts: any[]) => posts.filter((post) => post.isPublished);
 
-export const sortPostsByNewest = (posts: Post[]) => {
+export const sortPostsByNewest = (posts: any[]) => {
   return posts.sort((a, b) => {
     const dateA = dayjs(a.publishedAt, 'DD-MM-YYYY');
     const dateB = dayjs(b.publishedAt, 'DD-MM-YYYY');
@@ -33,7 +32,7 @@ export const sortPostsByNewest = (posts: Post[]) => {
 };
 
 export const getAllPosts = () => {
-  const allPosts = getAllResources<Post>(POSTS_PATH);
+  const allPosts = getAllResources<any>(POSTS_PATH);
   const filteredPosts = filterUnpublishedPosts(allPosts);
   const sortedPosts = sortPostsByNewest(filteredPosts);
 

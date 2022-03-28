@@ -1,23 +1,35 @@
-import { serialize } from 'next-mdx-remote/serialize';
-// import remarkAutoLinkHeadings from "remark-autolink-headings";
-// import remarkSlug from "remark-slug";
-// import mdxPrism from "mdx-prism";
-import type { PostFrontmatter } from '../types/types';
+import { bundleMDX } from 'mdx-bundler';
+import fs from 'fs';
+import path from 'path';
+import remarkPrism from 'remark-prism';
+import remarkGfm from 'remark-gfm';
+import { remarkCodeHike } from '@code-hike/mdx';
 
-const mdxSource = `
----
-title: Example Post
-published: 2021-02-13
-description: This is some description
----
+const ROOT_PATH = process.cwd();
+const POSTS_PATH = path.join(ROOT_PATH, 'content');
 
-# Wahoo
+export async function loadMDX(source: string) {
+  const loadedTheme = await import(`../theme.json`).then((module) => module.default);
 
-Here's a **neat** demo:
-`.trim();
-
-export const transformMdx = () => {
-  return serialize(mdxSource, {
-    // scope: frontmatter,
+  const bundle = await bundleMDX<{ title: string }>({
+    source,
+    globals: { image: 'image' },
+    xdmOptions(options) {
+      options.remarkPlugins = [
+        ...(options.remarkPlugins ?? []),
+        [remarkCodeHike, { theme: loadedTheme }],
+      ];
+      return options;
+    },
   });
+
+  return bundle;
+}
+
+export const getPost = async (slug: string) => {
+  const source = fs.readFileSync(path.join(POSTS_PATH, `${slug}.mdx`), 'utf-8');
+
+  const { code, frontmatter } = await loadMDX(source);
+
+  return { frontmatter, code };
 };

@@ -1,0 +1,81 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: 2rem;
+  overflow-x: hidden;
+  padding: 0 2rem;
+
+  @include mediaquery('lg') {
+    margin-top: 12rem;
+    padding: 0 8rem 0 4rem;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  @include mediaquery('xl') {
+    padding: 0 18rem 0 6rem;
+    margin-top: 16rem;
+  }
+
+  @include mediaquery('xxl') {
+    padding: 0 4rem;
+  }
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  color: #a0a0a0;
+  font-size: 1.8rem;
+
+  @include mediaquery('lg') {
+    font-size: 2rem;
+  }
+
+  &:hover {
+    color: #fff;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 3rem;
+  }
+}
+
+.icon {
+  margin-right: 1.5rem;
+}
+
+.globe {
+  width: 700px;
+  height: 700px;
+  margin: 0;
+  transform: translateX(10%);
+
+  @include mediaquery('lg') {
+    transform: translateX(-10%);
+  }
+  @include mediaquery('xl') {
+    transform: translateX(-5rem);
+  }
+}
+
+.counter {
+  font-size: 1.6rem;
+  color: #a0a0a0;
+  border: 1px solid #222;
+  padding: 0.5rem 1rem;
+  margin-left: 2rem;
+  border-radius: 4px;
+}

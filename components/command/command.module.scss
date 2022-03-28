@@ -1,0 +1,139 @@
+@import 'common';
+
+.button {
+  background: none;
+  color: #a0a0a0;
+  font-size: 1.4rem;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  @include mediaquery('lg') {
+    background: #0f0d0c;
+    border: 1px solid #222222;
+  }
+}
+
+.keys {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  margin-left: 4rem;
+}
+
+.key {
+  font-family: Helvetica, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  background: #17191b;
+  border: 1px solid rgb(51, 51, 51);
+  border-radius: 4px;
+  color: #a0a0a0;
+  display: inline-block;
+  line-height: 1;
+  padding: 6px 8px;
+  white-space: nowrap;
+  height: 3rem;
+
+  span {
+    font-size: 1.4rem;
+    text-align: center;
+    transform: translateY(1px);
+  }
+
+  &:nth-of-type(1) {
+    font-size: 1.6rem;
+    margin-right: 6px;
+    transform: translateY(1px) translateX(-1);
+  }
+}
+
+.sign {
+  margin-right: 1rem;
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 999;
+}
+
+.modal {
+  width: 100%;
+
+  position: absolute;
+  left: auto;
+  right: auto;
+  bottom: 0;
+  border: 0px none;
+  border-radius: 8px 8px 0 0;
+  background: #0f0d0c;
+  overflow: hidden;
+  outline: none;
+  z-index: 999;
+  min-height: 48rem;
+
+  @include mediaquery('lg') {
+    max-width: 605px;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.input {
+  height: 6rem;
+  width: 100%;
+  font-size: 1.6rem;
+  color: #727272;
+  border-bottom: 1px solid #222222;
+  padding: 0 2rem;
+}
+
+.suggestion {
+  height: 6rem;
+  width: 100%;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+
+  span {
+    color: #727272;
+  }
+}
+
+.suggestionHighlighted {
+  background: #131415;
+
+  span {
+    color: #ededed;
+  }
+}
+
+.desktop {
+  display: none;
+
+  @include mediaquery('lg') {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.mobile {
+  font-size: 3.2rem;
+  font-weight: 300;
+
+  @include mediaquery('lg') {
+    display: none;
+  }
+}

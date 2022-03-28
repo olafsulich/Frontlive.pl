@@ -1,64 +1,39 @@
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { Header } from '../components/header/Header';
-import { Layout } from '../components/layout/Layout';
-import { Grid } from '../components/shared/components/grid/Grid';
-import { PostsListing } from '../components/blog/postsListing/PostsListing';
-import { Heading } from '../components/shared/components/heading/Heading';
-import { CategoriesList } from '../components/category/categoriesList/CategoriesList';
-import { NewsletterForm } from '../components/shared/components/newsletter/newsletterForm/NewsletterForm';
-import { Author } from '../components/autor/Autor';
-import { Navigation } from '../components/navigation/Navigation';
-import { Community } from '../components/community/Community';
-import { Footer } from '../components/footer/Footer';
-import { getNewestPosts } from '../lib/posts';
 import { NextSeo } from 'next-seo';
-import { categoriesArr } from '../data/categories';
-import { FeaturedPost } from '../components/blog/postsListing/featuredPost/FeaturedPost';
-import { ArrowRow } from '../components/shared/components/arrowRow/ArrowRow';
-import { Newsletter } from '../components/shared/components/newsletter/Newsletter';
+import { bundleMDX } from 'mdx-bundler';
+import { getMDXComponent } from 'mdx-bundler/client';
+import { useMemo } from 'react';
+// import { remarkCodeHike } from '@code-hike/mdx';
+import { Sandpack } from '@codesandbox/sandpack-react';
+import fs from 'fs';
+import path from 'path';
+import { remarkCodeHike } from '@code-hike/mdx';
+import { Header } from '../components/layout/header/header';
+import { Footer } from '../components/layout/footer/footer';
+import { Hero } from '../components/layout/hero/hero';
+import { Community } from '../components/layout/community/community';
+import remarkPrism from 'remark-prism';
+import remarkGfm from 'remark-gfm';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const newestPosts = getNewestPosts();
+export default function Index() {
 
-  return {
-    props: {
-      posts: newestPosts,
-    },
-    revalidate: 1,
-  };
-};
-
-export default function Index({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { title, excerpt, category, image, slug, timeToRead } = posts[0];
-  const [, ...postsWithoutFirst] = posts;
   return (
     <>
       <NextSeo />
-      <Layout>
-        <Header>
-          <Navigation />
-        </Header>{' '}
-        <main id="main" className="mainWrapper">
-          <Heading className="visually-hidden" tag="h2" variant="tertiary">
-            Najnowsze
-          </Heading>
-          <FeaturedPost
-            key={title}
-            path={`/blog/${slug}`}
-            heading={title}
-            excerpt={excerpt}
-            category={category}
-            image={image}
-            timeToRead={timeToRead}
-          />
-          <Grid>
-            <PostsListing posts={postsWithoutFirst} />
-          </Grid>
-          <ArrowRow position="right" />
-          <Newsletter />
-          <ArrowRow position="left" />
+      <div style={{ maxWidth: '1450px', margin: '0 auto' }}>
+        <Header />
+        <main>
+          <Hero />
+          {/* <LinkPreview
+            name="link"
+            href="/"
+            preview="https://opengraph.githubassets.com/3e6990606db1c0fa18fdebc3c0bdbe149090f5dd69e85bdf29f8458ca29d59ef/radix-ui/primitives/issues/1181"
+          /> */}
+          <Community />
+          {/* <Component /> */}
         </main>
-      </Layout>
+        <Footer />
+      </div>
     </>
   );
 }

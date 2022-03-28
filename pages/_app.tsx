@@ -1,40 +1,41 @@
 import Head from 'next/head';
 import Router from 'next/router';
-import type { AppProps, NextWebVitalsMetric } from 'next/app';
+import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
+import '@code-hike/mdx/dist/index.css';
 import '../styles/main.scss';
-import * as gtag from '../lib/gtag';
-import { loadFonts } from '../lib/fonts';
-import { HeaderProvider } from '../components/shared/context/HeaderContext';
-import { ScriptAfterInteraction } from '../components/shared/components/scriptAfterInteraction/ScriptAfterInteraction';
+import '@codesandbox/sandpack-react/dist/index.css';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const isBrowser = typeof window !== 'undefined';
+// import * as gtag from '../lib/gtag';
+// import { loadFonts } from '../lib/fonts';
 
-if (!isProduction && isBrowser) {
-  const axe = require('react-axe');
-  const AXE_DELAY = 1000;
-  axe(React, ReactDOM, AXE_DELAY);
-}
+// const isProduction = process.env.NODE_ENV === 'production';
+// const isBrowser = typeof window !== 'undefined';
+
+// if (!isProduction && isBrowser) {
+//   const axe = require('react-axe');
+//   const AXE_DELAY = 1000;
+//   axe(React, ReactDOM, AXE_DELAY);
+// }
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  loadFonts();
+  //   loadFonts();
 
-  useEffect(() => {
-    if (isProduction && isBrowser) {
-      const handleRouteChange = (url: string) => {
-        gtag.reportPageView(url);
-      };
-      Router.events.on('routeChangeComplete', handleRouteChange);
-      return () => {
-        Router.events.off('routeChangeComplete', handleRouteChange);
-      };
-    }
-    return () => false;
-  }, []);
+  //   useEffect(() => {
+  //     if (isProduction && isBrowser) {
+  //       const handleRouteChange = (url: string) => {
+  //         gtag.reportPageView(url);
+  //       };
+  //       Router.events.on('routeChangeComplete', handleRouteChange);
+  //       return () => {
+  //         Router.events.off('routeChangeComplete', handleRouteChange);
+  //       };
+  //     }
+  //     return () => false;
+  //   }, []);
 
   return (
     <>
@@ -45,9 +46,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <DefaultSeo {...SEO} />
-      <HeaderProvider>
-        <Component {...pageProps} />
-      </HeaderProvider>
+      <Component {...pageProps} />
     </>
   );
 }

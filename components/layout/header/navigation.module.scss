@@ -1,0 +1,136 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  position: fixed;
+  height: 100vh;
+  background: #0f0d0c;
+  transition: all 0.4s;
+
+  @include mediaquery('xl') {
+    display: flex;
+    flex-direction: row;
+    position: unset;
+    height: auto;
+    width: auto;
+    background: none;
+  }
+}
+
+.listActive {
+  display: flex;
+}
+
+.item {
+  font-size: 2.2rem;
+  color: #ededed;
+
+  &:not(:last-of-type) {
+    margin-bottom: 4rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 1.8rem;
+
+
+
+  &:not(:last-of-type) {
+      margin-right: 4rem;
+  }
+
+    &:not(:last-of-type) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.logo {
+  margin-right: 4rem;
+  display: flex;
+}
+
+.terminal {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  --upper-line-transform: translateY(-4px) rotate(0deg);
+  --bottom-line-transform: translateY(4px) rotate(0deg);
+  width: 2.4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  flex-direction: column;
+  z-index: 1001;
+
+  @include mediaquery('xl') {
+    display: none;
+  }
+
+  &Open {
+    --upper-line-transform: translateY(1.6px) rotate(45deg);
+    --bottom-line-transform: translateY(0px) rotate(-45deg);
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 0.2rem;
+    width: 2.2rem;
+    background-color: white;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  &::before {
+    transform: var(--upper-line-transform);
+  }
+
+  &::after {
+    transform: var(--bottom-line-transform);
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.buttonCommand {
+  margin-right: 1rem;
+
+  @include mediaquery('lg') {
+    display: none;
+  }
+}
+
+.searchCommand {
+  display: none;
+
+  @include mediaquery('lg') {
+    display: flex;
+  }
+}
