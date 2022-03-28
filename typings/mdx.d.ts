@@ -8,3 +8,4 @@ declare module 'mdx-prism';
 
 declare module '@code-hike/mdx';
 declare module 'react-command-palette';
+declare module 'cobe';

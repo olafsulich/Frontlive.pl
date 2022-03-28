@@ -3,7 +3,7 @@
   "entry": "",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build:rss && next build",
+    "build": "next build",
     "build:rss": "ts-node ./scripts/generate-rss.ts",
     "postbuild": "next-sitemap",
     "start": "next start",

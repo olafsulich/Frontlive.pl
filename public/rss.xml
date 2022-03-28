@@ -4,12 +4,48 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 12 Dec 2021 00:16:20 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 28 Mar 2022 19:14:41 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
+        <item>
+            <title><![CDATA[Pułapki konstrukcji warunkowych w React i JSX]]></title>
+            <description><![CDATA[React, JSX i renderowanie warunkowe - to nie może się skończyć dobrze! Sprawdź jakie pułapki czyhają na nas podczas korzystania z operatorów logicznych]]></description>
+            <link>https://frontlive.pl/blog/pulapki-jsx</link>
+            <guid isPermaLink="false">pulapki-jsx</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 13 Feb 2022 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Remix - konkurencja dla Next.js czy kolejny bezużyteczny framework?]]></title>
+            <description><![CDATA[Nowy dzień, nowy framework JavaScript. Czy Remix, nowość od twórców React Router, to kolejna beużyteczna biblioteka, czy technologia warta uwagi?]]></description>
+            <link>https://frontlive.pl/blog/remix-konkurencja-dla-next-czy-bezuzyteczny-framework</link>
+            <guid isPermaLink="false">remix-konkurencja-dla-next-czy-bezuzyteczny-framework</guid>
+            <category><![CDATA[React]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 30 Jan 2022 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[5 grzechów Junior Developera - czego nie robić w swojej pierwszej pracy?]]></title>
+            <description><![CDATA[Co robić i czego nie robić w swojej pierwszej pracy jako programista? Oto kilka dobrych rad od Szymona, który zebrał swoje doświadczenia z byciem Junior Frontend Developerem]]></description>
+            <link>https://frontlive.pl/blog/5-grzechow-junior-developera</link>
+            <guid isPermaLink="false">5-grzechow-junior-developera</guid>
+            <category><![CDATA[Praca]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 16 Jan 2022 23:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Antywzorce w CSS - 10 najczęściej popełnianych błędów]]></title>
+            <description><![CDATA[Mimo tego, że CSS nie jest językiem programowania, to często Frotnend Developerzy popełniają w nim te same błędy...]]></description>
+            <link>https://frontlive.pl/blog/antywzorce-css</link>
+            <guid isPermaLink="false">antywzorce-css</guid>
+            <category><![CDATA[CSS]]></category>
+            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
+            <pubDate>Sun, 19 Dec 2021 23:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[FullStack Next.js z Prisma, Stripe, React Query, Tailwind, NextAuth i TypeScript]]></title>
             <description><![CDATA[Jak za pomocą najszybciej rozwijającego się frameworka na frontendzie Next.js, stworzyć w pełni funkcjonalną aplikację fullstackową z wykorzystaniem najnowszych technologii?]]></description>
