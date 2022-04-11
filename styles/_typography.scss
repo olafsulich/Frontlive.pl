@@ -70,11 +70,7 @@ html {
   font-size: 62.5%;
 
   @include mediaquery('lg') {
-    font-size: 55%;
-  }
-
-  @include mediaquery('xl') {
-    font-size: 58%;
+    font-size: 50%;
   }
 
   @include mediaquery('xxl') {

@@ -52,6 +52,7 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
         <Info frontmatter={frontmatter} />
       </header>
       <div className={cn(styles.content, 'content')}>
+
         {children}
         <Share />
         <Edit />

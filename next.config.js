@@ -92,11 +92,6 @@ config.redirects = () => {
       permanent: true,
     },
     {
-      source: '/newsletter',
-      destination: '/',
-      permanent: true,
-    },
-    {
       source: '/css-min-max-clamp',
       destination: '/blog/css-variables',
       permanent: true,

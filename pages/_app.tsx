@@ -9,7 +9,6 @@ import '../styles/main.scss';
 import * as gtag from '../lib/gtag';
 import { loadFonts } from '../lib/fonts';
 import { HeaderProvider } from '../components/shared/context/HeaderContext';
-import { ScriptAfterInteraction } from '../components/shared/components/scriptAfterInteraction/ScriptAfterInteraction';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isBrowser = typeof window !== 'undefined';

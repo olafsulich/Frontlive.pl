@@ -1,13 +1,12 @@
 import { ReactNode, memo } from 'react';
 import { Hero } from './hero/Hero';
 import styles from './header.module.scss';
-import { Navigation } from '../navigation/Navigation';
 
 type HeaderProps = {
   children: ReactNode;
 };
 
-export const Header = memo(({ children }) => {
+export const Header = memo<HeaderProps>(({ children }) => {
   return (
     <header className={styles.wrapper}>
       {children}

@@ -1,0 +1,146 @@
+---
+title: '5 przekazań ARIA'
+category: 'Dostępność'
+publishedAt: '18-04-2022'
+isPublished: false
+popular: false
+image: '/images/aria/thumbnail.png'
+excerpt: 'Z wielką mocą wiąże się wielka odpowiedzialność, czyli jak nie zrobić sobie i innym krzywdy podczas korzystania z atrybutów ARIA'
+---
+
+Accessible Rich Internet Applications - standard, który powstał, by wspierać HTML specjalnymi atrybutami poprawiającymi dostępność. Jednak [jak podaje Webaim](https://webaim.org/projects/million/#aria), strony, które korzystają z ARIA posiadają nawet do 70% więcej błędów niż te, które nie korzystają z pomocy tego standardu.
+
+Z czego to wynika? Czy ARIA jest bezużyteczna? Jak każde narzędzie, ARIA powinna być wykorzystywana we właściwym sposób. Oto 5 kluczowych reguł, których powinniśmy się trzymać podczas uskrzydalania HTML dodatkowymi atrybutami:
+
+## 1. Nie używaj ARIA, jeśli możesz skorzystać z HTML
+
+Nic dodać, nic ująć. ARIA powinna być wykorzystana jako dodatek do elementów HTML, nie jako ich zastąpienie. Jeśli mamy dostęp do "semantycznych" tagów, takich jak `<section>`, `<footer>`, czy `<article>`, to powinniśmy zamiast tradycyjngo `<div>` z dodaną rolą.
+
+<Highlight variant="error" title="Źle:">
+
+```html
+<div role="navigation"></div>
+<div role="complementary"></div>
+<div role="main"></div>
+<div role="form"></div>
+<div role="contentinfo"></div>
+```
+
+</Highlight>
+
+<Highlight variant="success" title="Dobrze:">
+
+```html
+<nav></nav>
+<aside></aside>
+<main></main>
+<form></form>
+<footer></footer>
+```
+
+</Highlight>
+
+ARIA przydaje się jednak w sytuacji, gdy dana rola nie ma odzwierciedlenia w natywnym HTML, lub gdy wsparcie elementu jest słabe. W ostatateczności, role okazują się niezbędne, gdy dany element jest trudny do stylowania - możemy wtedy np. skorzystać z `<div>` i nadać mu "semantyczne" znaczenie.
+
+## 2. Nie zmieniaj znaczenia elementu
+
+Korzystając z ról, nadpisujesz znaczenie natywnego elementu HTML. Najczęściej jest to bardzo przydatne, ale może być również zgubne.
+
+<Highlight variant="error" title="Źle:">
+
+```html
+<a href="" role="button">Kliknij</a>
+```
+
+</Highlight>
+
+Nadając linkowi `role="button"` zmieniamy jego znaczenie, ale nie zmieniamy natywnego zachowania. Przycisk i link różnią się od siebie, jeśli chodzi o dostęp do nich za pomocą klawiatury. Zmieniając ich znaczenie, możemy łatwo wprowadzić użytkownika w błąd...
+
+<Highlight variant="success" title="Dobrze:">
+
+```html
+<button>Kliknij</button>
+```
+
+</Highlight>
+
+## 3. Interaktywne elementy powinny być dostępne z poziomu klawiatury
+
+Trzecia zasada ARIA jest bardzo powiązana z poprzednimi dwiema. Role nadają znaczenie elementowi, ale nie przypisują mu prawidłowego zachowania. Założmy, że z jakiegoś powodu chcielibyśmy stworzyć customowy przycisk.
+
+<Highlight variant="error" title="Źle:">
+
+```html
+<div role="button">Kliknij mnie</div>
+```
+
+</Highlight>
+
+Niestety sama rola nie wystarczy, nasz przybrany przycisk nie jest focusowalny! Dodajmy więc `tabindex`:
+
+<Highlight variant="success" title="Lepiej:">
+
+```html
+<div role="button" tabindex="0">Kliknij mnie</div>
+```
+
+</Highlight>
+
+Już lepiej :) Ale wracając do pierwszej zasady, po co to wszystko skoro mamy `<button>`?
+
+<Highlight variant="success" title="Dobrze:">
+
+```html
+<button>Kliknij mnie</button>
+```
+
+</Highlight>
+
+## 4. Nie dodawaj role="presentation" i aria-hidden do elementów interaktywnych
+
+Podczas tworzenia dostępnych stron i aplikacji może nam się zdarzyć sytuacja, w której będziemy chcieli ukryć pewne części aplikacji przed czytnikami ekranowymi. Problem pojawia się jednak, gdy chcemy to zrobić dla elementów interaktywnych. Próbując ukryć element za pomocą `role="presentation"` lub `aria=hidden="true"` możemy doprowadzić do sytuacji, gdzie użytkownik będzie mógł wejść w interakcje z "pustym" elementem.
+
+<Highlight variant="error" title="Źle:">
+
+```html
+<a href="" aria-hidden="true">Ukryty link</a>
+
+<a href="" role="presentation">Ukryty link</a>
+```
+
+</Highlight>
+
+Rozwiązanie tego problemu - nie powinieneś ograniczać interaktywności elementów, w zależności od tego jak ktoś przegląda Twoją stronę.
+
+## 5. Elementy interaktywne powinny posiadać accessible name
+
+Bardzo częsty przypadek na stronach - przycisk z ikonką. Sprawdźmy jak to wygląda:
+
+<Highlight variant="error" title="Źle:">
+
+```html
+<button>
+  <span class="fa-solid fa-paper-plane"></span>
+</button>
+```
+
+</Highlight>
+
+Korzystamy z natywnego `<button>`, ikonka się wyświetla, więc co tutaj jest nie tak? Brakuje nam tutaj tzw. [accessible name](https://www.w3.org/TR/accname-1.1/), czyli wizualnego (lub nie) "labela" dla przycisku. Jest on potrzebny dla czytników ekranowych, dzięki niemu użytkownik będzie wiedział, co dany przycisk robi.
+
+<Highlight variant="success" title="Dobrze:">
+
+```html
+<button aria-label="Wyślij">
+  <span class="fa-solid fa-paper-plane"></span>
+</button>
+
+<button>
+  <span class="visually-hidden">Wyślij</span>
+  <span class="fa-solid fa-paper-plane"></span>
+</button>
+```
+
+</Highlight>
+
+Accessible name możemy dodać na wiele sposób, jeśli chcielibyśmy, aby tekst nie był widoczny, moglibyśmy skorzystać z `aria-label` lub z tekstu, który jest ukryty za pomocą klasy [.visually-hidden](https://www.a11yproject.com/posts/how-to-hide-content/).

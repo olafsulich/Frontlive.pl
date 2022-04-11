@@ -79,7 +79,7 @@
 }
 
 .primary {
-  background: #182431;
+  background: #0e1d29;
   height: 26rem;
   display: flex;
   align-items: flex-start;
@@ -128,7 +128,7 @@
   max-width: 38rem;
 
   min-width: 30rem;
-  background-color: #182431;
+  background-color: #0e1d29;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -145,7 +145,7 @@
   }
 
   @include mediaquery('lg') {
-    height: 50.5rem;
+    min-height: 50.5rem;
   }
 }
 

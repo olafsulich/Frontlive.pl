@@ -1,5 +1,6 @@
 {
   "private": true,
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "npm run build:rss && next build",
@@ -13,6 +14,7 @@
     "analyze": "cross-env ANALYZE=1 next build && cat .next/stats.txt"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^0.16.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "classnames": "^2.3.1",
     "dayjs": "^1.10.6",

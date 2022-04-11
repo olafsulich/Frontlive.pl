@@ -1,0 +1,135 @@
+---
+title: 'Optymalizacja zewnętrznych skryptów przez Web Workery, Partytown i Next.js'
+category: 'Performance'
+publishedAt: '11-04-2022'
+isPublished: true
+popular: false
+image: '/images/partytown/thumbnail.png'
+excerpt: 'Ładujesz skrypty Google, Facebooka i dymka wiadomości, a wynik Lighthouse świeci cały na czerwono? Web Workery do pomocy!'
+---
+
+Performance w 2022 roku to jedna z najbardziej kluczowych rzeczy podczas budowania stron i aplikacji webowych. Poza najważniejszymi odczuciami użytkownika, wiemy, że Google bierze pod uwagę metryki wydajności podczas pozycjonowania. Czasem nie ważne jak bardzo byśmy się starali, pomimo optymalizacji obrazków i fontów, wynik Lightouse dla naszego projektu może świecić się cały na czerwono... Zewnętrzne skrypty mogą być powodem!
+
+## Problem
+
+Ładujesz Google Analytics, Tag Manager, skrypty Facebooka, dymka wiadomości... Uff, sporo tego, prawda? A teraz wyobraź sobie, że to wszystko ląduje w [głównym wątku](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) razem z całym potrzebnym JavaScriptem do prawidłowego funkcjonowania Twojej aplikacji. Nie brzmi to najlepiej. Przy dobrym połączeniu sieciowym ten problem może nie mieć aż takiego znaczenia, ale jeśli spojrzymy na to, jak działają strony na urządzeniach mobilnych, to zaczynamy dostrzegać pewne komplikacje.
+
+## Optymalizacja skryptów w Next.js
+
+Pierwszym krokiem by usprawnić proces pobierania skryptów, byłoby dodanie atrybutków `async` / `defer` do tagu `<script>`. Dzięki temu nie blokujemy parsowania dokumentu HTML. Przydałoby się również dodanie [preconnect i dns prefetch](https://web.dev/preconnect-and-dns-prefetch/), dzięki nim szybciej zaadresujemy chęć pobrania czegość z zewnętrznej domeny. To brzmi jak... kawałek niepotrzebnego boilerplate'u. Na szczęście twórcy Next.js zadbali o Developer Experience i wprowadzili ich autorski komponent `<Script>`:
+
+```tsx
+<Script src="..." strategy="beforeInteractive" />
+<Script src="..." strategy="afterInteractive" />
+<Script src="..." strategy="lazyOnload" />
+```
+
+1. `beforeInteractive` - przeciwieństwo tego, z czym chcemy dziś walczyć. Krytyczne skrypty, które chcemy odpalać jeszcze przed tym, jak strona będzie interaktywna
+2. `afterInteractive` - ładuje skrypty tuż po osiągnieciu pełnej interaktyności strony. Sprawdzi się np. dla Google Analytics / Tag Manager
+3. `lazyOnload` - ostatnie skrypty w kolejce. Jak już się wszystko załadowało, to lecimy właśnie z nimi. Idealne dla rzeczy, które mogą być ładowane "w tle", np. dymek wiadomości
+
+To wszystko brzmi naprawdę świetnie i faktycznie Next robi za nas zajebistą robotę w optymalizacji skryptów. Wady? Nadal obciążamy główy wątek.
+
+## Web Workery i Partytown
+
+Rozwiązanie naszego problemu? Web Workery. Działają one z dala od głównego wątku, nie ingerując w skrypty potrzebne do interaktyności strony...Hola hola, Web Workery? Przecież [system komunikacji](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage) pomiędzy Web Workerem, a głównym wątkiem jest asynchroniczny, przez co Web Worker nie ma bezpośredniego dostępu do API przeglądarki. Jest to dużym problemem dla zewnętrznych skyptów, bowiem działają one często w oparciu o DOM.
+
+[Partytown](https://www.npmjs.com/package/@builder.io/partytown) to leciutka bilbioteka, która rozwiązuje ten problem.
+
+<Image
+  src="/images/partytown/thread.png"
+  alt="Przebieg 'normalnych' skryptów przez główny wątek, kontra wykorzystanie Web Workerów do przepływu zewnętrznych skryptów"
+/>
+
+Pozwala ona na synchroniczną komunikację Web Workera z głównym wątkiem, jest swego rodzaju proxy. Poza dostępem do DOM, mamy możliwość zarządzania dostępem do niektórych API, np. możemy zablokować dostęp do `document.cookie`, czy uniemożliwić zapisywanie skryptowi do `localStorage`.
+
+## Partytown i Next.js w praktyce
+
+Partytown to bilbioteka typu _framework agnostic_, działa ze zwykłym HTML, React, Nuxt, Remix oraz od niedawna z dedykowanym komponentem `<Script>` w Next. Zacznijmy od instalacji:
+
+```bash
+ npm install @builder.io/partytown
+```
+
+Next.js "natywnie" wspiera Partytown dopiero w wersji eksperymentalnej, żeby z niej skorzystać musimy uzupełnić konfigurację:
+
+```js:next.config.js
+module.exports = {
+  experimental: {
+    nextScriptWorkers: true,
+  },
+}
+```
+
+Zostało nam tylko odpalenie projektu i wykorzystanie `strategy="worker"` w komponencie `<Script>`, od teraz nasz główny wątek będzie wolny od skryptów third-party.
+
+```tsx
+<Script src="..." strategy="worker" />
+```
+
+## Debugowanie
+
+Chociaż Partytown nie wymaga żadnej dodatkowej konfiguracji, to przydatna może okazać opcja `debug`. Aby ją odblokować, musimy dodać skrypt z atrybutem `data-partytown-config` do [Next Document](https://nextjs.org/docs/advanced-features/custom-document):
+
+```tsx:pages/_document.tsx
+import { Html, Head, Main, NextScript } from 'next/document';
+
+export default function Document() {
+  return (
+    <Html>
+      <Head>
+        <script
+          data-partytown-config
+          dangerouslySetInnerHTML={{
+            __html: `
+              partytown = {
+                lib: "/_next/static/~partytown/",
+                debug: true
+              };
+            `,
+          }}
+        />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
+}
+```
+
+Jeśli coś pójdzie nie po naszej myśli, to dzięki `debug: true` zobaczymy to zapewne w logach:
+
+<Image src="/images/partytown/debug.png" alt="Logowanie dla trybu 'debug: true' w Partytown" />
+
+## Wady Partytown
+
+To wszystko wydaje się być zbyt piękne, prawda? Jak wszystko w programowaniu, Partytown posiada wiele wad i ograniczeń. Dla mnie największym blockerem jest to, że biblioteka jest bardzo świeżym i niedojrzałym rozwiązaniem. Jakie trade-offy się kryją po stronie technicznej?
+
+- biblioteka nie jest przyjazna dla skryptów operujących na DOM i wprowadzających interaktyność z UI. Wszystkie opracje na DOM w Workerze są celowo opóźniane, przez co będą wolniejsze od tradycyjnego operowania na głównym wątku.
+- konieczność wprowadzanie [proxy](https://partytown.builder.io/proxying-requests) żądania dla zewnętrznych skryptów, które nie korzystają z nagłówka `Access-Control-Allow-Origin: *`.
+- brak wsparcia dla [event.preventDefault()](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault).
+- ograniczenia w obsłudze ciasteczek i localStorage dla cross-origin iframe
+
+## Partytown vs Next Script
+
+Pytanie, które narodziło się w mojej głowie, kiedy poznawałem Partytown, to:
+
+> "Kiedy tak właściwie korzystać ze zwykłych skryptów, a kiedy je delegować do Web Workera?".
+
+Pomijając już niedojrzałość tego rozwiązania, Partytown sprawdzi się świetnie dla skryptów, które mogą działać nieco "w tle" - Google Analytics, czy Facebook Pixel to dobre przykłady. Wszystkie inne skrypty, które wymagają interakcji z DOM, warto wziąć pod lupę. Jeśli tych operacji jest trochę, to raczej bez zastanowienia skłaniałbym się ku normalnym skryptom w Next - będzie po prostu szybciej 🚀
+
+## Podsumowanie
+
+Partytown pomimo wszystkich swoich wad, jest naprawdę bardzo ciekawym narzędziem do optymalizacji zewnętrznych skryptów - w końcu dajemy odetchnąć naszemu głównemu wątkowi!
+
+Bardzo się cieszę, że twórcy bilbiotek coraz większy nacisk kładą właśnie na performance, to realnie przekłada się na odczucia użytkownika :)
+
+A Ty co sądzisz o Partytown?
+
+## Źródła
+
+- [Dokumentacja Partytown](https://partytown.builder.io/)
+- [Dokumentacja Next.js](https://nextjs.org/docs/basic-features/script)
+- [Web.dev- Loading Third-Party JavaScript](https://web.dev/optimizing-content-efficiency-loading-third-party-javascript)

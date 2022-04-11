@@ -70,7 +70,7 @@ iframe {
     padding: 2rem 3.2rem;
     // background: var(--dark-100);
     // color: var(--white-100);
-    background: #0b2437;
+    background: #0e1d29;
     color: #bdddff;
     border: none;
     tab-size: 2;
@@ -84,9 +84,9 @@ iframe {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-
+    z-index: 1;
     @include mediaquery('lg') {
-      border-radius: 1.8rem;
+      border-radius: 1rem;
       height: auto;
       padding: 3.2rem;
       display: block;
@@ -121,7 +121,7 @@ iframe {
     padding: 4.5px 6px;
     border: none;
     border-radius: 4px;
-    background: #112f47;
+    background: #0e1d29;
     letter-spacing: -0.5px;
     font-size: 1.6rem;
     display: inline;
@@ -139,7 +139,7 @@ iframe {
   a:not(.categoryLink):not(.share):not(.githubEditLink) {
     text-decoration: none;
     border-bottom: 2px solid #112f47;
-    color: #bdddff;
+    color: #7f90a4;
     font-weight: 600;
     font-size: 1.8rem;
     line-height: 3.6rem;
@@ -241,4 +241,20 @@ iframe {
       line-height: 3.8rem;
     }
   }
+}
+
+.remark-code-title {
+  width: 100%;
+  color: #bdddff;
+  background-color: #192731;
+  font-size: 1.5rem;
+  margin-bottom: -4.7rem;
+  margin-right: 80%;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 1.2rem 0;
+  border-radius: 8px 8px 0 0;
+  text-transform: uppercase;
+  grid-column: 1/4 !important;
+  z-index: 2;
 }
