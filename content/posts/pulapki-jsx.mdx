@@ -1,8 +1,8 @@
 ---
-title: 'Pułpaki konstrukcji warunkowych w React i JSX'
+title: 'Pułapki konstrukcji warunkowych w React i JSX'
 category: 'React'
 publishedAt: '14-02-2022'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/pulapki-jsx/thumbnail.png'
 excerpt: 'React, JSX i renderowanie warunkowe - to nie może się skończyć dobrze! Sprawdź jakie pułapki czyhają na nas podczas korzystania z operatorów logicznych'
@@ -72,9 +72,9 @@ Budujemy dashboard dla naszego serwera Discord, w którym administratorzy i mode
 user.role === 'admin' || user.role === 'moderator' && <ServerSettings />;
 ```
 
-> Olaf, szukam i szukam ten pułapki, ale w tym kodzie nie ma nic nadzwyczajnego!
+> Olaf, szukam i szukam tej pułapki, ale w tym kodzie nie ma nic nadzwyczajnego!
 
-Wszystko rozchodzi się o tzw. [pierwszeństwo operatorów](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence). Logiczny operator OR (`||`) ma pierwszeństwo nad AND (`&&`), dlatego pod spodem nasz kodem będzie wyglądał w ten sposób:
+Wszystko rozchodzi się o tzw. [pierwszeństwo operatorów](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence). Logiczny operator AND (`&&`) ma pierwszeństwo nad OR (`||`), dlatego pod spodem nasz kodem będzie wyglądał w ten sposób:
 
 <Highlight variant="error" title="Źle  ❌">
 
