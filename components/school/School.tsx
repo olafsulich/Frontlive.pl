@@ -9,7 +9,7 @@ export const School = () => {
         <h2 className={styles.heading}>
           Frontlive <span className={styles.school}>School</span>
         </h2>
-        <p className={styles.text}>Wyróżnij się na rynku pracy nie wydając ani złotówki</p>
+        <p className={styles.text}>Wyróżnij się na rynku pracy, nie wydając ani złotówki!</p>
       </div>
       <a href="https://school.frontlive.pl/" target="_blank" className={styles.link}>
         <Rocket className={styles.icon} />

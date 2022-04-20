@@ -4,6 +4,8 @@
   margin-bottom: 4.5rem;
   display: flex;
   justify-content: center;
+  transition: 0.2s transform ease;
+  $root: &;
 
   @include mediaquery('sm') {
     margin-bottom: 5.5rem;
@@ -21,6 +23,24 @@
   &:last-of-type {
     margin-right: 0;
     margin-bottom: 0;
+
+    @include mediaquery('xl') {
+      border-radius: 200px;
+      background: #705df2;
+      @media (hover: hover) {
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+
+      .link {
+        padding: 12px 30px;
+
+        &::after {
+          display: none;
+        }
+      }
+    }
   }
 }
 

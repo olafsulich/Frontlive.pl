@@ -13,7 +13,7 @@ export const Navigation = ({ withWaveLine }: { withWaveLine?: boolean }) => {
       <SkipLink />
       <Logo />
       <LinksList />
-      <WaveLine className={styles.waveLine} />
+      {/* <WaveLine className={styles.waveLine} /> */}
       <HamburgerButton />
     </nav>
   );

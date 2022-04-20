@@ -75,6 +75,11 @@
   width: 100%;
   font-weight: bold;
   text-decoration: none;
+  transition: 0.2s transform ease;
+
+  &:hover {
+    transform: scale(1.07);
+  }
 
   @include mediaquery('lg') {
     padding: 2.2rem 3.4rem;
