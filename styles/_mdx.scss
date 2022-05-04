@@ -122,6 +122,7 @@ iframe {
     border: none;
     border-radius: 4px;
     background: #0e1d29;
+    color: #7f90a4;
     letter-spacing: -0.5px;
     font-size: 1.6rem;
     display: inline;
@@ -245,7 +246,7 @@ iframe {
 
 .remark-code-title {
   width: 100%;
-  color: #bdddff;
+  color: #7f90a4;
   background-color: #192731;
   font-size: 1.5rem;
   margin-bottom: -4.7rem;
@@ -257,4 +258,6 @@ iframe {
   text-transform: uppercase;
   grid-column: 1/4 !important;
   z-index: 2;
+
+  background: radial-gradient(105.05% 91% at 50% 0, #1d2b41 0, #0e141b 57.38%);
 }

@@ -1,0 +1,187 @@
+---
+title: 'Problem czytelności w TypeScript - jak go rozwiązać?'
+category: 'TypeScript'
+publishedAt: '24-05-2022'
+isPublished: true
+popular: false
+image: '/images/czytelny-typecript/thumbnail.png'
+excerpt: 'Uwielbiam ten język, nie wyobrażam sobie pracy w czystym JS, ale jest kilka rzeczy, które mnie w TypeScripcie wkurzają...'
+---
+
+Serio, uwielbiam ten język. Nie wyobrażam sobie pracy w czystym JavaScripcie, ale jest kilka rzeczy, które mnie wkurzają w TS. Jedną z większych jest czytelność. Tak, coś co miało być zaletą, jest jednocześnie dużym problemem. Jak pisać czytelniejszy kod w TypeScript?
+
+## Czytelność
+
+Zacznijmy z grubej rury i zobaczymy przykładową funkcję w Haskellu:
+
+```haskell
+hasPath :: [(Int, Int)] -> Int -> Int -> Bool
+hasPath [] x y  = x == y
+hasPath xs x y
+  | x == y      = True
+  | otherwise   =
+    let xs' = [ (n,m) | (n,m) <- xs, n /= x ]
+    in
+      or [ hasPath xs' m y | (n, m) <- xs, n == x ]
+```
+
+Nic nie ogarniasz? Nie musisz. Osoby, które są zaznajomione z tym językiem są "przyzwyczajone" do nazywania niektórych rzeczy np. w ten sposób: `xs`.
+
+Zanim wszyscy popukamy się w głowę i wyjdziemy z pochodniami na ulicę, żeby przepędzić entuzjastów programowania funkcyjnego, wróćmy na nasze rodzime podwórko.
+
+```ts
+document.addEventListener('click', (e) => {});
+```
+
+JavaScript Developerzy są przyzwyczajeni do przekazywania `e` zamiast `event` i większość z nas nie ma z tym problemu. Dochodzimy więc do wniosku, że czytelność to tak naprawdę rzecz **umowna**, uzelażniona od pewnych przyzwyczajeń, nie jest uniwersalna.
+
+W dalszej części artykułu skupiam się bardziej na przyjętych w środowisku JS/TS "dobrych praktykach" i niestosowaniu się do nich w pewnych częściach języka.
+
+## Typy generyczne
+
+W codziennej pracy staramy się nazywać odpowiednio funkcje, obiekty i zmienne, tak, aby drugi programista wiedział co w danej linijce mieliśmy na myśli. W tym całym _"czystym kodzie"_ zapominamy często o typach! Widoczne to jest najczęściej w typach generycznych, gdzie argument deklarujemy jako `<T>`. Ta praktyka została zapożyczona z C# i... po prostu tak zostało.
+
+<Highlight variant="error" title="">
+
+Prosty przykład, kilka spojrzeń i wiemy o co chodzi, ale czemu by nie zrobić tego lepiej?
+
+```ts
+type Column<T, K extends keyof T> = {
+  key: K;
+  header: string;
+};
+
+type TableProps<T, K extends keyof T> = {
+  data: Array<T>;
+  columns: Array<Column<T, K>>;
+  renderTable: (row: T, column: Column<T, K>) => React.ReactNode;
+};
+```
+
+</Highlight>
+
+<Highlight variant="success" title="">
+
+```ts
+type Column<Row, Key extends keyof Row> = {
+  key: Key;
+  header: string;
+};
+
+type TableProps<Row, Key extends keyof Row> = {
+  data: Array<Row>;
+  columns: Array<Column<Row, Key>>;
+  renderTable: (row: Row, column: Column<Row, Key>) => React.ReactNode;
+};
+```
+
+</Highlight>
+
+O ile w prostych przykładach możemy tego nie dostrzegać, tak przy bardziej zaawnsowanych, często warunkowych/mapowanych typach, problem znacząco się nasila...
+
+<Highlight variant="error" title="">
+
+```ts
+type ParseRouteParameters<T> = T extends `${string}/:${infer U}/${infer R}`
+  ? { [P in U | keyof ParseRouteParameters<`/${R}`>]: string }
+  : T extends `${string}/:${infer U}`
+  ? { [P in U]: string }
+  : {};
+```
+
+</Highlight>
+
+Powyższe, skromne pięć linijek kodu może przyprawić niejednego programistę o ból głowy. Pomijając już samą "logikę" tego typu, to c'mon, kto w normalnych funkcjach nazywałby tak swoje argumenty? Prosta zmiana nazw i kod staje się nieco bardziej zrozumiały:
+
+<Highlight variant="success" title="">
+
+```ts
+type ParseRouteParameters<Route> = Route extends `${string}/:${infer Parameter}/${infer Rest}`
+  ? { [Key in Parameter | keyof ParseRouteParameters<`/${Rest}`>]: string }
+  : Route extends `${string}/:${infer Parameter}`
+  ? { [Key in Parameter]: string }
+  : {};
+```
+
+</Highlight>
+
+Oczywiście, jak to już bywa w naszej branży, od każdej reguły istnieją jakieś wyjątki, nic nie jest czarno-białe. Dla mnie takim "marginesem błędu" jest tworzenie ogólnych, często mapowanych typów. Zresztą wbudowane, pomocnicze typy zostały właśnie w ten sposób zaimplementowane przed twórców samego języka:
+
+```ts
+type Partial<T> = { [P in keyof T]?: T[P] | undefined };
+```
+
+## Błędy
+
+Niech pierwszy rzuci kamieniem ten, który nie złapał się za głowę widząc **błąd z TypeScripta**. Nie ma to, jak dostać na klatę errorem na pół ekranu...
+
+<Image
+  src="/images/czytelny-typecript/ts-error.png"
+  alt="Nieczytelny błąd kompilacji w TypeScript"
+/>
+
+Na przestrzeni lat powstała nawet niepisana (bardzo przydatna) porada dla początkujących - "Czytaj tylko ostatnią linijkę błędu". Na szczęście na rynku pojawiają się takie perełki jak [TypeScript Error Translator](https://ts-error-translator.vercel.app/), które przyjmują wypluty błąd i przekształcają go na zrozumiałą dla człowieka informację.
+
+<Image
+  src="/images/czytelny-typecript/ts-error-translator.png"
+  alt="Przedstawienie działania TypeScript Error Translator, do pola tekstowego przekazujemy błąd kompilacji, a w wyniku otrzymujemy wyjaśnienie problemu w prostym do zrozumienia języku"
+/>
+
+[Twórca](https://twitter.com/mpocock1) tego narzędzia przygotował nawet specjalne [rozszerzenie do VSCode](https://marketplace.visualstudio.com/items?itemName=mattpocock.ts-error-translator), nic tylko brać, czystego złoto!
+
+## Prefixy
+
+A na sam koniec mały, **subiektywny** bonusik. Otóż praktyką, którą również zapożyczyliśmy z innych języków jest dodawania `I` lub `T` do analogicznie interfejsów i typów. Czy programiści naoglądali się za dużo `Impl` w Javie, czy też po prostu uznali, że jednoznakowy prefix będzie dobrym materiałem na konwencję nazewniczą?
+
+Części osób skojarzy się to na pewno z nieco prehistoryczną już [notacją węgierską](https://en.wikipedia.org/wiki/Hungarian_notation). Ta konwencja nazewnicza została oryginalnie wprowadzona, by adresować typ danego wyrażenia. `C` od klasy, `A` od klas abstrakcyjnych, `s` od ciągu znaków itp. Przekładając to na nasze, programistyczne dinozaury na pewno pamiętają `$` z jQuery.
+
+Kolejna sprawa, czyli lenistwo programistów. Nie ukrywajmy, nazywanie rzeczy w programowaniu nie należy do najłatwiejszych. Korzystanie z prefixów ułatwia bardzo sprawę, ale może warto czasem się na chwilę zatrzymać i pokminić nad lepszą nazwą? :)
+
+<Highlight variant="error" title="">
+
+```ts
+type Event = 'post' | 'repost' | 'comment';
+
+interface IEvent {
+  type: Event;
+  data: unknown;
+}
+```
+
+</Highlight>
+
+<Highlight variant="success" title="">
+
+```ts
+type EventType = 'post' | 'repost' | 'comment';
+
+interface Event {
+  type: EventType;
+  data: unknown;
+}
+```
+
+</Highlight>
+
+Żeby nie było, że tylko hejtuję. Sam uciekam się często w pewnym sensie o odwróconą, wspomnianą `Impl` w Javie, tylko że w React, deklarując propsy:
+
+```ts
+interface ComponentProps {}
+
+const Component = () => {};
+```
+
+Jednak to dla mnie trochę coś innego niż prosty prefix/postfix. W tym przypadku faktycznie mówimy, czym dany interfejs jest, nie uciekając się do przyzwyczajeń z `I`.
+
+Chociaż wspomniana technika do mnie nie przemawia, to z konwencjami nazewniczymi jest trochę tak, że jakby zła ona nie była, to i tak ważniejsza jest konsekwencja z kodzie...
+
+## Podsumowanie
+
+TypeScript, przecież miało być czytelniej... a wyszło jak zawsze, czyli tak średnio.
+
+Na szczęście są na to sposoby i z małą pomocą programistów, niektóre problemy mogą odejść w zapomnienie.
+
+## Źródła
+
+- [TypeScript Error Translator](https://ts-error-translator.vercel.app/)
+- [Notacja węgierksa w TypeScript](https://stackoverflow.com/questions/31876947/confused-about-the-interface-and-class-coding-guidelines-for-typescript)

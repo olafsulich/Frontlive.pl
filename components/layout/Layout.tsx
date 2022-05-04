@@ -4,6 +4,7 @@ import { Footer } from '../footer/Footer';
 import { Author } from '../autor/Autor';
 import { Community } from '../community/Community';
 import { School } from '../school/School';
+import { Shadows } from '../shadows/Shadows';
 
 type LayoutProps = {
   readonly children: ReactNode;
@@ -14,6 +15,7 @@ type LayoutProps = {
 export const Layout = memo<LayoutProps>(({ children, isAutor = true, withFooter = true }) => {
   return (
     <>
+      <Shadows />
       <div className={styles.wrapper}>
         {children}
         {isAutor && <Author />}
