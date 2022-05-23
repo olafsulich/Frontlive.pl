@@ -1,0 +1,211 @@
+---
+title: 'TypeScript - nie potrzebujesz enumów'
+category: 'TypeScript'
+publishedAt: '23-05-2022'
+isPublished: true
+popular: false
+image: '/images/typescript-enum/thumbnail.png'
+excerpt: 'Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takieg złe i jakie są alternatywy?'
+---
+
+Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takieg złe i jakie są alternatywy?
+
+## Typy, a może jednak wartości?
+
+Enumy łamią podstawowe założenie typów w TypeScripcie - nie znikają po kompilacji!
+
+```ts
+enum Role {
+  Admin,
+  User,
+  Guest,
+}
+```
+
+Za przykład weźmy numerycznego enuma `Role`, po skompilowaniu ten enum zamieni się w takiego potworka:
+
+```js
+var Role;
+(function (Role) {
+  Role[(Role['Admin'] = 0)] = 'Admin';
+  Role[(Role['User'] = 1)] = 'User';
+  Role[(Role['Guest'] = 2)] = 'Guest';
+})(Role || (Role = {}));
+```
+
+Wynika to z faktu, że enumów możemu używać zarówno jako typów, jak i wartości. Poniższy kod jest w 100% poprawny:
+
+```ts
+const userRole = Role.Admin;
+
+type UserRole = Role.Admin;
+```
+
+Czy to dobrze, czy to źle? Zależy jak na to spojrzeć :) Ze strony samego języka jest to dziwne posunięcie, odbiegające od tego jak działają `type`, czy `interface`. Z perspektywy programisty może być to faktycznie miejscami wygodne, jednak korzystając z enumów miejmy na uwadze, że tworzymy nadmiarowy kod.
+
+## Niebezpieczeństwo numerycznych enumów
+
+Enumy dzielą się na dwa rodzaje - enumy numeryczne i te z ciągami znaków. Te pierwsze są kompletną pomyłką i powodują niebezpieczeństwo w typowaniu!
+
+Numeryczne enumy mają to do siebie, że domyślnie indeksowane są tak jak obiekty, od zera - widzimy to w skompilowanym przykładzie powyżej. Możemy jednak zmienić to zachowanie napisując indeks dla konkretnego typu.
+
+```ts
+enum Role {
+  Admin = 5,
+  User = 14,
+  Guest,
+}
+```
+
+Jeśli adminowi nadamy indeks `5`, a zwykłemu użytkownikowi `14`, to TypeScript patrząc na trzeci element w enumie, spróbuje nadać mu o jeden większy indeks niż poprzednio nadpisany. Kod po skompilowaniu:
+
+```ts
+var Role;
+(function (Role) {
+  Role[(Role['Admin'] = 5)] = 'Admin';
+  Role[(Role['User'] = 14)] = 'User';
+  Role[(Role['Guest'] = 15)] = 'Guest';
+})(Role || (Role = {}));
+```
+
+Spróbujmy wykorzystać tego enuma w praktyce. Tworzymy funkcję `getUserRole`, która przyjmuje rolę o wcześniej stworzonym typie `Role`:
+
+```ts
+declare function getUserRole(role: Role): void;
+
+getUserRole(Role.Admin); // ✅
+getUserRole(5); // ✅  🤔
+getUserRole(200); // ✅  🤔
+```
+
+Oczekiwalibyśmy, że funkcja przyjmie tylko wcześniej zdefiniowanego enuma, jednak tak się nie dzieje... Możemy podać w niej również **jakąkolwiek** liczbę 🤯
+
+## Enumy z ciągami znaków
+
+Przejdźmy do opcji nr. 2 - _string enum_. To z niego najczęściej korzystamy w TypeScripcie:
+
+```ts
+enum Role {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+```
+
+Tutaj do danego pola w enumie przypisujemy odpowiadającego mu stringa. Sprawdźmy jak wygląda wykorzystanie w funkcjach:
+
+```ts
+declare function getUserRole(role: Role): void;
+
+getUserRole(Role.Admin); // ✅
+getUserRole(5); // ❌
+getUserRole(200); // ❌
+
+getUserRole('admin'); // ❌ 🤯
+```
+
+Super, `Role.Admin` działa, nie mamy możliwości przekazania dowolnej liczby, wszystko jest jak należy. Z jednym małym szczegółem. Nie możemy również przekazać stringa, który odpowiada temu, zdefiniowanemu w enumie. Z doświadczenia wiem, że coś takiego jest mega wkurzające, bo za każdym razem musimy skorzystać z zdeklarowanego enuma.
+
+<Newsletter />
+
+## Typowanie nominalne
+
+To, co jednocześnie jest wkurzające, ma również swoje zalety. Enumy są bowiem typowane nominalnie.
+
+```ts
+enum Role {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+
+enum Role2 {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+
+const admin: Role = Role.Admin; // ✅
+
+const admin2: Role2 = Role.Admin; // ❌
+```
+
+Jednego enuma, nie możemy przypisać do drugiego, nawet jeśli oba są identyczne, fajna sprawa :)
+
+## const enum
+
+Twórcy TypeScripta próbują obalić jeden z moich argumentów przeciw wykorzystaniu enumów i w swojej kolekcji typów posiadają również takiego potworka jak `const enum`.
+
+```ts
+const enum Role1 {
+  Admin,
+  User,
+  Guest,
+}
+
+const users1 = [Role1.Admin, Role1.User, Role1.Guest];
+
+/*
+Po kompilacji:
+
+const users1 = [0, 1, 2];
+*/
+
+const enum Role2 {
+  Admin = 'admin',
+  User = 'user',
+  Guest = 'guest',
+}
+
+const users2 = [Role2.Admin, Role2.User, Role2.Guest];
+
+/*
+Po kompilacji:
+
+const users = ['admin', 'user', 'guest'];
+*/
+```
+
+Dzięki niemu enumy nie zostają w kodzie po kompilacji, a miejsca w których były użyte zmieniają się w zależności od typu enuma. Dla enumów numerycznych otrzymujemy indeksy, a dla ciągów znaków odpowiadające im wartości.
+
+Ten sposób typowania ma jednak jedną dużą wadę - [nie zadziała w przypadku połączenia Babela z TypeScriptem](https://github.com/microsoft/TypeScript/issues/37179).
+
+## Alternatywy
+
+Tyle zabawy, tyle tradeoffów, po co to wszystko skoro mamy prostsze rozwiązanie?
+
+Wystarczy skorzystać z unii!
+
+```ts
+type Role = 'admin' | 'user' | 'guest';
+
+declare function getUserRole(role: Role): void;
+
+getUserRole('admin'); // ✅
+
+getUserRole(5); // ❌
+getUserRole(200); // ❌
+```
+
+Nasz typ w końcu jest bezpieczny, nie musimy niczego importować, to **po prostu działa!**
+
+A jeśli chcielibyśmy móc korzystać z typów i wartości, tak jak w enumie, to możemy użyć zwykłego obiektu:
+
+```ts
+const Role = {
+  Admin: 'admin',
+  User: 'user',
+  Guest: 'guest',
+} as const;
+
+type Values<Object> = Object[keyof Object];
+
+declare function getUserRole(role: Values<typeof Role>): void;
+
+getUserRole('admin'); // ✅
+getUserRole(Role.Admin); // ✅
+```
+
+## Podsumowanie
+
+Enum to dziwne stworzenie w TypeScripcie. Pełne złych decyzji projektowych i tredeoffów. W większości zastosowań enuma możemy go zastąpić zwykłymi uniami typów oraz, gdy chcemy skorzystać również z wartości, zwykłych obiektów.

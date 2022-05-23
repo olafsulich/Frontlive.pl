@@ -1,0 +1,53 @@
+---
+title: 'Zaawansowane sekcje w HTML'
+category: 'Html'
+publishedAt: '20-05-2022'
+isPublished: false
+popular: false
+image: '/images/zaawansowane-sekcje-html/thumbnail.png'
+excerpt: 'Sekcje w HTML? Przecież to łatwizna! Okazuje się, że wcale nie i duża część Frontend Developerów w zły sposób z nich korzysta. Jak tworzyć przyjazne accessbility sekcje? Pssst, tego nie nauczą Cię na pierwszym lepszym kursie. '
+---
+
+Po co tak właściwie korzystamy z `<section>`, nie wystarczy zwykły `<div>` ? Część osób powie "bo semantyka" - ale co ta semantyka nam daje? Strona przecież wygląda identycznie.
+
+Powinniśmy korzystać z "semantycznych" tagów, nie bo "ktoś tak powiedział", tylko dlatego, że są one potrzebne technologiom asystującym, np. czytnikom ekranowym.
+
+Kiedy używać `<section>` ? Gdy mamy na stronie, tak jak nazwa mówi, jakąś sekcję, która **powinna** mieć w sobie nagłówek. Na tym większość materiałów odnośnie tego tagu się kończy, ale jest pewien haczyk...
+
+Załóżmy sytuację, w której mamy `<div>` a w nim nagłówek, analogicznie zróbmy z `<section>`. Pod względem struktury HTML, druga opcja faktycznie reprezentuje sekcję. Różnic natomiast nie ma dla technologii asystujących - odbierają one te dwa bloki kodu identycznie.
+
+<Highlight variant="error" title="">
+
+```html
+<div>
+  <h2>Zwierzęta</h2>
+</div>
+
+<section>
+  <h2>Zwierzęta</h2>
+</section>
+```
+
+</Highlight>
+
+<Newsletter />
+
+Tutaj całe na biało wchodzą Aria Roles, wcześniej deklarowało je się w ten sposób 'role="main"', obecnie większość ról da się zastąpić "semantycznymi" tagami HTML, np. `<main>`. Tak jak `<main>` odpowiada roli `main`, tak `<section>` reprezentuje rolę `region` - pod pewnym warunkiem.
+
+Żeby sekcja uzyskała status "region" potrzebuje tzw. accessible name, możemy je dodać za pomocą `aria-label` lub `aria-labelledby` (preferowane).
+
+<Highlight variant="success" title="">
+
+```html
+<section aria-labelledby="animals">
+  <h2 id="animals">Zwierzęta</h2>
+</section>
+```
+
+</Highlight>
+
+Po co nam te całe role? Dzięki nim użytkownicy technologii asystujących mogą rozróżnić, że "hej tu jest nawigacja, tu główna część strony, tutaj formularz, a tutaj sekcja z nagłówkiem". Warto również pamiętać o nagłówkach w sekcjach, bo to przez nie najczęściej użytkownicy nawigują się po stronach.
+
+A jeśli to do Ciebie nie przemawia (a powinno), to nawet z perspektywy czystego kodu warto powiedzieć innemu programiście "ten element strony jest sekcją".
+
+Powinniśmy jednak używać sekcji z rozwagą - nie chcemy wprowadzać użytkownika w błąd mówiąc mu, że coś jest sekcją, a tak naprawdę na stronie występuje np. w formie jakiejś pobocznej treści (`<aside>`).

@@ -1,0 +1,153 @@
+---
+title: 'Pozycjonowanie w CSS - kompletny, wizualny poradnik dla początkujących'
+category: 'CSS'
+publishedAt: '30-05-2022'
+isPublished: false
+popular: true
+image: '/images/css-positions/thumbnail.png'
+excerpt: 'Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum najważniejsze właściwość position w CSS.'
+---
+
+## Static
+
+- Domyślana pozycja elementów
+- Pozostaje we flow dokumnetu
+
+<Image alt="" src="/images/css-positions/static.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+  <div class="item"></div>
+  <div class="item"></div>
+</div>
+
+<style>
+  .item {
+    position: static;
+  }
+</style>
+```
+
+## Inherit
+
+- Pozycja jest dziedziczona od rodzica
+
+<Image alt="" src="/images/css-positions/inherit.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+</div>
+
+<style>
+  .container {
+    position: static;
+  }
+
+  .item {
+    position: inherit;
+  }
+</style>
+```
+
+## Relative
+
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+- Element jest relatywny do swojej pozycji
+
+<Image alt="" src="/images/css-positions/relative.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+</div>
+
+<style>
+  .item {
+    position: relative;
+    bottom: 30%;
+    right: 30%;
+  }
+</style>
+```
+
+<Newsletter />
+
+## Absolute
+
+- Usuwany z głównego flow
+- Domyślnie pozycja względem dokumentu
+- Jeśli rodzic jest relative, to pozycjonuje się względem niego
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+
+<Image alt="" src="/images/css-positions/absolute.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+</div>
+
+<style>
+  .container {
+    position: relative;
+  }
+
+  .item {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+</style>
+```
+
+## Fixed
+
+- Usuwany z głównego flow
+- Element zostaje przyklejony do scrollowania
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+
+<Image alt="" src="/images/css-positions/fixed.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+</div>
+
+<style>
+  .container {
+    position: relative;
+  }
+
+  .item {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+</style>
+```
+
+## Sticky
+
+- Połączenie relative i fixed
+- Pozostaje relative do określonego miejsca, np. top: 40%, potem zmienia się w fixed
+
+<Image alt="" src="/images/css-positions/sticky.png" />
+
+```html
+<div class="container">
+  <div class="item"></div>
+</div>
+
+<style>
+  .container {
+    position: relative;
+  }
+
+  .item {
+    position: sticky;
+    top: 40%;
+    right: 0;
+  }
+</style>
+```

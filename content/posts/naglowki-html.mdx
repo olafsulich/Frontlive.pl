@@ -1,0 +1,36 @@
+---
+title: 'Ogarnij nagłówki HTML'
+category: 'Html'
+publishedAt: '21-05-2022'
+isPublished: false
+popular: false
+image: '/images/naglowki-html/thumbnail.png'
+excerpt: 'Uwaga - nie tylko dla początkujących! Nagłówki w HTML to tylko z pozoru rzecz prosta... Odpowiednia struktura, semantyka i accessibility to wyzwania, z którymi na co dzień muszą się mierzyć Frontend Developerzy podczas wykorzystania nagłówków na stronach.'
+---
+
+First things first - nagłówki służą do opisywania poszczególnych sekcji dokumentu. HTML dysponuje poziomami nagłówków w przedziale od `1` do `6`.
+
+Poziom nagłówka **nie oznacza** “mocy” nagłówka, a jego kolejność w hierarchii. Nagłówki powinny następować po sobie w odpowiedniej kolejności, bez pomijania żadnego poziomu.
+
+Nagłówek pierwszego stopnia `<h1>` powinien znaleźć się stronie tylko jeden raz. Przykładowa struktura na nagłówków:
+
+```html
+<h1>Pierwszy poziom</h1>
+<h2>Drugi poziom</h2>
+<h3>Trzeci poziom</h3>
+<h2>Drugi poziom</h2>
+<h3>Trzeci poziom</h3>
+<h4>Czwarty poziom</h4>
+<h4>Czwarty poziom</h4>
+<h5>Piąty poziom</h5>
+```
+
+Ani jego wygląd, ani rozmiar nie powinien mieć nic wspólnego z jego poziomem. Na przykład `<h4>` może być mniejszy od <`h3>`, ale nie musi. Nie powinno się przekładać rozmiaru nagłówka na poziom.
+
+<Newsletter />
+
+Nagłówki poza wizualnym rozdzieleniem sekcji, służą również jako **punkty nawigacyjne** dla czytników ekranowych. Użytkownicy korzystający z czytników często przeskakują przez stronę, korzystając właśnie z nagłówków.
+
+A co z SEO? Trzeba przyznać, że nagłówki pomagają lepiej pozycjonować stronę, ale **nie powinniśmy** przekładać tego nad ich faktyczny zamysł. Nie powinno się „maksymalizować SEO” przez dodawanie np. kilku `<h1>`, czy wrzucania niepotrzebnego tekstu mającego poprawić wyniki wyszukiwania.
+
+Pamiętajmy o tym, że strony tworzymy z myślą o użytkownikach, nie wyszukiwarkach - nawet sam Google o tym wspomina!

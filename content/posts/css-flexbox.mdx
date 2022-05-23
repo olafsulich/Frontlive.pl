@@ -1,0 +1,1209 @@
+---
+title: 'Flexbox w CSS - kompletny, wizualny poradnik dla początkujących'
+category: 'CSS'
+publishedAt: '31-05-2022'
+isPublished: false
+popular: true
+image: '/images/css-flexbox/thumbnail.png'
+excerpt: 'Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu float: left.'
+---
+
+Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu `float: left`.
+
+## Spis treści
+
+- Rodzic
+  - [display](#display)
+  - [flex-direction](#flex-direction)
+  - [flex-wrap](#flex-wrap)
+  - [flex-flow](#flex-flow)
+  - [justify-content](#justify-content)
+  - [align-items](#align-items)
+  - [align-content](#align-content)
+  - [gap](#column-gap)
+- Dziecko
+  - [order](#order)
+  - [flex-grow](#flex-grow)
+  - [flex-shrink](#flex-shrink)
+  - [flex-basis](#flex-basis)
+  - [flex](#flex)
+  - [align-self](#align-self)
+
+## display
+
+Przynależność: **Rodzic**
+
+Dzięki właściwości `display: flex` lub `display: inline-flex` kontener staje się tzw. _flex container_, a jego dzieci tzw. _flex items_.
+
+### display: flex
+
+Przynależność: **Rodzic**
+
+Kontener z właściwością `display: flex` zachowuje się jak zwykły element blokowy.
+
+<Image alt="" src="/images/css-flexbox/display-flex.png" />
+
+```html
+<div class="container">
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+  }
+</style>
+```
+
+### display: inline-flex
+
+Przynależność: **Rodzic**
+
+Kontener z właściwością `display: flex` zachowuje się jak element inlinenowy.
+
+<Image alt="" src="/images/css-flexbox/display-inline-flex.png" />
+
+```html
+<div class="container">
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: inline-flex;
+  }
+</style>
+```
+
+## flex-direction
+
+Przynależność: **Rodzic**
+
+Właściwość `flex-direction` definiuje tzw. _główną oś_ w kontenerze oraz kierunek w jakim mają ustawiać się flex items.
+
+Strzałka wskazuje kierunek i **główną oś** i kierunek ułożenia, linia przerywana reprezentuje **oś krzyżową**.
+
+> W dalszej części artykułu, dla ułatwienia, będę na przemian używał nazw oś główna/krzyżowa (przeciwna) razem z właściwościami góra/dół/prawo/lewo/początek/koniec, które mogą się zmienić, gdy zmienimy `flex-direction`.
+
+### flex-direction: row
+
+Przynależność: **Rodzic**
+
+Ustala kierunek w rzędzie od lewej do prawej.
+
+<Image alt="" src="/images/css-flexbox/flex-direction-row.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+</style>
+```
+
+### flex-direction: row-reverse
+
+Przynależność: **Rodzic**
+
+Ustala kierunek w rzędzie od prawej do lewej.
+
+<Image alt="" src="/images/css-flexbox/flex-direction-row-reverse.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+</style>
+```
+
+### flex-direction: column
+
+Przynależność: **Rodzic**
+
+Ustala kierunek w columnie od góry do dołu.
+
+<Image alt="" src="/images/css-flexbox/flex-direction-column.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+```
+
+### flex-direction: column-reverse
+
+Przynależność: **Rodzic**
+
+Ustala kierunek w columnie od dołu do góry.
+
+<Image alt="" src="/images/css-flexbox/flex-direction-column-reverse.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+</style>
+```
+
+## flex-wrap
+
+Przynależność: **Rodzic**
+
+Właściwość `flex-wrap` steruje zawijaniem elementów, jeśli w kontenerze zabraknie miejsca.
+
+### flex-wrap: wrap
+
+Przynależność: **Rodzic**
+
+Jeśli wskażemy właściwość na wrap, elementy przejdą do następnej linii od góry do dołu.
+
+<Image alt="" src="/images/css-flexbox/flex-wrap-wrap.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>
+```
+
+### flex-wrap: wrap-reverse
+
+Przynależność: **Rodzic**
+
+Jeśli ustawimy wrap-reverse, elementy umiejscowią się z dółu do góry.
+
+<Image alt="" src="/images/css-flexbox/flex-wrap-wrap-reverse.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+  }
+</style>
+```
+
+### flex-wrap: nowrap
+
+Przynależność: **Rodzic**
+
+Domyśla wartość, jeśli elementy się nie mieszczą, spróbują się skurczyć, jeśli to nie pomoże zaczną wystawać poza obrys kontenera.
+
+<Image alt="" src="/images/css-flexbox/flex-wrap-nowrap.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+</style>
+```
+
+## flex-flow
+
+Przynależność: **Rodzic**
+
+Połączenie `flex-direction` i `flex-wrap`, domyślą wartością jest `row nowrap`.
+
+### flex-flow: column wrap
+
+Przynależność: **Rodzic**
+
+Zawija elementy w kolumnie, od góry do dołu, od lewej do prawej.
+
+<Image alt="" src="/images/css-flexbox/flex-flow-column-wrap.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-flow: column wrap;
+  }
+</style>
+```
+
+### flex-flow: column wrap-reverse
+
+Przynależność: **Rodzic**
+
+Zawija elementy w kolumnie, od góry do dołu, od prawej do lewej.
+
+<Image alt="" src="/images/css-flexbox/flex-flow-column-wrap-reverse.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-flow: column wrap-reverse;
+  }
+</style>
+```
+
+### flex-flow: row wrap
+
+Przynależność: **Rodzic**
+
+Zawija elementy w rzędzie, od lewej do prawej.
+
+<Image alt="" src="/images/css-flexbox/flex-flow-row-wrap.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+  <div>12</div>
+  <div>13</div>
+  <div>14</div>
+  <div>15</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+</style>
+```
+
+## justify-content
+
+Przynależność: **Rodzic**
+
+Umieszcza elementy względem **głównej osi**.
+
+### justify-content: flex-start
+
+Przynależność: **Rodzic**
+
+Elementy umieszczone na starcie osi.
+
+<Image alt="" src="/images/css-flexbox/justify-content-flex-start.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: flex-start;
+  }
+</style>
+```
+
+### justify-content: flex-end
+
+Przynależność: **Rodzic**
+
+Elementy umieszczone na końcu osi.
+
+<Image alt="" src="/images/css-flexbox/justify-content-flex-end.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>
+```
+
+### justify-content: center
+
+Przynależność: **Rodzic**
+
+Elementy umieszczone na środku osi.
+
+<Image alt="" src="/images/css-flexbox/justify-content-center.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+```
+
+### justify-content: space-between
+
+Przynależność: **Rodzic**
+
+Elementy rozsuwają się od siebie na krańce osi.
+
+<Image alt="" src="/images/css-flexbox/justify-content-space-between.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+```
+
+### justify-content: space-around
+
+Przynależność: **Rodzic**
+
+Rozłoży elementy równomiernie, tak aby miały połowę swojej przestrzeni po bokach.
+
+<Image alt="" src="/images/css-flexbox/justify-content-space-around.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-around;
+  }
+</style>
+```
+
+### justify-content: space-evenly
+
+Przynależność: **Rodzic**
+
+Rozłoży elementy równomiernie, tak aby miały całkowitą przestrzeń po bokach.
+
+<Image alt="" src="/images/css-flexbox/justify-content-space-evenly.png" />
+
+```html
+<div class="container">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    justify-content: space-evenly;
+  }
+</style>
+```
+
+## align-items
+
+Przynależność: **Rodzic**
+
+Umieszcza elementy względem **osi krzyżowej**. O `align-items` można myśleć jak o `justify-content` na osi przeciwnej.
+
+### align-items: flex-start
+
+Przynależność: **Rodzic**
+
+Umieszcza elementy na początku osi.
+
+<Image alt="" src="/images/css-flexbox/align-items-flex-start.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-items: flex-start;
+  }
+</style>
+```
+
+### align-items: flex-end
+
+Przynależność: **Rodzic**
+
+Umieszcza elementy na końcu osi.
+
+<Image alt="" src="/images/css-flexbox/align-items-flex-end.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-items: flex-end;
+  }
+</style>
+```
+
+### align-items: center
+
+Przynależność: **Rodzic**
+
+Umieszcza elementy na środku osi.
+
+<Image alt="" src="/images/css-flexbox/align-items-center.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-items: center;
+  }
+</style>
+```
+
+### align-items: stretch
+
+Przynależność: **Rodzic**
+
+Rozciąga elementy na całą oś.
+
+<Image alt="" src="/images/css-flexbox/align-items-stretch.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-items: stretch;
+  }
+</style>
+```
+
+### align-items: baseline
+
+Przynależność: **Rodzic**
+
+Elementy ustawiają się na linii bazowej.
+
+<Image alt="" src="/images/css-flexbox/align-items-baseline.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-items: baseline;
+  }
+</style>
+```
+
+## align-content
+
+Przynależność: **Rodzic**
+
+Ustawia elementy w kontenerze, który posiada flex-wrap względem **osi krzyżowej**.
+
+### align-content: flex-start
+
+Przynależność: **Rodzic**
+
+Elementy ustawiają się na początku osi.
+
+<Image alt="" src="/images/css-flexbox/align-content-flex-start.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: flex-start;
+  }
+</style>
+```
+
+### align-content: flex-end
+
+Przynależność: **Rodzic**
+
+Elementy ustawiają się na końcu osi.
+
+<Image alt="" src="/images/css-flexbox/align-content-flex-end.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: flex-end;
+  }
+</style>
+```
+
+### align-content: center
+
+Przynależność: **Rodzic**
+
+Elementy ustawiają się na środku osi.
+
+<Image alt="" src="/images/css-flexbox/align-content-center.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: center;
+  }
+</style>
+```
+
+### align-content: stretch
+
+Przynależność: **Rodzic**
+
+Elementy rozciągają się na całą oś.
+
+<Image alt="" src="/images/css-flexbox/align-content-stretch.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: stretch;
+  }
+</style>
+```
+
+### align-content: space-between
+
+Przynależność: **Rodzic**
+
+Elementy _odpychają_ się na krańce osi.
+
+<Image alt="" src="/images/css-flexbox/align-content-space-between.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: space-between;
+  }
+</style>
+```
+
+### align-content: space-around
+
+Przynależność: **Rodzic**
+
+Elementy _odpychają_ się na krańce osi, jednocześnie zachowując równolegle odstępy z obu stron elementu.
+
+<Image alt="" src="/images/css-flexbox/align-content-space-around.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    align-content: space-around;
+  }
+</style>
+```
+
+## row-gap
+
+Przynależność: **Rodzic**
+
+Ustawia przestrzeń pomiędzy elementami w rzędach.
+
+<Image alt="" src="/images/css-flexbox/row-gap.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    row-gap: 10px;
+  }
+</style>
+```
+
+## column-gap
+
+Przynależność: **Rodzic**
+
+Ustawia przestrzeń pomiędzy elementami w columnach.
+
+<Image alt="" src="/images/css-flexbox/column-gap.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    column-gap: 10px;
+  }
+</style>
+```
+
+## gap
+
+Przynależność: **Rodzic**
+
+Ustawia przestrzeń pomiędzy elementami w kolumnach i rzędach.
+
+<Image alt="" src="/images/css-flexbox/gap.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    gap: 10px;
+  }
+</style>
+```
+
+## place-content
+
+Przynależność: **Rodzic**
+
+Skrót dla `align-content` i `justify-content`.
+
+## place-content: end space-between
+
+Przynależność: **Rodzic**
+
+Ustawia elementy na końcu **osi krzyżowej** oraz odpycha je na krańce **osi głównej**.
+
+<Image alt="" src="/images/css-flexbox/place-content-end-space-between.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    place-content: end space-between;
+  }
+</style>
+```
+
+## place-content: start center
+
+Przynależność: **Rodzic**
+
+Ustawia elementy na początku **osi krzyżowej** oraz umiejscawia je na środku **osi głównej**.
+
+<Image alt="" src="/images/css-flexbox/place-content-start-center.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    place-content: start center;
+  }
+</style>
+```
+
+## place-content: center space-evenly
+
+Przynależność: **Rodzic**
+
+Ustawia elementy na środku **osi krzyżowej** oraz rozpycha je rozdysponowując miejsce pomiędzy elementami całkowicie i równomiernie na **osi głównej**.
+
+<Image alt="" src="/images/css-flexbox/place-content-center-space-evenly.png" />
+
+```html
+<div class="container">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    place-content: center space-evenly;
+  }
+</style>
+```
+
+## order
+
+Przynależność: **Dziecko**
+
+Zmienia domyślą kolejność elementu w kontenerze. Dla elementów interaktywnych powinniśmy z nim uważać, żeby nie zaburzać flow poruszania się klawiaturom.
+
+<Image alt="" src="/images/css-flexbox/order.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .first {
+    order: 2;
+  }
+
+  .second {
+    order: 3;
+  }
+
+  .third {
+    order: 1;
+  }
+</style>
+```
+
+## flex-grow
+
+Przynależność: **Dziecko**
+
+Pozwala sterować proporcjami elementów w kontenerze. Jeśli wszystkie dzieci mają `flex-grow: 1`, a jedno dziecko ma `flex-grow: 2`, to zajmie ono dwa razy więcej miejsca.
+
+<Image alt="" src="/images/css-flexbox/flex-grow.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+  <div class="fourth"></div>
+</div>
+
+<style>
+  .first {
+    flex-grow: 2;
+  }
+</style>
+```
+
+## flex-shrink
+
+Przynależność: **Dziecko**
+
+Pozwala kurczyć elementy zwględem innych dzieci w kontenerze.
+
+<Image alt="" src="/images/css-flexbox/flex-shrink.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .third {
+    flex-shrink: 2;
+  }
+</style>
+```
+
+## flex-basis
+
+Przynależność: **Dziecko**
+
+Ustawia wielkość elementu w kontenerze. Może być ustawiona jakoś długość (`%`, `px`, `rem`...) lub jako słowo klucz (`auto`, `content`...)
+
+<Image alt="" src="/images/css-flexbox/flex-basis.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .second {
+    flex-basis: 50%;
+  }
+</style>
+```
+
+## flex
+
+Przynależność: **Dziecko**
+
+Skrót dla właściwości `flex-grow`, `flex-shrink` i `flex-basis`.
+
+<Image alt="" src="/images/css-flexbox/flex.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .first {
+    /*flex: none | [ flex-row | flex-shrink | flex-basis ] */
+    flex: 1 1 60%;
+  }
+</style>
+```
+
+## align-self
+
+Przynależność: **Dziecko**
+
+Pozwala nadpisać pozycję `align-items` ustaloną przez rodzica dla konkretnego elementu.
+
+### align-self: flex-start
+
+Przynależność: **Dziecko**
+
+Umiejscawia element na początku **osi krzyżowej**.
+
+<Image alt="" src="/images/css-flexbox/align-self-flex-start.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .second {
+    align-self: flex-start;
+  }
+</style>
+```
+
+### align-self: flex-end
+
+Przynależność: **Dziecko**
+
+Umiejscawia element na końcu **osi krzyżowej**.
+
+<Image alt="" src="/images/css-flexbox/align-self-flex-end.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .second {
+    align-self: flex-end;
+  }
+</style>
+```
+
+### align-self: center
+
+Przynależność: **Dziecko**
+
+Umiejscawia element na środku **osi krzyżowej**.
+
+<Image alt="" src="/images/css-flexbox/align-self-center.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .second {
+    align-self: center;
+  }
+</style>
+```
+
+### align-self: stretch
+
+Przynależność: **Dziecko**
+
+Rozciąga element na **osi krzyżowej**.
+
+<Image alt="" src="/images/css-flexbox/align-self-stretch.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+</div>
+
+<style>
+  .second {
+    align-self: stretch;
+  }
+</style>
+```
+
+### align-self: baseline
+
+Przynależność: **Dziecko**
+
+Umiejscawia element względem linii bazowej na **osi krzyżowej**.
+
+<Image alt="" src="/images/css-flexbox/align-self-baseline.png" />
+
+```html
+<div>
+  <div class="first"></div>
+  <div class="second"></div>
+  <div class="third"></div>
+  <div class="fourth"></div>
+</div>
+
+<style>
+  .second {
+    align-self: baseline;
+  }
+</style>
+```
+
+## Podsumowanie
+
+Uff, to był **Flexbox**! Bardzo dużo wiedzy jak na jeden raz, pamiętaj, że praktyka jest najważniejsza. Spróbuj wykorzystać Flexboxa i stworzyć za pomocą niego prostą stronę internetową lub sprawdź świetną grę do nauki Flexboxa - [Flebox Froggy](https://flexboxfroggy.com/).

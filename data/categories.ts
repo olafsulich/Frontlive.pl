@@ -6,6 +6,7 @@ export const categoriesArr: Category[] = [
   { title: 'JavaScript', path: '/kategorie/javascript' },
   { title: 'Dostępność', path: '/kategorie/dostepnosc' },
   { title: 'React', path: '/kategorie/react' },
+  { title: 'HTML', path: '/kategorie/html' },
   { title: 'CSS', path: '/kategorie/css' },
   { title: 'Svelte', path: '/kategorie/svelte' },
   { title: 'GraphQL', path: '/kategorie/graphql' },
