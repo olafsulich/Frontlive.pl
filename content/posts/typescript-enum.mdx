@@ -5,10 +5,10 @@ publishedAt: '23-05-2022'
 isPublished: true
 popular: false
 image: '/images/typescript-enum/thumbnail.png'
-excerpt: 'Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takieg złe i jakie są alternatywy?'
+excerpt: 'Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takie złe i jakie są alternatywy?'
 ---
 
-Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takieg złe i jakie są alternatywy?
+Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takie złe i jakie są alternatywy?
 
 ## Typy, a może jednak wartości?
 
@@ -33,7 +33,7 @@ var Role;
 })(Role || (Role = {}));
 ```
 
-Wynika to z faktu, że enumów możemu używać zarówno jako typów, jak i wartości. Poniższy kod jest w 100% poprawny:
+Wynika to z faktu, że enumów możemy używać zarówno jako typów, jak i wartości. Poniższy kod jest w 100% poprawny:
 
 ```ts
 const userRole = Role.Admin;
@@ -41,13 +41,13 @@ const userRole = Role.Admin;
 type UserRole = Role.Admin;
 ```
 
-Czy to dobrze, czy to źle? Zależy jak na to spojrzeć :) Ze strony samego języka jest to dziwne posunięcie, odbiegające od tego jak działają `type`, czy `interface`. Z perspektywy programisty może być to faktycznie miejscami wygodne, jednak korzystając z enumów miejmy na uwadze, że tworzymy nadmiarowy kod.
+Czy to dobrze, czy to źle? Zależy jak na to spojrzeć :) Ze strony samego języka jest to dziwne posunięcie, odbiegające od tego, jak działają `type`, czy `interface`. Z perspektywy programisty może być to faktycznie miejscami wygodne, jednak korzystając z enumów, miejmy na uwadze, że tworzymy nadmiarowy kod.
 
 ## Niebezpieczeństwo numerycznych enumów
 
 Enumy dzielą się na dwa rodzaje - enumy numeryczne i te z ciągami znaków. Te pierwsze są kompletną pomyłką i powodują niebezpieczeństwo w typowaniu!
 
-Numeryczne enumy mają to do siebie, że domyślnie indeksowane są tak jak obiekty, od zera - widzimy to w skompilowanym przykładzie powyżej. Możemy jednak zmienić to zachowanie napisując indeks dla konkretnego typu.
+Numeryczne enumy mają to do siebie, że domyślnie indeksowane są tak jak obiekty, od zera - widzimy to w skompilowanym przykładzie powyżej. Możemy jednak zmienić to zachowanie nadpisując indeks dla konkretnego typu.
 
 ```ts
 enum Role {
@@ -92,7 +92,7 @@ enum Role {
 }
 ```
 
-Tutaj do danego pola w enumie przypisujemy odpowiadającego mu stringa. Sprawdźmy jak wygląda wykorzystanie w funkcjach:
+Tutaj do danego pola w enumie przypisujemy odpowiadającego mu stringa. Sprawdźmy, jak wygląda wykorzystanie w funkcjach:
 
 ```ts
 declare function getUserRole(role: Role): void;
@@ -104,7 +104,7 @@ getUserRole(200); // ❌
 getUserRole('admin'); // ❌ 🤯
 ```
 
-Super, `Role.Admin` działa, nie mamy możliwości przekazania dowolnej liczby, wszystko jest jak należy. Z jednym małym szczegółem. Nie możemy również przekazać stringa, który odpowiada temu, zdefiniowanemu w enumie. Z doświadczenia wiem, że coś takiego jest mega wkurzające, bo za każdym razem musimy skorzystać z zdeklarowanego enuma.
+Super, `Role.Admin` działa, nie mamy możliwości przekazania dowolnej liczby, wszystko jest jak należy. Z jednym małym szczegółem. Nie możemy również przekazać stringa, który odpowiada temu, zdefiniowanemu w enumie. Z doświadczenia wiem, że coś takiego jest mega wkurzające, bo za każdym razem musimy skorzystać ze zdeklarowanego enuma.
 
 <Newsletter />
 
@@ -166,7 +166,7 @@ const users = ['admin', 'user', 'guest'];
 */
 ```
 
-Dzięki niemu enumy nie zostają w kodzie po kompilacji, a miejsca w których były użyte zmieniają się w zależności od typu enuma. Dla enumów numerycznych otrzymujemy indeksy, a dla ciągów znaków odpowiadające im wartości.
+Dzięki niemu enumy nie zostają w kodzie po kompilacji, a miejsca, w których były użyte, zmieniają się w zależności od typu enuma. Dla enumów numerycznych otrzymujemy indeksy, a dla ciągów znaków odpowiadające im wartości.
 
 Ten sposób typowania ma jednak jedną dużą wadę - [nie zadziała w przypadku połączenia Babela z TypeScriptem](https://github.com/microsoft/TypeScript/issues/37179).
 
