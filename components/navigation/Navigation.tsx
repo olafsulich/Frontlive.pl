@@ -20,6 +20,9 @@ export const Navigation = () => {
             document.documentElement.style.overflowY = 'unset';
             clearAllBodyScrollLocks();
           },
+          onSelectAction: (action) => {
+            if (action.id !== 'blogSearch') document.documentElement.style.overflowY = 'unset';
+          },
         },
       }}
     >

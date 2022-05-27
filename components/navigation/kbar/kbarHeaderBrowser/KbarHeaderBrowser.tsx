@@ -20,8 +20,29 @@ export const KbarHeaderBrowser = () => {
       <div className={styles.dot}></div>
       <div className={styles.dot}></div>
       <div className={styles.dot}></div>
-      <ArrowLeft className={styles.arrowLeft} />
-      <ArrowRight className={styles.arrowRight} />
+      <button
+        className={styles.arrowLeft}
+        onClick={() => {
+          if (typeof window !== 'undefined') {
+            window.history.go(-1);
+          }
+        }}
+      >
+        <ArrowLeft />
+        <span className="visually-hidden">Cofnij do tyłu</span>
+      </button>
+      <button
+        className={styles.arrowRight}
+        onClick={() => {
+          if (typeof window !== 'undefined') {
+            window.history.go(1);
+          }
+        }}
+      >
+        <ArrowRight />
+        <span className="visually-hidden">Cofnij do przodu</span>
+      </button>
+
       <div className={styles.browserSearch}></div>
       <button
         onClick={hideNavigationActionsMenu}

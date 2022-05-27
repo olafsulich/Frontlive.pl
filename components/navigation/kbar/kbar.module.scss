@@ -17,6 +17,7 @@
 .animator {
   width: 100%;
   background: #060d12;
+  overflow: hidden;
 
   z-index: 1001;
 
@@ -28,7 +29,6 @@
   & * {
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
-    overflow-y: scroll;
 
     &::-webkit-scrollbar {
       display: none; /* for Chrome, Safari, and Opera */
@@ -46,8 +46,8 @@
 }
 
 .itemWrapper {
-  width: 100%;
   padding: 8px;
+  overflow: hidden;
 }
 
 .item {
@@ -61,6 +61,7 @@
   border-radius: 12px;
   color: #7f90a4;
   cursor: pointer;
+  overflow: hidden;
 
   @include mediaquery('sm') {
     padding: 12px 18px;
