@@ -23,14 +23,16 @@
     --line-height: 3rem;
   }
 
-  &:hover,
-  &:focus {
-    .heading {
-      transition: all 0.3s;
-      color: var(--blue-300);
-    }
-    .icon {
-      opacity: 1;
+  @media (hover: hover) {
+    &:hover,
+    &:focus {
+      .heading {
+        transition: all 0.3s;
+        color: var(--blue-300);
+      }
+      .icon {
+        opacity: 1;
+      }
     }
   }
 }
@@ -104,10 +106,12 @@
     justify-content: flex-start;
     padding-top: 2rem;
 
-    &:hover,
-    &:focus {
-      .heading {
-        color: var(--blue-300);
+    @media (hover: hover) {
+      &:hover,
+      &:focus {
+        .heading {
+          color: var(--blue-300);
+        }
       }
     }
   }

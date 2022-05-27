@@ -1,0 +1,58 @@
+@import 'common';
+
+.header {
+  width: 100%;
+  padding: 12px 22px;
+  background: #091620;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  @include mediaquery('sm') {
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #28333b;
+  border-radius: 100%;
+
+  &:not(:last-of-type) {
+    margin-right: 0.7rem;
+  }
+}
+
+.arrowLeft,
+.arrowRight {
+  path {
+    fill: #535c62;
+  }
+}
+
+.arrowLeft {
+  margin-left: 1.5rem;
+}
+
+.arrowRight {
+  margin-right: 1.5rem;
+}
+
+.browserSearch {
+  flex-grow: 1;
+  height: 2rem;
+  background-color: #1c252c;
+  border-radius: 8px;
+  margin-right: 1.5rem;
+}
+
+.close {
+  cursor: pointer;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  path {
+    fill: #535c62;
+  }
+}

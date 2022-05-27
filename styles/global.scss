@@ -81,5 +81,13 @@ button {
 
 .mainWrapper {
   max-width: 128rem;
-  margin: 45rem auto 0 auto;
+  margin: 30rem auto 0 auto;
+
+  @include mediaquery('sm') {
+    margin: 35rem auto 0 auto;
+  }
+
+  @include mediaquery('lg') {
+    margin: 45rem auto 0 auto;
+  }
 }

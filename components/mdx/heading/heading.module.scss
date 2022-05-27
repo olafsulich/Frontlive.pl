@@ -6,9 +6,11 @@
   margin: 2rem 0;
   position: relative;
 
-  &:hover {
-    a span {
-      opacity: 1;
+  @media (hover: hover) {
+    &:hover {
+      a span {
+        opacity: 1;
+      }
     }
   }
 

@@ -1,0 +1,58 @@
+@import 'common';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 200px;
+  background: #705df2;
+  margin-right: 2.5rem;
+  transition: 0.2s transform ease;
+
+  display: none;
+
+  @include mediaquery('xl') {
+    display: block;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.search,
+.mail {
+  width: 4.7rem;
+  height: 4.7rem;
+  background: #0e1d29;
+  border: 1px solid #243644;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search {
+  margin-right: 1rem;
+}
+
+.backdrop {
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  position: fixed;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+}

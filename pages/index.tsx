@@ -10,7 +10,7 @@ import { Author } from '../components/autor/Autor';
 import { Navigation } from '../components/navigation/Navigation';
 import { Community } from '../components/community/Community';
 import { Footer } from '../components/footer/Footer';
-import { getNewestPosts } from '../lib/posts';
+import { getNewestPosts, getAllPosts } from '../lib/posts';
 import { NextSeo } from 'next-seo';
 import { categoriesArr } from '../data/categories';
 import { FeaturedPost } from '../components/blog/postsListing/featuredPost/FeaturedPost';
@@ -19,22 +19,27 @@ import { Newsletter } from '../components/shared/components/newsletter/Newslette
 
 export const getStaticProps: GetStaticProps = async () => {
   const newestPosts = getNewestPosts();
+  const posts = getAllPosts();
 
   return {
     props: {
-      posts: newestPosts,
+      newestPosts,
+      posts,
     },
     revalidate: 1,
   };
 };
 
-export default function Index({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { title, excerpt, category, image, slug, timeToRead } = posts[0];
-  const [, ...postsWithoutFirst] = posts;
+export default function Index({
+  posts,
+  newestPosts,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { title, excerpt, category, image, slug, timeToRead } = newestPosts[0];
+  const [, ...postsWithoutFirst] = newestPosts;
   return (
     <>
       <NextSeo />
-      <Layout>
+      <Layout posts={posts}>
         <Header>
           <Navigation />
         </Header>{' '}

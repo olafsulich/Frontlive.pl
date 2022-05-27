@@ -26,14 +26,16 @@
       flex-direction: row;
     }
 
-    &:hover,
-    &:focus {
-      .heading {
-        transition: all 0.3s;
-        color: var(--blue-300);
-      }
-      .icon {
-        opacity: 1;
+    @media (hover: hover) {
+      &:hover,
+      &:focus {
+        .heading {
+          transition: all 0.3s;
+          color: var(--blue-300);
+        }
+        .icon {
+          opacity: 1;
+        }
       }
     }
   }

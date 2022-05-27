@@ -15,7 +15,7 @@
 .heroImage {
   object-fit: cover;
   display: block;
-  max-width: 40rem;
+  max-width: 26rem;
 
   @include mediaquery('sm') {
     max-width: 43rem;

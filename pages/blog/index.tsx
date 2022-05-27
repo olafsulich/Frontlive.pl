@@ -45,7 +45,7 @@ export default function BlogPage({ posts }: InferGetStaticPropsType<typeof getSt
         }}
       />
 
-      <Layout>
+      <Layout posts={posts}>
         <Navigation />
         <Blog posts={posts} categories={categoriesArr} />
       </Layout>

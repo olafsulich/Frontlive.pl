@@ -1,0 +1,20 @@
+.itemWrapper {
+  width: 100%;
+  padding: 8px;
+}
+
+.item {
+  font-size: 16px;
+  color: #fff;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: #7f90a4;
+}
+
+.itemActive {
+  background: #091620;
+}

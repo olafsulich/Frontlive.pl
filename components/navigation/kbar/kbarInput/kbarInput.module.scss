@@ -1,0 +1,43 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #060d12;
+
+  margin-bottom: 2rem;
+  padding: 15px 22px 5px 22px;
+
+  @include mediaquery('sm') {
+    border-radius: 12px 12px 0 0;
+  }
+}
+
+.icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-right: 0.5rem;
+
+  path {
+    fill: #535c62;
+  }
+}
+
+.search {
+  font-size: 16px;
+  outline: none;
+  border: none;
+  background: #060d12;
+  color: #7f90a4;
+  padding: 10px;
+
+  @include mediaquery('sm') {
+    border-radius: 12px 12px 0 0;
+  }
+
+  &::placeholder {
+    color: #7f90a4;
+  }
+}

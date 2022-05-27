@@ -16,8 +16,10 @@
     width: auto;
   }
 
-  &:hover {
-    transition: transform 0.2s;
-    transform: scale(1.05);
+  @media (hover: hover) {
+    &:hover {
+      transition: transform 0.2s;
+      transform: scale(1.05);
+    }
   }
 }

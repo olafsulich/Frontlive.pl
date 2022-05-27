@@ -96,11 +96,11 @@
   }
 }
 
-.newsletter {
-  @include mediaquery('xl') {
-    transform: translateY(-20rem);
-  }
-}
+// .newsletter {
+//   @include mediaquery('xl') {
+//     transform: translateY(-20rem);
+//   }
+// }
 
 .regulations {
   font-size: 1rem !important;
@@ -113,5 +113,61 @@
 
   @include mediaquery('lg') {
     font-size: 1.4rem !important;
+  }
+}
+
+.newslettersLists {
+  list-style: none;
+  color: var(--white);
+}
+
+.newsletterExample {
+  font-size: 1.8rem;
+  line-height: 3.6rem;
+  position: relative;
+  color: var(--white);
+  margin-bottom: 3rem;
+
+  a,
+  a:visited,
+  a:hover {
+    text-decoration: none;
+    border-bottom: 2px solid #112f47;
+    color: #7f90a4;
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 3.6rem;
+
+    @include mediaquery('lg') {
+      font-size: 1.9rem;
+      line-height: 3.7rem;
+    }
+
+    @include mediaquery('xl') {
+      font-size: 2rem;
+      line-height: 3.8rem;
+    }
+  }
+
+  @include mediaquery('lg') {
+    font-size: 1.9rem;
+    line-height: 3.7rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2rem;
+    line-height: 3.8rem;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: url('/icons/arrow-right.svg');
+    background-repeat: no-repeat;
+    top: 1.6rem;
+    left: -2.2rem;
+    transform: translateY(-50%);
   }
 }

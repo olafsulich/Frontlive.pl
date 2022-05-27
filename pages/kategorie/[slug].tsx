@@ -8,10 +8,12 @@ import { getPostsByCategory, getAllPosts } from '../../lib/posts';
 import { Category } from '../../components/category/Category';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const posts = await getPostsByCategory(params!.slug as string);
+  const postsByCategories = await getPostsByCategory(params!.slug as string);
+  const posts = getAllPosts();
 
   return {
     props: {
+      postsByCategories,
       posts,
     },
     revalidate: 1,
@@ -30,7 +32,10 @@ export const getStaticPaths = async () => {
   };
 };
 
-const CategoryPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const CategoryPage = ({
+  posts,
+  postsByCategories,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const {
     query: { slug },
   } = useRouter();
@@ -59,9 +64,9 @@ const CategoryPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>)
           ],
         }}
       />
-      <Layout>
+      <Layout posts={posts}>
         <Navigation />
-        <Category posts={posts} category={category} />
+        <Category posts={postsByCategories} category={category} />
       </Layout>
     </>
   );

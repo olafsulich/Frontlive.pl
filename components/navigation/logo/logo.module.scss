@@ -1,7 +1,7 @@
 @import 'common';
 
 .logo {
-  width: 100%;
+  width: 85%;
   height: 100%;
 }
 
@@ -16,5 +16,6 @@
 
   @include mediaquery('xl') {
     display: block;
+    flex-shrink: 0;
   }
 }

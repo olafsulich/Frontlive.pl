@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import { MDXRemote } from 'next-mdx-remote';
-import { getPostBySlug, getPostsPaths } from '../../lib/posts';
+import { getPostBySlug, getPostsPaths, getAllPosts } from '../../lib/posts';
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Image } from '../../components/mdx/image/Image';
@@ -30,9 +30,11 @@ type ImageProps = {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params!.slug as string;
   const { transformedMdx, frontmatter } = await getPostBySlug(slug);
+  const posts = getAllPosts();
 
   return {
     props: {
+      posts,
       transformedMdx,
       frontmatter: {
         slug,
@@ -55,6 +57,7 @@ export const getStaticPaths = async () => {
 const BlogPost = ({
   transformedMdx,
   frontmatter,
+  posts,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { title, excerpt, publishedAt, slug, image } = frontmatter;
   const url = `https://frontlive.pl/blog/${slug}`;
@@ -131,7 +134,7 @@ const BlogPost = ({
         title={title}
         url={url}
       />
-      <Layout>
+      <Layout posts={posts}>
         <Navigation />
         <main>
           <Mdx frontmatter={frontmatter}>

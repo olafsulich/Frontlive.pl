@@ -12,6 +12,7 @@
   border: none;
   flex-direction: column;
   z-index: 1001;
+  display: none;
 
   @include mediaquery('xl') {
     display: none;

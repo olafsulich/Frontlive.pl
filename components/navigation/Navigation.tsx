@@ -3,18 +3,36 @@ import { Logo } from './logo/Logo';
 import { LinksList } from './linksList/LinksList';
 import { HamburgerButton } from './hamburgerButton/HumburgerButton';
 import { SkipLink } from './skipLink/SkipLink';
-import WaveLine from '../../public/icons/wave-line.svg';
 import Wave from '../../public/icons/wave-3.svg';
+import { Actions } from './actions/Actions';
+import { KBarProvider } from 'kbar';
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 
-export const Navigation = ({ withWaveLine }: { withWaveLine?: boolean }) => {
+export const Navigation = () => {
   return (
-    <nav className={styles.wrapper}>
-      <Wave className={styles.wave} />
-      <SkipLink />
-      <Logo />
-      <LinksList />
-      {/* <WaveLine className={styles.waveLine} /> */}
-      <HamburgerButton />
-    </nav>
+    <KBarProvider
+      options={{
+        enableHistory: true,
+        disableDocumentLock: true,
+        callbacks: {
+          onOpen: () => (document.documentElement.style.overflowY = 'hidden'),
+          onClose: () => {
+            document.documentElement.style.overflowY = 'unset';
+            clearAllBodyScrollLocks();
+          },
+        },
+      }}
+    >
+      <nav className={styles.wrapper}>
+        <Wave className={styles.wave} />
+        <SkipLink />
+        <div className={styles.links}>
+          <Logo />
+          <LinksList />
+        </div>
+        <Actions />
+        <HamburgerButton />
+      </nav>
+    </KBarProvider>
   );
 };

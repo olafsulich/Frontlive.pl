@@ -21,6 +21,12 @@
   }
 }
 
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .waveLine {
   width: auto;
   height: auto;

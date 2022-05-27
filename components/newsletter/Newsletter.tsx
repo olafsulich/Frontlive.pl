@@ -13,9 +13,43 @@ export const Newsletter = () => {
         <div className={styles.content}>
           <p className={styles.text}>
             O nie, tylko nie kolejny branżowy newsletter, jestem już zapisany na 100 innych! Znam
-            ten ból, sam jestem zapisany na X newsletterów i ja też nie lubię spamu. Dlatego w tym
-            newsletterze nie uświadczysz żadnego bullshitu. Od czasu do czasu będę podsyłał Ci kilka
-            przydatnych linków + aktualizację z tego bloga 📮
+            ten ból, sam jestem zapisany na X newsletterów i ja też nie lubię spamu...
+          </p>
+          <p className={styles.text}>
+            Dlatego w tym newsletterze nie uświadczysz żadnego bullshitu. Od czasu do czasu będę
+            podsyłał Ci kilka przydatnych linków + aktualizację z tego bloga 📮
+          </p>
+          <p className={styles.text}>
+            Przykładowe maile:
+            <ul className={styles.newslettersLists}>
+              <li className={styles.newsletterExample}>
+                <a
+                  href="https://mailchi.mp/e9b8a4ffcdce/zaawansowane-patterny-renderowania-w-react-ts-enum-i-css-subgrid"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Zaawansowane Patterny Renderowania W React, TS Enum I CSS Subgrid
+                </a>
+              </li>
+              <li className={styles.newsletterExample}>
+                <a
+                  href="https://mailchi.mp/4cfd8fcad681/mikrofrontendy-na-produkcji-czytelny-ts-i-useevent-w-react"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Mikrofrontendy na produkcji, czytelny TS i useEvent w React
+                </a>
+              </li>
+              <li className={styles.newsletterExample}>
+                <a
+                  href="https://mailchi.mp/7a142632963d/ekosystem-react-2022-kompendium-wiedzy-o-a11y-i-selektor-rodzica-w-css"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ekosystem React 2022, kompendium wiedzy o a11y i selektor rodzica w CSS
+                </a>
+              </li>
+            </ul>
           </p>
         </div>
         <ul className={styles.list}>

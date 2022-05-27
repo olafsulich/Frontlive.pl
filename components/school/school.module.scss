@@ -86,8 +86,10 @@
 
   transition: 0.2s transform ease;
 
-  &:hover {
-    transform: scale(1.07);
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.07);
+    }
   }
 
   @include mediaquery('lg') {

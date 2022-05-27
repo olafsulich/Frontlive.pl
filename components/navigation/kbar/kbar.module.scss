@@ -1,0 +1,114 @@
+@import 'common';
+
+.wrapper {
+  z-index: 2147483647;
+  position: relative;
+  border-radius: 12px;
+}
+
+.positioner {
+  padding: 0 !important;
+
+  @include mediaquery('sm') {
+    padding: 14vh 16px 16px !important;
+  }
+}
+
+.animator {
+  width: 100%;
+  background: #060d12;
+
+  z-index: 1001;
+
+  @include mediaquery('sm') {
+    border-radius: 12px;
+    width: 64rem;
+  }
+
+  & * {
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none; /* for Chrome, Safari, and Opera */
+    }
+  }
+}
+
+.group {
+  padding: 8px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #ff0a78;
+  letter-spacing: 1px;
+}
+
+.itemWrapper {
+  width: 100%;
+  padding: 8px;
+}
+
+.item {
+  font-size: 16px;
+  line-height: 1.4;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  border-radius: 12px;
+  color: #7f90a4;
+  cursor: pointer;
+
+  @include mediaquery('sm') {
+    padding: 12px 18px;
+  }
+}
+
+.itemActive {
+  @media (hover: hover) {
+    background: #091620;
+  }
+}
+
+.nameWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.shortcut {
+  display: none;
+
+  @media (hover: hover) {
+    background: #091620;
+    color: #7f90a4;
+    font-size: 14px;
+    font-family: GreyCliff;
+    border-radius: 4px;
+    padding: 4px;
+    min-width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.icon {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    transform: scale(0.75);
+    path {
+      fill: #535c62;
+    }
+  }
+}
