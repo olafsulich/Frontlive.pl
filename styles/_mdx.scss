@@ -55,12 +55,11 @@ iframe {
 
   pre[class*='language-'],
   pre {
-    margin: 4rem 0;
     font-size: 1.5rem;
     line-height: 1.7;
     width: 100%;
     height: 100%;
-    border-radius: 0.8rem;
+    border-radius: 0 0 0.8rem 0.8rem;
 
     // max-width: 98rem;
     grid-column: 1 / 4;
@@ -71,7 +70,8 @@ iframe {
     // background: var(--dark-100);
     // color: var(--white-100);
     background: #0e1d29;
-    color: #bdddff;
+    // color: #bdddff;
+    color: #eee;
     border: none;
     tab-size: 2;
     hyphens: none;
@@ -80,13 +80,14 @@ iframe {
     white-space: pre;
     scrollbar-width: thin;
     scrollbar-color: var(--black-100) transparent;
-    margin: 4rem 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     z-index: 1;
+    margin: 0;
+
     @include mediaquery('lg') {
-      border-radius: 1rem;
+      border-radius: 0 0 1rem 1rem;
       height: auto;
       padding: 3.2rem;
       display: block;
@@ -100,6 +101,7 @@ iframe {
     overflow: auto;
     display: block;
     color: #bdddff;
+    color: #eee;
 
     @include mediaquery('lg') {
       &::-webkit-scrollbar {
@@ -115,6 +117,12 @@ iframe {
         border-radius: 12px;
       }
     }
+  }
+
+  .language-css > code,
+  .language-sass > code,
+  .language-scss > code {
+    color: #fd9170;
   }
 
   :not(pre) > code {
@@ -258,6 +266,4 @@ iframe {
   text-transform: uppercase;
   grid-column: 1/4 !important;
   z-index: 2;
-
-  background: radial-gradient(105.05% 91% at 50% 0, #1d2b41 0, #0e141b 57.38%);
 }

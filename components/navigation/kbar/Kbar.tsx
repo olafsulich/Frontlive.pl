@@ -16,10 +16,12 @@ import { useSocialActions } from './hooks/useSocialActions';
 import { useNavActions } from './hooks/useNavActions';
 import { usePostsActions } from './hooks/usePostsActions';
 import { useHelperActions } from './hooks/useHelperActions';
+import { useCategoriesActions } from './hooks/useCategoriesActions';
 
 export const Kbar = () => {
   const { results } = useMatches();
   useNavActions();
+  useCategoriesActions();
   useHelperActions();
   useSocialActions();
   usePostsActions();

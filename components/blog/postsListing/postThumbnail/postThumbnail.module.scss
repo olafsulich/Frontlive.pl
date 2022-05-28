@@ -153,6 +153,18 @@
   }
 }
 
+.wrapperRecommended {
+  border-radius: 1.4rem;
+  background: #142430;
+  margin-bottom: 3rem;
+  align-items: flex-start;
+
+  @include mediaquery('lg') {
+    min-height: 23rem;
+    margin-bottom: 5rem;
+  }
+}
+
 .imageWrapper {
   width: 100%;
   border-radius: 1.4rem;
@@ -178,13 +190,29 @@
 
 .info {
   color: #7f90a4;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
+
+  @include mediaquery('lg') {
+    font-size: 1.7rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 1.8rem;
+  }
 }
 
 .heading {
   color: #fff;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 2rem;
   margin-top: 1rem;
   line-height: 1.5;
+
+  @include mediaquery('lg') {
+    font-size: 2.4rem;
+  }
+
+  @include mediaquery('xl') {
+    font-size: 2.5rem;
+  }
 }

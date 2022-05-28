@@ -1,3 +1,10 @@
+@import 'common';
+
 .categories {
   width: 100%;
+  display: none;
+
+  @include mediaquery('lg') {
+    display: block;
+  }
 }

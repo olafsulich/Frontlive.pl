@@ -17,7 +17,7 @@ export const Category = memo<CategoryProps>(({ posts, category }) => (
     </Heading>
     <section className={styles.wrapper}>
       <div className={cn(styles.postsWrapper, styles.postsWrapperPrimary)}>
-        <PostsListing posts={posts} isPrimary={true} />
+        <PostsListing posts={posts} />
       </div>
     </section>
   </main>

@@ -1,15 +1,16 @@
-import { Children, memo, ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { MDXRemote } from 'next-mdx-remote';
 import slugify from 'slugify';
 import cn from 'classnames';
-import type { PostFrontmatter } from '../../types/types';
+import type { Post, PostFrontmatter } from '../../types/types';
 import styles from './mdx.module.scss';
 import { Heading } from '../shared/components/heading/Heading';
-import { polishPlurals } from 'polish-plurals';
+import { Heading as MDXHeading } from './heading/Heading';
 import Image from 'next/image';
 import { Info } from './info/Info';
+import { PostsListing } from '../blog/postsListing/PostsListing';
+import { getPostsByCategory } from '../../lib/posts';
 
 // @ts-ignore
 const Share = dynamic(() => import('./share/Share').then((c) => c.Share), {
@@ -24,9 +25,13 @@ const Edit = dynamic(() => import('./edit/Edit').then((c) => c.Edit), {
 type MdxProps = {
   readonly frontmatter: PostFrontmatter;
   readonly children: ReactNode;
+  readonly recommendedPosts: {
+    posts: Post[];
+    containsMultiplePostsInCategory: boolean;
+  };
 };
 
-export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
+export const Mdx = memo<MdxProps>(({ frontmatter, children, recommendedPosts }) => {
   const { title, image } = frontmatter;
 
   return (
@@ -51,12 +56,30 @@ export const Mdx = memo<MdxProps>(({ frontmatter, children }) => {
         </div>
         <Info frontmatter={frontmatter} />
       </header>
-      <div className={cn(styles.content, 'content')}>
-
+      <section
+        aria-label="Rekomendowane artykuły, udostępnij i feedback"
+        className={cn(styles.content, 'content')}
+      >
         {children}
-        <Share />
+        <div className={styles.recommended}>
+          <div className={styles.recommendedImage}>
+            <Image src="/images/newspaper.png" alt="" width={150} height={150} />
+          </div>
+          <h2 className={styles.recommendedHeading}>
+            Czytaj więcej{' '}
+            {recommendedPosts.containsMultiplePostsInCategory && (
+              <>
+                w <q>{frontmatter.category}</q>
+              </>
+            )}
+          </h2>
+          <div className={styles.recommendedPosts}>
+            <PostsListing posts={recommendedPosts.posts} variant="recommended" />
+          </div>
+        </div>
+        {/* <Share /> */}
         <Edit />
-      </div>
+      </section>
     </article>
   );
 });

@@ -32,7 +32,7 @@ export const Blog = memo<BlogProps>(({ posts, categories }) => {
           timeToRead={timeToRead}
         />
         <div className={cn(styles.postsWrapper, styles.postsWrapperPrimary)}>
-          <PostsListing posts={postsWithoutFirst} isPrimary={true} />
+          <PostsListing posts={postsWithoutFirst} />
         </div>
       </section>
     </main>

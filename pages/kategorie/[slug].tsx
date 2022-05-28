@@ -39,7 +39,7 @@ const CategoryPage = ({
   const {
     query: { slug },
   } = useRouter();
-  const category = posts[0].category;
+  const category = postsByCategories[0].category;
   const title = `Frontlive - ${category}`;
   const description = `Artykuły znalezione w kategorii ${title}`;
   const url = `https://frontlive.pl/kategorie/${slug}`;

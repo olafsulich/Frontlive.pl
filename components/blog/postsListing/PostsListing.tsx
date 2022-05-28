@@ -9,11 +9,11 @@ import { FeaturedPost } from './featuredPost/FeaturedPost';
 type PostsListingProps = {
   readonly posts: Post[];
   readonly headingTag?: Heading;
-  readonly isPrimary?: boolean;
+  readonly variant?: 'listing' | 'recommended';
 };
 
 export const PostsListing = memo(
-  ({ posts, headingTag = 'h3', isPrimary = false }: PostsListingProps) => {
+  ({ posts, headingTag = 'h3', variant = 'listing' }: PostsListingProps) => {
     return (
       <>
         {posts.map(({ slug, title, excerpt, category, image, timeToRead }) => (
@@ -26,6 +26,7 @@ export const PostsListing = memo(
             category={category}
             image={image}
             timeToRead={timeToRead}
+            variant={variant}
           />
         ))}
       </>

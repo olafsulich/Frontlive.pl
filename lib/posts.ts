@@ -3,7 +3,7 @@ import slugify from 'slugify';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { getResourcesPaths, getResourceBySlug, getAllResources } from './resource';
-import type { Post } from '../types/types';
+import type { Post, PostFrontmatter } from '../types/types';
 
 dayjs.extend(customParseFormat);
 
@@ -38,6 +38,22 @@ export const getAllPosts = () => {
   const sortedPosts = sortPostsByNewest(filteredPosts);
 
   return sortedPosts;
+};
+
+export const getRecommendedPosts = (frontmatter: PostFrontmatter) => {
+  const posts = getAllPosts();
+
+  const recommendedPosts = posts.filter((post) => {
+    return post.title !== frontmatter.title && post.category === frontmatter.category;
+  });
+
+  return {
+    posts:
+      !recommendedPosts || recommendedPosts.length < 2
+        ? posts.slice(0, 2)
+        : recommendedPosts.slice(0, 2),
+    containsMultiplePostsInCategory: recommendedPosts.length > 2,
+  };
 };
 
 export const getNewestPosts = () => {

@@ -14,19 +14,35 @@ type PostThumbnailProps = {
   image: string;
   category: string;
   timeToRead: number;
+  variant?: 'listing' | 'recommended';
 };
 
 export const PostThumbnail = memo<PostThumbnailProps>(
-  ({ path, heading, excerpt, tag: Tag = 'h3', image, category, timeToRead }) => {
+  ({
+    path,
+    heading,
+    excerpt,
+    tag: Tag = 'h3',
+    image,
+    category,
+    timeToRead,
+    variant = 'listing',
+  }) => {
     const formattedReadingTime = polishPlurals('minuta', 'minuty', 'minut', Math.round(timeToRead));
 
     return (
-      <article className={styles.wrapper}>
+      <article
+        className={cn(styles.wrapper, {
+          [styles.wrapperRecommended]: variant === 'recommended',
+        })}
+      >
         <Link href={path}>
           <a className={styles.link}>
-            <div className={styles.imageWrapper}>
-              <img className={styles.image} src={image} alt="" />
-            </div>
+            {variant === 'listing' && (
+              <div className={styles.imageWrapper}>
+                <img className={styles.image} src={image} alt="" />
+              </div>
+            )}
             <div className={styles.content}>
               <span className={styles.info}>
                 {category} &nbsp; | &nbsp; {Math.round(timeToRead)} {formattedReadingTime} czytania

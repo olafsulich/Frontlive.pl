@@ -1,0 +1,57 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  margin: 4rem 0;
+}
+
+.header {
+  width: 100%;
+  padding: 12px 22px;
+  background: #142430;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.8rem 0.8rem 0 0;
+
+  @include mediaquery('lg') {
+    border-radius: 1rem 1rem 0 0;
+  }
+}
+
+.dots,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #2f3c45;
+  border-radius: 100%;
+
+  &:not(:last-of-type) {
+    margin-right: 0.7rem;
+  }
+}
+
+.clipboard {
+  margin-right: 1rem;
+}
+
+.clipboardIcon,
+.sandboxIcon {
+  transform: scale(0.9);
+}
+
+.clipboard,
+.sandbox {
+  cursor: pointer;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  path {
+    fill: #535c62;
+  }
+}

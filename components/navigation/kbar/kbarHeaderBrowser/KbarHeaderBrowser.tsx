@@ -9,14 +9,13 @@ export const KbarHeaderBrowser = () => {
     showing: state.visualState !== VisualState.hidden,
   }));
 
-
   const hideNavigationActionsMenu = () => {
     document.documentElement.style.overflowY = 'unset';
     query.setVisualState(VisualState.animatingOut);
   };
 
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <div className={styles.dot}></div>
       <div className={styles.dot}></div>
       <div className={styles.dot}></div>
@@ -30,6 +29,6 @@ export const KbarHeaderBrowser = () => {
         <span className="visually-hidden">Zamknij</span>
         <CloseIcon />
       </button>
-    </div>
+    </header>
   );
 };

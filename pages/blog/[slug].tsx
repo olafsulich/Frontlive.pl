@@ -1,8 +1,8 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, DetailedHTMLProps, HTMLAttributes } from 'react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo, ArticleJsonLd } from 'next-seo';
 import { MDXRemote } from 'next-mdx-remote';
-import { getPostBySlug, getPostsPaths, getAllPosts } from '../../lib/posts';
+import { getPostBySlug, getPostsPaths, getAllPosts, getRecommendedPosts } from '../../lib/posts';
 import { Layout } from '../../components/layout/Layout';
 import { Navigation } from '../../components/navigation/Navigation';
 import { Image } from '../../components/mdx/image/Image';
@@ -13,6 +13,7 @@ import { Heading } from '../../components/mdx/heading/Heading';
 import { useRouter } from 'next/router';
 import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
 import { Highlight } from '../../components/mdx/highlight/Highlight';
+import { Code } from '../../components/mdx/code/Code';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -31,10 +32,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params!.slug as string;
   const { transformedMdx, frontmatter } = await getPostBySlug(slug);
   const posts = getAllPosts();
+  const recommendedPosts = getRecommendedPosts(frontmatter);
 
   return {
     props: {
       posts,
+      recommendedPosts,
       transformedMdx,
       frontmatter: {
         slug,
@@ -58,6 +61,7 @@ const BlogPost = ({
   transformedMdx,
   frontmatter,
   posts,
+  recommendedPosts,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { title, excerpt, publishedAt, slug, image } = frontmatter;
   const url = `https://frontlive.pl/blog/${slug}`;
@@ -71,6 +75,9 @@ const BlogPost = ({
 
   const customMdxComponents = useMemo(
     () => ({
+      pre: (props: DetailedHTMLProps<HTMLAttributes<HTMLPreElement>, HTMLPreElement>) => {
+        return <Code {...props} />;
+      },
       h2: (props: HeadingComponentProps) => (
         <Heading headingTag="h2" {...getHeadingProps(props)}></Heading>
       ),
@@ -137,7 +144,7 @@ const BlogPost = ({
       <Layout posts={posts}>
         <Navigation />
         <main>
-          <Mdx frontmatter={frontmatter}>
+          <Mdx recommendedPosts={recommendedPosts} frontmatter={frontmatter}>
             <MDXRemote {...transformedMdx} components={customMdxComponents} />
           </Mdx>
         </main>

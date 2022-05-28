@@ -6,6 +6,7 @@ import HomeIcon from '../../../../public/icons/home.svg';
 import CommunityIcon from '../../../../public/icons/community.svg';
 import InfoIcon from '../../../../public/icons/info.svg';
 import NewsletterIcon from '../../../../public/icons/mail.svg';
+import FolderIcon from '../../../../public/icons/folder.svg';
 
 export const useNavActions = () => {
   const router = useRouter();
@@ -29,6 +30,14 @@ export const useNavActions = () => {
         perform: () => router.push('/blog'),
         section: 'Nawigacja',
         icon: <PencilIcon />,
+      },
+      {
+        id: 'categoriesList',
+        name: 'Kategorie',
+        shortcut: ['k'],
+        keywords: 'kategorie',
+        section: 'Nawigacja',
+        icon: <FolderIcon />,
       },
       {
         id: 'community',
