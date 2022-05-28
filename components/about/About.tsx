@@ -3,6 +3,7 @@ import styles from './about.module.scss';
 import Image from 'next/image';
 import { SocialLinks } from '../autor/socialLinks/SocialLinks';
 import { Recommendations } from './recommendations/Recommendations';
+import { TimeLine } from './timeline/Timeline';
 
 export const About = () => {
   return (
@@ -55,10 +56,13 @@ export const About = () => {
           />
         </div>
       </div>
-      <div className={styles.faces}>
+      {/* <div className={styles.faces}>
         <Image src="/images/olaf-faces.png" alt="" width={870} height={133} />
+      </div> */}
+      <div className={styles.recommendationsAndTimeline}>
+        <TimeLine />
+        <Recommendations />
       </div>
-      <Recommendations />
     </main>
   );
 };

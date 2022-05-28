@@ -11,7 +11,12 @@ export const School = () => {
         </h2>
         <p className={styles.text}>Wyróżnij się na rynku pracy, nie wydając ani złotówki!</p>
       </div>
-      <a href="https://school.frontlive.pl/" target="_blank" className={styles.link}>
+      <a
+        href="https://school.frontlive.pl/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.link}
+      >
         <Rocket className={styles.icon} />
         Wchodzę
       </a>

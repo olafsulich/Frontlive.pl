@@ -16,13 +16,13 @@ export const RecommendationCard = memo<RecommendationCardProps>(({ content, auth
   const { image, name, company } = author;
   return (
     <blockquote className={styles.wrapper}>
-      <QuoteIcon className={styles.quote} />
+      {/* <QuoteIcon className={styles.quote} /> */}
       <p className={styles.text}>{content}</p>
       <div className={styles.author}>
         <div className={styles.authorImage}>
           <Image src={image} alt="" width={50} height={50} />
         </div>
-        <div className={styles.textWrapper}>
+        <figcaption className={styles.textWrapper}>
           <cite className={styles.authorName}>
             <span className="visually-hidden">Autor:</span>
             <span>{name}</span>
@@ -31,7 +31,7 @@ export const RecommendationCard = memo<RecommendationCardProps>(({ content, auth
             <span className="visually-hidden">Firma, w której pracuję autor:</span>
             {company}
           </p>
-        </div>
+        </figcaption>
       </div>
     </blockquote>
   );

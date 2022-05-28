@@ -8,18 +8,18 @@ export const recommendations = [
       company: 'Tech Lead w X-Team/CEO w Type of Web',
     },
   },
-  {
-    content:
-      'Olaf zrealizował na przeprogramowani.pl cieszący się popularnością kurs “Gatsby.js  - od zera do gotowej aplikacji”. W przygotowanych materiałach wykazał się świetną znajomością Gatsby.js oraz React.js. Regularnie publikowane przez Olafa materiały na blogu frontlive.pl wskazują na jego chęć do ciągłego rozwoju oraz pogłębiania wiedzy z zakresu programowania frontendowego. Współpraca z Olafem to sama przyjemność. Mimo młodego wieku cechuje go wysoki poziom kompetencji miękkich oraz etyki pracy.',
-    author: {
-      image: '/images/rekomendacje/marcin-czarkowski.jpg',
-      name: 'Marcin Czarkowski',
-      company: 'Senior Frontend Engineer w SmartRecruiters',
-    },
-  },
+  //   {
+  //     content:
+  //       'Olaf zrealizował na przeprogramowani.pl cieszący się popularnością kurs “Gatsby.js  - od zera do gotowej aplikacji”. W przygotowanych materiałach wykazał się świetną znajomością Gatsby.js oraz React.js. Regularnie publikowane przez Olafa materiały na blogu frontlive.pl wskazują na jego chęć do ciągłego rozwoju oraz pogłębiania wiedzy z zakresu programowania frontendowego. Współpraca z Olafem to sama przyjemność. Mimo młodego wieku cechuje go wysoki poziom kompetencji miękkich oraz etyki pracy.',
+  //     author: {
+  //       image: '/images/rekomendacje/marcin-czarkowski.jpg',
+  //       name: 'Marcin Czarkowski',
+  //       company: 'Senior Frontend Engineer w SmartRecruiters',
+  //     },
+  //   },
 
   {
-    content: `Miałem przyjemność pracować z Olafem roku.
+    content: `Miałem przyjemność pracować Olafem rok.
 Zaczął współpracę z Hypnocoders w 2020 jako front-end developer.
 Znam go jako profesjonalną i utalentowaną osobę. Posiada wysoką etykę pracy oraz pokazał wybitny rozwój.
 W okresie tym pracował nad różnymi projektami, w których dostarczył wysokiej jakości oprogramowanie.
@@ -31,7 +31,7 @@ Mogę z pewnością rekomendować Olafa jako wybitną i profesjonalną osobę.`,
     },
   },
   {
-    content: `Programista z powołania - zawsze merytoryczny, świetnie przygotowany oraz, co bardzo cenię, elokwentny i komunikatywny. Olaf ma świetny styl pisania, dzięki czemu bloga o frontendzie czyta się z zapartym tchem 😅 Ma również spory wkład w tworzenie i rozwój community frontendowego - chętnie pomaga rozwiązywać problemy związane z kodem, bardzo celnie punktuje niedoskonałe fragmenty kodu podczas code review oraz doskonale radzi sobie w trudnej sztuce tworzenia wartościowego feedbacku. Z tym człowiekiem aż chce się pracować!`,
+    content: `Programista z powołania - zawsze merytoryczny, świetnie przygotowany oraz, co bardzo cenię, elokwentny i komunikatywny. Olaf ma świetny styl pisania, dzięki czemu bloga o frontendzie czyta się z zapartym tchem. Ma również spory wkład w tworzenie i rozwój community frontendowego - chętnie pomaga rozwiązywać problemy związane z kodem, bardzo celnie punktuje niedoskonałe fragmenty kodu podczas code review oraz doskonale radzi sobie w trudnej sztuce tworzenia wartościowego feedbacku. Z tym człowiekiem aż chce się pracować!`,
     author: {
       image: '/images/rekomendacje/sylwia-fluder.jpg',
       name: 'Sylwia Fluder',

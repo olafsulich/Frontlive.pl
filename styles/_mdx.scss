@@ -139,8 +139,8 @@ iframe {
 
   a:not(.categoryLink):not(.share):not(.githubEditLink) {
     text-decoration: none;
-    border-bottom: 2px solid #112f47;
-    color: #7f90a4;
+    border-bottom: 2px solid #262b32;
+    color: var(--white);
     font-weight: 600;
     font-size: 1.8rem;
     line-height: 3.6rem;

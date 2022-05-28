@@ -8,7 +8,9 @@ export const Footer = () => {
       <Wave className={styles.wave} />
       <div className={styles.content}>
         <Logo lazy={true} />
-        <p className={styles.copyrights}>© 2021 Olaf Sulich. All rights reserved</p>
+        <p className={styles.copyrights}>
+          © {new Date().getFullYear()} Olaf Sulich. All rights reserved
+        </p>
       </div>
     </footer>
   );

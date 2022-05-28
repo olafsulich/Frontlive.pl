@@ -2,6 +2,7 @@ import { Heading } from '../shared/components/heading/Heading';
 import styles from './newsletter.module.scss';
 import Image from 'next/image';
 import { NewsletterForm } from '../shared/components/newsletter/newsletterForm/NewsletterForm';
+import LinkIcon from '../../public/icons/link.svg';
 
 export const Newsletter = () => {
   return (
@@ -28,7 +29,8 @@ export const Newsletter = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Zaawansowane Patterny Renderowania W React, TS Enum I CSS Subgrid
+                  Zaawansowane Patterny Renderowania W React, TS Enum
+                  <LinkIcon className={styles.linkIcon} />
                 </a>
               </li>
               <li className={styles.newsletterExample}>
@@ -38,6 +40,7 @@ export const Newsletter = () => {
                   rel="noopener noreferrer"
                 >
                   Mikrofrontendy na produkcji, czytelny TS i useEvent w React
+                  <LinkIcon className={styles.linkIcon} />
                 </a>
               </li>
               <li className={styles.newsletterExample}>
@@ -46,7 +49,8 @@ export const Newsletter = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Ekosystem React 2022, kompendium wiedzy o a11y i selektor rodzica w CSS
+                  Ekosystem React 2022, kompendium wiedzy o a11y
+                  <LinkIcon className={styles.linkIcon} />
                 </a>
               </li>
             </ul>
