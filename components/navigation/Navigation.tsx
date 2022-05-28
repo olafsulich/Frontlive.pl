@@ -5,7 +5,7 @@ import { HamburgerButton } from './hamburgerButton/HumburgerButton';
 import { SkipLink } from './skipLink/SkipLink';
 import Wave from '../../public/icons/wave-3.svg';
 import { Actions } from './actions/Actions';
-import { KBarProvider } from 'kbar';
+import { KBarProvider, createAction } from 'kbar';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 export const Navigation = () => {

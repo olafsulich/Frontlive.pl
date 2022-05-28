@@ -1,5 +1,12 @@
 import React from 'react';
-import { KBarPortal, KBarPositioner, KBarAnimator, useMatches, KBarResults } from 'kbar';
+import {
+  KBarPortal,
+  KBarPositioner,
+  KBarAnimator,
+  useMatches,
+  KBarResults,
+  useRegisterActions,
+} from 'kbar';
 import cn from 'classnames';
 import FocusTrap from 'focus-trap-react';
 import styles from './kbar.module.scss';
