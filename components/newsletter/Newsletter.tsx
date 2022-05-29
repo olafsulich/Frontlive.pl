@@ -35,8 +35,12 @@ export const Newsletter = ({ subscribersCount, campaigns }: NewsletterProps) => 
             ten ból, sam jestem zapisany na X newsletterów i ja też nie lubię spamu...
           </p>
           <p className={styles.text}>
-            Dlatego w tym newsletterze nie uświadczysz żadnego bullshitu. Od czasu do czasu będę
-            podsyłał Ci kilka przydatnych linków + aktualizację z tego bloga 📮
+            Dlatego w tym newsletterze nie uświadczysz żadnego bullshitu. Nie wierzysz? Sprawdź
+            archiwum poniżej :)
+          </p>
+          <p className={styles.text}>
+            Na pokładzie jest z nami już ponad {subscribersCount} zapisanych osób! Co dwa tygodnie
+            dostają oni listę newsów, przydatnych linków i aktualizację z tego bloga 📮
           </p>
           <div className={styles.newsletter}>
             <NewsletterForm />
@@ -44,7 +48,7 @@ export const Newsletter = ({ subscribersCount, campaigns }: NewsletterProps) => 
         </div>
         <ul aria-label="Czym się wyróżnia?" className={styles.list}>
           <li className={styles.listItem}>
-            <span className={styles.listItemText}>{subscribersCount} zapisanych osób</span>
+            <span className={styles.listItemText}>Ponad {subscribersCount} zapisanych osób</span>
             <div className={styles.icon}>
               <Image
                 className={styles.icon}
