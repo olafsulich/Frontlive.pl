@@ -3,8 +3,26 @@ import styles from './newsletter.module.scss';
 import Image from 'next/image';
 import { NewsletterForm } from '../shared/components/newsletter/newsletterForm/NewsletterForm';
 import LinkIcon from '../../public/icons/link.svg';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pl';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { REMOVE_EMOJI_REGEXP } from '../../utils/regexp';
 
-export const Newsletter = () => {
+dayjs.extend(localizedFormat);
+dayjs.extend(customParseFormat);
+
+type NewsletterProps = {
+  readonly subscribersCount: number;
+  readonly campaigns: {
+    id: string;
+    link: string;
+    name: string;
+    sendTime: string;
+  }[];
+};
+
+export const Newsletter = ({ subscribersCount, campaigns }: NewsletterProps) => {
   return (
     <main className={styles.container}>
       <Heading className={styles.heading} tag="h1" variant="primary">
@@ -20,49 +38,17 @@ export const Newsletter = () => {
             Dlatego w tym newsletterze nie uświadczysz żadnego bullshitu. Od czasu do czasu będę
             podsyłał Ci kilka przydatnych linków + aktualizację z tego bloga 📮
           </p>
-          <p className={styles.text}>
-            Przykładowe maile:
-            <ul className={styles.newslettersLists}>
-              <li className={styles.newsletterExample}>
-                <a
-                  href="https://mailchi.mp/e9b8a4ffcdce/zaawansowane-patterny-renderowania-w-react-ts-enum-i-css-subgrid"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Zaawansowane Patterny Renderowania W React, TS Enum
-                  <LinkIcon className={styles.linkIcon} />
-                </a>
-              </li>
-              <li className={styles.newsletterExample}>
-                <a
-                  href="https://mailchi.mp/4cfd8fcad681/mikrofrontendy-na-produkcji-czytelny-ts-i-useevent-w-react"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Mikrofrontendy na produkcji, czytelny TS i useEvent w React
-                  <LinkIcon className={styles.linkIcon} />
-                </a>
-              </li>
-              <li className={styles.newsletterExample}>
-                <a
-                  href="https://mailchi.mp/7a142632963d/ekosystem-react-2022-kompendium-wiedzy-o-a11y-i-selektor-rodzica-w-css"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ekosystem React 2022, kompendium wiedzy o a11y
-                  <LinkIcon className={styles.linkIcon} />
-                </a>
-              </li>
-            </ul>
-          </p>
+          <div className={styles.newsletter}>
+            <NewsletterForm />
+          </div>
         </div>
-        <ul className={styles.list}>
+        <ul aria-label="Czym się wyróżnia?" className={styles.list}>
           <li className={styles.listItem}>
-            <span className={styles.listItemText}>Konkursy z nagrodami</span>
+            <span className={styles.listItemText}>{subscribersCount} zapisanych osób</span>
             <div className={styles.icon}>
               <Image
                 className={styles.icon}
-                src="/images/icon-present.png"
+                src="/images/icon-dev.png"
                 width={50}
                 height={50}
                 alt=""
@@ -90,10 +76,24 @@ export const Newsletter = () => {
           </li>
         </ul>
       </div>
-      <div className={styles.newsletter}>
-        <NewsletterForm />
-        {/* <p className={styles.regulations}>Zapisując się do newslettera akceptujesz regulamin.</p> */}
-      </div>
+      <h2 id="newsletter-archive" className={styles.archive}>
+        Archiwum
+      </h2>
+      <ul aria-labelledby="newsletter-archive" className={styles.newslettersLists}>
+        {campaigns.map((campaign) => (
+          <li key={campaign.id} className={styles.newsletterExample}>
+            <a href={campaign.link} target="_blank" rel="noopener noreferrer">
+              <div className={styles.newsletterExampleContent}>
+                {campaign.name.replace(REMOVE_EMOJI_REGEXP, '')}
+                <span className={styles.sendTime}>
+                  {dayjs(campaign.sendTime, 'YYYY-MM-DD').locale('pl').format('LL')}
+                </span>
+              </div>
+              <LinkIcon className={styles.linkIcon} />
+            </a>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 };

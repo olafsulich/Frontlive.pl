@@ -30,9 +30,8 @@ export const About = () => {
             TypeScript).
           </p>
           <p className={styles.text}>
-            W przerwach od pisania kodu trenuje amatorsko kick-boxing. Lubię też słuchać
-            oldschoolowego, amerykańskiego hip-hopu. Zapomniałbym o najważniejszym, ten kapelusz to
-            nie PR! 🎩
+            W przerwach od pisania kodu lubię słuchać oldschoolowego, amerykańskiego hip-hopu.
+            Zapomniałbym o najważniejszym, ten kapelusz to nie PR! 🎩
           </p>
           <p className={styles.text}>
             Zainteresowana/y współpracą? Lubię rozmawiać z biznesem i osobami z branży, nie krępuj

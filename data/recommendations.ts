@@ -5,7 +5,7 @@ export const recommendations = [
     author: {
       image: '/images/rekomendacje/michal-miszczyszyn.jpg',
       name: 'Michał Miszczyszyn',
-      company: 'Tech Lead w X-Team/CEO w Type of Web',
+      company: 'Tech Lead w Briza/CEO w Type of Web',
     },
   },
   //   {

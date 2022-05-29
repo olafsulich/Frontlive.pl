@@ -4,6 +4,7 @@ import { Newsletter } from '../../components/newsletter/Newsletter';
 import { NextSeo } from 'next-seo';
 import { getAllPosts } from '../../lib/posts';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { getMailchimpCampaigns, getMailchimpSubscribersCount } from '../../lib/newsletter';
 
 const title = 'Frontlive.pl - Newsletter';
 const description = `O nie, tylko nie kolejny branżowy newsletter, jestem już zapisany na 100 innych! Znam
@@ -15,16 +16,24 @@ const imageThumbnail = '/images/newsletter.png';
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getAllPosts();
+  const subscribersCount = await getMailchimpSubscribersCount();
+  const campaigns = await getMailchimpCampaigns();
 
   return {
     props: {
       posts,
+      subscribersCount,
+      campaigns,
     },
     revalidate: 1,
   };
 };
 
-const NewsletterPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const NewsletterPage = ({
+  posts,
+  subscribersCount,
+  campaigns,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <NextSeo
@@ -47,7 +56,7 @@ const NewsletterPage = ({ posts }: InferGetStaticPropsType<typeof getStaticProps
       />
       <Layout posts={posts}>
         <Navigation />
-        <Newsletter />
+        <Newsletter campaigns={campaigns} subscribersCount={subscribersCount} />
       </Layout>
     </>
   );
