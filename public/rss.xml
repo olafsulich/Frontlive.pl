@@ -4,21 +4,12 @@
         <description><![CDATA[Frontlive.pl by Olaf Sulich]]></description>
         <link>https://frontlive.pl</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 27 May 2022 00:04:11 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 29 May 2022 20:40:21 GMT</lastBuildDate>
         <atom:link href="https://frontlive.pl/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[2020 Olaf Sulich]]></copyright>
         <language><![CDATA[pl]]></language>
         <managingEditor><![CDATA[Olaf Sulich]]></managingEditor>
         <webMaster><![CDATA[Olaf Sulich]]></webMaster>
-        <item>
-            <title><![CDATA[Flexbox w CSS - kompletny, wizualny poradnik dla początkujących]]></title>
-            <description><![CDATA[Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu float: left.]]></description>
-            <link>https://frontlive.pl/blog/css-flexbox</link>
-            <guid isPermaLink="false">css-flexbox</guid>
-            <category><![CDATA[CSS]]></category>
-            <dc:creator><![CDATA[Olaf Sulich]]></dc:creator>
-            <pubDate>Mon, 30 May 2022 22:00:00 GMT</pubDate>
-        </item>
         <item>
             <title><![CDATA[TypeScript - nie potrzebujesz enumów]]></title>
             <description><![CDATA[Korzystasz z enumów w TypeScript? Enumy mogą spowodować więcej kłopotów niż użytku... Dlaczego są takie złe i jakie są alternatywy?]]></description>

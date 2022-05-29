@@ -1,15 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { transformMdx } from './mdx';
 import matter from 'gray-matter';
 import type { PostFrontmatter, Post } from '../types/types';
 import { serialize } from 'next-mdx-remote/serialize';
-import remarkSlug from 'remark-slug';
-// import remarkCodeTitles from 'remark-code-titles';
 import mdxPrism from 'mdx-prism';
 import readingTime from 'reading-time';
 import { remarkCodeTitle } from '../scripts/remark-code-title';
-import remarkRehype from 'remark-rehype';
 
 type ResourceFrontmatter = PostFrontmatter;
 type Resource = Post;
