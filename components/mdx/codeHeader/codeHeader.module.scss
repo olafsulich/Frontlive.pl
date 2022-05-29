@@ -1,0 +1,86 @@
+@import 'common';
+
+.wrapper {
+  width: 100%;
+  margin: 4rem 0;
+}
+
+.header {
+  width: 100%;
+  padding: 12px 22px;
+  background: #142430;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.8rem 0.8rem 0 0;
+
+  @include mediaquery('lg') {
+    border-radius: 1rem 1rem 0 0;
+  }
+}
+
+.dots,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.dots {
+  margin-right: 2rem;
+}
+
+.hiddenOnMobile {
+  display: none;
+
+  @include mediaquery('lg') {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  background: #2f3c45;
+  border-radius: 100%;
+
+  &:not(:last-of-type) {
+    margin-right: 0.7rem;
+  }
+}
+
+.clipboard {
+  margin-right: 1rem;
+}
+
+.clipboardIcon,
+.sandboxIcon {
+  transform: scale(0.9);
+  border: none;
+}
+
+.clipboard,
+.sandbox {
+  cursor: pointer;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border-bottom: none !important;
+  path {
+    fill: #535c62;
+  }
+}
+
+.titleAndDots {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.title {
+  color: #7f90a4;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin: 0;
+  transform: translateY(2px);
+}

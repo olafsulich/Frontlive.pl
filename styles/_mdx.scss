@@ -28,7 +28,7 @@ iframe {
     border-radius: 4px;
     color: var(--green);
 
-    p,
+    p:not([data-codeTitle]),
     a,
     code,
     em {
@@ -37,7 +37,7 @@ iframe {
     }
   }
 
-  p {
+  p:not([data-codeTitle]) {
     font-size: 1.8rem;
     line-height: 3.6rem;
     color: var(--dark-200);
@@ -235,7 +235,7 @@ iframe {
     }
   }
 
-  p {
+  p:not([data-codeTitle]) {
     font-size: 1.8rem;
     line-height: 3.6rem;
     color: var(--white);
@@ -250,20 +250,4 @@ iframe {
       line-height: 3.8rem;
     }
   }
-}
-
-.remark-code-title {
-  width: 100%;
-  color: #7f90a4;
-  background-color: #192731;
-  font-size: 1.5rem;
-  margin-bottom: -4.7rem;
-  margin-right: 80%;
-  display: flex;
-  align-items: center;
-  padding: 0.2rem 1.2rem 0;
-  border-radius: 8px 8px 0 0;
-  text-transform: uppercase;
-  grid-column: 1/4 !important;
-  z-index: 2;
 }

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
 import { Highlight } from '../../components/mdx/highlight/Highlight';
 import { Code } from '../../components/mdx/code/Code';
+import { CodeWithTitle } from '../../components/mdx/codeWithTitle/CodeWithTitle';
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -98,6 +99,7 @@ const BlogPost = ({
       Image,
       Highlight,
       Newsletter,
+      CodeWithTitle,
     }),
     [],
   );

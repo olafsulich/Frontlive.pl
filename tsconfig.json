@@ -26,8 +26,10 @@
   "exclude": ["node_modules", "./scripts/generate-rss.ts"],
   "include": [
     "next-env.d.ts",
+    "unist-util-visit.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "content/posts/jak-zostalem-frontend-developerem.msx"
+    "content/posts/jak-zostalem-frontend-developerem.msx",
+    "scripts/remark-code-title.js"
   ]
 }
