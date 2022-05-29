@@ -14,19 +14,8 @@ export const remarkCodeTitle = () => (tree) => {
     const props = data.hProperties || (data.hProperties = {});
 
     node.lang = language;
-    data['parentName'] = undefined;
-    data['originalType'] = undefined;
-    data['mdxType'] = undefined;
-    data['parentName'] = undefined;
-    data['originaltype'] = undefined;
-    data['mdxtype'] = undefined;
+
     data['data-title'] = title;
     props['data-title'] = title;
-    props['parentName'] = undefined;
-    props['originalType'] = undefined;
-    props['mdxType'] = undefined;
-    props['parentname'] = undefined;
-    props['originaltype'] = undefined;
-    props['mdxtype'] = undefined;
   });
 };
