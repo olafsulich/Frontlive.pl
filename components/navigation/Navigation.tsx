@@ -5,10 +5,13 @@ import { HamburgerButton } from './hamburgerButton/HumburgerButton';
 import { SkipLink } from './skipLink/SkipLink';
 import Wave from '../../public/icons/wave-3.svg';
 import { Actions } from './actions/Actions';
-import { KBarProvider, createAction } from 'kbar';
+import { KBarProvider } from 'kbar';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { useRouter } from 'next/router';
 
 export const Navigation = () => {
+  const router = useRouter();
+
   return (
     <KBarProvider
       options={{
@@ -27,7 +30,7 @@ export const Navigation = () => {
       }}
     >
       <nav className={styles.wrapper}>
-        <Wave className={styles.wave} />
+        {router.pathname !== '/blog/[slug]' && <Wave className={styles.wave} />}
         <SkipLink />
         <div className={styles.links}>
           <Logo />

@@ -19,8 +19,6 @@ export const Code = (props: DetailedHTMLProps<HTMLAttributes<HTMLPreElement>, HT
     return undefined;
   }, [props.children]);
 
-  console.log(props.children);
-
   return (
     <article className={styles.wrapper}>
       <CodeHeader
