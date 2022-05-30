@@ -30,7 +30,7 @@ export const Navigation = () => {
       }}
     >
       <nav className={styles.wrapper}>
-        {router.pathname !== '/blog/[slug]' && <Wave className={styles.wave} />}
+        {router.pathname === '/' && <Wave className={styles.wave} />}
         <SkipLink />
         <div className={styles.links}>
           <Logo />
