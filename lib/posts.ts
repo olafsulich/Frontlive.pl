@@ -50,7 +50,7 @@ export const getRecommendedPosts = (frontmatter: PostFrontmatter) => {
   return {
     posts:
       !recommendedPosts || recommendedPosts.length < 2
-        ? posts.slice(0, 2)
+        ? posts.filter((post) => post.title !== frontmatter.title).slice(0, 2)
         : recommendedPosts.slice(0, 2),
     containsMultiplePostsInCategory: recommendedPosts.length > 2,
   };

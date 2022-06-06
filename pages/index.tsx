@@ -20,7 +20,6 @@ export const getStaticProps: GetStaticProps = async () => {
       newestPosts,
       posts,
     },
-    revalidate: 1,
   };
 };
 

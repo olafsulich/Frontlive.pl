@@ -45,7 +45,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         ...frontmatter,
       },
     },
-    revalidate: 1,
   };
 };
 

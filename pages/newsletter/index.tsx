@@ -25,7 +25,6 @@ export const getStaticProps: GetStaticProps = async () => {
       subscribersCount,
       campaigns,
     },
-    revalidate: 1,
   };
 };
 
