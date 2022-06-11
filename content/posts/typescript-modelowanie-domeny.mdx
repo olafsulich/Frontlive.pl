@@ -1,0 +1,221 @@
+---
+title: 'Funkcyjne modelowanie domeny i nielegalne stany w TypeScript'
+category: 'TypeScript'
+publishedAt: '13-06-2022'
+isPublished: false
+popular: false
+image: '/images/typescript-modelowanie-domeny/thumbnail.png'
+excerpt: 'Modelowanie domeny to proces przełożenia założeń nad kod. TypeScript, jeśli wykorzystamy go w odpowiedni sposób, może dzięki swoim typom świetnie odwzorowywać wymagania biznesowe.'
+---
+
+TypeScript - jego głównym zadaniem jest gwarantować nam bezpieczeństwo podczas kompilacji programu. Oferuje nam szereg narzędzi, które jeśli odpowiednio wykorzystamy, usprawnią proces tworzenia kodu. Kod to jedno, wymagania biznesowe to inna sprawa, jak to pogodzić? Modelowanie domeny to proces przełożenia założeń nad kod. TypeScript, jeśli wykorzystamy go w odpowiedni sposób, może dzięki swoim typom świetnie odwzorowywać wymagania biznesowe.
+
+## Nielegalne stany
+
+Zacznijmy od początku, czyli od nielegalnych stanów. Czym właściwie są nielegalne stany w kontekście TypeScripta?
+
+Spójrzmy na prosty przykład interfejsu, wygląda znajomo?
+
+```tsx
+interface State {
+  data?: ResponseData;
+  error?: Error;
+  isLoading: boolean;
+}
+```
+
+Założę się, że większość React Developerów widziało podobny skrawek kodu w niejednej aplikacji.
+
+Stan wykorzystujemy do pobierania danych API. Typ reprezentuje obiekt, który zawiera potencjalne błędy, dane i ich stan ładowania. Pole `isLoading` jest **wymagane**, ten stan zawsze będzie obecny. Danych i błędów nie możemy być pewni, pochodzą one z zewnątrz naszej aplikacji - oznaczamy je więc jako opcjonalne.
+
+```ts
+const state1: State = { isLoading: false, error: new Error() }; // ✅
+
+const state2: State = { isLoading: false, data: {} }; // ✅
+
+const state3: State = { isLoading: true, error: new Error() }; // WTF? 🤯 ✅
+
+const state4: State = { isLoading: true, data: {} }; // WTF? 🤯 ✅
+
+const state5: State = { isLoading: false, error: new Error(), data: {} }; // WTF? 🤯 ✅
+```
+
+Pierwsze dwa stany są jak najbardziej poprawne, otrzymujemy wartość ładowania `false`, oraz odpowiednio pole z błędem lub poprawne dane. Sytuacja się komplikuje, gdy zaczniemy eksperymentować. Okażę się wtedy, że nasz kod, jest kompletnie dziurawy, jeśli chodzi o typy. Wkradły nam się tutaj _nielegalne stany_.
+
+Nasza aplikacja, nie powinna wskazywać, że dane jeszcze się ładują, gdy już faktycznie mamy je dostępne. Jeśli dołożymy do tego sytuację, w której otrzymujemy jednocześnie dane i błędy, to otrzymujemy niezły bałgan. Wyobraź sobie teraz te wszystkie ify, które sprawdzają każdy przypadek - po prostu nie ma to sensu!
+
+Zamiast oznaczać pola opcjonalnymi, powinniśmy wskazać dokładnie jakie stany są faktycznie **dopuszczalne**. Przekazujemy kompilatorowi, że jednocześnie nie powinniśmy otrzymywać np. danych i błędów.
+
+```ts
+type State =
+  | { status: 'loading' }
+  | { status: 'error'; error: Error }
+  | { status: 'success'; data: ResponseData };
+```
+
+Korzystamy tutaj z unii obiektów i modelujemy **dozwolone zachowania** stanu. Dzięki temu nielegalne stany, nie będą możliwe do odtworzenia:
+
+```ts
+const state1: State = { status: 'error', error: new Error() }; // ✅
+
+const state2: State = { status: 'success', data: {} }; // ✅
+
+const state3: State = { status: 'success', error: new Error() }; // ❌
+
+const state4: State = { status: 'loading', data: {} }; // ❌
+
+const state5: State = { status: 'error', error: new Error(), data: {} }; // ❌
+```
+
+## Modelowanie domeny biznesowej
+
+TypeScriptowe typy nie tylko świetnie się sprawdzają do zwiększania bezpieczeństwa naszego kodu, ale również mogą reprezentować świetnie założenia domeny biznesowej.
+
+Zamodelujmy obiekt użytkownika w naszym systemie. Aplikacja pozwala rejestrować się użytkownikom indywidualnym oraz tym, którzy reprezentują firmy. Każdy z nich będzie posiadał pólę wspólnych informacji. Od przedstawicieli firm, oczekujemy również dodatkowo numeru telefonu i nazwy firmy.
+
+```ts
+interface User {
+  type: string;
+  phoneNumber: number;
+  email: string;
+  name: string;
+  company: string;
+}
+```
+
+Czy ten typ dobrze oddaje założenia naszej domeny? Po zapoznaniu się z założeniami i stworzonym typem, w głowie może nam się zrodzić wiele pytań:
+
+- Jaki typ może mieć użytkownik?
+- Jakie są ograniczenia danych pól?
+- Czy wszysktie pola powinny być wymagane?
+- Czy jakieś pola są ze sobą powiązane?
+
+```ts
+interface User {
+  type: 'business' | 'individual';
+  phoneNumber?: number;
+  email: string;
+  name: string;
+  company?: string;
+}
+```
+
+Usprawniliśmy nasz model, określiliśmy `type`, oznaczyliśmy opcjonalne pola. Jednak jeśli zamodelowalibyśmy w ten sposób naszego użytkownika, to ponownie byśmy mieli do czynienia z _nielegalnymi stanami..._
+
+Indywidualny użytkownik nie powinien posiadać ani numeru telefonu, ani informacji o nazwie firmy, którą repreznetuje. Poprawmy nasz przykład:
+
+```ts
+// 1.
+interface CommonUserFields {
+  email: string;
+  name: string;
+}
+
+// 2.
+type IndividualUser = CommonUserFields & { type: 'individual' };
+
+// 3.
+type BusinessUser = CommonUserFields & { type: 'business'; company: string; phoneNumber: number };
+
+// 4.
+type User = IndividualUser | BusinessUser;
+```
+
+1. Wspólna grupa pól dla każdego usera
+2. Użytkownik indywidualny, posiada odpowiedni typ
+3. Użytkownik reprezentujący firmę, posiada odpowiedni typ i własny zestaw pól
+4. Ogólny model usera, zebrany w całość
+
+Tak stworzone typy, bardzo dobrze odwzorowują wymagania modelu biznesowego naszego użytkownika. Czytając taki typ, wiemy jak wyglądają założenia, możemy powiedzieć, że w systemie mamy dwóch użytkowników, każdy z nich posiada zestaw wspólnych i unikalnych właściwości.
+
+A co z wspomnianymi ograniczeniami?
+
+Spróbujmy wykorzystać model w praktyce:
+
+```ts
+declare function registerUser(user: User): void;
+
+registerUser({
+  type: 'individual',
+  email: 'test',
+  name: 'Olaf',
+});
+```
+
+Rejestrujemy użytkownika, niby wszystko jest okej, ale jednak email nie jest poprawny. Możemy zamiast niego wpisać tak naprawdę **dowolny ciąg znaków**, co z perspektywy naszej domeny nie jest dozwolone.
+
+Tak jak wiek użytkownika nie będzie ilością nóg jaszczurki, cena produktu nie będzie jego dostępną ilością w magazynie, tak samo email nie powinien być dowolonym ciągiem znaków.
+
+Pewne dane nie powinny być sprowadzane do jednego, prymitywnego mianowinka. Chociaż wiek użytkownika i ilość nóg jaszczurki to ten sam typ `number`, to czy te dane można wykorzystać w jakimś jednym procesie? Czy możemy je do siebie dodać? No nie! Podczas modelowania domeny powinniśmy dokładnie określić co czym jest, nałożyć **ograniczenia**, które odwzorowywałyby wymagania biznesowe.
+
+## Typowanie nominalne
+
+W takich przypadkach niezwykle przydatne okazuje się być *typowanie nominalne*. Temu sposobowi typowania można by poświęcić cały artykuł, ja ograczniczę się do niezbędnego minimum. Typowanie nominalne pozwala nam odróżnić typy nie tylko przez kształt danych, ale również przez nazwę czy referencję. System typowania nominalnego walczy z dość powszechną chorobą zwaną *primitive obssesion*. Sprawdza się przede wszystkim dla **kluczowych** danych w naszej domenie.
+
+TypeScript domyślnie nie posiada możliwości typowania nominalnie, jednak są pewne sposoby, żeby je w TS zaimplementować. Jednym z nich jest skorzystanie z biblioteki [io-ts](https://gcanti.github.io/io-ts/), która nie tylko pozwala określić właściwe typy, ale również sprawdza wartości w czasie działania programu.
+
+Do zamodelowania adresu email korzystamy z funkcji `t.brand()`, która bazuje na technice brandowania typu i wykorzystuje `EmailAddressBrand`. Poza obrandowaniem typu, sprawdzamy również poprawność przekazywanej wartości tworząc własny walidator.
+
+```ts
+import * as t from 'io-ts';
+
+interface EmailAddressBrand {
+  readonly EmailAddress: unique symbol;
+}
+
+function validateEmailAddress(email: string): boolean {
+  // logika sprawdzania poprawności emaila
+  return email.includes('@');
+}
+
+const EmailAddress = t.brand(
+  t.string,
+  (email: string): email is t.Branded<string, EmailAddressBrand> => validateEmailAddress(email),
+  'EmailAddress',
+);
+
+type EmailAddress = t.TypeOf<typeof EmailAddress>;
+```
+
+Tak stworzony typ możemy wykorzystać do zdekodowania wartości, a następnie sprawdzić jej poprawność korzystając z funkcji `isRight`. Jeśli email jest poprawny, funkcja zwróci `true` i przepuści warunek, co zaskutkuje zarejestrowaniem użytkownika.
+
+```ts
+import { isRight } from 'fp-ts/lib/Either';
+
+interface CommonUserFields {
+  email: EmailAddress;
+  name: string;
+}
+
+// ...
+
+function registerUser(user: User) {}
+
+const decodedEmail = EmailAddress.decode('test@gmail.com');
+
+if (isRight(decodedEmail)) {
+  registerUser({
+    type: 'individual',
+    email: decodedEmail.right, // ✅
+    name: 'Olaf',
+  });
+} else {
+  // obsługa błędu
+  console.log(decodedEmail.left);
+}
+
+registerUser({
+  type: 'individual',
+  email: 'test', // ❌
+  name: 'Olaf',
+});
+```
+
+## Podsumowanie
+
+Modelowanie domeny i kształowanie poprawnego działania aplikacji to niezwykle ważne rzeczy w kontekście bezpieczeństwa aplikacji. Odpowiednie zamodelowanie TypeScriptowych typów pozwala nam nie tylko pozbyć się niechcianych błędów, ale również przełożyć wymagania biznesowe na kod.
+
+## Źródła
+
+- [F# - Making illegal states unrepresentable](https://fsharpforfunandprofit.com/posts/designing-with-types-making-illegal-states-unrepresentable/)
+- [F# - Domain modeling made functional](https://www.youtube.com/watch?v=Up7LcbGZFuo)

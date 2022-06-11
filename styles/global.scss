@@ -18,6 +18,20 @@ body {
 html {
   height: -webkit-fill-available;
   overflow-x: hidden;
+  scrollbar-gutter: stable;
+
+  //   ::-webkit-scrollbar {
+  //     width: 10px;
+  //     background-color: #202c3a;
+  //   }
+  //   ::-webkit-scrollbar-track {
+  //     border-radius: 3px;
+  //     background-color: #202c3a;
+  //   }
+  //   ::-webkit-scrollbar-thumb {
+  //     border-radius: 5px;
+  //     background-color: #3b5069;
+  //   }
 }
 
 body {

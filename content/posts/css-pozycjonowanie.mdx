@@ -1,12 +1,14 @@
 ---
-title: 'Pozycjonowanie w CSS - kompletny, wizualny poradnik dla początkujących'
+title: 'Pozycjonowanie w CSS - wizualny poradnik dla początkujących'
 category: 'CSS'
-publishedAt: '30-05-2022'
+publishedAt: '13-06-2022'
 isPublished: false
 popular: true
 image: '/images/css-positions/thumbnail.png'
 excerpt: 'Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum najważniejsze właściwość position w CSS.'
 ---
+
+Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum najważniejsze właściwość `position` w CSS.
 
 ## Static
 
@@ -53,8 +55,9 @@ excerpt: 'Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum n
 
 ## Relative
 
-- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right
 - Element jest relatywny do swojej pozycji
+- Pozostaje we flow dokumentu
 
 <Image alt="" src="/images/css-positions/relative.png" />
 
@@ -77,9 +80,9 @@ excerpt: 'Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum n
 ## Absolute
 
 - Usuwany z głównego flow
-- Domyślnie pozycja względem dokumentu
-- Jeśli rodzic jest relative, to pozycjonuje się względem niego
-- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+- Domyślnie pozycjonuje się względem dokumentu
+- Jeśli rodzic jest inny niż _"static"_, to pozycjonuje się względem niego
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right
 
 <Image alt="" src="/images/css-positions/absolute.png" />
 
@@ -105,7 +108,8 @@ excerpt: 'Pozycjonowanie elementów potrafi przytrafić o ból głowy - zrozum n
 
 - Usuwany z głównego flow
 - Element zostaje przyklejony do scrollowania
-- Pozwala na przemieszczanie za pomocą top/bottom/left/right oraz z-index
+- Pozwala na przemieszczanie za pomocą top/bottom/left/right
+- Pozycjonowany względem viewportu
 
 <Image alt="" src="/images/css-positions/fixed.png" />
 

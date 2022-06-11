@@ -20,11 +20,11 @@ export const Navigation = () => {
         callbacks: {
           onOpen: () => (document.documentElement.style.overflowY = 'hidden'),
           onClose: () => {
-            document.documentElement.style.overflowY = 'unset';
+            document.documentElement.style.overflowY = 'scroll';
             clearAllBodyScrollLocks();
           },
           onSelectAction: (action) => {
-            if (action.id !== 'blogSearch') document.documentElement.style.overflowY = 'unset';
+            if (action.id !== 'blogSearch') document.documentElement.style.overflowY = 'scroll';
           },
         },
       }}
