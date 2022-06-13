@@ -2,13 +2,15 @@
 title: 'Funkcyjne modelowanie domeny i nielegalne stany w TypeScript'
 category: 'TypeScript'
 publishedAt: '13-06-2022'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/typescript-modelowanie-domeny/thumbnail.png'
 excerpt: 'Modelowanie domeny to proces przełożenia założeń nad kod. TypeScript, jeśli wykorzystamy go w odpowiedni sposób, może dzięki swoim typom świetnie odwzorowywać wymagania biznesowe.'
 ---
 
-TypeScript - jego głównym zadaniem jest gwarantować nam bezpieczeństwo podczas kompilacji programu. Oferuje nam szereg narzędzi, które jeśli odpowiednio wykorzystamy, usprawnią proces tworzenia kodu. Kod to jedno, wymagania biznesowe to inna sprawa, jak to pogodzić? Modelowanie domeny to proces przełożenia założeń nad kod. TypeScript, jeśli wykorzystamy go w odpowiedni sposób, może dzięki swoim typom świetnie odwzorowywać wymagania biznesowe.
+TypeScript - jego głównym zadaniem jest gwarantować nam bezpieczeństwo podczas kompilacji programu. Oferuje nam szereg narzędzi, które jeśli odpowiednio wykorzystamy, usprawnią proces tworzenia kodu.
+
+Kod to jedno, wymagania biznesowe to inna sprawa, jak to pogodzić? Modelowanie domeny to proces przełożenia założeń nad kod. TypeScript, jeśli wykorzystamy go w odpowiedni sposób, może dzięki swoim typom świetnie odwzorowywać wymagania biznesowe.
 
 ## Nielegalne stany
 
@@ -40,9 +42,9 @@ const state4: State = { isLoading: true, data: {} }; // WTF? 🤯 ✅
 const state5: State = { isLoading: false, error: new Error(), data: {} }; // WTF? 🤯 ✅
 ```
 
-Pierwsze dwa stany są jak najbardziej poprawne, otrzymujemy wartość ładowania `false`, oraz odpowiednio pole z błędem lub poprawne dane. Sytuacja się komplikuje, gdy zaczniemy eksperymentować. Okażę się wtedy, że nasz kod, jest kompletnie dziurawy, jeśli chodzi o typy. Wkradły nam się tutaj _nielegalne stany_.
+Pierwsze dwa stany są jak najbardziej poprawne, otrzymujemy wartość ładowania `false`, oraz odpowiednio pole z błędem lub poprawne dane. Sytuacja się komplikuje, gdy zaczniemy eksperymentować. Okażę się wtedy, że nasz kod jest kompletnie dziurawy, jeśli chodzi o typy. Wkradły nam się tutaj _nielegalne stany_.
 
-Nasza aplikacja, nie powinna wskazywać, że dane jeszcze się ładują, gdy już faktycznie mamy je dostępne. Jeśli dołożymy do tego sytuację, w której otrzymujemy jednocześnie dane i błędy, to otrzymujemy niezły bałgan. Wyobraź sobie teraz te wszystkie ify, które sprawdzają każdy przypadek - po prostu nie ma to sensu!
+Nasza aplikacja, nie powinna wskazywać, że dane jeszcze się ładują, gdy już faktycznie mamy je dostępne. Jeśli dołożymy do tego sytuację, w której otrzymujemy jednocześnie dane i błędy, to robi niezły bałgan. Wyobraź sobie teraz te wszystkie ify, które sprawdzają każdy przypadek - po prostu nie ma to sensu!
 
 Zamiast oznaczać pola opcjonalnymi, powinniśmy wskazać dokładnie jakie stany są faktycznie **dopuszczalne**. Przekazujemy kompilatorowi, że jednocześnie nie powinniśmy otrzymywać np. danych i błędów.
 
@@ -67,11 +69,13 @@ const state4: State = { status: 'loading', data: {} }; // ❌
 const state5: State = { status: 'error', error: new Error(), data: {} }; // ❌
 ```
 
+<Newsletter />
+
 ## Modelowanie domeny biznesowej
 
-TypeScriptowe typy nie tylko świetnie się sprawdzają do zwiększania bezpieczeństwa naszego kodu, ale również mogą reprezentować świetnie założenia domeny biznesowej.
+TypeScriptowe typy nie tylko sprawdzają do zwiększania bezpieczeństwa naszego kodu, ale również mogą reprezentować świetnie założenia domeny biznesowej.
 
-Zamodelujmy obiekt użytkownika w naszym systemie. Aplikacja pozwala rejestrować się użytkownikom indywidualnym oraz tym, którzy reprezentują firmy. Każdy z nich będzie posiadał pólę wspólnych informacji. Od przedstawicieli firm, oczekujemy również dodatkowo numeru telefonu i nazwy firmy.
+Zamodelujmy obiekt użytkownika w naszym systemie. Aplikacja pozwala rejestrować się użytkownikom indywidualnym oraz tym, którzy reprezentują firmy. Każdy z nich będzie posiadał pólę wspólnych informacji. Od przedstawicieli firm oczekujemy również dodatkowo numeru telefonu i nazwy firmy.
 
 ```ts
 interface User {
@@ -213,7 +217,7 @@ registerUser({
 
 ## Podsumowanie
 
-Modelowanie domeny i kształowanie poprawnego działania aplikacji to niezwykle ważne rzeczy w kontekście bezpieczeństwa aplikacji. Odpowiednie zamodelowanie TypeScriptowych typów pozwala nam nie tylko pozbyć się niechcianych błędów, ale również przełożyć wymagania biznesowe na kod.
+Modelowanie domeny i kształowanie poprawnego działania programu to niezwykle ważne rzeczy w kontekście bezpieczeństwa aplikacji. Odpowiednie zamodelowanie TypeScriptowych typów pozwala nam nie tylko pozbyć się niechcianych błędów, ale również przełożyć wymagania biznesowe na kod.
 
 ## Źródła
 

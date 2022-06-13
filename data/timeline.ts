@@ -7,6 +7,13 @@ type Timeline = {
 
 export const timeline: Timeline[] = [
   {
+    date: '09.06.2022',
+    name: 'Ścieżka Fullstack JavaScript na platformie Hr-me',
+    description:
+      'Ścieżka kariery przedstawiająca drogę do zostania Fullstack JavaScript Developerem. Pełna sprawdzonych materiałów i zadań.',
+    href: 'https://hr-me.co/',
+  },
+  {
     date: '20.04.2022',
     name: 'Frontlive School - pierwsza edycja',
     description:

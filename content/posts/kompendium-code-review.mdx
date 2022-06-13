@@ -7,3 +7,31 @@ popular: false
 image: '/images/kompendium-code-review/thumbnail.png'
 excerpt: 'Jak oceniać i przyjmować feedback odnośnie kodu? Oto złote zasady Code Review - jednego z najważniejszych procesów podczas tworzenia projektów komercyjnych.'
 ---
+
+Jak oceniać i przyjmować feedback odnośnie kodu? Oto złote zasady Code Review - jednego z najważniejszych procesów podczas tworzenia projektów komercyjnych.
+
+Proces oceniania kodu nieustanie ewoluuje, nie jest stały i nie da się wskazać idealnie przeprowadzonego review. Dlatego zapytałem **kilkudziesięciu programistów** o to, jakimi zasadami warto się kierowac. Dorzuciłem własne spostrzenia i oto tak powstało wielkie **Kompendium Code Review**.
+
+Ten artykuł, tak jak wszystkie na tym blogu, jest Open Source - serdecznie zachęcam do dodawania własnych złotych rad. Razem stwórzmy miejsce, które pomoże wielu programistom lepiej tworzyc i oceniac kod.
+
+## Wprowadzenie
+
+Ja zacznę od dupy strony. Żeby ułatwić CR warto zastosować narzędzia typu pre-commit i dobrze ustawione QA CI, żeby code review nie musiało obejmować kwestii związanych z formatowaniem, nazewnictwem itp
+Wtedy CR dotyczy odpowiedniego zakodowania logiki, a nie dyskusji o formatowaniu kodu
+
+Dawac wedke nie rybke
+
+Formulowanie pytan jako poprawek
+
+Schowac ego do kieszeni - przyjmowac krytyke
+
+1. Jeśli nie ma dobrze ustawionych linterów i tego typu rzeczy, no to podstawowo sprawdzanie ich ręcznie.
+2. Konwencje nazewnicze - czy jest spójne z projektem.
+3. Prostota i czytelność kodu - czy muszę "długo kminić" o co chodzi w kodzie; jeśli tak, to staram się zaproponować coś prostszego.
+4. Security - czy nie ma jakiś problemów bezpieczeństwa na pierwszy rzut oka.
+5. Poprawność korzystania z kodu już istniejącego - czy dany kod duplikuje inny, czy są re-używane metody poprawne metody
+6. Poprawność danych - jeśli kod ma jakieś dzikie zależności, prerequisites, to sprawdzam, czy nie są one złamane
+7. Edge cases - sprawdzam, czy edge cases są ogarnięte, a jak nie, to czy w ogóle może do nich dojść
+8. Chwalonko - jak widzę coś ekstra, to piszę czasem "wow, this is great!" - miło dla osoby sprawdzanej, a u mnie ładunek emocjonalny pozwoli na zapamiętanie i zastosowanie tego czegoś w przyszłości 😄
+9. Konsekwencja - jeśli przywalam się do rzeczy X, to nie odpuszczam.
+10. Re-walidacja - po zaadresowaniu poprawek, sprawdzam, czy nie wjechały nowe, sprawdzając cały PR jeszcze raz (chyba, że mi się nie chce, to patrzę tylko na commit poprawkowy xD)
