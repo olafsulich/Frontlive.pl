@@ -110,7 +110,7 @@ const BlogPost = ({
   return (
     <>
       <NextSeo
-        title={`Frontlive.pl - ${title}`}
+        title={`${title} - Frontlive.pl`}
         description={excerpt}
         canonical={url}
         openGraph={{

@@ -1,14 +1,16 @@
 ---
 title: 'Flexbox CSS - wizualny poradnik dla początkujących'
 category: 'CSS'
-publishedAt: '14-06-2022'
-isPublished: false
+publishedAt: '20-06-2022'
+isPublished: true
 popular: true
 image: '/images/css-flexbox/thumbnail.png'
 excerpt: 'Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu float: left.'
 ---
 
-Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu `float: left`. Zapraszam na kompletny, wizualny poradnik Flexboxa po polsku:
+Flexbox to narzędzie, które każdy Frontend Developer powinien znać. Dzięki niemu możemy tworzyć nowoczesne layouty bez wspomagania się przestarzałymi sztuczkami w stylu `float: left`.
+
+Zapraszam na wizualny poradnik Flexboxa po polsku!
 
 ## Spis treści
 
@@ -89,7 +91,7 @@ Strzałka wskazuje kierunek i **główną oś** i kierunek ułożenia, linia prz
 
 Przynależność: **Rodzic**
 
-Ustala kierunek w rzędzie od lewej do prawej.
+Wartość domyślna, ustala kierunek w rzędzie od lewej do prawej.
 
 <Image alt="" src="/images/css-flexbox/flex-direction-row.png" />
 
@@ -514,7 +516,7 @@ Rozłoży elementy równomiernie, tak aby miały połowę swojej przestrzeni po
 
 Przynależność: **Rodzic**
 
-Rozłoży elementy równomiernie, tak aby miały całkowitą przestrzeń po bokach.
+Rozłoży elementy równomiernie, tak aby miały swoją całkowitą przestrzeń po bokach.
 
 <Image alt="" src="/images/css-flexbox/justify-content-space-evenly.png" />
 
@@ -663,7 +665,7 @@ Elementy ustawiają się na linii bazowej.
 
 Przynależność: **Rodzic**
 
-Ustawia elementy w kontenerze, który posiada flex-wrap względem **osi krzyżowej**.
+Ustawia elementy względem **osi krzyżowej** w kontenerze, który posiada `flex-wrap: wrap` lub `flex-wrap: wrap-reverse`.
 
 ### align-content: flex-start
 
@@ -850,7 +852,7 @@ Ustawia przestrzeń pomiędzy elementami w rzędach.
 
 Przynależność: **Rodzic**
 
-Ustawia przestrzeń pomiędzy elementami w columnach.
+Ustawia przestrzeń pomiędzy elementami w kolumnach.
 
 <Image alt="" src="/images/css-flexbox/column-gap.png" />
 
@@ -1003,7 +1005,7 @@ Zmienia domyślą kolejność elementu w kontenerze. Dla elementów interaktywn
 
 Przynależność: **Dziecko**
 
-Pozwala sterować proporcjami elementów w kontenerze. Jeśli wszystkie dzieci mają `flex-grow: 1`, a jedno dziecko ma `flex-grow: 2`, to zajmie ono dwa razy więcej miejsca.
+Pozwala sterować proporcjami elementów w kontenerze. Jeśli wszystkie dzieci mają `flex-grow: 1`, a jedno dziecko ma `flex-grow: 2`, to zajmie ono dwa razy więcej rozdysponowanej przestrzeni.
 
 <Image alt="" src="/images/css-flexbox/flex-grow.png" />
 
@@ -1026,7 +1028,7 @@ Pozwala sterować proporcjami elementów w kontenerze. Jeśli wszystkie dzieci m
 
 Przynależność: **Dziecko**
 
-Pozwala kurczyć elementy zwględem innych dzieci w kontenerze.
+Pozwala sterować proporcjami i dostępną przestrzenią elementów w kontenerze. Jeśli wszystkie dzieci mają `flex-shrink: 1` (domyślnie), a jedno dziecko ma `flex-shrink: 2`, to będzie ono zajmowało 2 razy mniejszą przestrzenią.
 
 <Image alt="" src="/images/css-flexbox/flex-shrink.png" />
 
@@ -1048,7 +1050,7 @@ Pozwala kurczyć elementy zwględem innych dzieci w kontenerze.
 
 Przynależność: **Dziecko**
 
-Ustawia wielkość elementu w kontenerze. Może być ustawiona jakoś długość (`%`, `px`, `rem`...) lub jako słowo klucz (`auto`, `content`...)
+Ustawia początkową, jeszcze nierozdysponowaną wielkość elementu w kontenerze. Może być ustawiona jakoś długość (`%`, `px`, `rem`...) lub jako słowo klucz (`auto`, `content`...)
 
 <Image alt="" src="/images/css-flexbox/flex-basis.png" />
 
@@ -1070,7 +1072,9 @@ Ustawia wielkość elementu w kontenerze. Może być ustawiona jakoś długość
 
 Przynależność: **Dziecko**
 
-Skrót dla właściwości `flex-grow`, `flex-shrink` i `flex-basis`.
+Skrót dla właściwości `flex-grow`, `flex-shrink` i `flex-basis`. Dwie ostatnie wartości są opcjonalne.
+
+Jest to rekomendowany sposób ustawiania elementów, ponieważ rozdysponowuje przestrzeń inteligentnie, zwracając uwagę na wszystkie wartości.
 
 <Image alt="" src="/images/css-flexbox/flex.png" />
 
