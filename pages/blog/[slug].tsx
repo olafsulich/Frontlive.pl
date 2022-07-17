@@ -1,20 +1,26 @@
-import { ReactNode, useEffect, DetailedHTMLProps, HTMLAttributes } from 'react';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { NextSeo, ArticleJsonLd } from 'next-seo';
-import { MDXRemote } from 'next-mdx-remote';
-import { getPostBySlug, getPostsPaths, getAllPosts, getRecommendedPosts } from '../../lib/posts';
-import { Layout } from '../../components/layout/Layout';
-import { Navigation } from '../../components/navigation/Navigation';
-import { Image } from '../../components/mdx/image/Image';
-import Sparkles from '../../components/shared/components/sparkles/Sparkles';
-import { Mdx } from '../../components/mdx/Mdx';
-import { useCallback, useMemo } from 'react';
-import { Heading } from '../../components/mdx/heading/Heading';
-import { useRouter } from 'next/router';
-import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
-import { Highlight } from '../../components/mdx/highlight/Highlight';
-import { Code } from '../../components/mdx/code/Code';
-import { CodeWithTitle } from '../../components/mdx/codeWithTitle/CodeWithTitle';
+import { ReactNode, useEffect, DetailedHTMLProps, HTMLAttributes } from "react";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo, ArticleJsonLd } from "next-seo";
+import { MDXRemote } from "next-mdx-remote";
+import {
+  getPostBySlug,
+  getPostsPaths,
+  getAllPosts,
+  getRecommendedPosts,
+} from "../../lib/posts";
+import { Layout } from "../../components/layout/Layout";
+import { Navigation } from "../../components/navigation/Navigation";
+import { Image } from "../../components/mdx/image/Image";
+import Sparkles from "../../components/shared/components/sparkles/Sparkles";
+import { Mdx } from "../../components/mdx/Mdx";
+import { useCallback, useMemo } from "react";
+import { Heading } from "../../components/mdx/heading/Heading";
+import { useRouter } from "next/router";
+import { Newsletter } from "../../components/shared/components/newsletter/Newsletter";
+import { Highlight } from "../../components/mdx/highlight/Highlight";
+import { Code } from "../../components/mdx/code/Code";
+import { CodeWithTitle } from "../../components/mdx/codeWithTitle/CodeWithTitle";
+import getISOStringFromPublicationDate from "../../utils/getISOStringFromPublicationDate";
 
 type ComponentProps = {
   readonly children: ReactNode;
@@ -75,7 +81,9 @@ const BlogPost = ({
 
   const customMdxComponents = useMemo(
     () => ({
-      pre: (props: DetailedHTMLProps<HTMLAttributes<HTMLPreElement>, HTMLPreElement>) => {
+      pre: (
+        props: DetailedHTMLProps<HTMLAttributes<HTMLPreElement>, HTMLPreElement>
+      ) => {
         return <Code {...props} />;
       },
       h2: (props: HeadingComponentProps) => (
@@ -93,18 +101,20 @@ const BlogPost = ({
       h6: (props: HeadingComponentProps) => (
         <Heading headingTag="h6" {...getHeadingProps(props)}></Heading>
       ),
-      img: ({ alt, src }: ImageProps) => <Image src={src} alt={alt ? alt : ''} />,
+      img: ({ alt, src }: ImageProps) => (
+        <Image src={src} alt={alt ? alt : ""} />
+      ),
       Sparkles,
       Image,
       Highlight,
       Newsletter,
       CodeWithTitle,
     }),
-    [],
+    []
   );
 
   useEffect(() => {
-    window.history.scrollRestoration = 'manual';
+    window.history.scrollRestoration = "manual";
   }, []);
 
   return (
@@ -114,9 +124,9 @@ const BlogPost = ({
         description={excerpt}
         canonical={url}
         openGraph={{
-          type: 'article',
+          type: "article",
           article: {
-            publishedTime: publishedAt,
+            publishedTime: getISOStringFromPublicationDate(publishedAt),
           },
           url,
           title,
