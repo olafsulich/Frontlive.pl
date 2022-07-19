@@ -16,6 +16,7 @@ type InfoProps = {
 
 export const Info = ({ frontmatter }: InfoProps) => {
   const formattedDate = dayjs(frontmatter.publishedAt, 'DD-MM-YYYY').locale('pl').format('LL');
+  const reversedDateFormat = dayjs(frontmatter.publishedAt, 'DD-MM-YYYY').format('YYYY-MM-DD');
   const formattedReadingTime = polishPlurals(
     'minuta',
     'minuty',
@@ -35,7 +36,9 @@ export const Info = ({ frontmatter }: InfoProps) => {
       </li>
       <li className={styles.listItem}>
         <span className="visually-hidden">Opublikowane:</span>
-        <span className={styles.text}>{formattedDate}</span>{' '}
+        <time className={styles.text} dateTime={reversedDateFormat}>
+          {formattedDate}
+        </time>{' '}
         <div className={styles.icon}>
           <Image src="/images/calendar.png" width={35} height={35} alt="" priority />
         </div>
