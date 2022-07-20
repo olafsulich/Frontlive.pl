@@ -2,7 +2,7 @@
 title: 'Kompendium Code Review - dobre praktyki oceniania kodu'
 category: 'Praca'
 publishedAt: '20-07-2022'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/kompendium-code-review/thumbnail.png'
 excerpt: 'Jak oceniać i przyjmować feedback odnośnie kodu? Oto złote zasady Code Review - jednego z najważniejszych procesów podczas tworzenia projektów komercyjnych.'
@@ -24,15 +24,15 @@ Proces oceniania kodu niesie za sobą wiele benefitów:
 
 1. **Wczśniejsze wyłapywanie błędów i jakość kodu**
 
-   Podczas tworzenia kodu często nie dostrzegamy miejsc, w których popełniliśmy błąd, czy moglibyśmy zrobić coś lepiej. Inny Developer ma również odmienne spojrzenie na kod, z chłodną głową może podejść do wprowadzanych zmian i wypunktować miejsca, które można by usprawnić.
+   Podczas tworzenia kodu często nie dostrzegamy miejsc, w których popełniliśmy błąd, czy moglibyśmy zrobić coś lepiej. Inny Developer ma odmienne spojrzenie na kod, z chłodną głową może podejść do wprowadzanych zmian i wypunktować miejsca, które można by usprawnić.
 
 2. **Dzielenie się wiedzą**
 
-   Ocenianie kodu to świety sposób na rozwój naszych umiejętności, zarówno z perspektywy oceniającego, jak przyjmującego feedback. Każdy z nas dysponuje innym zestawem doświadczeń, które podczas code review są niezwykle istotne. Bardzo często, podczas recenzji danej zmiany, powstają ciekawe dyskusje, z których możemy wynieść bardzo wiele. Oceniając pozajemy domenę zmiany, co idzie w parze z lepszym zrozumieniem całości naszej aplikacji.
+   Ocenianie kodu to świety sposób na rozwój naszych umiejętności, zarówno z perspektywy oceniającego, jak i przyjmującego feedback. Każdy z nas dysponuje innym zestawem doświadczeń, które podczas code review są niezwykle istotne. Bardzo często, podczas recenzji danej zmiany, powstają ciekawe dyskusje, z których możemy wynieść bardzo wiele. Oceniając pozajemy domenę zmiany, co idzie w parze z lepszym zrozumieniem całości naszej aplikacji.
 
 3. **Zwiększanie świadomości sytemu**
 
-   Code Review to idealny proces nie tylko dla doświadczonych programistów w projekcie, ale również dla tych początkujących. Projekt dla nowych programistów w zespole jest jak piaskownicac pełna tajemnic. Dzięki ocenianiu kodu szybciej poznamy nasz codebase.
+   Code Review to idealny proces nie tylko dla doświadczonych programistów w projekcie, ale również dla tych początkujących. Projekt dla nowych programistów w zespole jest jak piaskownica pełna tajemnic. Dzięki ocenianiu kodu szybciej poznamy nasz codebase.
 
 ## Pull Request
 
@@ -40,11 +40,14 @@ Wszystko zaczyna się od **Pull Requesta**. To narzędzie, które pozwala innym 
 
 Traktujmy nasze PR'ki jak wizytówki wprowadzanych zmian. Każda taka wiztytówka powinna mieć wyszczególniony opis i cel zmieniania obecnej bazy kodu. Pomóżmy oceniającemu jak najlepiej zrozumieć to, nad czym pracowaliśmy.
 
-Jeśli Twój zespoł korzysta z dedykowanego narzędzia do zarządzania projektem i zadaniami (Jira/Asana/Clickup), to w Pull Requescie warto umieścić link do stworzonego wcześniej zadania. Twoje zmianu dotykają UI? Prawdopodobnie warto umieścić screenshoty - dzięki temu mamy lepszy obraz tego, co oceniamy.
+Jeśli Twój zespoł korzysta z dedykowanego narzędzia do zarządzania projektem i zadaniami (Jira/Asana/Clickup), to w Pull Requescie warto umieścić link do stworzonego wcześniej zadania. Twoje zmianu dotykają UI? Prawdopodobnie warto wrzucić screenshoty - dzięki temu mamy lepszy obraz tego, co oceniamy.
 
 W przypadku Pull Requestów rozmiar ma znaczenie, serio. Im mniej wprowadzanych zmian na raz, tym lepiej. Mając przed sobą 10 linijek kodu, każdej poświęcimy uwagę, nie można tego powiedzieć, gdy oceniamy PR z 1000 zmienionych linii. Jeśli Twój zespół mam problem ze zbyt dużymi Pull Requestami, może warto ustalić granicę rozmiaru? Nie musimy od razu podpisywać paktu z diabłem, ale warto o tym porozmawiać.
 
-<Image src="/images/kompendium-code-review/pr.png" alt="" />
+<Image
+  src="/images/kompendium-code-review/pr.png"
+  alt="Post użytkownika I Am Developer na Twitterze przedstawiający w jaki sposób ilość linii kodu wpływa na ilość komentarzy podczas Code Review."
+/>
 
 ## Zacznij od siebie
 
@@ -58,7 +61,7 @@ Traktujmy nasze zmiany jak referaty w podstawówce. W brudnopisie możemy robić
 
 Code Review to proces, który nie powinien dyskredytować programistów ze względu na umiejętności, czy doświadczenie w projekcie. Kropka.
 
-Dzielenie się wiedzą nie przebiega jedynie od Seniora do Juniora. Mniej doświadzczeni programiści nie tylko mogą zdobywać wiedzę, ale również się nią dzielić, nawet z dużo bardziej doświadczonymi programistami.
+Dzielenie się wiedzą nie przebiega jedynie od Seniora do Juniora. Mniej doświadzczeni programiści nie tylko mogą zdobywać wiedzę, ale również się nią dzielić, nawet z dużo bardziej doświadczonymi developerami.
 
 - **Jeśli jesteś Juniorem:**
 
@@ -74,13 +77,16 @@ Jednym z [główynych celów](https://frontlive.pl/blog/kompendium-code-review/#
 
 Czegoś nie rozumiesz? Dopytuj, dopytuj i jeszcze raz dopytuj, serio. Nie ma nic złego w niewiedzy. Nie wiesz co robi dany kod, albo dlaczego coś zostało zrobione w ten sposób, a nie inny? Poproś autora kodu o wyjaśnienie, jeśli będzie miał on odpowiednie nastawienie, na pewno z chęcią wytłumaczy Ci dlaczego tak podszedł do rozwiązania problemu.
 
-<Image src="/images/kompendium-code-review/ask.jpeg" alt="" />
+<Image
+  src="/images/kompendium-code-review/ask.jpeg"
+  alt="Kobieta w jasnoszarej koszulce, na szarym tle, trzyma kartkę papieru z dużym znakiem zapytania."
+/>
 
 W takich sytuacjach często uczymy się podejścia drugiej osoby, rozumiemy lepiej istotę zmian - z dopytywania wynikają same dobre rzeczy. A jeśli autor kodu potraktuję Twoje pytanie jako "atak", podeślij mu ten artykuł, musi nadrobić wiele zalogłości :)
 
 ## Jak formułować poprawki?
 
-Formułowanie proprawek to zdecydowanie najcięższa rzecz w całym procesie. Każdy z nas chce się dobrze czuć w projektach, w których pracujemy. Code Review tak jak mogą bardzo usprawnić proces wytwarzania oprogramowania, tak mogą również zniechęcać innych do dalszej pracy. Aby uniknąć takich sytuacji, warto kierować się kilkoma zasadami:
+Formułowanie proprawek to zdecydowanie najcięższa rzecz w całym procesie. Każdy z nas chce się dobrze czuć w projektach, w których pracujemy. Recenzje tak jak mogą bardzo usprawnić proces wytwarzania oprogramowania, tak mogą również zniechęcać innych do dalszej pracy. Aby uniknąć takich sytuacji, warto kierować się kilkoma zasadami:
 
 1. **Zrozumienie**
 
@@ -128,7 +134,10 @@ Perspektywa osoby, która wystawia na świat swoją pracę i przyjmuję krytyk
 
 **Nie jesteś swoim kodem**. Nie bierz do siebie merytorycznej krytyki kodu, to tylko zbiór głupich literek. Nie definiuje Ciebie jako człowieka, ani Twoich umiejętności. Mogłeś czegoś nie zauważyć, mogłeś mieć gorszy dzień. Każdy popełnia błędy, nawet ci najlepsi.
 
-<Image src="/images/kompendium-code-review/brain.jpeg" alt="" />
+<Image
+  src="/images/kompendium-code-review/brain.jpeg"
+  alt="Dłoń na jasnym, różowym tle, ułożona tak, aby imitować z palców nogi, które wspinają się po schodach do ilustracji mózgu. Obrazuje nieustanną naukę i rozwijanie swoich umiejętności."
+/>
 
 Traktuj kod jako osobny byt, spróbuj oddzielić emocje od wyników swojej pracy. Jeśli ktoś proponuje Ci lepsze rozwiązanie, nie brnij na siłę w to, co już zrobiłeś. Bądź otwarty na poprawki i zdobywanie wiedzy. Jeśli nie rozumiesz krytyki, dopytuj, staraj się zrozumieć i znaleźć najlepsze rozwiązanie.
 
@@ -166,7 +175,7 @@ Jeśli projekt nie ma wyznaczonego **style guide**, warto poświęcić czas na j
 
 ## Nie wszystko na raz
 
-Wprowadzanie nowych zmian do istniejącego już kodu często może prowadzić do sytuacji, w której recenzent zasugeruje mały refactor.
+Wprowadzanie nowości do istniejącego już kodu często może prowadzić do sytuacji, w której recenzent zasugeruje mały refactor.
 
 > A może poprawiłbyś przy okazji jeszcze to?
 
