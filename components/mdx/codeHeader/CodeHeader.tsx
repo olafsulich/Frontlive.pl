@@ -54,7 +54,7 @@ export const CodeHeader = memo<CodeHeaderProps>(({ onCopy, className, isCopied, 
         </button>
         {className && (
           <a href={getCodeSandboxLink()} target="_blank" className={styles.sandbox}>
-            <span className="visually-hidden">Stwórz nowy codesanbox</span>
+            <span className="visually-hidden">Stwórz nowy codesandbox</span>
             <ExternalLinkIcon className={styles.sandboxIcon} />
           </a>
         )}
