@@ -1,24 +1,26 @@
 ---
 title: 'Elastyczność komponentów w React - kompozycja vs konfigruacja'
 category: 'React'
-publishedAt: '04-08-2022'
-isPublished: true
+publishedAt: '29-08-2022'
+isPublished: false
 popular: false
 image: '/images/elastyczne-komponenty-react/thumbnail.png'
 excerpt: 'Design komponentów to ważny aspekt budowania nowoczesnych UI. W jaki sposób tworzyć wydajne i elastyczne komponenty w React?'
 ---
 
-Design komponentów to ważny aspekt budowania nowoczesnych UI. W jaki sposób tworzyć wydajne i elastyczne komponenty w React?
+Podczas nauki React skupiamy się przede wszystkim na szczegółach technicznych, nic w tym złego. Poznajemy założenia, API biblioteki i cały ekosystem. W tym wszystkim często zapominamy o jednej, bardzo ważnej rzeczy - **odpowiednim projektowaniu komponentów**.
+
+Komponent, czy całą bibliotekę komponentów można stworzyć na wiele różnych sposobów. Ja przedstawię Ci dzisiaj dwa podstawowe. Pomówimy o wadach i zaletach obu rozwiązań i o tym, co warto wybrać w zależności od przypadku.
 
 ## Komponent "Modal"
 
-Zacznijmy od pozornie prostego modala. Taki komponent możemy zaimplementować na dziesiątki różnych sposobów, nie ma tego jednego, idealnego. Ja przedstawię Ci niektóre z nich, skupiając się na decyzjach i tradeoffach.
+Zacznijmy od pozornie prostego modala:
 
 <Image src="/images/elastyczne-komponenty-react/modal.png" alt="" />
 
 ### Konfiguracja
 
-Pierwsze co przychodzi nam na myśl to stworzenie jednego, generycznego komponentu i przekazanie mu odpowiednich propsów - **Keep It Simple, Stupid**.
+Pierwsze co przychodzi nam na myśl, to stworzenie jednego, generycznego komponentu i przekazanie mu odpowiednich propsów - **Keep It Simple, Stupid**.
 
 ```tsx
 <Modal
@@ -79,19 +81,29 @@ Podsumujmy podejście oparte na bazie konfiguracji:
 
 ### Zalety
 
-- Przewidywalność. API naszego komponentu jest jasne. Wiemy co musimy przekazać, żeby komponent działał prawidłowo. Odwalamy część pracy za programistę - przekaż mi to i to, a ja dam Ci oczekiwany rezultat. Brak tutaj miejsca na błędy spowodowane nieprzekazaniem wymaganych wartości.
+- **Przewidywalność**
+
+  API naszego komponentu jest jasne. Wiemy co musimy przekazać, żeby komponent działał prawidłowo.
+
+  Odwalamy część pracy za programistę - przekaż mi to i to, a ja dam Ci oczekiwany rezultat. Brak tutaj miejsca na błędy spowodowane nieprzekazaniem wymaganych wartości.
 
 <Image src="/images/elastyczne-komponenty-react/bezpieczne-propsy.png" alt="" />
 
 ### Wady
 
-- To podejście się nie skaluje. Jeśli z czasem będą nam dochodzić kolejne warianty komponentu, czy elementy, które mają się pokazywać w zależności od jakiegoś warunku, to wylądujemy w kropce. Nasz `JSX` zacznie puchnąć, więc stwierdzimy, że czytelniej będzie przekazywać cały "obiekt konfiguracyjny", ale czy na pewno rozwiązuje nasz problem?
+- **To się nie skaluje**
+
+  Z czasem będą dochodzić kolejne warianty komponentu, elementy, dodatki. Jeśli dołożymy do tego warunkowe renderowanie, to wylądujemy w kropce. Nasz `JSX` zacznie puchnąć.
+
+  Stwierdzimy, że czytelniej będzie przekazywać cały "obiekt konfiguracyjny", ale czy na pewno rozwiązuje nasz problem?
 
 <Image src="/images/elastyczne-komponenty-react/obiekt-konfiguracyjny.png" alt="" />
 
-- Problem pojawia się również wtedy, gdy chcemy zmienić ułożenie pewnych elementów. Przyciski w danym wariancie powinny być ułożone nieco inaczej? Pyk, dodajemy kolejne propsy.
+- **Brak elastyczności**
 
-- W pewnych przypadkach nie chcemy wyświetlać `description`? Oczywiście jesteśmy w stanie to zrobić, ale jakim kosztem? Możemy zapomnieć wtedy o "sztywnym" podejściu i trzymaniem programisty "za mordę", bo w końcu pewne propsy nie są wymagane.
+  Chcemy zmienić ułożenie pewnych elementów? Przyciski w danym wariancie powinny być ułożone nieco inaczej? Jesteśmy zmuszeni dodać kolejne propsy.
+
+  W pewnych przypadkach nie chcemy czegoś wyświetlać? Jesteśmy w stanie to zrobić, ale jakim kosztem? Możemy zapomnieć wtedy o "sztywnym" podejściu i trzymaniem programisty "za mordę", bo w końcu pewne propsy nie są wymagane.
 
 <Newsletter />
 
@@ -117,88 +129,70 @@ Weźmy na tapet rozwiązanie zupełnie inne od pierwotnego. Skorzystajmy z mecha
 </Modal>
 ```
 
-> Notacja z kropką jest całkowicie opcjonalna. Jest często wykorzystywana przez twórców bilbiotek jako pewna konwencja nazewnicza.
+> Notacja z kropką jest całkowicie opcjonalna. Jest wykorzystywana często przez twórców bilbiotek jako pewna konwencja nazewnicza.
 
-Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nasz konkretny komponent. Każdy puzel takiej układanki może mieć własne propsy i `children`.
+Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nasz konkretny komponent. Każdy puzzel takiej układanki może mieć własne propsy i `children`.
 
 ### Zalety
 
-- **Elasyczność**. Nie chcemy wyświetlać jakiegoś komponentu w danej sytuacji? Pyk, robimy warunek w `JSX` i po problemie.
+- **Elasyczność**
+
+  Nie chcemy wyświetlać jakiegoś komponentu w danej sytuacji? Pyk, robimy warunek w `JSX` i po problemie.
+
+  Chcemy zmienić kolejność wyświetlania poszczególnych elementów? Żaden problem!
 
 <Image src="/images/elastyczne-komponenty-react/puzzle.png" alt="" />
 
-- **Skalowalność**. Potrzebujemy dodać nowy wariant przycisku, zmienić kolor tytułu, opisu itp. ? Nie ma problemu - dostosowujemy poszczególne komponenty.
+- **Skalowalność**
 
-- Chcemy zmienić kolejność wyświetlania poszczególnych elementów? Żaden problem!
+  Potrzebujemy dodać nowy wariant przycisku, zmienić kolor tytułu, opisu itp. ? Nie ma problemu - dostosowujemy poszczególne komponenty.
 
 ### Wady
 
-- **Nieprzewidywalność**. Elastyczność jest super, póki ktoś czegoś za bardzo nie namiesza. Co się stanie jeśli programista postanowi wrzucić randomowego diva w środek naszego komponentu? Czy stanie się coś złego, czy jesteśmy przygotowani na takie sytuacje?
+- **Nieprzewidywalność**
+
+  Elastyczność jest super, póki ktoś czegoś za bardzo nie namiesza. Co się stanie jeśli programista postanowi wrzucić randomowego diva w środek naszego komponentu? Czy stanie się coś złego, czy jesteśmy przygotowani na takie sytuacje?
 
   <Image src="/images/elastyczne-komponenty-react/niechciany-children.png" alt="" />
 
-  Czy możemy jakoś temu zaradzić? Powiedzmy, że korzystamy z TypeScripta, dzięki któremu mamy możliwość otypować dokładnie nasze `children`... To by było zbyt piękne. Obecnie nie ma dobrego sposobu, że wskazać Reactowi, żeby przyjmował tylko określone dzieci. Co prawda możemy zastosować kilka brudnych szcztuczek, o których pisałem w artykule [React Children & TypeScript - jak to ogarnąć?](https://frontlive.pl/blog/react-children-i-typescript), ale czy jest to warte naszej pracy?
+  Czy możemy jakoś temu zaradzić? Powiedzmy, że korzystamy z TypeScripta, dzięki któremu mamy możliwość otypować dokładnie nasze `children`... To by było zbyt piękne.
 
-- Załóżmy jeszcze jeden przypadek - większość naszego komponentu ma być elastyczna, ale gdzieś tam w środku chcemy mieć **elementy stałe**, co wtedy? Jak rozmieścimy poszczególne części w komponencie `Modal`?
+  Obecnie nie ma dobrego sposobu, że wskazać Reactowi, żeby przyjmował tylko określone dzieci. Co prawda możemy zastosować kilka "brudnych szcztuczek", o których pisałem w artykule [React Children & TypeScript - jak to ogarnąć?](https://frontlive.pl/blog/react-children-i-typescript), ale czy jest to warte naszej pracy?
 
-## Sztywa kompozycja aka "Slots Pattern"
+- **Elementy stałe**.
 
-Na sam koniec hybryda, czyli swoiste połączenie konfiguracji z kompozycją.
+  Komponujemy poszczególne komponenty jeden po drugim w nadrzędnym komponencie `Modal`, wszystko jest cacy. Problem pojawia się, gdy w środku `Modal` będziemy potrzebowali umieścić jakiś dodatkowy kod.
 
-```tsx
-<Modal
-  open={true}
-  onClose={true}
-  header={
-    <Modal.Header>
-      <Modal.Title>...</Modal.Title>
-      <CloseIcon />
-    </Modal.Header>
-  }
-  description={<Modal.Description>...</Modal.Description>}
-  actions={
-    <Modal.ActionsGroup>
-      <Modal.Action variant="red" onClick={() => {}}>
-        ...
-      </Modal.Action>
-      <Modal.Action variant="red" onClick={() => {}}>
-        ...
-      </Modal.Action>
-    </Modal.ActionsGroup>
-  }
-/>
-```
+  Tytuł i opis mają być w jednym `div`, akcje w drugim itp. Rozwiązanie? Dodać więcej komponentów, które będziemy przekazywać w `children`. Niestety wiążę się to z tworzeniem nadmiarowego kodu w `JSX`.
 
-Korzystamy tutaj zarówno z propsów, jak i z reużywalnych, rozszerzalnych komponentów. Co nam daje (i odbiera) takie podejście?
-
-### Zalety
-
-- Podobnie jak w przypadku konfiguracji mówimy dokładnie programiście co powinno się tutaj znaleźć, żeby komponent działał poprawnie.
-
-- Mamy wiele możliwości na rozbudowę takiego komponentu. Nowy wygląd przycisku? Nie ma sprawy, dodajemy odpowiednie właściwości dla danego komponentu.
-
-- To rozwiązanie sprawdza się w naszym przypadku, gdzie pewną część komponentu chcemy mieć elastyczną, a część sztywną, w środku samego `Modal`. Wtedy nie odczuwamy wspomnianego wcześniej ograniczenia, po prostu układamy kolejne klocki w naszym `JSX`
-
-### Wady
-
-- Z jednej strony otrzymujemy sztywną konfiguracje, a z drugiej nadal przejmujemy wady z podejścia opartego o czystą kompozycję. Do propsa `header` możemy przekazać zupełnie inny komponent, niż byśmy oczekiwali.
-
-- Otrzymujemy możliwość umieszczenia komponentów w konkretnym miejscu w środku `JSX` - to plus. Wiążę się to jednak z tym, że jesteśmy zamknięci na jeden specyficzny layout, nie mamy możliwości swobodnego przemieszczania komponentów.
+  Czy mamy jeszcze jakieś opcje? Moglibyśmy pokusić się o sprawdzanie poszczególnych `children`, ale ponownie, warto zadać sobie pytanie, kiedy ma to sens. Nikt nie lubi nadmiarowego boilerplate'u.
 
 ## Co wybrać?
 
 Polecę klasykiem:
 
-<Image src="/images/elastyczne-komponenty-react/to-zalezy.png" alt="" />
+<Image src="/images/elastyczne-komponenty-react/to-zalezy.png" alt="To zależy." />
 
-Podsumujmy, co więc warto wybrać? Odpowiedź może być tylko jedna - to zależy!
+1. **Nie ma złotego środka**
 
-Jak widzisz każde z tych rozwiązań ma swoje wady i zalety, **nie ma złotego środka**. Często mieszamy te rozwiązania ze sobą. Tworzymy np. niskopoziomowe API komponentu bazujące na kompozycji, a następnie nadbudowujemy je sztywną konfiguracją, w zależności od konkretnych przypadków.
+   Każde z tych rozwiązań ma swoje wady i zalety. Często mieszamy je ze sobą, w zależności od konkretnych przypadków.
 
-Ważne, żeby **dostosować** podejście do projektu, w którym pracujemy. Inaczej będziemy budować bilbiotekę open source, a inaczej nasz wewnętrzy zestaw komponentów.
+2. **Dostosuj podejście**
 
-Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. Z kompozycji korzystają popularne bilbioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
+   Inaczej będziesz budować bilbiotekę open source, a inaczej wewnętrzy zestaw komponentów.
 
-Z drugiej strony, jeśli pracujemy nad wewnętrzym, stricte domenowym rozwiązaniem, gdzie znamy wszystkie warianty komponentu, warto rozważyć bardziej sztywne, dopasowane do naszych potrzeb rozwiązanie.
+   Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. Z kompozycji korzystają popularne bilbioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
+
+   Z drugiej strony, jeśli pracujemy nad wewnętrzym rozwiązaniem, gdzie znamy wszystkie warianty komponentu, może warto rozważyć bardziej sztywne, dopasowane do naszych potrzeb rozwiązanie. Niekoniecznie musi być to w 100% sztywna konfiguracja.
+
+3. **Istotne jest to, jak zaczynamy**
+
+   Naturalnym podejściem zdaje się rozpoczęcie od przekazania propsów, chleb powszedni React Developera. Jednak nie zawsze jest to dobre rozwiązanie.
+
+   Zaczynając od kompozycji możemy stworzyć niskopoziomowe API komponentu, a następnie nadbudować je sztywną konfiguracją. Niestety nie działa to w drugą stronę.
+
+   <Image src="/images/elastyczne-komponenty-react/hold-up.png" alt="To zależy." />
+
+   W obu podejściach musimy pamiętać o jednym - odpowiednim poziomie abstrakcji. Zasada _Don't Repeat Yourself_ zakorzeniła się w głowach programistów na stałe. Czy słusznie? Przy tworzeniu komponentów warto mieć z tyłu głowy to, że [duplikacja jest często sporo "tańsza" od niewłaściwej abstrakcji](https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction).
 
 Do usłyszenia!
