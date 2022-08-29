@@ -2,7 +2,7 @@
 title: 'Elastyczność komponentów w React - kompozycja vs konfigruacja'
 category: 'React'
 publishedAt: '29-08-2022'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/elastyczne-komponenty-react/thumbnail.png'
 excerpt: 'Design komponentów to ważny aspekt budowania nowoczesnych UI. W jaki sposób tworzyć wydajne i elastyczne komponenty w React?'
@@ -131,7 +131,7 @@ Weźmy na tapet rozwiązanie zupełnie inne od pierwotnego. Skorzystajmy z mecha
 
 > Notacja z kropką jest całkowicie opcjonalna. Jest wykorzystywana często przez twórców bilbiotek jako pewna konwencja nazewnicza.
 
-Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nasz konkretny komponent. Każdy puzzel takiej układanki może mieć własne propsy i `children`.
+Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nasz kawałek UI. Każdy puzzel takiej układanki może mieć własne propsy i `children`.
 
 ### Zalety
 
@@ -177,11 +177,13 @@ Polecę klasykiem:
 
    Każde z tych rozwiązań ma swoje wady i zalety. Często mieszamy je ze sobą, w zależności od konkretnych przypadków.
 
+   Dużo zależy od skali komponentu. Inaczej możemy potraktować większy kawałek UI, a inaczej prosty przycisk.
+
 2. **Dostosuj podejście**
 
-   Inaczej będziesz budować bilbiotekę open source, a inaczej wewnętrzy zestaw komponentów.
+   W inny sposób będziesz budować bilbiotekę open source, a w inny wewnętrzy zestaw komponentów.
 
-   Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. Z kompozycji korzystają popularne bilbioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
+   Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. W teorii nasz komponent może działać świetnie, w praktyce mogą pojawić się nieoczykiwane przypadki brzegowe, gdzie sztywne podejście może być bardzo ograniczające. Z kompozycji korzystają popularne bilbioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
 
    Z drugiej strony, jeśli pracujemy nad wewnętrzym rozwiązaniem, gdzie znamy wszystkie warianty komponentu, może warto rozważyć bardziej sztywne, dopasowane do naszych potrzeb rozwiązanie. Niekoniecznie musi być to w 100% sztywna konfiguracja.
 
