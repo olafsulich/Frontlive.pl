@@ -129,13 +129,13 @@ Weźmy na tapet rozwiązanie zupełnie inne od pierwotnego. Skorzystajmy z mecha
 </Modal>
 ```
 
-> Notacja z kropką jest całkowicie opcjonalna. Jest wykorzystywana często przez twórców bilbiotek jako pewna konwencja nazewnicza.
+> Notacja z kropką jest całkowicie opcjonalna. Jest wykorzystywana często przez twórców bibliotek jako pewna konwencja nazewnicza.
 
 Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nasz kawałek UI. Każdy puzzel takiej układanki może mieć własne propsy i `children`.
 
 ### Zalety
 
-- **Elasyczność**
+- **Elastyczność**
 
   Nie chcemy wyświetlać jakiegoś komponentu w danej sytuacji? Pyk, robimy warunek w `JSX` i po problemie.
 
@@ -157,7 +157,7 @@ Korzystamy tutaj z wyselekcjonowanych komponentów, które są skrojone pod nas
 
   Czy możemy jakoś temu zaradzić? Powiedzmy, że korzystamy z TypeScripta, dzięki któremu mamy możliwość otypować dokładnie nasze `children`... To by było zbyt piękne.
 
-  Obecnie nie ma dobrego sposobu, że wskazać Reactowi, żeby przyjmował tylko określone dzieci. Co prawda możemy zastosować kilka "brudnych szcztuczek", o których pisałem w artykule [React Children & TypeScript - jak to ogarnąć?](https://frontlive.pl/blog/react-children-i-typescript), ale czy jest to warte naszej pracy?
+  Obecnie nie ma dobrego sposobu, że wskazać Reactowi, żeby przyjmował tylko określone dzieci. Co prawda możemy zastosować kilka "brudnych sztuczek", o których pisałem w artykule [React Children & TypeScript - jak to ogarnąć?](https://frontlive.pl/blog/react-children-i-typescript), ale czy jest to warte naszej pracy?
 
 - **Elementy stałe**.
 
@@ -181,11 +181,11 @@ Polecę klasykiem:
 
 2. **Dostosuj podejście**
 
-   W inny sposób będziesz budować bilbiotekę open source, a w inny wewnętrzy zestaw komponentów.
+   W inny sposób będziesz budować bibliotekę open source, a w inny wewnętrzny zestaw komponentów.
 
-   Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. W teorii nasz komponent może działać świetnie, w praktyce mogą pojawić się nieoczykiwane przypadki brzegowe, gdzie sztywne podejście może być bardzo ograniczające. Z kompozycji korzystają popularne bilbioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
+   Jeśli udostępniamy coś do szerszego grona odbiorców, warto postawić na **bardziej elastyczne** podejście. W teorii nasz komponent może działać świetnie, w praktyce mogą pojawić się nieoczekiwane przypadki brzegowe, gdzie sztywne podejście może być bardzo ograniczające. Z kompozycji korzystają popularne biblioteki UI, np. [Radix](https://www.radix-ui.com/), [Headless UI](https://headlessui.com/), [Chakra](https://chakra-ui.com/) itp.
 
-   Z drugiej strony, jeśli pracujemy nad wewnętrzym rozwiązaniem, gdzie znamy wszystkie warianty komponentu, może warto rozważyć bardziej sztywne, dopasowane do naszych potrzeb rozwiązanie. Niekoniecznie musi być to w 100% sztywna konfiguracja.
+   Z drugiej strony, jeśli pracujemy nad wewnętrznym rozwiązaniem, gdzie znamy wszystkie warianty komponentu, może warto rozważyć bardziej sztywne, dopasowane do naszych potrzeb rozwiązanie. Niekoniecznie musi być to w 100% sztywna konfiguracja.
 
 3. **Istotne jest to, jak zaczynamy**
 
