@@ -1,0 +1,146 @@
+---
+title: 'Fundamenty Architektury Mikrofrontendowej'
+category: 'Architektura'
+publishedAt: '03-10-2022'
+isPublished: true
+popular: false
+image: '/images/wprowadzenie-do-architektury-mikrofrontendowej/thumbnail.png'
+excerpt: 'Mikrofrontendy - hit czy kit? Czym są, jakie problemy rozwiązują i kiedy warto je stosować?'
+---
+
+Architektura i Frontend to dla wielu osób pojęcia całkowicie sprzeczne. To tylko centrowanie divów - powiedział niejeden programista. Czy faktycznie tak jest?
+
+Budowanie nowoczensych, skalowalnych interfejsów użytkownika to nie lada wyzwanie. Czy mikrofrontendy stają na wysokości zadania i dostarczają architektoniczne rozwiązania na problemy Frontend Developerów?
+
+## Wprowadzenie
+
+Zacznijmy od podkreślenia jednej, bardzo ważnej rzeczy - mikrofrontendy nie są powiązane z żadną, konkretną technologią. To podejście do architektury i struktury zespołów w projekcie.
+
+W teorii mikrofrontendy są odzwierciedleniem architektury mikorserwisowej na Backendzie. W praktyce, pomimo wielu wspólnych założeń, część UI posiada szereg własnych, odrębnych problemów. W tym artykule skupimy się tylko na Architekturze Mikrofrontendowej.
+
+Klasyczną architekturę frontendową, gdzie pracujemy nad **jedną bazą kodu**, nazywamy Monolitem. Pomimo tego, że różne zespoły mogą pracować nad odrębnymi częściami aplikacji, jesteśmy świadomi tego, że zmiany w jednej części systemu, mogą wpłynąć na inne części apki.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/wprowadzenie.png" alt="" />
+
+Mikrofrontendy traktują poszczególne części systemu jako w pełni **niezależne aplikacje**. Nie posiadają one współdzielonego stanu, a komunikacja między nimi powinna ograniczać się do niezbędnego minimum. Przy tej architekturze naszym celem jest jak największe **zredukowoanie couplingu** pomiędzy poszczególnymi mikrofrontendami.
+
+## Podział zespołów
+
+Mikrofrontendy wspierają podejście do podziału zespołów na niezależne jednostki w organizacji. Każdy zespół odpowiada za swój **biznesowy obszar**.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/zespoły.png" alt="" />
+
+Zespoły funkcjonalne są samowystarczalne i zróżnicowane, jeśli chodzi o kompetencje. Taki zespół sprawuje pełną odpowiedzialność nad swoim własnym skrawkiem aplikacji.
+
+Komunikacja i praca nad funkcjonalnościami jest usprawniona. Członkowie zespołu znają bardzo dobrze istotę zmian z perspektywy biznesowej i technicznej. Co za tym idzie, mogą odpowiednio **dostosowywać podejście** do rozwiązywania problemów, nie będąc ograniczani przez inne zespoły.
+
+## Niezależne wdrożenia
+
+Będąc w temacie sprawniejszego developmentu, mikrofrontendy usprawniają również proces wdrażania zmian.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/deploy.png" alt="" />
+
+W tradycyjnym, monolitycznym podejściu, jesteśmy zależni od innych. Nadchodzi dzień wydania, ale zmiany jednego z zespołów nie są jeszcze w 100% przetestowane. No i mamy problem. Wszyscy zaangażowani w wydanie, muszą czekać na potwierdzenie ze strony spóźnialskich.
+
+W podejściu mikrofrontendowym, to nasz zespół decyduje **kiedy i jak często ma robić wydania**. Jesteśmy w 100% niezależni, sami znamy najlepiej nasze funkcjonalności i możemy dostosować do nich proces wydawaniczy.
+
+## Różnorodność technologiczna i legacy
+
+Dużym plusem niezależności zespółów jest swoboda w podejmowaniu decyzji, tyczy się to również technologii. Nie oznacza to natomiast, że pakowanie 10 różnych frameworków do jednej aplikacji, ma jakikolwiek sens.
+
+Sprawa wygląda nieco inaczej w przypadku legacy. Załóżmy, że pracujemy nad dużym systemem napisanym np. w starym Angularze. Biznes nadal chce rozwijać swój produkt, dodając nowe funkcjonalności, co robić!?
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/legacy.png" alt="" />
+
+Dalsza praca w martwej, niewspieranej technologii to pogłębianie długu technicznego. Ciężko znaleźć developerów do rozgrzebywania starego systemu - nikt nie chce z tym pracować. Aplikacja jest spora, więc przepisanie całości nie byłoby opłacalne.
+
+W takiej sytuacji, wprowadzając architekturę mikrofrontendową, odcinamy się od starej technologii i możemy się skupić na dostarczaniu wartości biznesowej.
+
+## Gdzie to się sprawdza?
+
+Na papierze wszystko brzmi świetnie, a jak to podejście sprawdza się w przykładach z życia wziętych? Oto kilka _success stories_ z wprowadzenia architektury mikrofrontendowej:
+
+### Allegro
+
+Tej firmy nikomu nie trzeba przedstawiać - największy serwis e-commerce w Polsce. Allegro przeszło długą drogę w procesie tworzenia skalowalnego oprogramowania. Tyczy się to również warstwy UI...
+
+Stworzyli oni wewnętrzne narzędzie [OpBox](https://blog.allegro.tech/2016/03/Managing-Frontend-in-the-microservices-architecture.html), które pozwala im komponować mikrofrontendy. OpBox to nie tylko podejście do architektury, ale również **kompletny system CMS**, który wykorzystywany jest przez osoby nietechniczne.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/opbox-admin.png" alt="" />
+
+Aplikacja Allegro składa się z mniejszych lub większych klocków, zwanych _Boxami_. Poszczególne strony składamy z mniejszych kawałków, każdy _Box_ to niezależna aplikacja mikrofrontendowa.
+
+## Zalando
+
+Kolejny gigant w branży e-commerce - Zalando.
+
+Firma w 2015 roku zdecydowała się porzucić monolityczne podejście do tworzenia UI. Wprowadzili oni [Project Mosaic](https://www.mosaic9.org/), który pozwalał rozdystrybuować pracę nad funkcjonalnościami do niezależny zespołów.
+
+Mosaic, podobnie do systemu Allegro OpBox, pozwalał tworzyć UI na bazie mniejszych bloków, w Zalando zwanych _fragmentami_.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/zalando.png" alt="" />
+
+W 2018 roku, Zalando odeszło od podejścia opartego na fragmentach i wprowadziło [Interface Framework](https://engineering.zalando.com/posts/2021/03/micro-frontends-part1.html). Nowa architektura odpowiadała na problemy z różnorodnym stackiem technologiczym, bundlowaniem, niespójnym UX i trudnością we współpracy pomiędzy zespołami.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/zalando-interface.png" alt="" />
+
+Interface Framework bazuje na GraphQL i [autorskim silniku renderującym](https://engineering.zalando.com/posts/2021/09/micro-frontends-part2.html).
+
+## DAZN
+
+Kolejny gigant, tym razem z zupełnie innej branży. DAZN to ogromna platforma streamingowa, działająca w ponad 200 krajach na całym świecie.
+
+Wyzwania przed którymi programiści DAZN musieli stanąć są nieco inne, niż w poprzednich przypadkach. Target firmy to nie tylko Web, ale również telwizory i konsole.
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/dazn.png" alt="" />
+
+W przeciwieństwie do Allegro i Zalando, w DAZN postawiono w większości na podział strona po stronie. Flow aplikacji jest sterowany przez tzw. Bootstrap, czyli centrum dowodzenia, które ładuje poszczególne aplikacje.
+
+## Wady Mikrofrontendów
+
+1. **Poziom skomplikowania**
+
+   Próg wejścia dla nowych osób może być wyższy. Do standardowego stacku technologicznego, dokładamy dodatkową warstwę abstrakcji, która w zależności od implementacji, może spowalniać naszą codzienną pracę i wdrażanie nowych osób do zespołu. Przygotowanie odpowiedniego środowiska developerskiego to również spore wyzwanie, o który musimy zadbać.
+
+   Wydzielenie obszarów biznesowych, performance, routing, komunikacja, spójny UI/UX, niewspółdzielenie stanu pomiędzy mikrofrontendami - dużo problemów, które musimy mieć na uwadze.
+
+   Poza samym developmentem, proces CI/CD ulega skomplikowaniu. Wdrożenie jednej, monolitycznej aplikacji, jest dużo prostsze, niż wdrażanie wielu mikrofrontendów.
+
+2. **Wymiana wiedzy**
+
+   Niezależność jest super, ale musimy pamiętać o tym, że nasz kod ostatecznie wyląduje w przeglądarce.
+
+   Chociaż mamy taką możliwość, to tworzenie jednego systemu z wykorzystaniem 10 różnych frameworków JavaScript nie jest najlepszym pomysłem.
+
+   Pomimo tego, że pracujemy nad osobnymi częściami aplikacji, warto komunikować się w zespołach platformowaych i uzgadanić rozwój produktu. Ten proces przez rozgraniczenie w projekcie, może być utudniony.
+
+3. **Community**
+
+   Większe firmy, o których wspominałem, korzystają ze swoich wewnętrzych, spersonalizowanych narzędzi.
+
+   Na rynku istnieje kilka rozwiązań open-source, ale brakuje lepiej rozwijanych i sprawdzonych sposób na dostarczanie Mikrofrotendów.
+
+   Wyjątkiem zbierającym popularność, jest rozwiązanie ze stajni Webpacka - [Module Federation](https://webpack.js.org/concepts/module-federation/). Rozwiązuje ono tylko część problemów, które musimy brać pod uwagę podczas implementacji tej architektury.
+
+## Kiedy Mikrofrontendy mają sens?
+
+Większość aplikacji nie będzie potrzebowała mikrofrontendów. Serio.
+
+Obecny hype na tego typu rozwiązania, nie powinien być motorem napędowym do podejmowania decyzji. Podczas tworzenia architektury, powinniśmy zadać sobie pytanie, dlaczego właściwie chcemy wprowadzać dane rozwiązanie? Jakie korzyści przyniesie nam wprowadzenie takiej i takiej architektury? Z jakimi problemami będziemy musieli się zmierzyć?
+
+<Image src="/images/wprowadzenie-do-architektury-mikrofrontendowej/dan-abramov.png" alt="" />
+
+Mikrofrontendy to nie tylko podejście do tworzenia i wydawania kodu. Struktuktura organizacji polegająca na wydzieleniu funkcjonalnych, niezależnych zespółów, niesie za sobą pewne konsekwencje. Taki podział nie wszędzie się sprawdzi.
+
+Ten rodzaj architektury nie został stworzony z myślą o mniejszych projektach.
+
+Aplikacje, nad którymi pracuje wielu programistów, skorzystają przede wszystkim z podziału na zespoły. Podział pozwala nam sprawniej dowozić wymagania biznesowe. Jesteśmy niezależni. Najlepiej znamy domenę biznesową i możemy do niej dostosować proces wydawniczy i developerski.
+
+## Źródła
+
+- [Allegro - Managing Frontend in the Microservices Architecture](https://blog.allegro.tech/2016/03/Managing-Frontend-in-the-microservices-architecture.html)
+- [Allegro - Frontend w architekturze mikrousługowej Allegro](https://www.youtube.com/watch?v=SKLSYMnmQSo)
+- [Zalando - Front-End Micro Services](https://engineering.zalando.com/posts/2018/12/front-end-micro-services.html)
+- [Zalando - Micro Frontends: from Fragments to Renderers](https://engineering.zalando.com/posts/2021/03/micro-frontends-part1.html)
+- [Zalando - Micro Frontends: Deep Dive into Rendering Engine](https://engineering.zalando.com/posts/2021/09/micro-frontends-part2.html)
+- [Adopting a Micro-frontends architecture](https://medium.com/dazn-tech/adopting-a-micro-frontends-architecture-e283e6a3c4f3)
