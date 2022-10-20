@@ -3,6 +3,7 @@
 .wrapper {
   margin-bottom: 5rem;
   max-width: 60rem;
+  border: 5px solid var(--border-gray);
 
   @include mediaquery('lg') {
     margin-bottom: 7rem;

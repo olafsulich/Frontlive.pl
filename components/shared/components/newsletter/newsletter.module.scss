@@ -13,6 +13,7 @@
   grid-column: 1 / 4 !important;
   padding: 6rem 3rem 4rem 3rem;
   position: relative;
+  border: 5px solid var(--border-gray);
 
   @include mediaquery('lg') {
     padding: 3rem 5rem;

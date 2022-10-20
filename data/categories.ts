@@ -17,4 +17,5 @@ export const categoriesArr: Category[] = [
   { title: 'Praca', path: '/kategorie/praca' },
   { title: 'Architektura', path: '/kategorie/architektura' },
   { title: 'Performance', path: '/kategorie/performance' },
+  { title: 'Nauka', path: '/kategorie/nauka' },
 ];

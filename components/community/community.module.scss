@@ -11,6 +11,7 @@
   background-color: #705df2;
   padding: 4rem 2rem;
   border-radius: 14px;
+  border: 5px solid var(--border-purple-light);
 
   @include mediaquery('sm') {
     padding: 3rem 4rem;

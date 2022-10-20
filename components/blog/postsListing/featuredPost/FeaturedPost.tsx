@@ -23,9 +23,9 @@ export const FeaturedPost = memo<FeaturedPostProps>(
       <article className={styles.wrapper}>
         <Link href={path}>
           <a className={styles.link}>
-            <div className={styles.crown}>
+            {/* <div className={styles.crown}>
               <Image src="/images/crown.png" alt="" width={100} height={100} quality={100} />
-            </div>
+            </div> */}
             <div className={styles.imageWrapper}>
               <img className={styles.image} src={image} alt="" />
             </div>

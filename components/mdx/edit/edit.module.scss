@@ -7,11 +7,12 @@
   justify-content: center;
   border-radius: 0.8rem;
   margin: 12rem 0 8rem 0;
-  background: #0e1d29;
+  background: var(--yellow-100);
   position: relative;
   width: 100%;
-//   grid-column: 1 / 4 !important;
+  //   grid-column: 1 / 4 !important;
   padding: 6rem 3rem 2rem 3rem;
+  border: 5px solid var(--yellow);
 
   @include mediaquery('lg') {
     padding: 4rem 5rem;
@@ -34,8 +35,6 @@
 }
 
 .text {
-  color: var(--white);
-
   @include mediaquery('lg') {
     font-size: 2.4rem !important;
   }
@@ -53,6 +52,7 @@
   text-decoration: none;
   border-bottom: 2px solid #fad03a;
   color: #fad03a;
+  font-weight: bold;
 }
 
 .image {

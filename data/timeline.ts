@@ -7,6 +7,13 @@ type Timeline = {
 
 export const timeline: Timeline[] = [
   {
+    date: '28.07.2022',
+    name: 'Modelowanie domeny w TypeScript - Front.radar',
+    description:
+      'Prezentacja na poznańskim meetupie Front.radar! TypeScript, bezpieczeństwo typów i modelowanie domeny biznesowej - jak to ogarnąć?',
+    href: 'https://fb.watch/gci9-DeeMM/',
+  },
+  {
     date: '09.06.2022',
     name: 'Ścieżka Fullstack JavaScript na platformie Hr-me',
     description:

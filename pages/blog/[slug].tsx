@@ -10,7 +10,6 @@ import Sparkles from '../../components/shared/components/sparkles/Sparkles';
 import { Mdx } from '../../components/mdx/Mdx';
 import { useCallback, useMemo } from 'react';
 import { Heading } from '../../components/mdx/heading/Heading';
-import { useRouter } from 'next/router';
 import { Newsletter } from '../../components/shared/components/newsletter/Newsletter';
 import { Highlight } from '../../components/mdx/highlight/Highlight';
 import { Code } from '../../components/mdx/code/Code';
