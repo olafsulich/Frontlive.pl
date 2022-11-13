@@ -2,9 +2,9 @@ import { Category } from '../types/types';
 
 export const categoriesArr: Category[] = [
   { title: 'TypeScript', path: '/kategorie/typescript' },
-  { title: 'Jest', path: '/kategorie/jest' },
   { title: 'JavaScript', path: '/kategorie/javascript' },
   { title: 'Dostępność', path: '/kategorie/dostepnosc' },
+  { title: 'Testowanie', path: '/kategorie/testowanie' },
   { title: 'React', path: '/kategorie/react' },
   { title: 'HTML', path: '/kategorie/html' },
   { title: 'CSS', path: '/kategorie/css' },

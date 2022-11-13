@@ -1,0 +1,273 @@
+---
+title: 'Dlaczego z-index nie działa?'
+category: 'CSS'
+publishedAt: '14-11-2022'
+isPublished: false
+popular: false
+image: '/images/css-stacking-context/thumbnail.png'
+excerpt: 'Niech pierwszy rzuci kamieniem ten, który nigdy nie miał problemów z z-index w CSS. Poprawne ułożenie elementów nie raz przyprawiło mnie o ból głowy. Masakra. Jak sobie z tym radzić?'
+---
+
+Niech pierwszy rzuci kamieniem ten, który nigdy nie miał problemów z `z-index` w CSS. Poprawne ułożenie elementów nie raz przyprawiło mnie o ból głowy. **Masakra!** Nic w tym dziwnego, ten mechanizm to jeden z "kruczków" CSS, które potrafią być naprawdę problematyczne.
+
+Tworzysz prosty sklep e-commerce. Chciałbyś, żeby nawigacja była pod, a koszyk nad innymi elementami. Prościzna? Dopóki wszystko będzie szło po Twojej myśli. Zanim zaczniesz wyrwać włosy z głowy, z powodu niedziałającego `z-index: 999999;`, zrozum jak ten mechanizm naprawdę działa.
+
+<Image src="/images/css-stacking-context/ecommerce-broken.png" alt="" />
+
+## Podstawy
+
+Wszyscy wiemy jak ustawić dwa kwadraty tak, aby jeden nachodził na drugi. Wrzucamy dwa _boxy_ do wspólnego rodzica. Dominującemy kwadratowi nadajemy większą wartość `z-index`:
+
+```html
+<style>
+  .wrapper {
+    position: relative;
+  }
+
+  .box-red {
+    position: absolute;
+    z-index: 2;
+  }
+
+  .box-pink {
+    position: absolute;
+    z-index: 1;
+  }
+</style>
+
+<div class="wrapper">
+  <div class="box-red"></div>
+  <div class="box-pink"></div>
+</div>
+```
+
+Śmiga, można się rozejść. Rozwiązaliśmy problem upierdliwych `z-index`!
+
+<Image src="/images/css-stacking-context/one.png" alt="" />
+
+Hola hola, to jeszcze nie wszystko. Weźmy teraz na tapet sytuację, w której nasz _dominujący_ kwadrat, opakowujemy w dodatkowy _wrapper_:
+
+<Image src="/images/css-stacking-context/two.png" alt="" />
+
+Wszystko poszło się je... Wróćmy do kodu i przeanalizujmy co mogło pójść nie tak.
+
+```html
+<div class="wrapper">
+  <div class="box-dashed">
+    <div class="box-red"></div>
+  </div>
+  <div class="box-pink"></div>
+</div>
+```
+
+Na pierwszy ogień idzie HTML - od teraz nasz _dominujący_ kwadrat jest opleciony w dodatkowego rodzica. Z perspektywy CSS, nasz rodzic co prawda ma mniejszy `z-index` od kwadratu `box-pink`, ale _dominujący_ `box-red` powinien to przebić.
+
+**Gdzie więc leży problem?** 🤔
+
+```css
+.wrapper {
+  position: relative;
+}
+
+.box-dashed {
+  position: relative;
+  z-index: 1;
+}
+
+.box-red {
+  position: absolute;
+  z-index: 3;
+}
+
+.box-pink {
+  position: absolute;
+  z-index: 2;
+}
+```
+
+**Podpowiedź:** ustawienie `z-index` na `999999999` nie pomoże 🙈
+
+## Stacking Context
+
+Winowajcą tego całego zamieszania jest mistyczny mechanizm w CSS zwany _stacking cotext_.
+
+Domyślnie, czysty dokument HTML tworzy _context_ względem którego układa elementy. O _stacking context_ możemy myśleć jak o **_warstwie_**, która pozwala nam układać elemeny względem siebie.
+
+Poza domyślą warstwą, nadając elementom konkretne właściwości, tworzymy nowy _stacking context_. Dla przykładu - połączenie `position: relative` / `position: absolute` + `z-index` tworzy nową _warstwę_.
+
+<Image src="/images/css-stacking-context/sc-1.png" alt="" />
+
+Porównywać ze sobą elementy możemy **tylko** względem nadrzędnej _warstwy_. **Właściwość `z-index` nie jest właściwością globalną!**
+
+Tworząc dwa elementy, gdzie każdy element posiada `position: relative` + odpowiedni `z-index`, tworzymy dwie warstwy. Obie _warstwy_ posiadają w sobie dodatkowo po trzy elemeny. Każdy z zagnieżdżonych elementów posiada własny `z-index` + `position: absolute`.
+
+Wizualizując sobie ten mechanizm, możemy myśleć o zagnieżdżonych _warstwach_, jak o wersjach nadrzędnego _stacking context_. Wersja `1.5` jest większa od `1.3`, ale nie ma szans na przebicie `2.4`. Nie ważne jak duży `z-index` damy, mógłby on nawet wynosić `999999`, a i tak nie przebije wersji `2.0`:
+
+<Image src="/images/css-stacking-context/sc-3.png" alt="" />
+
+Spróbujmy naprawić nasz poprzedni przykład. Zależy nam na tym, żeby kwadrat z klasą `box-red` pojawił się nad `box-pink`. Osiągamy to dzięki pozbyciu się _warstwy_, którą tworzył `box-dashed` za pomocą dwóch wcześniej wspomnianych właściwości - `position: relative` + `z-index`.
+
+Chcemy nadal pozycjonować odpowiednio elementy, więc zostawiamy `position: relative`. Usuwamy za to `z-index`, który w tej kombinacji, jest niezbędny do stworzenia _warstwy_.
+
+```css
+/* Stacking Context: ❌ */
+.wrapper {
+  position: relative;
+}
+
+/* Stacking Context: ❌ */
+.box-dashed {
+  position: relative;
+  /* z-index: 1; */
+}
+
+/* Stacking Context: ✅ */
+.box-red {
+  position: absolute;
+  z-index: 3;
+}
+
+/* Stacking Context: ✅ */
+.box-pink {
+  position: absolute;
+  z-index: 2;
+}
+```
+
+Usuwając _stacking context_ `box-dashed` zostajemy z trzema _warstami_:
+
+- Dokument HTML
+  - `box-red`
+  - `box-pink`
+
+Zagnieżdżone w domyślym _stacking context_ dokumentu HTML, _warstwy_ `box-red` oraz `box-pink` pozostają **na tym samym poziomie** i mogą być porównane ze sobą.
+
+<Image src="/images/css-stacking-context/sc-4.png" alt="" />
+
+## Co tworzy Stacking Context?
+
+_Warstwy_ możemy tworzyć na wiele różnych sposóbów. Powiedzieliśmy sobie, że połącznenie `position: relative` / `position: abosolute` + `z-index` tworzy nowy _stacking context_, czy jest coś jeszcze?
+
+Z popularniejszych metod możemy wymienić:
+
+- Dokument HTML
+- Element z pozycją `relative` / `abosolute` + `z-index` (inne niż `auto`)
+- Element z pozycją `sticky` / `fixed`
+- Dziecko elementu, który ma `display` ustawiony na `flex` / `grid`
+- Element z `opacity` mniejszym niż `1`
+
+Całą listę znajdziesz w [dokumentacji MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context#description).
+
+## Kolejność ułożenia w Stacking Context
+
+Udało nam się stworzyć nową _warstwę_, ale nadal coś nie działa? 🤬
+
+Elementy znajdujące się w obrębie danej _warstwy_ układane będą względem danej kolejności:
+
+1. Wypozycjonowane elementy z negatywnym `z-index`
+2. Elementy z `position: static`
+3. Wypozycjonowane elementy z `z-index: auto`
+4. Wypozycjonowane elementy z pozytywnym lub zerowym `z-index`
+
+<Image src="/images/css-stacking-context/sc-5.png" alt="" />
+
+## Praktyczny przykład
+
+Wróćmy do naszego początkowego problemu. W naszym sklepie nawigacja ma się znajdować pod, a koszyk nad resztą elementów.
+
+<Image src="/images/css-stacking-context/ecommerce-broken.png" alt="" />
+
+Tworzymy odpowiednią strukturę HTML i nadajemy elementom odpowiednie `z-index`. Elementowi z klasą `.main` przypisujemy większy `z-index`, niż elementowi z klasą `.header`. _Header_ jest rodzicem koszyka, więc dodatkowo nadajemy mu `position: relative` - dzięki temu będzie mogli swobodnie umiejscowić koszyk za pomocą `position: absolute`.
+
+```html
+<style>
+  .header {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cart {
+    position: abosolute;
+    top: 5rem;
+    right: 5rem;
+    z-index: 999999;
+  }
+
+  .main {
+    position: relative;
+    z-index: 10;
+    transform: translateY(-50px);
+  }
+</style>
+
+<body>
+  <header class="header">
+    <nav></nav>
+    <div class="cart"></div>
+  </header>
+  <main class="main">
+    <aside></aside>
+    <ul></ul>
+  </main>
+</body>
+```
+
+**Widzisz nasz problem?** 🤔
+
+Element z klasą `.header` stworzył nowy _stacking context_. Aby poprawić wygląd naszego sklepu, potrzebujemy pozbyć się nowo utworzonej warsty. Kasujemy zbędny `z-index: 1` z _header_ i wyszystko zaczęło śmigać!
+
+Od teraz warstwy koszyka i elementu z klasą `<main>` są na tym samym poziomie - dlatego możemy je bez obaw z sobą porównywać.
+
+```css
+.header {
+  position: relative;
+}
+
+.cart {
+  position: absolute;
+  top: 5rem;
+  right: 5rem;
+  z-index: 2;
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+  transform: translateY(-50px);
+}
+```
+
+Uprościłem również wartości `z-index` - dbaj o swoje _z-indexy_ i nie nadawaj im nieskończonych wręcz wartości. Zobacz jak utrzymywać w porządku swoje `z-index` - [Managing CSS Z-Index In Large Projects
+](https://www.smashingmagazine.com/2021/02/css-z-index-large-projects/)
+
+<Image src="/images/css-stacking-context/ecommerce-fixed.png" alt="" />
+
+## Warstwy w izolacji
+
+Wyobraź sobie sytuację, w której tworzych jakiś reużywaly kawałek strony. W naszym przypadku niech to będzie kafelek przedmiotu. Występuje on na stronie głównej, ale wyświetla się również na stronie z daną kategorią. Od dziś każda taka karta będzie miała w tle grafikę SVG.
+
+Potrzebujemy wypozycjonować SVG tak, żeby znajdowało się pod resztą elementów. Jazda, dodajemy negatywny `z-index` i gotowe! Nie do końca, nasza grafika zniknęła z pola naszego widzenia - znajduje się pod samą kartą.
+
+<Image src="/images/css-stacking-context/isolation-broken.png" alt="" />
+
+Jeśli pomyślałeś o _stacking context_, to masz w 100% racje, musimy go stworzyć!
+
+Mamy naprawdę mnóstwo metod, dzięki którym stworzymy nową warstę. Problem jest tylko taki, że karta ma być reużywalna. Nie chcemy jej wprost podać `z-index`, bo nie wiemy jak będzie się zachowywała na innych stronach.
+
+Całe na biało w takich przypadkach wjeżdża `isolation: isolate` w CSS. Pozwala nam ono stworzyć nowy _stacking context_ bez żadnych skutków ubocznych. Świetna alternatywa dla innych sposób, które w przeciwieństwie do `isolation`, posiadają nieporządane efekty :)
+
+<Image src="/images/css-stacking-context/isolation-fixed.png" alt="" />
+
+## Podsumowanie
+
+Ustawianie elementów za pomocą `z-index` potrafi być naprawdę upierdliwe... Zrozumienie konceptu _stacking context_ to podstawa do uniknięca drogich wizyt u psychologa.
+
+Do usłyszenia!
+
+### Źródła
+
+- [MDN - CSS Stacking Context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context#description)
+- [MDN - CSS Isolation](https://developer.mozilla.org/en-US/docs/Web/CSS/isolation)
+- [MDN - Stacking without the z-index property](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Stacking_without_z-index)
+- [Philip Walton - What No One Told You About Z-Index](https://philipwalton.com/articles/what-no-one-told-you-about-z-index/)
+- [Smashing Magazine - Managing CSS Z-Index In Large Projects](https://www.smashingmagazine.com/2021/02/css-z-index-large-projects/)

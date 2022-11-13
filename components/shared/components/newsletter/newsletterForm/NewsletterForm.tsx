@@ -3,9 +3,12 @@ import { useRouter } from 'next/router';
 import { subscribeToNewsletter } from './utils/api';
 import styles from './newsletterForm.module.scss';
 import cn from 'classnames';
+import CheckMarkIcon from '../../../../../public/icons/check-mark.svg';
+import Link from 'next/link';
 
 export const NewsletterForm = () => {
   const [inputValue, setInputValue] = useState('');
+  const [checked, setChecked] = useState(false);
   const [status, setStatus] = useState('normal');
   const [title, setTitle] = useState('Subskrybuj');
   const [isLoading, setLoadingState] = useState(false);
@@ -13,6 +16,10 @@ export const NewsletterForm = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  };
+
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setChecked(e.target.checked);
   };
 
   const handleSubmit = async (
@@ -36,23 +43,54 @@ export const NewsletterForm = () => {
   };
 
   return (
-    <form className={styles.wrapper} onSubmit={handleSubmit}>
-      <label className={styles.inputLabelWrapper}>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <label className={styles.checkboxWrapper}>
         <input
-          type="email"
+          type="checkbox"
           required
-          autoComplete="email"
-          value={inputValue}
-          className={styles.input}
-          onChange={handleInputChange}
+          checked={checked}
+          className="visually-hidden"
+          onChange={handleCheckboxChange}
           aria-invalid={status === 'error'}
-          placeholder="Email"
         />
-        <span className="visually-hidden">Email</span>
+        <div
+          className={cn(styles.checkbox, {
+            [styles.checkboxActive]: checked,
+          })}
+        >
+          {checked && <CheckMarkIcon />}
+        </div>
+        <span className={styles.privacy}>
+          Rozumiem i akceptuję{' '}
+          <Link href="/regulamin-newslettera">
+            <a className="regulation-link">Regulamin Newslettera</a>
+          </Link>{' '}
+          oraz{' '}
+          <Link href="/polityka-prywatnosci">
+            <a className="regulation-link">Politykę Prywatności</a>
+          </Link>
+          . Wyrażam zgodę na otrzymywanie na podany adres e-mail informacji handlowych w rozumieniu
+          ustawy z dnia 18 lipca 2002 r. o świadczeniu usług drogą elektroniczną.
+        </span>
       </label>
-      <button className={cn(styles.button, styles[status])}>
-        <span>{isLoading ? 'Ładowanie...' : title}</span>
-      </button>
+      <div className={styles.wrapper}>
+        <label className={styles.inputLabelWrapper}>
+          <input
+            type="email"
+            required
+            autoComplete="email"
+            value={inputValue}
+            className={styles.input}
+            onChange={handleInputChange}
+            aria-invalid={status === 'error'}
+            placeholder="Email"
+          />
+          <span className="visually-hidden">Email</span>
+        </label>
+        <button className={cn(styles.button, styles[status])}>
+          <span>{isLoading ? 'Ładowanie...' : title}</span>
+        </button>
+      </div>
     </form>
   );
 };

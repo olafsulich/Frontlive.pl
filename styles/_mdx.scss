@@ -39,17 +39,15 @@ iframe {
 
   p:not([data-codeTitle]) {
     font-size: 1.8rem;
-    line-height: 3.6rem;
+    line-height: 1.6;
     color: var(--dark-200);
 
     @include mediaquery('lg') {
       font-size: 1.9rem;
-      line-height: 3.7rem;
     }
 
     @include mediaquery('xl') {
       font-size: 2rem;
-      line-height: 3.8rem;
     }
   }
 
@@ -142,11 +140,7 @@ iframe {
     }
   }
 
-  em {
-    color: var(--red);
-  }
-
-  a:not(.categoryLink):not(.share):not(.githubEditLink) {
+  a:not(.categoryLink):not(.share):not(.githubEditLink):not(.regulation-link) {
     text-decoration: none;
     border-bottom: 2px solid #262b32;
     color: var(--white);
@@ -238,17 +232,15 @@ iframe {
 
   p:not([data-codeTitle]) {
     font-size: 1.8rem;
-    line-height: 3.6rem;
+    line-height: 1.7;
     color: var(--white);
 
     @include mediaquery('lg') {
       font-size: 1.9rem;
-      line-height: 3.7rem;
     }
 
     @include mediaquery('xl') {
       font-size: 2rem;
-      line-height: 3.8rem;
     }
   }
 }

@@ -21,7 +21,6 @@
     margin: 14rem 0;
     border-radius: 1.8rem;
     align-items: flex-start;
-    height: 40.8rem;
   }
 
   form {
@@ -50,10 +49,6 @@
   @include mediaquery('lg') {
     margin-bottom: 4rem;
     font-size: 2rem !important;
-  }
-
-  @include mediaquery('xl') {
-    margin-bottom: 6rem;
   }
 }
 

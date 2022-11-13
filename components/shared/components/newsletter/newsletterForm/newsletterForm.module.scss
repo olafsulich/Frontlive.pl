@@ -1,16 +1,59 @@
 @import 'common';
 
+.container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+  max-width: 43rem;
+
+  @include mediaquery('xl') {
+    max-width: 53rem;
+  }
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 7px;
+  margin-right: 2rem;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  path {
+    fill: var(--white);
+  }
+}
+
+.checkboxActive {
+  background: #705df2;
+}
+
+.privacy {
+  font-size: 12px;
+  color: var(--white);
+
+  a {
+    color: var(--red);
+    text-decoration: none;
+  }
+}
+
 .wrapper {
   margin-top: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 43rem;
-
-  @include mediaquery('xl') {
-    max-width: 53rem;
-  }
 }
 
 .inputLabelWrapper {
