@@ -2,7 +2,7 @@
 title: 'Dlaczego z-index nie działa?'
 category: 'CSS'
 publishedAt: '14-11-2022'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/css-stacking-context/thumbnail.png'
 excerpt: 'Niech pierwszy rzuci kamieniem ten, który nigdy nie miał problemów z z-index w CSS. Poprawne ułożenie elementów nie raz przyprawiło mnie o ból głowy. Masakra. Jak sobie z tym radzić?'
@@ -10,7 +10,7 @@ excerpt: 'Niech pierwszy rzuci kamieniem ten, który nigdy nie miał problemów 
 
 Niech pierwszy rzuci kamieniem ten, który nigdy nie miał problemów z `z-index` w CSS. Poprawne ułożenie elementów nie raz przyprawiło mnie o ból głowy. **Masakra!** Nic w tym dziwnego, ten mechanizm to jeden z "kruczków" CSS, które potrafią być naprawdę problematyczne.
 
-Tworzysz prosty sklep e-commerce. Chciałbyś, żeby nawigacja była pod, a koszyk nad innymi elementami. Prościzna? Dopóki wszystko będzie szło po Twojej myśli. Zanim zaczniesz wyrwać włosy z głowy, z powodu niedziałającego `z-index: 999999;`, zrozum jak ten mechanizm naprawdę działa.
+Tworzysz prosty sklep e-commerce. Chciałbyś, żeby nawigacja była pod, a koszyk nad innymi elementami. Prościzna? Dopóki wszystko będzie szło po Twojej myśli. Zanim zaczniesz wyrywać włosy z głowy, z powodu niedziałającego `z-index: 999999;`, zrozum jak ten mechanizm naprawdę działa.
 
 <Image src="/images/css-stacking-context/ecommerce-broken.png" alt="" />
 
@@ -89,7 +89,7 @@ Na pierwszy ogień idzie HTML - od teraz nasz _dominujący_ kwadrat jest oplecio
 
 ## Stacking Context
 
-Winowajcą tego całego zamieszania jest mistyczny mechanizm w CSS zwany _stacking cotext_.
+Winowajcą tego całego zamieszania jest mistyczny mechanizm w CSS zwany _stacking context_.
 
 Domyślnie, czysty dokument HTML tworzy _context_ względem którego układa elementy. O _stacking context_ możemy myśleć jak o **_warstwie_**, która pozwala nam układać elemeny względem siebie.
 
@@ -99,7 +99,7 @@ Poza domyślą warstwą, nadając elementom konkretne właściwości, tworzymy n
 
 Porównywać ze sobą elementy możemy **tylko** względem nadrzędnej _warstwy_. **Właściwość `z-index` nie jest właściwością globalną!**
 
-Tworząc dwa elementy, gdzie każdy element posiada `position: relative` + odpowiedni `z-index`, tworzymy dwie warstwy. Obie _warstwy_ posiadają w sobie dodatkowo po trzy elemeny. Każdy z zagnieżdżonych elementów posiada własny `z-index` + `position: absolute`.
+Tworząc dwa elementy, gdzie każdy element posiada `position: relative` + odpowiedni `z-index`, tworzymy dwie warstwy. Obie _warstwy_ posiadają w sobie dodatkowo po trzy elementy. Każdy z zagnieżdżonych elementów posiada własny `z-index` + `position: absolute`.
 
 Wizualizując sobie ten mechanizm, możemy myśleć o zagnieżdżonych _warstwach_, jak o wersjach nadrzędnego _stacking context_. Wersja `1.5` jest większa od `1.3`, ale nie ma szans na przebicie `2.4`. Nie ważne jak duży `z-index` damy, mógłby on nawet wynosić `999999`, a i tak nie przebije wersji `2.0`:
 
@@ -107,7 +107,7 @@ Wizualizując sobie ten mechanizm, możemy myśleć o zagnieżdżonych _warstwac
 
 Spróbujmy naprawić nasz poprzedni przykład. Zależy nam na tym, żeby kwadrat z klasą `box-red` pojawił się nad `box-pink`. Osiągamy to dzięki pozbyciu się _warstwy_, którą tworzył `box-dashed` za pomocą dwóch wcześniej wspomnianych właściwości - `position: relative` + `z-index`.
 
-Chcemy nadal pozycjonować odpowiednio elementy, więc zostawiamy `position: relative`. Usuwamy za to `z-index`, który w tej kombinacji, jest niezbędny do stworzenia _warstwy_.
+Chcemy nadal pozycjonować odpowiednio elementy, więc zostawiamy `position: relative`. Usuwamy za to `z-index`, który w tej kombinacji jest niezbędny do stworzenia _warstwy_.
 
 ```css
 /* Stacking Context: ❌ */
@@ -177,7 +177,7 @@ Wróćmy do naszego początkowego problemu. W naszym sklepie nawigacja ma się z
 
 <Image src="/images/css-stacking-context/ecommerce-broken.png" alt="" />
 
-Tworzymy odpowiednią strukturę HTML i nadajemy elementom odpowiednie `z-index`. Elementowi z klasą `.main` przypisujemy większy `z-index`, niż elementowi z klasą `.header`. _Header_ jest rodzicem koszyka, więc dodatkowo nadajemy mu `position: relative` - dzięki temu będzie mogli swobodnie umiejscowić koszyk za pomocą `position: absolute`.
+Tworzymy odpowiednią strukturę HTML i nadajemy elementom odpowiednie `z-index`. Elementowi z klasą `.main` przypisujemy większy `z-index`, niż elementowi z klasą `.header`. _Header_ jest rodzicem koszyka, więc dodatkowo nadajemy mu `position: relative` - dzięki temu będziemy mogli swobodnie umiejscowić koszyk za pomocą `position: absolute`.
 
 ```html
 <style>
@@ -212,7 +212,7 @@ Tworzymy odpowiednią strukturę HTML i nadajemy elementom odpowiednie `z-index`
 </body>
 ```
 
-**Widzisz nasz problem?** 🤔
+**Widzisz problem?** 🤔
 
 Element z klasą `.header` stworzył nowy _stacking context_. Aby poprawić wygląd naszego sklepu, potrzebujemy pozbyć się nowo utworzonej warsty. Kasujemy zbędny `z-index: 1` z _header_ i wyszystko zaczęło śmigać!
 
@@ -244,7 +244,7 @@ Uprościłem również wartości `z-index` - dbaj o swoje _z-indexy_ i nie nadaw
 
 ## Warstwy w izolacji
 
-Wyobraź sobie sytuację, w której tworzych jakiś reużywaly kawałek strony. W naszym przypadku niech to będzie kafelek przedmiotu. Występuje on na stronie głównej, ale wyświetla się również na stronie z daną kategorią. Od dziś każda taka karta będzie miała w tle grafikę SVG.
+Wyobraź sobie sytuację, w której tworzysz jakiś reużywaly kawałek strony. W naszym przypadku niech to będzie kafelek przedmiotu. Występuje on na stronie głównej, ale wyświetla się również na stronie z daną kategorią. Od dziś każda taka karta będzie miała w tle grafikę SVG.
 
 Potrzebujemy wypozycjonować SVG tak, żeby znajdowało się pod resztą elementów. Jazda, dodajemy negatywny `z-index` i gotowe! Nie do końca, nasza grafika zniknęła z pola naszego widzenia - znajduje się pod samą kartą.
 
@@ -254,7 +254,7 @@ Jeśli pomyślałeś o _stacking context_, to masz w 100% racje, musimy go stwor
 
 Mamy naprawdę mnóstwo metod, dzięki którym stworzymy nową warstę. Problem jest tylko taki, że karta ma być reużywalna. Nie chcemy jej wprost podać `z-index`, bo nie wiemy jak będzie się zachowywała na innych stronach.
 
-Całe na biało w takich przypadkach wjeżdża `isolation: isolate` w CSS. Pozwala nam ono stworzyć nowy _stacking context_ bez żadnych skutków ubocznych. Świetna alternatywa dla innych sposób, które w przeciwieństwie do `isolation`, posiadają nieporządane efekty :)
+Całe na biało w takich przypadkach wjeżdża `isolation: isolate` w CSS. Pozwala nam ono stworzyć nowy _stacking context_ bez żadnych skutków ubocznych. Świetna alternatywa dla innych sposóbów, które w przeciwieństwie do `isolation`, posiadają nieporządane efekty :)
 
 <Image src="/images/css-stacking-context/isolation-fixed.png" alt="" />
 
