@@ -7,10 +7,10 @@ export const Hero = () => {
     <div className={styles.container}>
       <div className={styles.heroImage}>
         <Image
-          src="/images/olaf-shut-up.png"
+          src="/images/olaf-head-santa.png"
           alt="Olaf Sulich"
-          width="288"
-          height="318"
+          width="502"
+          height="414"
           quality={100}
           priority
         />
