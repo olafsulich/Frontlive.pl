@@ -9,7 +9,7 @@ export const Newsletter = () => {
       <Decoration className={styles.decoration} />
       <h2 className={styles.heading}>Newsletter dla Frontend Developerów 📮</h2>
       <div className={styles.image}>
-        <Image src="/images/olaf-love-santa.png" alt="" width={288} height={293} quality={100} />
+        <Image src="/images/olaf-love.png" alt="" width={288} height={293} quality={100} />
       </div>
       <div className={styles.content}>
         <p className={styles.text}>

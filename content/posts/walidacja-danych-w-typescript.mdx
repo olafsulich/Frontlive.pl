@@ -1,0 +1,179 @@
+---
+title: 'Walidacja danych w TypeScript'
+category: 'TypeScript'
+publishedAt: '09-01-2023'
+isPublished: false
+popular: false
+image: '/images/walidacja-danych-na-frontendzie/image-3.png'
+excerpt: 'Jak zapewnić jeszcze większe bezpieczeństwo aplikacji stosując walidację w TypeScript?'
+---
+
+TypeScript to świetnie narzędzie, które przez swój system typów zwiększa bezpieczeństwo naszego kodu. Dzięki niemu pozbywamy się wielu błędów i czujemy się pewniej pisząc aplikacje webowe.
+
+Świat TS nie jest jednak usłany różami. Prędzej czy później natrafimy na sytuację, w której nie możemy być pewni, że dane `X` będą określonego typu `Y`.
+
+Możemy się jedynie domyślać, a nasze domysły nie zawsze są zgodne z prawdą. Powoduje to dziury w systemie typów, a co za tym idzie, w bezpieczeństwie całej aplikacji.
+
+Jak sobie z tym radzić?
+
+## Standardowa walidacja
+
+Co przychodzi Ci do głowy na hasło _walidacja_ ?
+
+Założę się, że większość z nas pomyślałaby o walidacji danych w formularzach.
+
+Sprawdźmy jak to działa:
+
+<Image src="/images/walidacja-danych-na-frontendzie/image-1.png" />
+
+1. Użytkownik wypełnia dane w formularzu
+2. Odbieramy dane i sprawdzamy ich poprawność
+3. W zależność od poprawności danych, przekazujemy feedback do użytkownika
+
+Po co to robimy?
+
+- **User Experience**
+
+  Wyobraź sobie, że wypełniach naprawdę długi formularz... Wysyłasz i bum! Okazuję się, że w polu z adresem email brakuje `@`.
+
+  Walidacja na froncie powoduje, że użytkownik szybciej otrzymuje _feedback_ na temat wprowadzanych danych. Szybciej dostanie znać, że hasło "dupa123" jest za krótkie i musi je poprawić, żeby pomyślnie się zalogować.
+
+- **Nie przeciążamy backendu**
+
+  Po co użytkownik ma wysyłać bez ograniczeń "śmieciowe" zapytania do serwera?
+
+  Pomimo tego, że walidacja powinna również występować na backendzie, sprawdzając dane na froncie, odfiltrowujemy szereg zazwyczaj prostych błędów, odciążając w ten sposób serwer.
+
+## Świat poza kodem
+
+Wszystko co przychodzi spoza naszej aplikacji możemy uznać za jakieś zewnętrzne źródło danych.
+
+Źródła pogrupowałem na trzy podstawowe kategorie:
+
+1. Dane od użytkowników (np. formularze)
+2. Dane z przeglądarki (np. localStorage)
+3. Dane z API
+
+<Image src="/images/walidacja-danych-na-frontendzie/image-4.png" />
+
+Z perspektywy TypeScripta każde z nich jest nieznane. Wszelkiego rodzaju operacje na tych danych, nie są tym samym co działania na kodzie wewnętrzym, który sami stworzyliśmy, którego jesteśmy pewni.
+
+## Tylko po co nam ta pewność?
+
+Tak, jak w formularzach walidowaliśmy dane pól, tak samo możemy sprawdzać dane z innych, zewnętrznych źródeł. Załóżmy, że pracujemy nad jakimś złożonym procesem użytkownika. Rejestracja, proces płatności, cokolwiek.
+
+Nie znamy typu danych, więc domyślamy się, że będą one konkretnego kształtu. Wykonujemy asercję, przekazując jednocześnie TypeScriptowi, że wiemy co robimy i że ma odpowiednio otypować odpowiedź z API.
+
+```ts
+async function fetchData() {
+  const response = await fetch('...');
+
+  const data = (await response.json()) as unknown as Data;
+}
+```
+
+Typy się zgadzają, ale dane na produkcji okazują się być niepoprawne. Aplikacja w początkowych etapach procesu działa dobrze, bo nie korzystamy jeszcze ze wszystkich danych.
+
+Przechodzimy do kolejnego etapu i bum!
+
+Użytkownik namęczył się, a na końcu dostał błąd...
+
+<Image src="/images/walidacja-danych-na-frontendzie/image-3.png" />
+
+Walidacja może być strażnikiem, dodatkową warstwą ochronną, dzięki której będziemy mogli zareagować szybciej.
+
+```ts
+function validateData(data: unknown) {
+  // ...
+}
+
+async function fetchData() {
+  const response = await fetch('...');
+
+  const data = (await response.json()) as unknown;
+
+  const result = validateData(data);
+
+  if (result.isValid) {
+    // ...
+  } else {
+    // ...
+  }
+}
+```
+
+Zamiast dopuszczać użytkownika do procesu, obsłużmy błąd na początku, oszczędźmy mu niepotrzebnej frustracji :)
+
+## Walidacja w Zod
+
+[Zod](https://github.com/colinhacks/zod#introduction) to biblioteka oparta o walidację na bazie ustalonego wcześniej schematu.
+
+Stworzona została z myślą o TypeScripcie i posiada całkiem rozbudowany ekosystem, który współgra np. z [Formikiem](https://github.com/glazy/formik-validator-zod) i [React Hook Form](https://github.com/react-hook-form/resolvers#zod).
+
+<Image src="/images/walidacja-danych-na-frontendzie/image-2.png" />
+
+Łączy ona świetnie dwa odległe od siebie światy - środowisko TypeScripta i czas działania programu.
+
+Zaczynijmy od zdeklarowania schematu danych. Możemy definiować typy proste, złożone, wskazywać opcjonalne pola, enumy, niestandardowe wiadomości błędów... Jest tego masa!
+
+```ts
+import { z } from 'zod';
+
+const PostsSchema = z.object({
+  posts: z.array(
+    z.object({
+      id: z.string().uuid(),
+      name: z.string(),
+      likes: z.number().optional(),
+      user: z.object({
+        id: z.string().uuid({ message: 'Niepoprawny UUID' }),
+        name: z.string(),
+        email: z.string().email(),
+        type: z.enum(['admin', 'moderator', 'user']),
+      }),
+    }),
+  ),
+});
+```
+
+`PostsSchema` wykorzystujemy bezpośrednio w funkcji pobierającej dane. Jeśli nie będą one pasowały do stworzonego schematu, otrzymamy błąd.
+
+```ts
+async function fetchPosts() {
+  const response = await fetch('...');
+
+  const data = (await response.json()) as unknown;
+
+  const parsedData = DataSchema.parse(data); // <- poprawny typ ✅
+}
+```
+
+W tym miejscu nie musimy się już więcej martwić o typ danych, Zod robi to za nas!
+
+Typ zwracany z funkcji `fetchPosts` będzie odpowiadał wcześniej zdefiniowanemu schematowi.
+
+Natomiast, jeśli chcielibyśmy _wyciągnąć_ typ ze schematu, możemy to zrobić dzięki specjalnemu mechanizmowi infernecji `zod.infer`:
+
+```ts
+type Posts = z.infer<typeof PostsSchema>['posts'];
+
+// type Posts = {
+//     likes?: number | undefined;
+//     id: string;
+//     name: string;
+//     user: {
+//         type: "user" | "admin" | "moderator";
+//         id: string;
+//         name: string;
+//         email: string;
+//     };
+// }[]
+```
+
+## Podsumowanie
+
+Walidacja danych to nie tylko sprawdzanie poprawności pól w formularzach...
+
+To mechanizm, który w połączeniu z TypeScriptem, pozwoli nam zapewnić jeszcze większe bezpieczeństwo aplikacji.
+
+Do usłyszenia!

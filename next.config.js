@@ -70,11 +70,6 @@ config.rewrites = () => {
       destination: 'https://discord.gg/XTRkJXwCU9',
       basePath: false,
     },
-    {
-      source: '/discord-rocznica',
-      destination: 'https://forms.gle/YZkrCJU51fAjbLrk6',
-      basePath: false,
-    },
   ];
 };
 
