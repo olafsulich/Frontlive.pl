@@ -2,10 +2,10 @@
 title: 'Walidacja danych w TypeScript'
 category: 'TypeScript'
 publishedAt: '09-01-2023'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/walidacja-danych-na-frontendzie/image-3.png'
-excerpt: 'Jak zapewnić jeszcze większe bezpieczeństwo aplikacji stosując walidację w TypeScript?'
+excerpt: 'Zapewnij jeszcze większe bezpieczeństwo aplikacji w TypeScript! Sprawdź jak możesz wykorzystać walidację do zbadania poprawności danych w czasie działania programu.'
 ---
 
 TypeScript to świetnie narzędzie, które przez swój system typów zwiększa bezpieczeństwo naszego kodu. Dzięki niemu pozbywamy się wielu błędów i czujemy się pewniej pisząc aplikacje webowe.
@@ -24,7 +24,7 @@ Założę się, że większość z nas pomyślałaby o walidacji danych w formul
 
 Sprawdźmy jak to działa:
 
-<Image src="/images/walidacja-danych-na-frontendzie/image-1.png" />
+<Image src="/images/walidacja-danych-na-frontendzie/image-1.png" alt="" />
 
 1. Użytkownik wypełnia dane w formularzu
 2. Odbieramy dane i sprawdzamy ich poprawność
@@ -34,7 +34,7 @@ Po co to robimy?
 
 - **User Experience**
 
-  Wyobraź sobie, że wypełniach naprawdę długi formularz... Wysyłasz i bum! Okazuję się, że w polu z adresem email brakuje `@`.
+  Wyobraź sobie, że wypełniasz naprawdę długi formularz... Wysyłasz i bum! Okazuję się, że w polu z adresem email brakuje `@`.
 
   Walidacja na froncie powoduje, że użytkownik szybciej otrzymuje _feedback_ na temat wprowadzanych danych. Szybciej dostanie znać, że hasło "dupa123" jest za krótkie i musi je poprawić, żeby pomyślnie się zalogować.
 
@@ -114,7 +114,7 @@ Stworzona została z myślą o TypeScripcie i posiada całkiem rozbudowany ekosy
 
 Łączy ona świetnie dwa odległe od siebie światy - środowisko TypeScripta i czas działania programu.
 
-Zaczynijmy od zdeklarowania schematu danych. Możemy definiować typy proste, złożone, wskazywać opcjonalne pola, enumy, niestandardowe wiadomości błędów... Jest tego masa!
+Zacznijmy od zdeklarowania schematu danych. Możemy definiować typy proste, złożone, wskazywać opcjonalne pola, enumy, niestandardowe wiadomości błędów... Jest tego masa!
 
 ```ts
 import { z } from 'zod';
@@ -144,7 +144,7 @@ async function fetchPosts() {
 
   const data = (await response.json()) as unknown;
 
-  const parsedData = DataSchema.parse(data); // <- poprawny typ ✅
+  const parsedData = PostsSchema.parse(data); // <- poprawny typ ✅
 }
 ```
 
@@ -152,7 +152,7 @@ W tym miejscu nie musimy się już więcej martwić o typ danych, Zod robi to za
 
 Typ zwracany z funkcji `fetchPosts` będzie odpowiadał wcześniej zdefiniowanemu schematowi.
 
-Natomiast, jeśli chcielibyśmy _wyciągnąć_ typ ze schematu, możemy to zrobić dzięki specjalnemu mechanizmowi infernecji `zod.infer`:
+Natomiast, jeśli chcielibyśmy _wyciągnąć_ typ ze schematu, możemy to zrobić dzięki specjalnemu mechanizmowi infernecji `z.infer`:
 
 ```ts
 type Posts = z.infer<typeof PostsSchema>['posts'];
