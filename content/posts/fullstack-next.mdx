@@ -247,11 +247,17 @@ Ostatnia rzecz na naszej konfiguracyjnej liście, czyli zmienne środowiskowe. N
 Na samym początku deklarujemy typy dla naszych zmiennych:
 
 ```ts
-type NameToType = {
+interface IProcessEnv {
   readonly ENV: 'production' | 'staging' | 'development' | 'test';
   readonly NODE_ENV: 'production' | 'development';
   readonly PORT: number;
-};
+}
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv extends IProcessEnv {}
+  }
+}
 ```
 
 Następnie implementujemy właściwą już funkcje `getEnv`. Korzystamy tutaj z tzw. [przeładowania funkcji](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads). Ta funkcja daje nam dwie rzeczy:
@@ -260,8 +266,8 @@ Następnie implementujemy właściwą już funkcje `getEnv`. Korzystamy tutaj z 
 - Właściwy typ zmiennej
 
 ```ts
-export function getEnv<Env extends keyof NameToType>(name: Env): NameToType[Env];
-export function getEnv(name: keyof NameToType): NameToType[keyof NameToType] {
+export function getEnv<Env extends keyof IProcessEnv>(name: Env): IProcessEnv[Env];
+export function getEnv(name: keyof IProcessEnv): IProcessEnv[keyof IProcessEnv] {
   const val = process.env[name];
 
   if (!val) {
