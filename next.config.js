@@ -66,6 +66,11 @@ config.sassOptions = {
 config.rewrites = () => {
   return [
     {
+      source: '/newsletter',
+      destination: 'https://frontlive.substack.com/subscribe',
+      basePath: false,
+    },
+    {
       source: '/discord',
       destination: 'https://discord.gg/XTRkJXwCU9',
       basePath: false,
@@ -75,6 +80,12 @@ config.rewrites = () => {
 
 config.redirects = () => {
   return [
+    {
+      source: '/newsletter',
+      destination: 'https://frontlive.substack.com/subscribe',
+      permanent: false,
+      basePath: false,
+    },
     {
       source: '/discord',
       destination: 'https://discord.gg/XTRkJXwCU9',
