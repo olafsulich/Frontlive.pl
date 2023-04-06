@@ -10,9 +10,9 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
       # Transform Figma Tokens JSON to something Style Dictionary can read
-      - run: npx token-transformer apps/blog/generated/tokens.json apps/blog/generated/css-variables.json
+      - run: npx token-transformer packages/design-system/generated/tokens.json packages/design-system/generated/css-variables.json
       # Convert tokens according to Style Dictionary config
-      - run: npx style-dictionary build --config apps/blog/config/tokens.json
+      - run: npx style-dictionary build --config packages/design-system/config/tokens.json
       # Add files that were created during a run, e.g. created files from style dictionary or token-transformer.
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:

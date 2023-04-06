@@ -1,0 +1,26 @@
+/**
+ * Do not edit directly
+ * Generated on Thu, 06 Apr 2023 18:38:08 GMT
+ */
+
+:root {
+  --colors-purple-100: #F4F3FF;
+  --colors-purple-200: #E6E4FF;
+  --colors-purple-300: #D7D4FF;
+  --colors-purple-400: #CCC8FF;
+  --colors-purple-500: #C1BCFF;
+  --colors-purple-600: #B0AAFF;
+  --colors-purple-700: #9A92FF;
+  --colors-purple-800: #7C71FE;
+  --colors-purple-900: #5E25FF;
+  --colors-gray-100: #ebecef;
+  --colors-gray-200: #c3c5cf;
+  --colors-gray-300: #86889D;
+  --colors-gray-400: #747895;
+  --colors-gray-500: #4c506e;
+  --colors-gray-600: #383d5e;
+  --colors-gray-700: #1A1D31;
+  --colors-gray-800: #0D0E1B;
+  --colors-gray-900: #010103;
+  --token-set-order-0: global;
+}
