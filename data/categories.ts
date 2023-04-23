@@ -8,6 +8,7 @@ export const categoriesArr: Category[] = [
   { title: 'React', path: '/kategorie/react' },
   { title: 'HTML', path: '/kategorie/html' },
   { title: 'CSS', path: '/kategorie/css' },
+  { title: 'Design', path: '/kategorie/design' },
   { title: 'Svelte', path: '/kategorie/svelte' },
   { title: 'GraphQL', path: '/kategorie/graphql' },
   { title: 'Firebase', path: '/kategorie/firebase' },
