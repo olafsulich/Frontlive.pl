@@ -2,7 +2,7 @@
 title: 'Design Tokens dla Frontend Developera'
 category: 'Design'
 publishedAt: '24-04-2023'
-isPublished: false
+isPublished: true
 popular: false
 image: '/images/design-tokens/thumbnail.png'
 excerpt: 'Tokeny są podstawowym budulcem każdego szanującego się Design Systemu. Przyspieszają pracę i pozwalają projektantom budować spójne i skalowane projekty. A co ma do tego Frontend?'
@@ -12,7 +12,7 @@ Tokeny są podstawowym budulcem każdego szanującego się Design Systemu. Przys
 
 _Chwila, chwila, ale Olaf jak to ma się do mojej pracy? Przecież jestem Frontend Developerem i nie muszę sobie zawracać głowy takimi rzeczami, prawda?_
 
-No nie do końca... Ale zacznijmy od początku!
+No nie do końca. Ale zacznijmy od początku!
 
 ## Tokeny
 
@@ -24,11 +24,14 @@ Taki koncept reprezentuje np. [metodologia Atomic Design](https://atomicdesign.b
 
 Wracając, czym taki token właściwie może być? Dosłownie wszystkim! Pewnie do głowy przychodzą Ci kolory - często wrzucamy je do zmiennych np. z CSS/Sass, ale to tylko wierzchołek góry lodowej.
 
-<Image src="/images/design-tokens/tokens.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens.png"
+  alt="Grafika przedstawiająca rodzaje tokenów, przykładami są kolory, obramowania, wielkości, rodzaje/wielkości fontów oraz odstępy między literami"
+/>
 
-Tokenem mogą być rodzaje/wielkości/grubości fontów i zaokrągleń, warianty cieni i przezroczystości, odstępy pomiędzy elementami... Ogranicza nas tak jedynie przyjęte podejście i narzędzia, z których korzystamy.
+Tokenem mogą być rodzaje/wielkości/grubości fontów i zaokrągleń, warianty cieni i przezroczystości, odstępy pomiędzy elementami... Ogranicza nas jedynie przyjęte podejście i narzędzia, z których korzystamy.
 
-Im więcej zdefiniujemy takich tokenów, tym mniej będzie miejsca na niespójności. Nie chcemy przecież, żeby w dziesięciu elementach nasz `border-radius` różnił się o `1px`...
+Im więcej zdefiniujemy takich tokenów, tym mniej będzie miejsca na niespójności. Nie chcemy przecież, żeby w dziesięciu elementach nasz `border-radius` różnił się o `1px`.
 
 ## Konwencje nazewnicze
 
@@ -38,61 +41,85 @@ Nie jest łatwo, ale projektanci przez lata wyrobili sobie pewne konwencje, któ
 
 Na tapet weźmy kolory, bo najczęściej to ich jest najwięcej i z nimi będziemy mieli trochę zabawy. Projektując Design System często mamy do czynienia z wieloma odcieniami _tego samego_ koloru. Takie odcienie możemy ułożyć na skali, zaczynając od najmniej do najbardziej intensywngo.
 
-<Image src="/images/design-tokens/tokens-names-global.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-names-global.png"
+  alt="Skala odcieni fioletowego, w formacie ułożonych obok siebie kółek, odcienie są pogrupowane od najmniej intensywnego, do najbardziej intensywnego (od 100 do 900)"
+/>
 
 Tak zgrupowane odcienie nazywamy zaczynając od `100`, a kończąc najczęściej na `900`. Przyjmijmy, że tworzymy paletę odcieni dla koloru fioletowego. Nasz najmniej intensywny kolor będzie nazywał się `color-purple-100`, a najbardziej `color-purple-900`.
 
-Świetnie, fundamenty przygotowane. Ale jak to, to nie wystarczy?
+Świetnie, fundamenty przygotowane. _Ale jak to, to nie wystarczy?_
 
-Wyobraź sobie sytuację, w której Designer tworzy te wszysktie odcienie kolorów i nakłada na elementy. Pewnego dnia stwierdza, że wywraca do góry nogami tło strony i ma być ono teraz czerwone, a nie fioletowe. Ałć, mamy problem. Przecież nie zmienimy nagle koloru w `color-purple-100` na krwistą czerwień...
+Wyobraź sobie sytuację, w której designer tworzy te wszystkie odcienie kolorów i nakłada na elementy. Pewnego dnia stwierdza, że wywraca do góry nogami tło strony i ma być ono teraz czerwone, a nie fioletowe. Ałć, mamy problem. Przecież nie zmienimy nagle koloru w `color-purple-100` na krwistą czerwień...
 
 Dlatego warto posługiwać się aliasami. Alias tworzymy na podstawie bazowego koloru, zmieniajac mu jedynie nazwę. W przypadku tekstu na stronie, zamiast `color-purple-300`, korzystamy z dedykowanego `color-text-primary`.
 
-<Image src="/images/design-tokens/tokens-names-domain.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-names-domain.png"
+  alt="Grafika przedstawiająca dwa kółka tego samego koloru fioletowego. Między kółkami jest strzałka, symbolizująca przejście z surowego koloru (color-purple-300) do aliasu (color-text-primary)"
+/>
 
 Poziomów abstrakcji może być dużo więcej. _Aliasować_ możemy ze względu na produkt, domenę, komponent, a nawet stany danego komponentu takie jak `hover`, `focus` itp. Szczegóły bardziej zaawansowanych aliasów znajdziesz w artykule [Naming Tokens in Design Systems](https://medium.com/eightshapes-llc/naming-tokens-in-design-systems-9e86c7444676), polecam!
 
-<Image src="/images/design-tokens/tokens-names-domain-2.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-names-domain-2.png"
+  alt="Grafika przedstawiająca trzy kółka tego samego koloru fioletowego. Między kółkami są dwie strzałki, symbolizujące przejście z surowego koloru (color-purple-300) przez alias podstawowy (color-text-primary) do aliasu wyższego poziomu (page-heading-color)"
+/>
 
 ## Tokens Studio (Figma Tokens)
 
 Tokeny są pewnym konceptem, nie są zależne od żadnego narzędzia do projektowania. Ale jakieś ustalenia musimy przyjąć. Weźmy Figme, czyli mojego faworyta do tworzenia designu.
 
-Figma jest super, ale w tym przypadku jej możliwości są bardzo ogranizone. Natywnie, pozwala tylko na tokeny dla kolorów i fontów.
+Figma jest super, ale w tym przypadku jej możliwości są bardzo ograniczone. Natywnie, pozwala tylko na tokeny dla kolorów i fontów.
 
 Z pomocą przychodzi **świetny** plugin [Tokens Studio](https://tokens.studio/), który pozwala na zaawansowaną pracę z tokenami. Możemy tworzyć tokeny dla niestandardowych wartości lub korzystać z wielu zdefiniowanych.
 
 Plugin w darmowej wersji pozwala już na bardzo wiele, ale posiada też wersję płatną z paroma dodatkami.
 
-<Image src="/images/design-tokens/tokens-studio-1.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-studio-1.png"
+  alt="Grafika przedstawiająca interfejs pluginu Tokens Studio. Pokazane są opcje i rodzaje tokenów do wypełnienia."
+/>
 
 ## Synchronizacja z kodem
 
-Przechodzimy do mięska. Największych plusem Tokens Studio jest możliwość wyeksportowania tokenów z Figmy do zewnętrznej usługi. To, co nas będzie interesowało, to _export_ bezpośrednio do repozytorium na GitHubie.
+Przechodzimy do mięska. Największym plusem Tokens Studio jest możliwość wyeksportowania tokenów z Figmy do zewnętrznej usługi. To, co nas będzie interesowało, to _export_ bezpośrednio do repozytorium na GitHubie.
 
 _Hmm, ale właściwie po co mielibyśmy to robić?_
 
-Wyobraź sobie, że pracujesz nad produktem, który dostępny jest w wersji webowej i mobilnej. Technologicznie, każda platforma jest niezależna. Wasze komponenty mogą co prawda się nieco od siebie różnić, ale na koniec dnia korzystacie z tego samo Design Systemu.
+Wyobraź sobie, że pracujesz nad produktem, który dostępny jest w wersji webowej i mobilnej. Technologicznie, każda platforma jest niezależna. Wasze komponenty mogą co prawda się nieco od siebie różnić, ale na koniec dnia korzystacie z tego samego Design Systemu.
 
-Pewnego dnia Designer zmienia jakiś kolor/border/cokolwiek innego. Musicie się zsynchronizować. Może okazać się, że np. jakaś platforma wprowadzała _z palca_ pewne wartości. Może jakaś w ogóle jest _out of sync_ z resztą kolorów? Ten proces nie będzie aż taki prosty do wdrożenia. Musicie się zdzwonić, przegadać, ble ble - całość zabiera Wasz czas.
+Pewnego dnia designer zmienia jakiś kolor/border/cokolwiek innego. Musicie się zsynchronizować. Może okazać się, że np. jakaś platforma wprowadzała _z palca_ pewne wartości. Może jakaś w ogóle jest _out of sync_ z resztą kolorów? Ten proces nie będzie aż taki prosty do wdrożenia. Musicie się zdzwonić, przegadać, ble ble - całość zabiera Wasz czas.
 
 W takich sytuacjach nieoceniona moża okazać się synchronizacja między projektem, a faktyczną implementacją Design Systemu.
 
-<Image src="/images/design-tokens/sync-clients.png" alt="" />
+<Image
+  src="/images/design-tokens/sync-clients.png"
+  alt="Grafika przedstawiająca synchronziacaję figmy z klientami. Logo Figmy znajduje się na samej górze, a pod nim widnieją logo React.js, Android i Swift. Od logo Figmy, przeciągnięte są strzałki do poszczególynch klientów - symbolizują one synchronizację pomiędzy narzędziami."
+/>
 
 My dziś skupimy się na integracji tylko z jedną platformą - Frontendem. Skorzystamy z GitHuba, a następnie przerobimy udostępniane tokeny na zmienne w CSS, lecimy!
 
-<Image src="/images/design-tokens/tools.png" alt="" />
+<Image
+  src="/images/design-tokens/tools.png"
+  alt="Przedstawione w rzędzie logo narzędzi potrzebnych do wykonania integracji - Figma, Tokens Studio, JSON, GitHub, Style Dictionary, CSS."
+/>
 
 ## Integracja z GitHubem
 
 Po instalacji pluginu, przechodzimy do ustawień, w których wybieramy opcję synchronizacji z GitHubem. Tokens Studio wymaga od nas podania _access tokena_, który możemy wygenerować w ustawieniach GitHuba.
 
-<Image src="/images/design-tokens/tokens-studio-2.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-studio-2.png"
+  alt="Interferjs Tokens Studio przedstawiający opcje integracji z zewnętrzymi usługami: URL, JSONBIN, GitHub, GitLab, Azure DevOps, Generic Versioned."
+/>
 
 Tak przygotowany _access token_ wrzucamy do pluginu, wskazujemy repozytorium, ścieżkę do pliku, _branch_, _commit message_ i akceptujemy całość.
 
-<Image src="/images/design-tokens/tokens-studio-github.png" alt="" />
+<Image
+  src="/images/design-tokens/tokens-studio-github.png"
+  alt="Wykres pokazujący flow przekazania tokenu z Tokens Studio, poprzed JSON, a kończąc na GitHubie. Poszczególne elemnty łączą strzałki symbolizujące integracje."
+/>
 
 Po synchronizacji powinniśmy zobaczyć nowy plik `.json` z konfiguracją tokenów z Figmy, sukces!
 
@@ -145,7 +172,7 @@ npx token-transformer tokens-from-figma.json transformed-tokens.json
 
 Tak wygenerowany _JSON_ jest już gotowy do kolejnej integracji. Kolejne narzędzie, czyli [Style Dictionary](https://github.com/amzn/style-dictionary). Bierze on nasze tokeny i transformuje je do wybranej formy. Mogą być to zmienne CSS, obiekt w JavaSripcie, pliki dla Androida i IOS, opcji jest naprawdę wiele.
 
-Do pomyślej transformacji (już kolejnej!), będziemy potrzebować pliku konfiguracyjnego, w którym wskazujemy `source` (_input_), `destination` (_output_) oraz format, do którego tokeny będą transformowane:
+Do pomyślnej transformacji (już kolejnej!), będziemy potrzebować pliku konfiguracyjnego, w którym wskazujemy `source` (_input_), `destination` (_output_) oraz format, do którego tokeny będą transformowane:
 
 ```json:style-dictionary-config.json
 {
@@ -192,9 +219,12 @@ _Voilà_, gotowe! Narzędzie wygenerowało nam obiecane tokeny w CSS:
 
 No dobra, przyznaj się, robiłbyś coś takiego ręcznie? Strata czasu!
 
-<Image src="/images/design-tokens/github-action.png" alt="" />
+<Image
+  src="/images/design-tokens/github-action.png"
+  alt="Wykres przedstawiający całe flow przekazywania tokenu z Tokens Studio, aż do wygenerowania zmiennych CSS. Tokens Studio przekazuje wykonuje commit do GitHuba. GitHub przekazuje tokeny do Style Dictionary. Style Dictionary transformuje tokeny do zmiennych CSS."
+/>
 
-Zamiast tego, tworzymy sobie [GitHub Action](https://github.com/features/actions), które będzie robiło całą robotę za nas:
+Zamiast tego, stwórzmy [GitHub Action](https://github.com/features/actions), które będzie robiło całą robotę za nas:
 
 ```yml:.github/update-tokens.json
 name: CI
@@ -219,7 +249,7 @@ Od teraz, jeśli Designer zmieni jakiś token i zsynchronizuje go z GitHubem, b�
 
 ## Podsumowanie
 
-Design nie jest taki straszny, jak może się na początku wydawać. Poznanie podstaw tworzenia strony, aplikacji i Design Systemów jest bardzo pomocne w naszej codziennej pracy Frontend Developera.
+Design nie jest taki straszny, jak może się na początku wydawać. Poznanie podstaw tworzenia stron, aplikacji i Design Systemów jest bardzo pomocne w naszej codziennej pracy Frontend Developera.
 
 Nie dość, że możemy zautomatyzować pewne procesy, to jeszcze da radę wyciągnąć coś dla siebie. Wiele praktyk, takich jak Design Tokens, sprawdzają się również na Frontendzie, np. w formie zmiennych w CSS.
 
