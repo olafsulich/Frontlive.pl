@@ -1,10 +1,10 @@
 /**
  * Do not edit directly
- * Generated on Tue, 30 May 2023 20:45:48 GMT
+ * Generated on Tue, 30 May 2023 20:55:33 GMT
  */
 
 :root {
-  --color-purple-100: hsl(240, 47%, 97%);
+  --color-purple-100: hsl(240, 47%, 97%); /* To jest jakiś komentarz */
   --color-purple-200: hsl(238, 49%, 87%);
   --color-purple-300: hsl(238, 50%, 78%);
   --color-purple-400: hsl(237, 68%, 68%);
