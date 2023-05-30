@@ -17,7 +17,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@design-system": ["../ui/index.tsx"]
+      "@frontlive/design-system": ["../ui/index.tsx"]
     }
   },
   "exclude": ["node_modules"]
