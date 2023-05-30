@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
+      - run: npm install
       # Transform Figma Tokens JSON to something Style Dictionary can read
       - run: npx token-transformer packages/design-system/generated/tokens.json packages/design-system/generated/css-variables.json
       # Convert tokens according to Style Dictionary config
