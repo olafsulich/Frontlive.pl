@@ -1,4 +1,4 @@
-import { Button } from "@design-system";
+import { Button } from "@frontlive/design-system";
 
 export default function Web() {
   return (
