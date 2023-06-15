@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Tue, 30 May 2023 21:14:34 GMT
+ * Generated on Thu, 15 Jun 2023 18:45:05 GMT
  */
 
 :root {
@@ -35,5 +35,10 @@
   --radius-lg: 3rem;
   --radius-xl: 3.75rem;
   --radius-full: 100%;
+  --font-family-primary: SF Pro Display;
+  --font-family-secondary: Montserrat;
+  --font-weight-normal: 500;
+  --font-weight-semi: 600;
+  --font-weight-bold: 700;
   --token-set-order-0: global;
 }

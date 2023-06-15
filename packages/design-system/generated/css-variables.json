@@ -134,6 +134,32 @@
       "type": "borderRadius"
     }
   },
+  "font": {
+    "family": {
+      "primary": {
+        "value": "SF Pro Display",
+        "type": "fontFamilies"
+      },
+      "secondary": {
+        "value": "Montserrat",
+        "type": "fontFamilies"
+      }
+    },
+    "weight": {
+      "normal": {
+        "value": 500,
+        "type": "fontWeights"
+      },
+      "semi": {
+        "value": 600,
+        "type": "fontWeights"
+      },
+      "bold": {
+        "value": 700,
+        "type": "fontWeights"
+      }
+    }
+  },
   "tokenSetOrder": {
     "0": {
       "value": "global",
