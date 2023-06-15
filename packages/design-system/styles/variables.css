@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Tue, 30 May 2023 20:55:33 GMT
+ * Generated on Thu, 15 Jun 2023 16:59:57 GMT
  */
 
 :root {
@@ -30,5 +30,10 @@
   --spacing-xl: 4rem;
   --spacing-xxl: 6rem;
   --spacing-xxxl: 9rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 3rem;
+  --radius-xl: 3.75rem;
+  --radius-full: 100%;
   --token-set-order-0: global;
 }
