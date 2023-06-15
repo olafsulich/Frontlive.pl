@@ -7,7 +7,11 @@ StyleDictionary.registerTransform({
   name: "px-to-rem",
   type: "value",
   matcher: (token) => token.original.value.includes("px"),
-  transformer: (token) => `${parseFloat(token.original.value) / 16}rem`,
+  transformer: (token) => {
+    const value = token.original.value;
+
+    return value.includes("rem") ? value : `${parseFloat(value) / 16}rem`;
+  },
 });
 
 const config = StyleDictionary.extend({
@@ -28,6 +32,15 @@ const config = StyleDictionary.extend({
         {
           destination: "packages/design-system/styles/variables.css",
           format: "css/variables",
+        },
+      ],
+    },
+    ts: {
+      transformGroup: "js",
+      files: [
+        {
+          format: "javascript/es6",
+          destination: "packages/design-system/styles/variables.ts",
         },
       ],
     },
