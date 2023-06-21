@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Thu, 15 Jun 2023 18:52:36 GMT
+ * Generated on Wed, 21 Jun 2023 21:31:30 GMT
  */
 
 export const colorPurple100 = "hsl(240, 47%, 97%)";
@@ -17,7 +17,7 @@ export const colorGray200 = "hsl(237, 25%, 68%)";
 export const colorGray300 = "hsl(239, 20%, 56%)";
 export const colorGray400 = "hsl(238, 21%, 45%)";
 export const colorGray500 = "hsl(236, 26%, 38%)";
-export const colorGray600 = "hsl(238, 32%, 30%)";
+export const colorGray600 = "hsl(237, 26%, 31%)";
 export const colorGray700 = "hsl(238, 33%, 15%)";
 export const colorGray800 = "hsl(240, 33%, 11%)";
 export const colorGray900 = "hsl(240, 36%, 9%)";
